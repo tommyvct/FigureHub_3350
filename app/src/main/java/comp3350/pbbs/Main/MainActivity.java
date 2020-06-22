@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import comp3350.pbbs.R;
 
 import android.os.Bundle;
-
+//change practice
 public class MainActivity extends AppCompatActivity {
 
     @Override
