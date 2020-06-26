@@ -1,6 +1,7 @@
 package comp3350.pbbs.main;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -8,8 +9,10 @@ import comp3350.pbbs.R;
 
 import androidx.biometric.BiometricPrompt;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -58,6 +61,8 @@ public class Auth extends AppCompatActivity
      */
     private BiometricPrompt newBiometricPrompt()
     {
+        // TODO: ERROR_NO_DEVICE_CREDENTIAL
+
         return new BiometricPrompt(
                 Auth.this,
                 ContextCompat.getMainExecutor(this),
@@ -75,6 +80,11 @@ public class Auth extends AppCompatActivity
                         Toast.makeText(getApplicationContext(),
                                        "Authentication error: " + errString, Toast.LENGTH_SHORT
                         ).show();
+
+                        if (errorCode == BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL)
+                        {
+                            showNoCredentialDialogue();
+                        }
                     }
 
                     /**
@@ -88,7 +98,7 @@ public class Auth extends AppCompatActivity
                         Toast.makeText(getApplicationContext(),
                                        "Authentication succeeded!", Toast.LENGTH_SHORT
                         ).show();
-                        toNextActivity();
+                        toMainActivity();
                     }
 
                     /**
@@ -101,17 +111,27 @@ public class Auth extends AppCompatActivity
                         super.onAuthenticationFailed();
                         Toast.makeText(getApplicationContext(), "Authentication failed",
                                        Toast.LENGTH_SHORT
-                        )
-                             .show();
+                        ).show();
                     }
                 }
         );
     }
 
-    private void toNextActivity()
+    private void toMainActivity()
     {
         this.startActivity(new Intent(this, MainActivity.class));
         finish(); // done with authentication
+    }
+
+    public void showNoCredentialDialogue()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("Lock screen password needed")
+                .setMessage("This app requires a lock screen password to secure your data.\nPlease go to Settings app to setup a lock screen password.")
+                .setNegativeButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
+                .setNegativeButton("Quit", null)
+                .show();
+        finish();
     }
 
 }
