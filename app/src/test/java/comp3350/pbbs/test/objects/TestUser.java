@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import comp3350.pbbs.objects.User;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class TestUser extends TestCase{
     private User newUser;
 
@@ -21,10 +23,17 @@ public class TestUser extends TestCase{
 
     public void testToString(){
         assertEquals("Terra Jentsch", newUser.ToString());
+        assertNotEquals("TerraJentsch", newUser.ToString());
     }
 
     public void testEquals(){
         User compUser = new User("terra", "jentsch");
         assertTrue(newUser.equals(compUser));
+
+        User compUser2 = new User("Ariel", "Jentsch");
+        assertFalse(newUser.equals(compUser2));
+
+        User compUser3 = new User("Terra", "Smith");
+        assertFalse((newUser.equals(compUser3)));
     }
 }
