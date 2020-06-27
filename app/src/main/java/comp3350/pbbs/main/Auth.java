@@ -1,40 +1,34 @@
 package comp3350.pbbs.main;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import comp3350.pbbs.R;
-
-import androidx.biometric.BiometricPrompt;
-
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
-//change practice
+import comp3350.pbbs.R;
+
+
 public class Auth extends AppCompatActivity
 {
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.auth);
-//    }
-
-
-    // treat the following code as a blackbox, don't feel sorry if you cannot make sense out of it
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
+
+        // damn you marshmallow!
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+        {
+            showMarshmallowNoCredentialDialogue();
+        }
 
         newBiometricPrompt().authenticate(newPromptInfo());
 
@@ -49,6 +43,7 @@ public class Auth extends AppCompatActivity
     private BiometricPrompt.PromptInfo newPromptInfo()
     {
         return new BiometricPrompt.PromptInfo.Builder()
+                // TODO: Title and subtitle need to be changed.
                     .setTitle("Biometric login for my app")
                     .setSubtitle("Log in using your lockscreen credential")
                     .setDeviceCredentialAllowed(true)
@@ -77,9 +72,9 @@ public class Auth extends AppCompatActivity
                                                       @NonNull CharSequence errString)
                     {
                         super.onAuthenticationError(errorCode, errString);
-                        Toast.makeText(getApplicationContext(),
-                                       "Authentication error: " + errString, Toast.LENGTH_SHORT
-                        ).show();
+//                        Toast.makeText(getApplicationContext(),
+//                                       "Authentication error: " + errorCode+ errString, Toast.LENGTH_SHORT
+//                        ).show();
 
                         if (errorCode == BiometricPrompt.ERROR_NO_DEVICE_CREDENTIAL)
                         {
@@ -95,23 +90,10 @@ public class Auth extends AppCompatActivity
                             @NonNull BiometricPrompt.AuthenticationResult result)
                     {
                         super.onAuthenticationSucceeded(result);
-                        Toast.makeText(getApplicationContext(),
-                                       "Authentication succeeded!", Toast.LENGTH_SHORT
-                        ).show();
+//                        Toast.makeText(getApplicationContext(),
+//                                       "Authentication succeeded!", Toast.LENGTH_SHORT
+//                        ).show();
                         toMainActivity();
-                    }
-
-                    /**
-                     * What happens if credential mismatch
-                     * same as onAuthenticationError()
-                     */
-                    @Override
-                    public void onAuthenticationFailed()
-                    {
-                        super.onAuthenticationFailed();
-                        Toast.makeText(getApplicationContext(), "Authentication failed",
-                                       Toast.LENGTH_SHORT
-                        ).show();
                     }
                 }
         );
@@ -123,15 +105,23 @@ public class Auth extends AppCompatActivity
         finish(); // done with authentication
     }
 
-    public void showNoCredentialDialogue()
+    private void showNoCredentialDialogue()
     {
         new AlertDialog.Builder(this)
                 .setTitle("Lock screen password needed")
                 .setMessage("This app requires a lock screen password to secure your data.\nPlease go to Settings app to setup a lock screen password.")
-                .setNegativeButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
-                .setNegativeButton("Quit", null)
+                .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
+                .setNegativeButton("Quit", ((dialogInterface, i) -> finish()))
                 .show();
-        finish();
     }
 
+    private void showMarshmallowNoCredentialDialogue()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("Lock screen password needed")
+                .setMessage("This app requires a lock screen password to work properly.\nPlease make sure you have a lock screen password set.")
+                .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
+                .setNegativeButton("Continue", null)
+                .show();
+    }
 }
