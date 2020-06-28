@@ -2,25 +2,29 @@ package comp3350.pbbs.objects;
 
 public class budgetCategories {
     private String budgetID;
-    private double budgetLimit;
     private String budgetName;
+    private double budgetLimit;
 
-    public budgetCategories(String newID, double newLimit, String newBudgetName){
+    public budgetCategories(String newID, String newBudgetName, double newLimit){
+        if(newLimit <0){
+            throw new IllegalArgumentException("Expected a budget limit should be positive");
+        }
+
         this.budgetID = newID;
-        this.budgetLimit = newLimit;
         this.budgetName = newBudgetName;
+        this.budgetLimit = newLimit;
     }
     public String getBudgetID(){
         return budgetID;
     }
-    public double getBudgetLimit(){
-        return budgetLimit;
-    }
     public String getBudgetName(){
         return budgetName;
     }
+    public double getBudgetLimit(){
+        return budgetLimit;
+    }
     public String toString(){
-        return "Budget ID: "+budgetID+" Budget Name: "+budgetName+" Budget Limit: "+budgetLimit;
+        return "Budget: "+budgetID+" "+budgetName+" "+budgetLimit;
     }
     public boolean equals(Object budgetObj){
         boolean equal = false;
