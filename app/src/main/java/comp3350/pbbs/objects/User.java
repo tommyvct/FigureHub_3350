@@ -23,5 +23,6 @@ public class User {
         return equals;
     }
 
-    public String ToString(){return firstName + " " + lastName;}
+    @Override
+    public String toString(){return firstName + " " + lastName;}
 }

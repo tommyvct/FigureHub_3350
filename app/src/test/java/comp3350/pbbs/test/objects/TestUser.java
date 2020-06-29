@@ -22,8 +22,8 @@ public class TestUser extends TestCase{
     }
 
     public void testToString(){
-        assertEquals("Terra Jentsch", newUser.ToString());
-        assertNotEquals("TerraJentsch", newUser.ToString());
+        assertEquals("Terra Jentsch", newUser.toString());
+        assertNotEquals("TerraJentsch", newUser.toString());
     }
 
     public void testEquals(){
