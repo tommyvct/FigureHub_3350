@@ -1,4 +1,4 @@
-package comp3350.pbbs.objects;
+package comp3350.pbbs.tests.objects;
 
 public class User {
     private String firstName;

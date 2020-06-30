@@ -1,4 +1,4 @@
-package comp3350.pbbs.objects;
+package comp3350.pbbs.tests.objects;
 
 
 import java.text.DecimalFormat;
@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
  * category.
  */
 public class Transaction {
-    private int transactionID;      // ID of this transaction
-    private static int nextID = 1;  // The next transaction ID to assign
     private LocalDateTime time;     // The time that the transaction took place
     private float amount;           // The amount that this transaction totalled
     private String description;     // Description of this transaction
@@ -49,8 +47,6 @@ public class Transaction {
         this.description = description;
         cardID = card;
         budgetCategoryID = budgetCategory;
-        transactionID = nextID;
-        nextID++;
     }
 
     // Getters for object fields
@@ -96,7 +92,6 @@ public class Transaction {
     public String toString()
     {
         return "Transaction: " +
-                "ID: " + transactionID +
                 " Amount: " + amount +
                 " Time: " + time +
                 " Description: " + description +
