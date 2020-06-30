@@ -3,7 +3,7 @@ package comp3350.pbbs.objects;
 import java.text.DecimalFormat;
 
 /**
- * BudgetCategories
+ * BudgetCategory
  * Azizul Hakim
  * PBBS
  *
