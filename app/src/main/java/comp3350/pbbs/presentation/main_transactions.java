@@ -1,5 +1,6 @@
 package comp3350.pbbs.presentation;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import comp3350.pbbs.R;
 
@@ -66,7 +70,19 @@ public class main_transactions extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
+        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(view.getContext(), addTransaction.class));
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
+//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
+        return view;
     }
 }
