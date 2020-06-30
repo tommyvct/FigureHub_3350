@@ -16,6 +16,15 @@ public class CreditCard
 
 	/* constructor: includes full info of a credit card */
 	public CreditCard(String num, String usr, int expM, int expY, int pay) {
+		if (!isValidLength(num))
+			throw new IllegalArgumentException("A Credit Card requires a valid number.");
+		if (!isValidName(usr))
+			throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+		if (!isValidExpDate(expM, expY))
+			throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
+		if (!isValidPayDate(pay))
+			throw new IllegalArgumentException("A Credit Card requires a valid payment date.");
+
 		cardNum = num;
 		holderName = usr;
 		expireMonth = expM;
@@ -33,11 +42,6 @@ public class CreditCard
 		return str.matches(REGEX);
 	}
 
-	/* method: check if the input pay date is valid */
-	public boolean isValidPayDate(int n) {
-		return n >= 1 && n <= 31;
-	}
-
 	/* method: check if the input expire date is valid */
 	public boolean isValidExpDate(int m, int y) {
 		boolean result;
@@ -50,6 +54,11 @@ public class CreditCard
 			result = (y + 2000) != currYear || m >= currMonth;
 		}
 		return result;
+	}
+
+	/* method: check if the input pay date is valid */
+	public boolean isValidPayDate(int n) {
+		return n >= 1 && n <= 31;
 	}
 
 	/* method: compare if two credit cards are same */
