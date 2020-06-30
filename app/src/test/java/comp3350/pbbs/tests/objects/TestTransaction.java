@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import java.time.LocalDateTime;
 
+import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 
 import static org.junit.Assert.assertNotEquals;
@@ -17,8 +19,8 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class TestTransaction extends TestCase {
     private LocalDateTime now;  // Reference to the current time
-    private int card;           // Test credit card
-    private int budgetCategory; // Test budget category
+    private CreditCard card;           // Test credit card
+    private BudgetCategory budgetCategory; // Test budget category
     private float amount;       // Test amount
     private String description; // Test description
 
@@ -27,8 +29,8 @@ public class TestTransaction extends TestCase {
      */
     public void setUp() {
         now = LocalDateTime.now();
-        card = 1;
-        budgetCategory = 1;
+        card = new CreditCard("11111111111111111", "Jane Doe", 1, 1, 15);
+        budgetCategory = new BudgetCategory("Groceries", 200);
         amount = 5.57f;
         description = "Bought groceries.";
     }
@@ -91,17 +93,16 @@ public class TestTransaction extends TestCase {
      * Test equality on cards and invalid cards.
      */
     public void testCards() {
-        // TODO: Change this to work with the CreditCard object
         Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        int otherCard = card + 1;
+        CreditCard otherCard = new CreditCard("2222222222222222", "Jane Doe", 1, 1, 15);
         otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(now, amount, description, -1, budgetCategory);
+            new Transaction(now, amount, description, null, budgetCategory);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }
@@ -111,17 +112,16 @@ public class TestTransaction extends TestCase {
      * Test equality on budget categories and invalid budget categories
      */
     public void testBudgetCategories() {
-        // TODO: Change this to work with the BudgetCategory object
         Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        int otherBudgetCategory = budgetCategory + 1;
+        BudgetCategory otherBudgetCategory = new BudgetCategory("Entertainment", 50);
         otherTransaction = new Transaction(now, amount, description, card, otherBudgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(now, amount, description, card, -1);
+            new Transaction(now, amount, description, card, null);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }

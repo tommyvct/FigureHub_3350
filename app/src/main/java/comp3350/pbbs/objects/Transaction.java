@@ -13,12 +13,11 @@ import java.time.LocalDateTime;
  * category.
  */
 public class Transaction {
-    private LocalDateTime time;     // The time that the transaction took place
-    private float amount;           // The amount that this transaction totalled
-    private String description;     // Description of this transaction
-    // TODO: Make these fields correspond to the objects rather than id.
-    private int cardID;             // The card that this transaction was paid on
-    private int budgetCategoryID;   // The budget category this transaction fell under
+    private LocalDateTime time;             // The time that the transaction took place
+    private float amount;                   // The amount that this transaction totalled
+    private String description;             // Description of this transaction
+    private CreditCard card;                // The card that this transaction was paid on
+    private BudgetCategory budgetCategory;  // The budget category this transaction fell under
 
     /**
      * This method validates the parameters and assigns them.
@@ -29,7 +28,7 @@ public class Transaction {
      * @param card The card this transaction used
      * @param budgetCategory The category this transaction fell under.
      */
-    public Transaction(LocalDateTime transactionTime, float amount, String description, int card, int budgetCategory) {
+    public Transaction(LocalDateTime transactionTime, float amount, String description, CreditCard card, BudgetCategory budgetCategory) {
         // Validate input
         if(transactionTime == null)
             throw new IllegalArgumentException("A Transaction needs a time.");
@@ -37,23 +36,23 @@ public class Transaction {
             throw new IllegalArgumentException("Expected a positive transaction amount.");
         if(description == null)
             throw new IllegalArgumentException("A Transaction needs a description.");
-        if(card <= 0)
-            throw new IllegalArgumentException("Expected a positive card id.");
-        if(budgetCategory <= 0)
-            throw new IllegalArgumentException("Expected a positive budget category id.");
+        if(card == null)
+            throw new IllegalArgumentException("A Transaction needs a credit card.");
+        if(budgetCategory == null)
+            throw new IllegalArgumentException("A Transaction needs a budget category.");
         // Set object fields
         time = transactionTime;
         this.amount = amount;
         this.description = description;
-        cardID = card;
-        budgetCategoryID = budgetCategory;
+        this.card = card;
+        this.budgetCategory = budgetCategory;
     }
 
     // Getters for object fields
     public LocalDateTime getTime() { return time; }
     public float getAmount() { return amount; }
-    public int getCard() { return cardID; }
-    public int getBudgetCategory() { return budgetCategoryID; }
+    public CreditCard getCard() { return card; }
+    public BudgetCategory getBudgetCategory() { return budgetCategory; }
     public String getDescription() { return description; }
 
     /**
@@ -67,11 +66,10 @@ public class Transaction {
         boolean toReturn = false;
         if(other instanceof Transaction) {
             Transaction otherTransaction = (Transaction) other;
-            // TODO: Change these to .equals
             // Compare budget categories
-            boolean budgetsEqual = this.getBudgetCategory() == (otherTransaction.getBudgetCategory());
+            boolean budgetsEqual = this.getBudgetCategory().equals(otherTransaction.getBudgetCategory());
             // Compare cards
-            boolean cardEqual = this.getCard() == (otherTransaction.getCard());
+            boolean cardEqual = this.getCard().equals(otherTransaction.getCard());
             // Compare amounts by rounding to two decimal points.
             DecimalFormat rounding = new DecimalFormat("0.00");
             boolean amountEqual = rounding.format(this.getAmount()).equals(rounding.format(otherTransaction.getAmount()));
@@ -95,7 +93,7 @@ public class Transaction {
                 " Amount: " + amount +
                 " Time: " + time +
                 " Description: " + description +
-                " Card: " + cardID +
-                " Budget Category: " + budgetCategoryID;
+                " Card: " + card +
+                " Budget Category: " + budgetCategory;
     }
 }
