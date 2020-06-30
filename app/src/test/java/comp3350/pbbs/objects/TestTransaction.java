@@ -21,6 +21,7 @@ public class TestTransaction extends TestCase {
     private int card;           // Test credit card
     private int budgetCategory; // Test budget category
     private float amount;       // Test amount
+    private String description; // Test description
 
     /**
      * Method that runs before each test, sets the test values.
@@ -30,21 +31,22 @@ public class TestTransaction extends TestCase {
         card = 1;
         budgetCategory = 1;
         amount = 5.57f;
+        description = "Bought groceries.";
     }
 
     /**
      * Test equality on dates and invalid dates.
      */
     public void testTransactionDates() {
-        Transaction transaction = new Transaction(now, amount, card, budgetCategory);
-        Transaction otherTransaction = new Transaction(now, amount, card, budgetCategory);
+        Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
+        Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        otherTransaction = new Transaction(now.plusDays(21), amount, card, budgetCategory);
+        otherTransaction = new Transaction(now.plusDays(21), amount, description, card, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(null, amount, card, budgetCategory);
+            new Transaction(null, amount, description, card, budgetCategory);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }
@@ -54,15 +56,33 @@ public class TestTransaction extends TestCase {
      * Test equality on amounts and invalid amounts.
      */
     public void testTransactionAmounts() {
-        Transaction transaction = new Transaction(now, amount, card, budgetCategory);
-        Transaction otherTransaction = new Transaction(now, amount, card, budgetCategory);
+        Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
+        Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        otherTransaction = new Transaction(now, amount + 1, card, budgetCategory);
+        otherTransaction = new Transaction(now, amount + 1, description, card, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(now, -0.24f, card, budgetCategory);
+            new Transaction(now, -0.24f, description, card, budgetCategory);
+            fail("Expected IllegalArgumentException");
+        }
+        catch (IllegalArgumentException iae) { }
+    }
+
+    /**
+     * Test equality on descriptions and invalid descriptions
+     */
+    public void testDescriptions() {
+        Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
+        Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
+        assertEquals(transaction, otherTransaction);
+
+        otherTransaction = new Transaction(now, amount, "Paid for rent.", card, budgetCategory);
+        assertNotEquals(transaction, otherTransaction);
+
+        try {
+            new Transaction(now, amount, null, card, budgetCategory);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }
@@ -71,18 +91,18 @@ public class TestTransaction extends TestCase {
     /**
      * Test equality on cards and invalid cards.
      */
-    public void testInvalidCards() {
+    public void testCards() {
         // TODO: Change this to work with the CreditCard object
-        Transaction transaction = new Transaction(now, amount, card, budgetCategory);
-        Transaction otherTransaction = new Transaction(now, amount, card, budgetCategory);
+        Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
+        Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
         int otherCard = card + 1;
-        otherTransaction = new Transaction(now, amount, otherCard, budgetCategory);
+        otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(now, amount, -1, budgetCategory);
+            new Transaction(now, amount, description, -1, budgetCategory);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }
@@ -91,18 +111,18 @@ public class TestTransaction extends TestCase {
     /**
      * Test equality on budget categories and invalid budget categories
      */
-    public void testInvalidBudgetCategories() {
+    public void testBudgetCategories() {
         // TODO: Change this to work with the BudgetCategory object
-        Transaction transaction = new Transaction(now, amount, card, budgetCategory);
-        Transaction otherTransaction = new Transaction(now, amount, card, budgetCategory);
+        Transaction transaction = new Transaction(now, amount, description, card, budgetCategory);
+        Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
         int otherBudgetCategory = budgetCategory + 1;
-        otherTransaction = new Transaction(now, amount, card, otherBudgetCategory);
+        otherTransaction = new Transaction(now, amount, description, card, otherBudgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
-            new Transaction(now, amount, card, -1);
+            new Transaction(now, amount, description, card, -1);
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }

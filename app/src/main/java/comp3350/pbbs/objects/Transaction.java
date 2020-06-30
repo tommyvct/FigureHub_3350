@@ -17,6 +17,7 @@ public class Transaction {
     private static int nextID = 1;  // The next transaction ID to assign
     private LocalDateTime time;     // The time that the transaction took place
     private float amount;           // The amount that this transaction totalled
+    private String description;     // Description of this transaction
     // TODO: Make these fields correspond to the objects rather than id.
     private int cardID;             // The card that this transaction was paid on
     private int budgetCategoryID;   // The budget category this transaction fell under
@@ -26,15 +27,18 @@ public class Transaction {
      *
      * @param transactionTime The time this transaction happened.
      * @param amount The amount this transaction went for.
+     * @param description The description of this transaction.
      * @param card The card this transaction used
      * @param budgetCategory The category this transaction fell under.
      */
-    public Transaction(LocalDateTime transactionTime, float amount, int card, int budgetCategory) {
+    public Transaction(LocalDateTime transactionTime, float amount, String description, int card, int budgetCategory) {
         // Validate input
         if(transactionTime == null)
             throw new IllegalArgumentException("A Transaction needs a time.");
         if(amount < 0)
             throw new IllegalArgumentException("Expected a positive transaction amount.");
+        if(description == null)
+            throw new IllegalArgumentException("A Transaction needs a description.");
         if(card <= 0)
             throw new IllegalArgumentException("Expected a positive card id.");
         if(budgetCategory <= 0)
@@ -42,6 +46,7 @@ public class Transaction {
         // Set object fields
         time = transactionTime;
         this.amount = amount;
+        this.description = description;
         cardID = card;
         budgetCategoryID = budgetCategory;
         transactionID = nextID;
@@ -53,6 +58,7 @@ public class Transaction {
     public float getAmount() { return amount; }
     public int getCard() { return cardID; }
     public int getBudgetCategory() { return budgetCategoryID; }
+    public String getDescription() { return description; }
 
     /**
      * Tells if this Transaction is equal to the other object.
@@ -75,8 +81,10 @@ public class Transaction {
             boolean amountEqual = rounding.format(this.getAmount()).equals(rounding.format(otherTransaction.getAmount()));
             // Compare the transaction time
             boolean timeEqual = this.getTime().equals(otherTransaction.getTime());
+            // Compare the description
+            boolean descEqual = this.getDescription().equals(otherTransaction.getDescription());
             // Check if all are equal
-            toReturn = budgetsEqual && amountEqual && cardEqual && timeEqual;
+            toReturn = budgetsEqual && amountEqual && cardEqual && timeEqual && descEqual;
         }
         return toReturn;
     }
@@ -91,6 +99,7 @@ public class Transaction {
                 "ID: " + transactionID +
                 " Amount: " + amount +
                 " Time: " + time +
+                " Description: " + description +
                 " Card: " + cardID +
                 " Budget Category: " + budgetCategoryID;
     }
