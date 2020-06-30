@@ -1,4 +1,4 @@
-package comp3350.pbbs;
+package comp3350.pbbs.presentation;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import comp3350.pbbs.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link main_budget#newInstance} factory method to
+ * Use the {@link main_transactions#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class main_budget extends Fragment
+public class main_transactions extends Fragment
 {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -25,7 +27,7 @@ public class main_budget extends Fragment
     private String mParam1;
     private String mParam2;
 
-    public main_budget()
+    public main_transactions()
     {
         // Required empty public constructor
     }
@@ -36,12 +38,12 @@ public class main_budget extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment main_budget.
+     * @return A new instance of fragment main_transactions.
      */
     // TODO: Rename and change types and number of parameters
-    public static main_budget newInstance(String param1, String param2)
+    public static main_transactions newInstance(String param1, String param2)
     {
-        main_budget fragment = new main_budget();
+        main_transactions fragment = new main_transactions();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,6 +67,6 @@ public class main_budget extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_budget, container, false);
+        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
     }
 }
