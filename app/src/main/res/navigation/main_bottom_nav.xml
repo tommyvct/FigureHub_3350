@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_bottom_nav"
+    app:startDestination="@id/main_home">
+
+    <fragment
+        android:id="@+id/main_home"
+        android:name="comp3350.pbbs.main_home"
+        android:label="fragment_main_home"
+        tools:layout="@layout/fragment_main_home" />
+    <fragment
+        android:id="@+id/main_transactions"
+        android:name="comp3350.pbbs.main_transactions"
+        android:label="fragment_main_transactions"
+        tools:layout="@layout/fragment_main_transactions" />
+    <fragment
+        android:id="@+id/main_cards"
+        android:name="comp3350.pbbs.main_cards"
+        android:label="fragment_main_cards"
+        tools:layout="@layout/fragment_main_cards" />
+    <fragment
+        android:id="@+id/main_budget"
+        android:name="comp3350.pbbs.main_budget"
+        android:label="fragment_main_budget"
+        tools:layout="@layout/fragment_main_budget" />
+</navigation>
