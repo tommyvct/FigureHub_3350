@@ -1,4 +1,4 @@
-package comp3350.pbbs.tests.objects;
+package comp3350.pbbs.objects;
 
 
 import java.text.DecimalFormat;

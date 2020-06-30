@@ -1,4 +1,4 @@
-package comp3350.pbbs.tests.objects;
+package comp3350.pbbs.objects;
 
 import java.text.DecimalFormat;
 
@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  *
  * This class defines the object budget category which can be used to create many types of budget.
  */
-public class BudgetCategories {
+public class BudgetCategory {
     private String budgetName;      //Name of the budget
     private double budgetLimit;     //Limit of the category
 
@@ -19,7 +19,7 @@ public class BudgetCategories {
      * @param newBudgetName The name of this budget
      * @param newLimit The limit of this budget
      */
-    public BudgetCategories(String newBudgetName, double newLimit){
+    public BudgetCategory(String newBudgetName, double newLimit){
         //Limit can't be negative
         if(newLimit <0){
             throw new IllegalArgumentException("Expected a budget limit should be positive");
@@ -48,11 +48,11 @@ public class BudgetCategories {
      */
     public boolean equals(Object budgetObj){
         boolean equal = false;
-        BudgetCategories b;
+        BudgetCategory b;
 
         DecimalFormat rounding = new DecimalFormat("0.00");
-        if(budgetObj instanceof BudgetCategories){
-            b = (BudgetCategories) budgetObj;
+        if(budgetObj instanceof BudgetCategory){
+            b = (BudgetCategory) budgetObj;
             if((rounding.format(b.getBudgetLimit()).equals(rounding.format(this.getBudgetLimit()))) && b.getBudgetName().equals(this.getBudgetName())){
                 equal = true;
             }

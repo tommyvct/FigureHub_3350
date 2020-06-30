@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import java.time.LocalDateTime;
 
+import comp3350.pbbs.objects.Transaction;
+
 import static org.junit.Assert.assertNotEquals;
 
 /**

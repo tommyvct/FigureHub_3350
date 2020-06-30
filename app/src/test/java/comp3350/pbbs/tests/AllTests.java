@@ -3,7 +3,7 @@ package comp3350.pbbs.tests;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import comp3350.pbbs.tests.objects.TestBudgetCategories;
+import comp3350.pbbs.tests.objects.TestBudgetCategory;
 import comp3350.pbbs.tests.objects.TestCreditCard;
 import comp3350.pbbs.tests.objects.TestTransaction;
 import comp3350.pbbs.tests.objects.TestUser;
@@ -24,7 +24,7 @@ public class AllTests
     {
         suite.addTestSuite(TestTransaction.class);
         suite.addTestSuite(TestCreditCard.class);
-        suite.addTestSuite(TestBudgetCategories.class);
+        suite.addTestSuite(TestBudgetCategory.class);
         suite.addTestSuite(TestUser.class);
     }
 

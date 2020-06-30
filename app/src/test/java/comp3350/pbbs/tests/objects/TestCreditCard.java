@@ -1,6 +1,9 @@
 package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
+
+import comp3350.pbbs.objects.CreditCard;
+
 import static org.junit.Assert.assertNotEquals;
 
 public class TestCreditCard extends TestCase
