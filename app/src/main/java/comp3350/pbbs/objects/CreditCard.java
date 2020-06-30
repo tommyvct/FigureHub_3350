@@ -9,7 +9,6 @@ public class CreditCard
 	private int expireMonth;	//the month a credit card is expired, 2-digits (MM)
 	private int expireYear;		//the year a credit card is expired, 2-digits (YY)
 	private String holderName;	//user full name of a credit card
-	private int numOfCards; 	//total amount of credit cards
 
 	/* constraints to a credit card */
 	private static final int CARD_NUM_LENGTH = 16;
@@ -22,7 +21,6 @@ public class CreditCard
 		expireMonth = expM;
 		expireYear = expY;
 		payDate = pay;
-		numOfCards++;
 	}
 
 	/* method: check if the input card number is 16-digits */
@@ -62,12 +60,9 @@ public class CreditCard
 	/* method: display the credit card info when it is requested */
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-		String info = "";
-		for (int i = 0; i < numOfCards; i++) {
-			info += "CARD:" + " [" + getCardNum() + "] Holder: " + getHolderName() +
-					". Expire until: " + month[getExpireMonth() - 1] + " 20" + getExpireYear() +
-					". Expected payment due: " + getPayDate();
-		}
+		String info = "CARD: [" + getCardNum() + "] Holder: " + getHolderName() +
+				". Expire until: " + month[getExpireMonth() - 1] + " 20" + getExpireYear() +
+				". Expected payment due: " + getPayDate();
 		return info;
 	}
 
