@@ -100,7 +100,6 @@ public class TestCreditCard extends TestCase
 		} catch (IllegalArgumentException ignored) { }
 	}
 
-
 	/* method: test isValidPayDate(int) */
 	public void testPayDate() {
 		CreditCard card1 = new CreditCard(num, name, expMon, expYear, payDay);
