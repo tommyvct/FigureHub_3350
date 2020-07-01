@@ -77,7 +77,7 @@ public class TestCreditCard extends TestCase
 		CreditCard card1 = new CreditCard(num, name, expMon, expYear, payDay);
 		CreditCard card2 = new CreditCard(num, name, expMon, expYear, payDay);
 		assertEquals(card1.getExpireYear(), card2.getExpireYear());
-		card2 = new CreditCard(num, name, expMon, 20, payDay);
+		card2 = new CreditCard(num, name, expMon, expYear+1, payDay);
 		assertNotEquals(card1.getExpireYear(), card2.getExpireYear());
 		try {
 			new CreditCard(num, name, expMon, -1, payDay);
