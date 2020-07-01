@@ -1,37 +1,48 @@
 package comp3350.pbbs.persistence;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import comp3350.pbbs.application.*;
 import comp3350.pbbs.objects.*;
 
+/**
+ * StubDatabase
+ * Azizul Hakim
+ * PBBS
+ *
+ * This class defines the persistence layer (stub database).
+ */
 public class StubDatabase {
-    private String databaseName;
+    private String databaseName;                        //name of the database
 
-    private ArrayList<BudgetCategory> budgets;
-    private ArrayList<CreditCard> creditCards;
-    private ArrayList<Transaction> transactions;
-    private ArrayList<User> user;
-    private LocalDateTime time;
+    private ArrayList<BudgetCategory> budgets;          //ArrayList for budgets
+    private ArrayList<CreditCard> creditCards;          //ArrayList for credit cards
+    private ArrayList<Transaction> transactions;        //ArrayList for transactions
+    private ArrayList<User> user;                       //ArrayList for user
+    private LocalDateTime time;                         //local date variable
 
+    /**
+     * @param name name of the database
+     * This method is the constructor of the database stub
+     */
     public StubDatabase(String name){
         this.databaseName = name;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    /**
+     * This method is used for populating fake data into the stub database
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)                   //API to get the current date
     public void populateData(){
-        BudgetCategory rent, groceries, utilities, phoneBill;
-        CreditCard card1, card2;
-        Transaction t1, t2, t3, t4;
-        User user1;
+        BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
+        CreditCard card1, card2;                                //multiple cards
+        Transaction t1, t2, t3, t4;                             //multiple transactions
+        User user1;                                             //user variable
 
-        time = LocalDateTime.now();
+        time = LocalDateTime.now();                             //initializing the local date variable
 
         budgets = new ArrayList<BudgetCategory>();
         rent = new BudgetCategory("Rent/Mortgage", 500);
@@ -64,14 +75,18 @@ public class StubDatabase {
         user.add(user1);
     }
 
-    //this method will add all the budgets to a budget list
-    //returns true if added successfully.
+    /**
+     * This method will add all the budgets to a budget list
+     * @returns true if added successfully.
+     */
     public boolean addBudgets(List<BudgetCategory> budgetList){
         return budgetList.addAll(budgets);
     }
 
-    //this method will find if a budget exist or not
-    //returns the BudgetCategory object
+    /**
+     * This method will find if a budget exist or not
+     * @returns the BudgetCategory object
+     */
     public BudgetCategory findBudget(BudgetCategory currentBudget){
         BudgetCategory budgetCategory = null;
         int index = budgets.indexOf(currentBudget);
@@ -81,19 +96,24 @@ public class StubDatabase {
         return budgetCategory;
     }
 
+    /**
+     * This method will insert a new budget category with the budgets ArrayList.
+     */
     public void insertBudgetCategories(BudgetCategory newBudget){
         budgets.add(newBudget);
     }
 
+    /**
+     * Getter method to get the budgets.
+     * @return budgets ArrayList.
+     */
     public ArrayList<BudgetCategory> getBudgets() {
         return budgets;
     }
 
-    public void setBudgets(ArrayList<BudgetCategory> budgets) {
-        this.budgets = budgets;
-    }
-
-    //This method will be used to update a Budget
+    /**
+     * This method will be used to update a Budget.
+     */
     public void updateBudgets(BudgetCategory currentBudget, BudgetCategory newBudget){
         int index = budgets.indexOf(currentBudget);
         if (index >= 0){
@@ -101,7 +121,9 @@ public class StubDatabase {
         }
     }
 
-    //This method will remove a budget category
+    /**
+     * This method will remove a budget category.
+     */
     public void deleteBudget(BudgetCategory currentBudget){
         int index = budgets.indexOf(currentBudget);
         if (index >= 0){
@@ -109,14 +131,18 @@ public class StubDatabase {
         }
     }
 
-    //this method will add all the cards to a card list
-    //returns true if added successfully.
+    /**
+     * This method will add all the cards to a card list.
+     * @return true if added successfully.
+     */
     public boolean addCards(List<CreditCard> cardstList){
         return cardstList.addAll(creditCards);
     }
 
-    //this method will find if a card exist or not
-    //returns the card object
+    /**
+     * This method will find if a card exist or not.
+     * @return the card object.
+     */
     public CreditCard findCard(CreditCard currentCard){
         CreditCard card = null;
         int index = creditCards.indexOf(currentCard);
@@ -126,19 +152,24 @@ public class StubDatabase {
         return card;
     }
 
+    /**
+     * This method will insert a new card with the ArrayList.
+     */
     public void insertCreditCard(CreditCard newCard){
         creditCards.add(newCard);
     }
 
+    /**
+     * Getter method to get the credit cards.
+     * @return creditCards ArrayList.
+     */
     public ArrayList<CreditCard> getCreditCards() {
         return creditCards;
     }
 
-    public void setCreditCards(ArrayList<CreditCard> creditCards) {
-        this.creditCards = creditCards;
-    }
-
-    //This method will be used to update a credit card
+    /**
+     * This method will be used to update a credit card.
+     */
     public void updateCreditCards(CreditCard currentCard, CreditCard newCard){
         int index = creditCards.indexOf(currentCard);
         if (index >= 0){
@@ -146,7 +177,9 @@ public class StubDatabase {
         }
     }
 
-    //This method will remove a credit card
+    /**
+     * This method will remove a credit card.
+     */
     public void deleteCard(CreditCard currentCard){
         int index = creditCards.indexOf(currentCard);
         if (index >= 0){
@@ -154,14 +187,18 @@ public class StubDatabase {
         }
     }
 
-    //this method will add all the transactions to a transaction list
-    //returns true if added successfully.
+    /**
+     * This method will add all the transactions to a transaction list.
+     * @returns true if added successfully.
+     */
     public boolean addTransactions(List<Transaction> transactionsList){
         return transactionsList.addAll(transactions);
     }
 
-    //this method will find if a transaction exist or not
-    //returns the transaction object
+    /**
+     * This method will find if a transaction exist or not.
+     * @return the transaction object.
+     */
     public Transaction findTransaction(Transaction currentTransaction){
         Transaction transaction = null;
         int index = transactions.indexOf(currentTransaction);
@@ -171,19 +208,24 @@ public class StubDatabase {
         return transaction;
     }
 
+    /**
+     * This method will insert a new transaction with the ArrayList.
+     */
     public void insertTransactions(Transaction newTransaction){
         transactions.add(newTransaction);
     }
 
+    /**
+     * Getter method to get the transactions.
+     * @return transactions ArrayList.
+     */
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    //This method will be used to update a transaction
+    /**
+     * This method will be used to update a transaction.
+     */
     public void updateTransactions(Transaction currentTransaction, Transaction newTransaction){
         int index = transactions.indexOf(currentTransaction);
         if (index >= 0){
@@ -191,16 +233,13 @@ public class StubDatabase {
         }
     }
 
-    //This method will remove a budget category
+    /**
+     * This method will be used to remove a transaction.
+     */
     public void deleteTransaction(Transaction currentTransaction){
         int index = transactions.indexOf(currentTransaction);
         if (index >= 0){
             transactions.remove(index);
         }
     }
-
-
-
-
-
 }
