@@ -1,6 +1,6 @@
 package comp3350.pbbs.objects;
 
-import java.util.*;
+import java.util.Calendar;
 
 public class CreditCard
 {
@@ -16,6 +16,7 @@ public class CreditCard
 
 	/* constructor: includes full info of a credit card */
 	public CreditCard(String num, String usr, int expM, int expY, int pay) {
+		errorMsg(num, usr, expM, expY, pay);
 		cardNum = num;
 		holderName = usr;
 		expireMonth = expM;
@@ -23,33 +24,53 @@ public class CreditCard
 		payDate = pay;
 	}
 
+	/* method: show error message when the credit card info is invalid */
+	public void errorMsg(String num, String usr, int expM, int expY, int pay) {
+		if (!isValidLength(num))
+			throw new IllegalArgumentException("A Credit Card requires a valid number.");
+		if (!isValidName(usr))
+			throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+		if (!isValidExpiration(expM, expY))
+			throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
+		if (!isValidPayDate(pay))
+			throw new IllegalArgumentException("A Credit Card requires a valid payment date.");
+	}
+
 	/* method: check if the input card number is 16-digits */
 	public boolean isValidLength(String str) {
-		return str.length() == CARD_NUM_LENGTH;
+		if (str == null) {
+			return false;
+		} else {
+			return str.length() == CARD_NUM_LENGTH;
+		}
 	}
 
 	/* method: check if the input card holder full name is valid */
 	public boolean isValidName(String str) {
-		return str.matches(REGEX);
+		if (str == null) {
+			return false;
+		} else {
+			return str.matches(REGEX);
+		}
+	}
+
+	/* method: check if the input expire date is valid */
+	public boolean isValidExpiration(int m, int y) {
+		boolean result;
+		Calendar calender = Calendar.getInstance();
+		int currMonth = calender.get(Calendar.MONTH) + 1;
+		int currYear = calender.get(Calendar.YEAR) - 2000;
+		if (m < 1 || m > 12 || y < currYear || y > 99) {
+			result = false;
+		} else {
+			result = y != currYear || m >= currMonth;
+		}
+		return result;
 	}
 
 	/* method: check if the input pay date is valid */
 	public boolean isValidPayDate(int n) {
 		return n >= 1 && n <= 31;
-	}
-
-	/* method: check if the input expire date is valid */
-	public boolean isValidExpDate(int m, int y) {
-		boolean result;
-		Calendar calender = Calendar.getInstance();
-		int currMonth = calender.get(Calendar.MONTH) + 1;
-		int currYear = calender.get(Calendar.YEAR);
-		if (m < 1 || m > 12 || y + 2000 < currYear || y + 2000 > 2099) {
-			result = false;
-		} else {
-			result = (y + 2000) != currYear || m >= currMonth;
-		}
-		return result;
 	}
 
 	/* method: compare if two credit cards are same */
@@ -60,9 +81,9 @@ public class CreditCard
 	/* method: display the credit card info when it is requested */
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-		String info = "CARD:" + " [" + getCardNum() + "] Holder: " + getHolderName() +
-					". Expire until: " + month[getExpireMonth() - 1] + " 20" + getExpireYear() +
-					". Expected payment due: " + getPayDate();
+		String info = "CARD: [" + getCardNum() + "] Holder: " + getHolderName() +
+				". Expire until: " + month[getExpireMonth() - 1] + " 20" + getExpireYear() +
+				". Expected payment due: " + getPayDate();
 		return info;
 	}
 
