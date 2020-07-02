@@ -77,17 +77,17 @@ public class StubDatabase {
 
     /**
      * This method will add all the budgets to a budget list
-     * @returns true if added successfully.
+     * @return true if added successfully.
      */
-    public boolean addBudgets(List<BudgetCategory> budgetList){
+    public boolean addBudgetCategories(List<BudgetCategory> budgetList){
         return budgetList.addAll(budgets);
     }
 
     /**
      * This method will find if a budget exist or not
-     * @returns the BudgetCategory object
+     * @return the BudgetCategory object
      */
-    public BudgetCategory findBudget(BudgetCategory currentBudget){
+    public BudgetCategory findBudgetCategory(BudgetCategory currentBudget){
         BudgetCategory budgetCategory = null;
         int index = budgets.indexOf(currentBudget);
         if(index >= 0){
@@ -99,7 +99,7 @@ public class StubDatabase {
     /**
      * This method will insert a new budget category with the budgets ArrayList.
      */
-    public void insertBudgetCategories(BudgetCategory newBudget){
+    public void insertBudgetCategory(BudgetCategory newBudget){
         budgets.add(newBudget);
     }
 
@@ -114,7 +114,7 @@ public class StubDatabase {
     /**
      * This method will be used to update a Budget.
      */
-    public void updateBudgets(BudgetCategory currentBudget, BudgetCategory newBudget){
+    public void updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget){
         int index = budgets.indexOf(currentBudget);
         if (index >= 0){
             budgets.set(index,newBudget);
@@ -124,7 +124,7 @@ public class StubDatabase {
     /**
      * This method will remove a budget category.
      */
-    public void deleteBudget(BudgetCategory currentBudget){
+    public void deleteBudgetCategory(BudgetCategory currentBudget){
         int index = budgets.indexOf(currentBudget);
         if (index >= 0){
             budgets.remove(index);
@@ -135,15 +135,15 @@ public class StubDatabase {
      * This method will add all the cards to a card list.
      * @return true if added successfully.
      */
-    public boolean addCards(List<CreditCard> cardstList){
-        return cardstList.addAll(creditCards);
+    public boolean addCreditCards(List<CreditCard> cardsList){
+        return cardsList.addAll(creditCards);
     }
 
     /**
      * This method will find if a card exist or not.
      * @return the card object.
      */
-    public CreditCard findCard(CreditCard currentCard){
+    public CreditCard findCreditCard(CreditCard currentCard){
         CreditCard card = null;
         int index = creditCards.indexOf(currentCard);
         if(index >= 0){
@@ -170,7 +170,7 @@ public class StubDatabase {
     /**
      * This method will be used to update a credit card.
      */
-    public void updateCreditCards(CreditCard currentCard, CreditCard newCard){
+    public void updateCreditCard(CreditCard currentCard, CreditCard newCard){
         int index = creditCards.indexOf(currentCard);
         if (index >= 0){
             creditCards.set(index,newCard);
@@ -180,7 +180,7 @@ public class StubDatabase {
     /**
      * This method will remove a credit card.
      */
-    public void deleteCard(CreditCard currentCard){
+    public void deleteCreditCard(CreditCard currentCard){
         int index = creditCards.indexOf(currentCard);
         if (index >= 0){
             creditCards.remove(index);
@@ -189,7 +189,7 @@ public class StubDatabase {
 
     /**
      * This method will add all the transactions to a transaction list.
-     * @returns true if added successfully.
+     * @return true if added successfully.
      */
     public boolean addTransactions(List<Transaction> transactionsList){
         return transactionsList.addAll(transactions);
@@ -211,7 +211,7 @@ public class StubDatabase {
     /**
      * This method will insert a new transaction with the ArrayList.
      */
-    public void insertTransactions(Transaction newTransaction){
+    public void insertTransaction(Transaction newTransaction){
         transactions.add(newTransaction);
     }
 
@@ -226,7 +226,7 @@ public class StubDatabase {
     /**
      * This method will be used to update a transaction.
      */
-    public void updateTransactions(Transaction currentTransaction, Transaction newTransaction){
+    public void updateTransaction(Transaction currentTransaction, Transaction newTransaction){
         int index = transactions.indexOf(currentTransaction);
         if (index >= 0){
             transactions.set(index,newTransaction);
