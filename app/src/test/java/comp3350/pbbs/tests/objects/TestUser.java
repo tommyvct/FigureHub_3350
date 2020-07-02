@@ -1,4 +1,4 @@
-package comp3350.pbbs.test.objects;
+package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
 
