@@ -87,12 +87,59 @@ public class AccessBudgetCategory {
     }
 
     /**
+     * parse the input from a String passed from Presentation layer, to a Float
+     * @param limitStr the string to be parsed into a float
+     * @return return the parsed string.
+     */
+    private Float parseLimit(String limitStr) {
+        Float result = null;
+        if(limitStr != null) {
+            if(limitStr.contains(".")) {
+                if(limitStr.matches("\\d*\\.\\d\\d$")) {
+                    result = Float.parseFloat(limitStr);
+                    if(result < 0)
+                        result = null;
+                }
+            }
+            else if(limitStr.matches("[0-9]+")){
+                result = (float)Integer.parseInt(limitStr);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * BudgetCategory
+     * @param label name of the BudgetCategory
+     * @param limit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public boolean addBudgetCategory(String label, String limit){
+        Float limitFlt = parseLimit(limit);
+        return insertBudgetCategory(new BudgetCategory(label, limitFlt));
+    }
+
+    /**
      * Inserts a single new budget category to database
      * @param currentBudgetCat the new category to be added
      */
     public boolean insertBudgetCategory(BudgetCategory currentBudgetCat)
     {
         return dataAccess.insertBudgetCategory(currentBudgetCat);
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     * @param oldLabel, newLabel name of the BudgetCategory
+     * @param oldLimit, newLimit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public BudgetCategory updateBudgetCategoryParse(String oldLabel, String oldLimit, String newLabel, String newLimit){
+        Float limit1Flt = parseLimit(oldLimit);
+        Float limit2Flt = parseLimit(newLimit);
+        return updateBudgetCategory(new BudgetCategory(oldLabel, limit1Flt), new BudgetCategory(newLabel, limit2Flt));
     }
 
     /**
@@ -103,6 +150,18 @@ public class AccessBudgetCategory {
     public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget)
     {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     * @param label name of the BudgetCategory
+     * @param limit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public BudgetCategory deleteBudgetCategoryParse(String label, String limit){
+        Float limitFlt = parseLimit(limit);
+        return deleteBudgetCategory(new BudgetCategory(label, limitFlt));
     }
 
     /**
