@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.addTransaction"></activity>
+        <activity android:name=".presentation.addCard"></activity>
+        <activity android:name=".presentation.firstTimeGreeting" />
+        <activity android:name=".presentation.addTransaction" />
         <activity android:name=".presentation.MainActivity" />
         <activity android:name=".presentation.Auth">
             <intent-filter>

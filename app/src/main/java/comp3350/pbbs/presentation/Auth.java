@@ -100,7 +100,7 @@ public class Auth extends AppCompatActivity
 
     private void toMainActivity()
     {
-        this.startActivity(new Intent(this, MainActivity.class));
+        this.startActivity(new Intent(this, firstTimeGreeting.class));
         finish(); // done with authentication
     }
 

@@ -1,5 +1,6 @@
-package comp3350.pbbs.presentation;
+package comp3350.pbbs.presentation.mainActivityFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,14 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import comp3350.pbbs.R;
+import comp3350.pbbs.presentation.addTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link main_cards#newInstance} factory method to
+ * Use the {@link main_transactions#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class main_cards extends Fragment
+public class main_transactions extends Fragment
 {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +31,7 @@ public class main_cards extends Fragment
     private String mParam1;
     private String mParam2;
 
-    public main_cards()
+    public main_transactions()
     {
         // Required empty public constructor
     }
@@ -38,12 +42,12 @@ public class main_cards extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment main_cards.
+     * @return A new instance of fragment main_transactions.
      */
     // TODO: Rename and change types and number of parameters
-    public static main_cards newInstance(String param1, String param2)
+    public static main_transactions newInstance(String param1, String param2)
     {
-        main_cards fragment = new main_cards();
+        main_transactions fragment = new main_transactions();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +70,19 @@ public class main_cards extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
+        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(view.getContext(), addTransaction.class));
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_cards, container, false);
+//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
+        return view;
     }
 }

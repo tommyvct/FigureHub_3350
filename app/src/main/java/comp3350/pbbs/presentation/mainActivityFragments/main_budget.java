@@ -1,4 +1,4 @@
-package comp3350.pbbs.presentation;
+package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import comp3350.pbbs.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link main_home#newInstance} factory method to
+ * Use the {@link main_budget#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class main_home extends Fragment
+public class main_budget extends Fragment
 {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +27,7 @@ public class main_home extends Fragment
     private String mParam1;
     private String mParam2;
 
-    public main_home()
+    public main_budget()
     {
         // Required empty public constructor
     }
@@ -38,12 +38,12 @@ public class main_home extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment main_home.
+     * @return A new instance of fragment main_budget.
      */
     // TODO: Rename and change types and number of parameters
-    public static main_home newInstance(String param1, String param2)
+    public static main_budget newInstance(String param1, String param2)
     {
-        main_home fragment = new main_home();
+        main_budget fragment = new main_budget();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,6 +67,6 @@ public class main_home extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_home, container, false);
+        return inflater.inflate(R.layout.fragment_main_budget, container, false);
     }
 }
