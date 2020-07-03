@@ -7,7 +7,7 @@ public class CreditCard
 	private String cardNum;		//16-digits number of a credit card
 	private int payDate;		//the day user needs to ready for payment, 2-digits (DD)
 	private int expireMonth;	//the month a credit card is expired, 2-digits (MM)
-	private int expireYear;		//the year a credit card is expired, 2-digits (YY)
+	private int expireYear;		//the year a credit card is expired, 4-digits (YYYY)
 	private String holderName;	//user full name of a credit card
 
 	/* constraints to a credit card */
@@ -59,8 +59,8 @@ public class CreditCard
 		boolean result;
 		Calendar calender = Calendar.getInstance();
 		int currMonth = calender.get(Calendar.MONTH) + 1;
-		int currYear = calender.get(Calendar.YEAR) - 2000;
-		if (m < 1 || m > 12 || y < currYear || y > 99) {
+		int currYear = calender.get(Calendar.YEAR);
+		if (m < 1 || m > 12 || y < currYear || y > 2999) {
 			result = false;
 		} else {
 			result = y != currYear || m >= currMonth;
@@ -82,7 +82,7 @@ public class CreditCard
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 		String info = "CARD: [" + getCardNum() + "] Holder: " + getHolderName() +
-				". Expire until: " + month[getExpireMonth() - 1] + " 20" + getExpireYear() +
+				". Expire until: " + month[getExpireMonth() - 1] + " " + getExpireYear() +
 				". Expected payment due: " + getPayDate();
 		return info;
 	}

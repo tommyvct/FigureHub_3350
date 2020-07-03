@@ -16,12 +16,12 @@ public class TestCreditCard extends TestCase
 	public void setUp() {
 		num = "1000100010001000";
 		name = "Alan Alfred";
-		expMon = 6;
-		expYear = 22;
-		payDay = 27;
+		expMon = 12;
+		expYear = 2021;
+		payDay = 24;
 	}
 
-	/* method: test isValidLength(str)  */
+	/* method: test isValidLength(str) */
 	public void testCardNum() {
 		CreditCard card1 = new CreditCard(num, name, expMon, expYear, payDay);
 		CreditCard card2 = new CreditCard(num, name, expMon, expYear, payDay);
@@ -84,7 +84,7 @@ public class TestCreditCard extends TestCase
 			fail("Expected IllegalArgumentException");
 		} catch (IllegalArgumentException ignored) { }
 		try {
-			new CreditCard(num, name, expMon, 100, payDay);
+			new CreditCard(num, name, expMon, 3000, payDay);
 			fail("Expected IllegalArgumentException");
 		} catch (IllegalArgumentException ignored) { }
 	}
