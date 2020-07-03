@@ -1,11 +1,12 @@
 package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
-
 import comp3350.pbbs.objects.User;
-
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ *
+ */
 public class TestUser extends TestCase{
     private User newUser;
 
