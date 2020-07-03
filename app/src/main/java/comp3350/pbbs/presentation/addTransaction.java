@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -54,7 +56,16 @@ public class addTransaction extends AppCompatActivity
              timePickerDialog.show();
         }));
 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if ()
+            }
+        });
     }
+
 
     // TODO: field validation
     // TODO: sumbit button
