@@ -33,6 +33,7 @@ public class StubDatabase {
 		this.databaseName = name;
 	}
 
+	/* method: perform the date calculation */
 	public static Date calcDate(Date d, int n) {
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(d);
