@@ -30,7 +30,7 @@ public class TestTransaction extends TestCase {
      */
     public void setUp() {
         now = new Date();
-        card = new CreditCard("1111111111111111", "Jane Doe", 1, 21, 15);
+        card = new CreditCard("1111111111111111", "Jane Doe", 1, 2021, 15);
         budgetCategory = new BudgetCategory("Groceries", 200);
         amount = 5.57f;
         description = "Bought groceries.";
@@ -101,7 +101,7 @@ public class TestTransaction extends TestCase {
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        CreditCard otherCard = new CreditCard("2222222222222222", "Jane Doe", 1, 23, 15);
+        CreditCard otherCard = new CreditCard("2222222222222222", "Jane Doe", 1, 2023, 15);
         otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
