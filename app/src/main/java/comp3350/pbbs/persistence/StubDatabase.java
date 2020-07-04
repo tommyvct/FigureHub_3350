@@ -2,6 +2,7 @@ package comp3350.pbbs.persistence;
 
 import android.os.Build;
 import androidx.annotation.RequiresApi;
+import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,12 +19,11 @@ import comp3350.pbbs.objects.*;
  */
 public class StubDatabase {
 	private String databaseName;                        //name of the database
-
 	private ArrayList<BudgetCategory> budgets;          //ArrayList for budgets
 	private ArrayList<CreditCard> creditCards;          //ArrayList for credit cards
 	private ArrayList<Transaction> transactions;        //ArrayList for transactions
 	private ArrayList<User> user;                       //ArrayList for user
-	private Date time;                                  //local date variable
+	private Date date;                         //local date variable
 
 	/**
 	 * @param name name of the database
@@ -31,6 +31,14 @@ public class StubDatabase {
 	 */
 	public StubDatabase(String name){
 		this.databaseName = name;
+	}
+
+	public static Date calcDate(Date d, int n) {
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(d);
+		calendar.add(calendar.DATE, n);
+		d = calendar.getTime();
+		return d;
 	}
 
 	/**
@@ -43,7 +51,7 @@ public class StubDatabase {
 		Transaction t1, t2, t3, t4;                             //multiple transactions
 		User user1;                                             //user variable
 
-		time = new Date();                             //initializing the local date variable
+		//time = LocalDateTime.now();                             //initializing the local date variable
 
 		budgets = new ArrayList<BudgetCategory>();
 		rent = new BudgetCategory("Rent/Mortgage", 500);
@@ -61,20 +69,15 @@ public class StubDatabase {
 		card2 = new CreditCard("1002100310041005", "Jimmy", 11, 2021, 15);
 		creditCards.add(card2);
 
+		date = new Date();
 		transactions = new ArrayList<Transaction>();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(time);
-		cal.add(Calendar.DATE, -5);
-		t1 = new Transaction(cal.getTime(), 50, "Bought Chickens", card1, groceries);
+		t1 = new Transaction(calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
 		transactions.add(t1);
-		cal.add(Calendar.DATE, -3);
-		t2 = new Transaction(cal.getTime(), 450, "Rent Paid", card2, rent);
+		t2 = new Transaction(calcDate(date, -8), 450, "Rent Paid", card2, rent);
 		transactions.add(t2);
-		cal.add(Calendar.DATE, 6);
-		t3 = new Transaction(cal.getTime(), 40, "Hydro bill paid", card2, utilities);
+		t3 = new Transaction(calcDate(date, -2), 40, "Hydro bill paid", card2, utilities);
 		transactions.add(t3);
-		cal.add(Calendar.DATE, -1);
-		t4 = new Transaction(cal.getTime(), 75, "Phone Bill paid", card2, phoneBill);
+		t4 = new Transaction(calcDate(date, -3), 75, "Phone Bill paid", card2, phoneBill);
 		transactions.add(t4);
 
 		user = new ArrayList<User>();
@@ -87,7 +90,7 @@ public class StubDatabase {
 	 * @return true if added successfully.
 	 */
 	public boolean addBudgetCategories(List<BudgetCategory> budgetList){
-		return budgetList.addAll(budgets);
+		return budgets.addAll(budgetList);
 	}
 
 	/**
