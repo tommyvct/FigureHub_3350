@@ -106,8 +106,8 @@ public class StubDatabase {
 	/**
 	 * This method will insert a new budget category with the budgets ArrayList.
 	 */
-	public void insertBudgetCategory(BudgetCategory newBudget){
-		budgets.add(newBudget);
+	public boolean insertBudgetCategory(BudgetCategory newBudget){
+		return budgets.add(newBudget);
 	}
 
 	/**
@@ -121,21 +121,25 @@ public class StubDatabase {
 	/**
 	 * This method will be used to update a Budget.
 	 */
-	public void updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget){
+	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget){
 		int index = budgets.indexOf(currentBudget);
+		BudgetCategory result = null;
 		if (index >= 0){
-			budgets.set(index,newBudget);
+			result = budgets.set(index,newBudget);
 		}
+		return result;
 	}
 
 	/**
 	 * This method will remove a budget category.
 	 */
-	public void deleteBudgetCategory(BudgetCategory currentBudget){
+	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget){
 		int index = budgets.indexOf(currentBudget);
+		BudgetCategory result = null;
 		if (index >= 0){
-			budgets.remove(index);
+			result = budgets.remove(index);
 		}
+		return result;
 	}
 
 	/**
