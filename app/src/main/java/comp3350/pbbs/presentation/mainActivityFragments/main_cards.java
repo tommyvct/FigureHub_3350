@@ -1,5 +1,6 @@
 package comp3350.pbbs.presentation.mainActivityFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import comp3350.pbbs.R;
+import comp3350.pbbs.presentation.addObject.addCard;
+import comp3350.pbbs.presentation.addObject.addTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +71,19 @@ public class main_cards extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
+        FloatingActionButton fab = view.findViewById(R.id.addCardFAB);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(view.getContext(), addCard.class));
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_cards, container, false);
+//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
+        return view;
     }
 }

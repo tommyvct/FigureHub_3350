@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.presentation.addTransaction;
+import comp3350.pbbs.presentation.addObject.addTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +71,7 @@ public class main_transactions extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
-        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton fab = view.findViewById(R.id.addTransFAB);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override

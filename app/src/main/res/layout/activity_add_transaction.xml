@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".presentation.addTransaction">
+    tools:context=".presentation.addObject.addTransaction">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/addTranssubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add" />

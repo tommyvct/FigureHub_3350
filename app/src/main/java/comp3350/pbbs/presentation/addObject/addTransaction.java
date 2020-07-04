@@ -1,4 +1,4 @@
-package comp3350.pbbs.presentation;
+package comp3350.pbbs.presentation.addObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,10 +8,10 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -56,17 +56,28 @@ public class addTransaction extends AppCompatActivity
              timePickerDialog.show();
         }));
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener()
+        findViewById(R.id.addTranssubmit).setOnClickListener(view ->
         {
-            @Override
-            public void onClick(View view)
+            if (false)   // validate fields, use methods from business class
             {
-                if ()
+             // thatEditText.setError()
+            }
+            else
+            {
+             // transaction.addTransaction(string, string, string);
+                Snackbar.make(view, "Transaction Added!", Snackbar.LENGTH_SHORT)
+                        .addCallback(new Snackbar.Callback()
+                        {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event)
+                            {
+                                super.onDismissed(transientBottomBar, event);
+                                finish();
+                            }
+                        }).show();
             }
         });
     }
 
-
     // TODO: field validation
-    // TODO: sumbit button
 }
