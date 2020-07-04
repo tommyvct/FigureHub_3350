@@ -2,6 +2,10 @@ package comp3350.pbbs.objects;
 
 import java.util.Calendar;
 
+/*
+ * Class CreditCard
+ * Created by Hao Zheng
+ */
 public class CreditCard
 {
 	private String cardNum;		//16-digits number of a credit card
@@ -81,9 +85,9 @@ public class CreditCard
 	/* method: display the credit card info when it is requested */
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-		String info = "CARD: [" + getCardNum() + "] Holder: " + getHolderName() +
-				". Expire until: " + month[getExpireMonth() - 1] + " " + getExpireYear() +
-				". Expected payment due: " + getPayDate();
+		String info = "\nCARD: " + getCardNum() + "\nHolder: " + getHolderName() +
+				"\nExpire until: " + month[getExpireMonth() - 1] + " " + getExpireYear() +
+				"\nExpected payment due: " + getPayDate();
 		return info;
 	}
 

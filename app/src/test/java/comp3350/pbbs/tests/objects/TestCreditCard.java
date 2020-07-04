@@ -5,6 +5,10 @@ import junit.framework.TestCase;
 import comp3350.pbbs.objects.CreditCard;
 import static org.junit.Assert.assertNotEquals;
 
+/*
+ * Class TestCreditCard
+ * Created by Hao Zheng
+ */
 public class TestCreditCard extends TestCase
 {
 	private String num;
