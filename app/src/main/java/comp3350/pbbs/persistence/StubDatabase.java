@@ -18,12 +18,12 @@ import comp3350.pbbs.objects.*;
  * This class defines the persistence layer (stub database).
  */
 public class StubDatabase {
-	private String databaseName;                        //name of the database
-	private ArrayList<BudgetCategory> budgets;          //ArrayList for budgets
-	private ArrayList<CreditCard> creditCards;          //ArrayList for credit cards
-	private ArrayList<Transaction> transactions;        //ArrayList for transactions
-	private ArrayList<User> user;                       //ArrayList for user
-	private Date date;                         //local date variable
+	private String databaseName;                    //name of the database
+	private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
+	private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
+	private ArrayList<Transaction> transactions;    //ArrayList for transactions
+	private ArrayList<User> user;                   //ArrayList for user
+	private Date date;                         		//local date variable
 
 	/**
 	 * @param name name of the database
@@ -33,7 +33,10 @@ public class StubDatabase {
 		this.databaseName = name;
 	}
 
-	/* method: perform the date calculation */
+	/**
+	 * This method performs the date calculation
+	 * @return a Date object
+	 */
 	public static Date calcDate(Date d, int n) {
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(d);
@@ -45,14 +48,11 @@ public class StubDatabase {
 	/**
 	 * This method is used for populating fake data into the stub database
 	 */
-	@RequiresApi(api = Build.VERSION_CODES.O)                   //API to get the current date
 	public void populateData(){
 		BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
 		CreditCard card1, card2;                                //multiple cards
 		Transaction t1, t2, t3, t4;                             //multiple transactions
 		User user1;                                             //user variable
-
-		//time = LocalDateTime.now();                             //initializing the local date variable
 
 		budgets = new ArrayList<BudgetCategory>();
 		rent = new BudgetCategory("Rent/Mortgage", 500);
@@ -76,9 +76,9 @@ public class StubDatabase {
 		transactions.add(t1);
 		t2 = new Transaction(calcDate(date, -8), 450, "Rent Paid", card2, rent);
 		transactions.add(t2);
-		t3 = new Transaction(calcDate(date, -2), 40, "Hydro bill paid", card2, utilities);
+		t3 = new Transaction(calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
 		transactions.add(t3);
-		t4 = new Transaction(calcDate(date, -3), 75, "Phone Bill paid", card2, phoneBill);
+		t4 = new Transaction(calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
 		transactions.add(t4);
 
 		user = new ArrayList<User>();

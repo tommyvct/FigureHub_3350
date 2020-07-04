@@ -2,23 +2,35 @@ package comp3350.pbbs.objects;
 
 import java.util.Calendar;
 
-/*
- * Class CreditCard
- * Created by Hao Zheng
+/**
+ * CreditCard
+ * Hao Zheng
+ * PBBS
+ *
+ * This class defines a credit card with information it includes
  */
 public class CreditCard
 {
-	private String cardNum;		//16-digits number of a credit card
-	private int payDate;		//the day user needs to ready for payment, 2-digits (DD)
-	private int expireMonth;	//the month a credit card is expired, 2-digits (MM)
-	private int expireYear;		//the year a credit card is expired, 4-digits (YYYY)
-	private String holderName;	//user full name of a credit card
+	private String cardNum;		// 16-digits number of a credit card
+	private String holderName;	// user full name of a credit card
+	private int expireMonth;	// the month a credit card is expired, 2-digits (MM)
+	private int expireYear;		// the year a credit card is expired, 4-digits (YYYY)
+	private int payDate;		// the day user needs to ready for payment, 2-digits (DD)
 
-	/* constraints to a credit card */
-	private static final int CARD_NUM_LENGTH = 16;
-	private static final String REGEX = "^[a-zA-Z \\-.']*$";
+	/**
+	 * constants: constraints to a credit card
+	 */
+	private static final int CARD_NUM_LENGTH = 16;				// the length of a card number
+	private static final String REGEX = "^[a-zA-Z \\-.']*$"; 	// the format of a name
 
-	/* constructor: includes full info of a credit card */
+	/**
+	 * constructor: includes full info of a credit card
+	 * @param num 16-digits number of a credit card
+	 * @param usr user full name of a credit card
+	 * @param expM the month a credit card is expired, 2-digits (MM)
+	 * @param expY the year a credit card is expired, 4-digits (YYYY)
+	 * @param pay the day user needs to ready for payment, 2-digits (DD)
+	 */
 	public CreditCard(String num, String usr, int expM, int expY, int pay) {
 		errorMsg(num, usr, expM, expY, pay);
 		cardNum = num;
@@ -28,7 +40,14 @@ public class CreditCard
 		payDate = pay;
 	}
 
-	/* method: show error message when the credit card info is invalid */
+	/**
+	 * method: show error message when the credit card info is invalid
+	 * @param num 16-digits number of a credit card
+	 * @param usr user full name of a credit card
+	 * @param expM the month a credit card is expired, 2-digits (MM)
+	 * @param expY the year a credit card is expired, 4-digits (YYYY)
+	 * @param pay the day user needs to ready for payment, 2-digits (DD)
+	 */
 	public void errorMsg(String num, String usr, int expM, int expY, int pay) {
 		if (!isValidLength(num))
 			throw new IllegalArgumentException("A Credit Card requires a valid number.");
@@ -40,7 +59,11 @@ public class CreditCard
 			throw new IllegalArgumentException("A Credit Card requires a valid payment date.");
 	}
 
-	/* method: check if the input card number is 16-digits */
+	/**
+	 * method: check if a credit card number is 16-digits
+ 	 * @param str the credit card number
+	 * @return true if the card number is exactly 16-digits long
+	 */
 	public boolean isValidLength(String str) {
 		if (str == null) {
 			return false;
@@ -49,7 +72,11 @@ public class CreditCard
 		}
 	}
 
-	/* method: check if the input card holder full name is valid */
+	/**
+	 * method: check if the a credit card holder's full name is valid
+	 * @param str the credit card holder name
+	 * @return true if the holder name meet the requirement of the format
+	 */
 	public boolean isValidName(String str) {
 		if (str == null) {
 			return false;
@@ -58,7 +85,14 @@ public class CreditCard
 		}
 	}
 
-	/* method: check if the input expire date is valid */
+	/**
+	 * method: check if the input expire date is valid
+	 * @param m the month
+	 * @param y the year
+	 * @return true if the expire month & year are
+	 * 		   1) month and year are real-world existed, and
+	 * 		   2) after the current month of current year
+	 */
 	public boolean isValidExpiration(int m, int y) {
 		boolean result;
 		Calendar calender = Calendar.getInstance();
@@ -72,26 +106,41 @@ public class CreditCard
 		return result;
 	}
 
-	/* method: check if the input pay date is valid */
+	/**
+	 * method: check if the input pay date is valid
+	 * @param n the day
+	 * @return true if the day is real-world existed
+	 */
 	public boolean isValidPayDate(int n) {
 		return n >= 1 && n <= 31;
 	}
 
-	/* method: compare if two credit cards are same */
+	/**
+	 * method: compare if two credit cards are same
+	 * @param other another credit card
+	 * @return true if both credit cards have the same card number
+	 */
 	public boolean equals(CreditCard other) {
 		return getCardNum().equals(other.getCardNum());
 	}
 
-	/* method: display the credit card info when it is requested */
+	/**
+	 * method: display the credit card info when it is requested
+	 * @return a string represents this object and its fields
+	 */
 	public String toString() {
-		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+						  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 		String info = "\nCARD: " + getCardNum() + "\nHolder: " + getHolderName() +
-				"\nExpire until: " + month[getExpireMonth() - 1] + " " + getExpireYear() +
-				"\nExpected payment due: " + getPayDate();
+					  "\nExpire until: " + month[getExpireMonth() - 1] + " " +
+					  getExpireYear() + "\nExpected payment due: " + getPayDate();
 		return info;
 	}
 
-	/* getters */
+	/**
+	 * methods: getters for instance fields
+	 * @return values of fields
+	 */
 	public String getCardNum() { return cardNum; }
 
 	public int getPayDate() { return payDate; }

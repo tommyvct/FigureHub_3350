@@ -16,6 +16,7 @@ public class TestAccessTransactionUpload extends TestCase {
     private String testAmount;
     private CreditCard testCard;
     private BudgetCategory testBudgetCategory;
+
     public void setUp() {
         Main.startup();
         accessTransaction = new AccessTransaction();
