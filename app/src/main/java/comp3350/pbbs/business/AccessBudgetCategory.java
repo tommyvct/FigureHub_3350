@@ -87,12 +87,65 @@ public class AccessBudgetCategory {
     }
 
     /**
+     * parse the input from a String passed from Presentation layer, to a Float
+     * @param limitStr the string to be parsed into a float
+     * @return return the parsed string.
+     */
+    private Float parseLimit(String limitStr) {
+        Float result = null;
+        if(limitStr != null) {
+            if(limitStr.contains(".")) {
+                if(limitStr.matches("\\d*\\.\\d\\d$")) {
+                    result = Float.parseFloat(limitStr);
+                    if(result < 0)
+                        result = null;
+                }
+            }
+            else if(limitStr.matches("[0-9]+")){
+                result = (float)Integer.parseInt(limitStr);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * BudgetCategory
+     * @param label name of the BudgetCategory
+     * @param limit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public boolean insertBudgetCategory(String label, String limit){
+        Float limitFlt;
+        boolean result = false;
+        if((limitFlt = parseLimit(limit)) != null) result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+
+        return result;
+    }
+
+    /**
      * Inserts a single new budget category to database
      * @param currentBudgetCat the new category to be added
      */
-    public boolean insertBudgetCategory(BudgetCategory currentBudgetCat)
+    public boolean insertBudgetCategoryParsed(BudgetCategory currentBudgetCat)
     {
         return dataAccess.insertBudgetCategory(currentBudgetCat);
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     * @param oldLabel, newLabel name of the BudgetCategory
+     * @param oldLimit, newLimit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public BudgetCategory updateBudgetCategory(String oldLabel, String oldLimit, String newLabel, String newLimit){
+        Float oldLimitFlt;
+        Float newLimitFlt;
+        BudgetCategory result = null;
+        if((oldLimitFlt = parseLimit(oldLimit)) != null && (newLimitFlt = parseLimit(newLimit)) != null)
+            result = updateBudgetCategoryParsed(new BudgetCategory(oldLabel, oldLimitFlt), new BudgetCategory(newLabel, newLimitFlt));
+        return result;
     }
 
     /**
@@ -100,16 +153,30 @@ public class AccessBudgetCategory {
      * @param currentBudget the budget category currently in the DB
      * @param newBudget the budget category to replace currentBudget
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget)
+    public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget)
     {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     * @param label name of the BudgetCategory
+     * @param limit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     */
+    public BudgetCategory deleteBudgetCategory(String label, String limit){
+        Float limitFlt;
+        BudgetCategory result = null;
+        if((limitFlt = parseLimit(limit)) != null) result = deleteBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+        return result;
     }
 
     /**
      * Removes a BudgetCategory from the DB
      * @param currentBudgetCat the category to be removed
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    public BudgetCategory deleteBudgetCategoryParsed(BudgetCategory currentBudgetCat)
     {
         return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }
