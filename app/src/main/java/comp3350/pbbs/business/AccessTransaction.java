@@ -4,8 +4,10 @@ package comp3350.pbbs.business;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
@@ -153,11 +155,45 @@ public class AccessTransaction {
             // Create the transaction
             try {
                 Transaction transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
-                // TODO: make this an if statement when this has a return type of boolean
-                db.addTransactions(Arrays.asList(transaction));
-                toReturn = true;
+                toReturn = db.insertTransaction(transaction);
             }
-            catch (IllegalArgumentException iae) { }
+            catch (IllegalArgumentException ignored) { }
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * Retrieves a list of all the transactions in the database.
+     *
+     * @return List of all transactions in the database
+     */
+    public List<Transaction> retrieveTransactions() {
+        return db.getTransactions();
+    }
+
+    /**
+     * Retrieves a list of transactions that fall between the 2 given dates
+     *
+     * @param to    Starting date range
+     * @param from  Ending date range
+     * @return      List of transactions that come after @param to and come before @param from.
+     */
+    public List<Transaction> retrieveTransactions(Date to, Date from) {
+        List<Transaction> toReturn = null;
+
+        // If the parameters are valid
+        if(to != null && from != null) {
+            toReturn = new ArrayList<Transaction>();
+            List<Transaction> allTransactions = retrieveTransactions();
+
+            // Loop through all transactions
+            for(Transaction transaction : allTransactions) {
+                // If the time of the transaction is between the range [to, from], add to the list
+                if(transaction.getTime().after(to) && transaction.getTime().before(from)) {
+                    toReturn.add(transaction);
+                }
+            }
         }
 
         return toReturn;

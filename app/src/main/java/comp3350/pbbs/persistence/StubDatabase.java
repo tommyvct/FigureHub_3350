@@ -31,6 +31,10 @@ public class StubDatabase {
 	 */
 	public StubDatabase(String name){
 		this.databaseName = name;
+		budgets = new ArrayList<BudgetCategory>();
+		creditCards = new ArrayList<CreditCard>();
+		transactions = new ArrayList<Transaction>();
+		user = new ArrayList<User>();
 	}
 
 	/**
@@ -223,8 +227,8 @@ public class StubDatabase {
 	/**
 	 * This method will insert a new transaction with the ArrayList.
 	 */
-	public void insertTransaction(Transaction newTransaction){
-		transactions.add(newTransaction);
+	public boolean insertTransaction(Transaction newTransaction){
+		return transactions.add(newTransaction);
 	}
 
 	/**
