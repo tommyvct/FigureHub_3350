@@ -1,9 +1,7 @@
 package comp3350.pbbs.application;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import comp3350.pbbs.persistence.StubDatabase;
 
 public class Services {
@@ -14,7 +12,8 @@ public class Services {
     public static StubDatabase createDataAccess(String dbName){
         if (dbAccessService == null){
             dbAccessService = new StubDatabase(dbName);
-            dbAccessService.populateData();
+            if(dbName.equals(Main.dbName))
+                dbAccessService.populateData();
         }
         return dbAccessService;
     }
