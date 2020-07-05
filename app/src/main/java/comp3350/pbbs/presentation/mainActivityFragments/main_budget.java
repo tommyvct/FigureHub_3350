@@ -1,4 +1,4 @@
-package comp3350.pbbs.presentation;
+package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.os.Bundle;
 

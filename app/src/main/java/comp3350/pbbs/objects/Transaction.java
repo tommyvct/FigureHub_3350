@@ -2,7 +2,7 @@ package comp3350.pbbs.objects;
 
 
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Transaction
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * category.
  */
 public class Transaction {
-    private LocalDateTime time;             // The time that the transaction took place
+    private Date time;             // The time that the transaction took place
     private float amount;                   // The amount that this transaction totalled
     private String description;             // Description of this transaction
     private CreditCard card;                // The card that this transaction was paid on
@@ -28,7 +28,7 @@ public class Transaction {
      * @param card The card this transaction used
      * @param budgetCategory The category this transaction fell under.
      */
-    public Transaction(LocalDateTime transactionTime, float amount, String description, CreditCard card, BudgetCategory budgetCategory) {
+    public Transaction(Date transactionTime, float amount, String description, CreditCard card, BudgetCategory budgetCategory) {
         // Validate input
         if(transactionTime == null)
             throw new IllegalArgumentException("A Transaction needs a time.");
@@ -49,7 +49,7 @@ public class Transaction {
     }
 
     // Getters for object fields
-    public LocalDateTime getTime() { return time; }
+    public Date getTime() { return time; }
     public float getAmount() { return amount; }
     public CreditCard getCard() { return card; }
     public BudgetCategory getBudgetCategory() { return budgetCategory; }

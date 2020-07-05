@@ -3,10 +3,8 @@ package comp3350.pbbs.tests;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import comp3350.pbbs.tests.objects.TestBudgetCategory;
-import comp3350.pbbs.tests.objects.TestCreditCard;
-import comp3350.pbbs.tests.objects.TestTransaction;
-import comp3350.pbbs.tests.objects.TestUser;
+import comp3350.pbbs.tests.business.*;
+import comp3350.pbbs.tests.objects.*;
 
 public class AllTests
 {
@@ -30,6 +28,9 @@ public class AllTests
 
     private static void testBusiness()
     {
-        //TODO: Business layer tests
+        suite.addTestSuite(TestAccessTransactionUpload.class);
+        suite.addTestSuite(TestAccessUser.class);
+        suite.addTestSuite(TestAccessBudgetCategory.class);
+        suite.addTestSuite(TestAccessCreditCard.class);
     }
 }
