@@ -1,13 +1,12 @@
 package comp3350.pbbs.application;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
-
+import android.annotation.SuppressLint;
 import androidx.annotation.RequiresApi;
-
 import comp3350.pbbs.presentation.MainActivity;
 
-public class Main {
+public class Main
+{
     public static final String dbName = "TBCU"; //database contains Transactions, Budget Categories, Credit Cards, and Users
 
     public static void main(String[] args){

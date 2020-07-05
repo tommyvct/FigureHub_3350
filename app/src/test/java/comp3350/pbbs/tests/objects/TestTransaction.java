@@ -1,13 +1,11 @@
 package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
-
-import java.time.LocalDateTime;
-
+import java.util.Calendar;
+import java.util.Date;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
-
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -18,7 +16,7 @@ import static org.junit.Assert.assertNotEquals;
  * This class defines a test suite for the Transaction class.
  */
 public class TestTransaction extends TestCase {
-    private LocalDateTime now;  // Reference to the current time
+    private Date now;  // Reference to the current time
     private CreditCard card;           // Test credit card
     private BudgetCategory budgetCategory; // Test budget category
     private float amount;       // Test amount
@@ -28,8 +26,8 @@ public class TestTransaction extends TestCase {
      * Method that runs before each test, sets the test values.
      */
     public void setUp() {
-        now = LocalDateTime.now();
-        card = new CreditCard("1111111111111111", "Jane Doe", 1, 21, 15);
+        now = new Date();
+        card = new CreditCard("1111111111111111", "Jane Doe", 1, 2021, 15);
         budgetCategory = new BudgetCategory("Groceries", 200);
         amount = 5.57f;
         description = "Bought groceries.";
@@ -43,7 +41,10 @@ public class TestTransaction extends TestCase {
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        otherTransaction = new Transaction(now.plusDays(21), amount, description, card, budgetCategory);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.DATE, 21);
+        otherTransaction = new Transaction(cal.getTime(), amount, description, card, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
@@ -97,7 +98,7 @@ public class TestTransaction extends TestCase {
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        CreditCard otherCard = new CreditCard("2222222222222222", "Jane Doe", 1, 23, 15);
+        CreditCard otherCard = new CreditCard("2222222222222222", "Jane Doe", 1, 2023, 15);
         otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 

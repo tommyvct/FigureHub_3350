@@ -1,9 +1,7 @@
 package comp3350.pbbs.application;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import comp3350.pbbs.persistence.StubDatabase;
 
 public class Services {
