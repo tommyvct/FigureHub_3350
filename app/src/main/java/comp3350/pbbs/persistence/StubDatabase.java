@@ -124,6 +124,7 @@ public class StubDatabase {
 
 	/**
 	 * This method will be used to update a Budget.
+	 * @return updated budgetCategory
 	 */
 	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget){
 		int index = budgets.indexOf(currentBudget);
@@ -136,6 +137,7 @@ public class StubDatabase {
 
 	/**
 	 * This method will remove a budget category.
+	 * @return newly deleted budgetCategory
 	 */
 	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget){
 		int index = budgets.indexOf(currentBudget);
@@ -179,6 +181,7 @@ public class StubDatabase {
 
 	/**
 	 * This method will be used to update a credit card.
+	 * @return true if updated correctly.
 	 */
 	public boolean updateCreditCard(CreditCard currCard, CreditCard newCard){
 		int index = creditCards.indexOf(currCard);
@@ -251,4 +254,26 @@ public class StubDatabase {
 			transactions.remove(index);
 		}
 	}
+
+	/**
+	 * Getter method to get the user.
+	 * @return user ArrayList.
+	 */
+	public ArrayList<User> getUser(){
+		return user;
+	}
+
+	/**
+	 * This method will be used to update the user.
+	 * @return updated user
+	 */
+	public User updateUser(User currentUser, User newUser){
+		int index = user.indexOf(currentUser);
+		User result = null;
+		if (index >= 0){
+			result = user.set(index,newUser);
+		}
+		return result;
+	}
+
 }
