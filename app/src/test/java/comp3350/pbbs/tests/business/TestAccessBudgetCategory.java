@@ -57,7 +57,7 @@ public class TestAccessBudgetCategory extends TestCase{
         assertNotNull(testAccess.findBudgetCategory(bc2));
 
         BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
-        assertTrue(testAccess.insertBudgetCategory(bc3));
+        assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertNotNull(testAccess.findBudgetCategory(bc3));
     }
 
@@ -66,11 +66,11 @@ public class TestAccessBudgetCategory extends TestCase{
      */
     public void testUpdate(){
         BudgetCategory oldBC = new BudgetCategory("Electronics", 50);
-        testAccess.insertBudgetCategory(oldBC);
+        testAccess.insertBudgetCategory("Electronics", "50");
         assertNotNull(testAccess.findBudgetCategory(oldBC));
 
         BudgetCategory newBC = new BudgetCategory("Computer", 500);
-        assertNotNull(testAccess.updateBudgetCategory(oldBC, newBC));
+        assertNotNull(testAccess.updateBudgetCategory("Electronics", "50", "Computer", "500"));
         assertNotNull(testAccess.findBudgetCategory(newBC));
     }
 
@@ -79,9 +79,9 @@ public class TestAccessBudgetCategory extends TestCase{
      */
     public void testDelete(){
         BudgetCategory testBC = new BudgetCategory("Furniture", 100);
-        testAccess.insertBudgetCategory(testBC);
+        testAccess.insertBudgetCategory("Furniture", "100");
         assertNotNull(testAccess.findBudgetCategory(testBC));
-        assertNotNull(testAccess.deleteBudgetCategory(testBC));
+        assertNotNull(testAccess.deleteBudgetCategory("Furniture", "100"));
         assertNull(testAccess.findBudgetCategory(testBC));
     }
 

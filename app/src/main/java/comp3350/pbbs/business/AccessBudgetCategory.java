@@ -115,16 +115,19 @@ public class AccessBudgetCategory {
      * @param limit limit of the BudgetCategory in string form - to be parsed to Float
      * @return success
      */
-    public boolean addBudgetCategory(String label, String limit){
-        Float limitFlt = parseLimit(limit);
-        return insertBudgetCategory(new BudgetCategory(label, limitFlt));
+    public boolean insertBudgetCategory(String label, String limit){
+        Float limitFlt;
+        boolean result = false;
+        if((limitFlt = parseLimit(limit)) != null) result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+
+        return result;
     }
 
     /**
      * Inserts a single new budget category to database
      * @param currentBudgetCat the new category to be added
      */
-    public boolean insertBudgetCategory(BudgetCategory currentBudgetCat)
+    public boolean insertBudgetCategoryParsed(BudgetCategory currentBudgetCat)
     {
         return dataAccess.insertBudgetCategory(currentBudgetCat);
     }
@@ -136,10 +139,13 @@ public class AccessBudgetCategory {
      * @param oldLimit, newLimit limit of the BudgetCategory in string form - to be parsed to Float
      * @return success
      */
-    public BudgetCategory updateBudgetCategoryParse(String oldLabel, String oldLimit, String newLabel, String newLimit){
-        Float limit1Flt = parseLimit(oldLimit);
-        Float limit2Flt = parseLimit(newLimit);
-        return updateBudgetCategory(new BudgetCategory(oldLabel, limit1Flt), new BudgetCategory(newLabel, limit2Flt));
+    public BudgetCategory updateBudgetCategory(String oldLabel, String oldLimit, String newLabel, String newLimit){
+        Float oldLimitFlt;
+        Float newLimitFlt;
+        BudgetCategory result = null;
+        if((oldLimitFlt = parseLimit(oldLimit)) != null && (newLimitFlt = parseLimit(newLimit)) != null)
+            result = updateBudgetCategoryParsed(new BudgetCategory(oldLabel, oldLimitFlt), new BudgetCategory(newLabel, newLimitFlt));
+        return result;
     }
 
     /**
@@ -147,7 +153,7 @@ public class AccessBudgetCategory {
      * @param currentBudget the budget category currently in the DB
      * @param newBudget the budget category to replace currentBudget
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget)
+    public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget)
     {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
@@ -159,16 +165,18 @@ public class AccessBudgetCategory {
      * @param limit limit of the BudgetCategory in string form - to be parsed to Float
      * @return success
      */
-    public BudgetCategory deleteBudgetCategoryParse(String label, String limit){
-        Float limitFlt = parseLimit(limit);
-        return deleteBudgetCategory(new BudgetCategory(label, limitFlt));
+    public BudgetCategory deleteBudgetCategory(String label, String limit){
+        Float limitFlt;
+        BudgetCategory result = null;
+        if((limitFlt = parseLimit(limit)) != null) result = deleteBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+        return result;
     }
 
     /**
      * Removes a BudgetCategory from the DB
      * @param currentBudgetCat the category to be removed
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    public BudgetCategory deleteBudgetCategoryParsed(BudgetCategory currentBudgetCat)
     {
         return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }
