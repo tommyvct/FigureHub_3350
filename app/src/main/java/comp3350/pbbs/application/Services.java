@@ -12,7 +12,8 @@ public class Services {
     public static StubDatabase createDataAccess(String dbName){
         if (dbAccessService == null){
             dbAccessService = new StubDatabase(dbName);
-            dbAccessService.populateData();
+            if(dbName.equals(Main.dbName))
+                dbAccessService.populateData();
         }
         return dbAccessService;
     }

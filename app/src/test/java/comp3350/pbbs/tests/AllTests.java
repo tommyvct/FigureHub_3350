@@ -29,6 +29,7 @@ public class AllTests
     private static void testBusiness()
     {
         suite.addTestSuite(TestAccessTransactionUpload.class);
+        suite.addTestSuite(TestAccessTransactionRetrieve.class);
         suite.addTestSuite(TestAccessUser.class);
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessCreditCard.class);
