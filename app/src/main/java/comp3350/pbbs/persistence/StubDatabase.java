@@ -242,21 +242,25 @@ public class StubDatabase {
 	/**
 	 * This method will be used to update a transaction.
 	 */
-	public void updateTransaction(Transaction currentTransaction, Transaction newTransaction){
+	public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction){
+		boolean toReturn = false;
 		int index = transactions.indexOf(currentTransaction);
 		if (index >= 0){
-			transactions.set(index,newTransaction);
+			toReturn = transactions.set(index, newTransaction) != null;
 		}
+		return toReturn;
 	}
 
 	/**
 	 * This method will be used to remove a transaction.
 	 */
-	public void deleteTransaction(Transaction currentTransaction){
+	public boolean deleteTransaction(Transaction currentTransaction){
+		boolean toReturn = false;
 		int index = transactions.indexOf(currentTransaction);
 		if (index >= 0){
-			transactions.remove(index);
+			toReturn = transactions.remove(index) != null;
 		}
+		return toReturn;
 	}
 
 	/**
