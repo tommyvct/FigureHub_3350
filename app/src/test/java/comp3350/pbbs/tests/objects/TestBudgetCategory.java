@@ -45,14 +45,6 @@ public class TestBudgetCategory extends TestCase
     }
 
     /**
-     * Method to test the toString
-     */
-    public void testToString(){
-        assertEquals("Budget: Groceries "+budgetLimit, newBudget.toString());
-        assertNotEquals("Budget: Groceries 1"+budgetLimit, newBudget.toString());
-    }
-
-    /**
      * Method to test the equals
      */
     public void testEquals(){
@@ -63,6 +55,11 @@ public class TestBudgetCategory extends TestCase
         BudgetCategory Budget2 = new BudgetCategory("Rent", 200.00);
         assertNotNull(Budget2);
         assertFalse(newBudget.equals(Budget2));
+
+        BudgetCategory Budget3 = new BudgetCategory("Utilities",0.00);
+        assertNotNull(Budget3);
+        assertFalse(newBudget.equals(Budget3));
+
 
         //won't create an object if passed negative value in budgetLimit
         try {
