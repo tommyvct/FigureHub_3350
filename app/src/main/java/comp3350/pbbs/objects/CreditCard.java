@@ -12,6 +12,7 @@ import java.util.Calendar;
 public class CreditCard
 {
 	private String cardNum;		// 16-digits number of a credit card
+	private String cardName;	// card name that is user self-defined
 	private String holderName;	// user full name of a credit card
 	private int expireMonth;	// the month a credit card is expired, 2-digits (MM)
 	private int expireYear;		// the year a credit card is expired, 4-digits (YYYY)
@@ -21,19 +22,22 @@ public class CreditCard
 	 * constants: constraints to a credit card
 	 */
 	private static final int CARD_NUM_LENGTH = 16;				// the length of a card number
-	private static final String REGEX = "^[a-zA-Z \\-.']*$"; 	// the format of a name
+	private static final String REGEX = "^[a-zA-Z \\-.']*$"; 	// the format of a holder name
+
 
 	/**
 	 * constructor: includes full info of a credit card
 	 * @param num 16-digits number of a credit card
+	 * @param cd card name that is user self-defined
 	 * @param usr user full name of a credit card
 	 * @param expM the month a credit card is expired, 2-digits (MM)
 	 * @param expY the year a credit card is expired, 4-digits (YYYY)
 	 * @param pay the day user needs to ready for payment, 2-digits (DD)
 	 */
-	public CreditCard(String num, String usr, int expM, int expY, int pay) {
+	public CreditCard(String num, String cd, String usr, int expM, int expY, int pay) {
 		errorMsg(num, usr, expM, expY, pay);
 		cardNum = num;
+		cardName = cd;
 		holderName = usr;
 		expireMonth = expM;
 		expireYear = expY;
@@ -131,9 +135,9 @@ public class CreditCard
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 						  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-		String info = "\nCARD: " + getCardNum() + "\nHolder: " + getHolderName() +
-					  "\nExpire until: " + month[getExpireMonth() - 1] + " " +
-					  getExpireYear() + "\nExpected payment due: " + getPayDate();
+		String info = "\nCARD " + getCardName() + ": " + getCardNum() + "\nHolder: " +
+					getHolderName() + "\nExpire until: " + month[getExpireMonth() - 1] +
+					" " + getExpireYear() + "\nExpected payment due: " + getPayDate();
 		return info;
 	}
 
@@ -143,11 +147,13 @@ public class CreditCard
 	 */
 	public String getCardNum() { return cardNum; }
 
-	public int getPayDate() { return payDate; }
+	public String getCardName() { return cardName; }
+
+	public String getHolderName() { return holderName; }
 
 	public int getExpireMonth() { return expireMonth; }
 
 	public int getExpireYear() { return expireYear; }
 
-	public String getHolderName() { return holderName; }
+	public int getPayDate() { return payDate; }
 }

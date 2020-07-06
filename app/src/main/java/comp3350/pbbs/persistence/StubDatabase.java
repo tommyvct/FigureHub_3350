@@ -69,9 +69,9 @@ public class StubDatabase {
 		budgets.add(phoneBill);
 
 		creditCards = new ArrayList<CreditCard>();
-		card1 = new CreditCard("1000100010001000", "Jimmy", 12, 2021, 18);
+		card1 = new CreditCard("1000100010001000", "CIBC", "Jimmy", 12, 2021, 18);
 		creditCards.add(card1);
-		card2 = new CreditCard("1002100310041005", "Jimmy", 11, 2021, 15);
+		card2 = new CreditCard("1002100310041005", "CIBC","Jimmy", 11, 2021, 15);
 		creditCards.add(card2);
 
 		date = new Date();

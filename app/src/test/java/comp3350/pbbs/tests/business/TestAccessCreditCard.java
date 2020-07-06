@@ -22,7 +22,7 @@ public class TestAccessCreditCard extends TestCase
 	 */
 	public void setUp() {
 		Main.startup();
-		card = new CreditCard("1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+		card = new CreditCard("1001200230034004", "BMO", "Si-Chuan Hotpot", 12, 2024, 12);
 		acc = new AccessCreditCard();
 		acc.insertCreditCard(card);
 	}
@@ -38,7 +38,7 @@ public class TestAccessCreditCard extends TestCase
 	 * method: test findCreditCard(CreditCard)
 	 */
 	public void testFindCreditCard() {
-		CreditCard card1 = new CreditCard("5005600670078008", "Cheese Burger", 3, 2021, 18);
+		CreditCard card1 = new CreditCard("5005600670078008", "RBC","Cheese Burger", 3, 2021, 18);
 		assertTrue(acc.findCreditCard(card));
 		assertFalse(acc.findCreditCard(card1));
 	}
@@ -47,7 +47,7 @@ public class TestAccessCreditCard extends TestCase
 	 * method: test insertCreditCard(CreditCard)
 	 */
 	public void testInsertCreditCard() {
-		CreditCard card1 = new CreditCard("5005600670078008", "Cheese Burger", 3, 2021, 18);
+		CreditCard card1 = new CreditCard("5005600670078008", "RBC", "Cheese Burger", 3, 2021, 18);
 		assertTrue(acc.insertCreditCard(card1));
 		assertFalse(acc.insertCreditCard(card1));
 	}
@@ -64,7 +64,7 @@ public class TestAccessCreditCard extends TestCase
 	 * method: test updateCreditCard(CreditCard)
 	 */
 	public void testUpdateCreditCard() {
-		CreditCard card1 = new CreditCard("5005600670078008", "Cheese Burger", 3, 2021, 18);
+		CreditCard card1 = new CreditCard("5005600670078008", "RBC", "Cheese Burger", 3, 2021, 18);
 		assertTrue(acc.updateCreditCard(card, card1));
 		assertFalse(acc.updateCreditCard(card, card1));
 	}
