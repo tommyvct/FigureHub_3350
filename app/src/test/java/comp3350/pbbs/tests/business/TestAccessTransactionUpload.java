@@ -44,7 +44,7 @@ public class TestAccessTransactionUpload extends TestCase {
      */
     public void testValidTransaction() {
         assertTrue(accessTransaction.addTransaction(testDesc, testDate, testTime, testAmount, testCard, testBudgetCategory));
-        assertTrue(accessTransaction.addTransaction(testDesc, "30/2/2020", testTime, testAmount, testCard, testBudgetCategory));
+        assertTrue(accessTransaction.addTransaction(testDesc, "30/3/2020", testTime, testAmount, testCard, testBudgetCategory));
         assertTrue(accessTransaction.addTransaction(testDesc, "30/1/2020", testTime, testAmount, testCard, testBudgetCategory));
     }
 
@@ -129,12 +129,10 @@ public class TestAccessTransactionUpload extends TestCase {
     }
 
     /**
-     * Test checking and inserting valid descriptions,
+     * Test checking and inserting a valid description
      */
-    public void testValidDescriptions() {
+    public void testValidDescription() {
         assertTrue(accessTransaction.isValidDescription(testDesc));
-        assertTrue(accessTransaction.isValidDescription(""));
-        assertTrue(accessTransaction.addTransaction("", testDate, testTime, testAmount, testCard, testBudgetCategory));
     }
 
     /**
@@ -142,7 +140,10 @@ public class TestAccessTransactionUpload extends TestCase {
      */
     public void testInvalidDescriptions() {
         assertFalse(accessTransaction.isValidDescription(null));
+        assertFalse(accessTransaction.isValidDescription(""));
+
         assertFalse(accessTransaction.addTransaction(null, testDate, testTime, testAmount,  testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction("", testDate, testTime, testAmount,  testCard, testBudgetCategory));
     }
 
     /**

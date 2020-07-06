@@ -50,7 +50,7 @@ public class AccessTransaction {
      * @param dateStr   The given date to convert
      * @param timeStr   The given time to convert
      * @return          java.text.Date object that contains the date time, or null if the strings
-     *                  do nbot match any of the predefined formats
+     *                  do not match any of the predefined formats
      */
     private Date parseDatetime(String dateStr, String timeStr) {
         Date toReturn = null;
@@ -127,13 +127,13 @@ public class AccessTransaction {
     /**
      * This method checks if the description is valid or not
      *
-     * A valid description is non null
+     * A valid description is non null and not empty
      *
      * @param desc      The description to check
      * @return          True if the description is valid, or false if it is invalid
      */
     public boolean isValidDescription(String desc) {
-        return desc != null;
+        return desc != null && !desc.isEmpty();
     }
 
     /**

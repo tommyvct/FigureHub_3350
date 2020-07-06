@@ -88,6 +88,12 @@ public class TestTransaction extends TestCase {
             fail("Expected IllegalArgumentException");
         }
         catch (IllegalArgumentException iae) { }
+
+        try {
+            new Transaction(now, amount, "", card, budgetCategory);
+            fail("Expected IllegalArgumentException");
+        }
+        catch (IllegalArgumentException iae) { }
     }
 
     /**
