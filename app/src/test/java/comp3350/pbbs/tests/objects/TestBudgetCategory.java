@@ -59,7 +59,7 @@ public class TestBudgetCategory extends TestCase
         BudgetCategory Budget3 = new BudgetCategory("Utilities",0);
         assertNotNull(Budget3);
         assertFalse(newBudget.equals(Budget3));
-        
+
         //won't create an object if passed negative value in budgetLimit
         try {
             BudgetCategory Budget4 = new BudgetCategory("Phone", -20.00);
