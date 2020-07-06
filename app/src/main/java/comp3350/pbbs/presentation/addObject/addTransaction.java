@@ -9,14 +9,22 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 public class addTransaction extends AppCompatActivity
+    implements OnItemSelectedListener
 {
     DatePickerDialog datePickerDialog;
     EditText dateText;
@@ -51,12 +59,12 @@ public class addTransaction extends AppCompatActivity
              timePickerDialog = new TimePickerDialog(addTransaction.this,
                                                      (timePicker, hourOfDay, minute) ->
                                                      {
-                                                         timeText.setText(hourOfDay + " : " + minute);
+                                                         timeText.setText(hourOfDay + ":" + minute);
                                                      }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
              timePickerDialog.show();
         }));
 
-        findViewById(R.id.addTranssubmit).setOnClickListener(view ->
+        findViewById(R.id.addTransSubmit).setOnClickListener(view ->
         {
             boolean valid = true;
             if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString()))   // validate fields, use methods from business class
@@ -103,7 +111,26 @@ public class addTransaction extends AppCompatActivity
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
+
+        List<String> cardList = new ArrayList<>();
+
+
+
+        Spinner cardSelector = findViewById(R.id.cardSelector);
+        cardSelector.setOnItemSelectedListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item);
+
     }
 
-    // TODO: field validation
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
+
+    }
 }
