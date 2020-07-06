@@ -41,6 +41,10 @@ public class AccessTransaction {
         db = Services.getDataAccess(Main.dbName);
     }
 
+    public AccessTransaction(boolean test) {
+        db = Services.getDataAccess("test");
+    }
+
     /**
      * This method parses the given date string and time string into a single date time object.
      * @param dateStr   The given date to convert

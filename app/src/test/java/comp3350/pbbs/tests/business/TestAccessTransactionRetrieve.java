@@ -36,7 +36,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testDate = new Date();
         testAmount = 20;
         testDesc = "Bought groceries.";
-        accessTransaction = new AccessTransaction();
+        accessTransaction = new AccessTransaction(true);
         testCard = new CreditCard("1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
