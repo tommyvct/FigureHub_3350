@@ -51,7 +51,7 @@ public class CreditCard
 	 * @param pay the day user needs to ready for payment, 2-digits (DD)
 	 */
 	public void errorMsg(String num, String usr, int expM, int expY, int pay) {
-		if (!num.isEmpty())
+		if (num == null || num.isEmpty())
 			throw new IllegalArgumentException("A Credit Card requires a valid number.");
 		if (!isValidName(usr))
 			throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
