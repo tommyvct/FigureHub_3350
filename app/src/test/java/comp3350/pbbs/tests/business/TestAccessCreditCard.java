@@ -68,4 +68,13 @@ public class TestAccessCreditCard extends TestCase
 		assertTrue(acc.updateCreditCard(card, card1));
 		assertFalse(acc.updateCreditCard(card, card1));
 	}
+
+	/**
+	 * test getting all credit cards from stub database
+	 */
+	public void testGetAllCreditCards(){
+		assertNotNull(acc.getAllCreditCards());
+	}
+
+
 }
