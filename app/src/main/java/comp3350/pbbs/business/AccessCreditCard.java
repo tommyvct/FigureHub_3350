@@ -1,5 +1,6 @@
 package comp3350.pbbs.business;
 
+import java.util.ArrayList;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
@@ -66,5 +67,13 @@ public class AccessCreditCard
 	 */
 	public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
 		return db.updateCreditCard(currCard, newCard);
+	}
+
+	/**
+	 * method: retrieve all credit cards in the database
+	 * @return an ArrayList of CreditCard objects
+	 */
+	public ArrayList<CreditCard> getAllCreditCards() {
+		return db.getCreditCards();
 	}
 }
