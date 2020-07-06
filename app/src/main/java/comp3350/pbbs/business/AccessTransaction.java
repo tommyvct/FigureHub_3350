@@ -137,6 +137,33 @@ public class AccessTransaction {
     }
 
     /**
+     * This method parses the given variables into a transaction object
+     *
+     * @param desc              The description of the transaction
+     * @param dateStr           The date of the transaction
+     * @param timeStr           The time of the transaction
+     * @param amountStr         The amount of the transaction
+     * @param card              The card the transaction was paid with
+     * @param budgetCategory    The category of the transaction
+     * @return                  The parsed transaction, or null if the transaction could not be
+     *                          parsed correctly.
+     */
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+        Transaction transaction = null;
+        // Parse the date
+        Date transactionTime = parseDatetime(dateStr, timeStr);
+        // Parse the amount
+        float amount = parseAmount(amountStr);
+        // Create the transaction
+        try {
+            transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
+        }
+        catch (IllegalArgumentException ignored) { }
+
+        return transaction;
+    }
+
+    /**
      * This method parses the transaction and adds it to the database
      *
      * @param desc              The description of the transaction
@@ -152,16 +179,36 @@ public class AccessTransaction {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if(isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
-            // Parse the date
-            Date transactionTime = parseDatetime(dateStr, timeStr);
-            // Parse the amount
-            float amount = parseAmount(amountStr);
-            // Create the transaction
-            try {
-                Transaction transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
+            if(transaction != null) {
                 toReturn = db.insertTransaction(transaction);
             }
-            catch (IllegalArgumentException ignored) { }
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * This method takes the old transaction and updates it to the current given values
+     *
+     * @param oldTransaction    The transaction to replace
+     * @param desc              The description of the new transaction
+     * @param dateStr           The date of the new transaction
+     * @param timeStr           The time of the new transaction
+     * @param amountStr         The amount of the new transaction
+     * @param card              The card the new transaction was paid with
+     * @param budgetCategory    The category of the new transaction
+     * @return                  True if the transaction was replaced successfully, or false if it
+     *                          was not replaced successfully
+     */
+    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+        boolean toReturn = false;
+        // Ensure the parameters are valid
+        if(isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
+            if(transaction != null) {
+                toReturn = db.updateTransaction(oldTransaction, transaction);
+            }
         }
 
         return toReturn;
