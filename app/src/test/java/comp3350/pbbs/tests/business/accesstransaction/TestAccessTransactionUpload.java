@@ -1,4 +1,4 @@
-package comp3350.pbbs.tests.business;
+package comp3350.pbbs.tests.business.accesstransaction;
 
 import junit.framework.TestCase;
 

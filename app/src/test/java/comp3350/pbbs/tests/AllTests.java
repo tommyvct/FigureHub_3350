@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import comp3350.pbbs.tests.business.*;
+import comp3350.pbbs.tests.business.accesstransaction.*;
 import comp3350.pbbs.tests.objects.*;
 
 public class AllTests
