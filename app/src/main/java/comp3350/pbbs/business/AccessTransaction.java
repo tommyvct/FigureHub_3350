@@ -249,4 +249,19 @@ public class AccessTransaction {
 
         return toReturn;
     }
+
+    /**
+     * Deletes the given transaction in the database
+     *
+     * @param toDelete  The transaction to delete
+     * @return          True if the transaction was deleted successfully, false if not
+     */
+    public boolean deleteTransaction(Transaction toDelete) {
+        boolean toReturn = false;
+
+        if(toDelete != null) {
+            toReturn = db.deleteTransaction(toDelete);
+        }
+        return toReturn;
+    }
 }

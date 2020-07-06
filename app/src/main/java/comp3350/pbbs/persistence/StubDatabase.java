@@ -254,11 +254,13 @@ public class StubDatabase {
 	/**
 	 * This method will be used to remove a transaction.
 	 */
-	public void deleteTransaction(Transaction currentTransaction){
+	public boolean deleteTransaction(Transaction currentTransaction){
+		boolean toReturn = false;
 		int index = transactions.indexOf(currentTransaction);
 		if (index >= 0){
-			transactions.remove(index);
+			toReturn = transactions.remove(index) != null;
 		}
+		return toReturn;
 	}
 
 	/**
