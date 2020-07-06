@@ -129,7 +129,7 @@ public class AccessTransaction {
      * @return          True if the description is valid, or false if it is invalid
      */
     public boolean isValidDescription(String desc) {
-        return desc != null;
+        return !desc.equals("");
     }
 
     /**

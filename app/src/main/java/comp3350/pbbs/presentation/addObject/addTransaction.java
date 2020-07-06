@@ -11,7 +11,6 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.EditText;
 
-
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -24,6 +23,7 @@ public class addTransaction extends AppCompatActivity
     TimePickerDialog timePickerDialog;
     EditText timeText;
     final Calendar c = Calendar.getInstance();
+    AccessTransaction accessTransaction;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -33,7 +33,7 @@ public class addTransaction extends AppCompatActivity
         setContentView(R.layout.activity_add_transaction);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Add Transaction");
 
-        AccessTransaction accessTransaction = new AccessTransaction();
+        accessTransaction = new AccessTransaction();
         dateText = findViewById(R.id.dateInput);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
         {
@@ -58,50 +58,50 @@ public class addTransaction extends AppCompatActivity
 
         findViewById(R.id.addTranssubmit).setOnClickListener(view ->
         {
-//            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString()))   // validate fields, use methods from business class
-//            {
-//                timeText.setError("Invalid time.");
-//                dateText.setError("Invalid date.");
-//                return;
-//            }
-//            if (!accessTransaction.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString()))
-//            {
-//                // TODO: it should be able to tell why it didn't went through
-//                ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
-//                return;
-//            }
-//            if (!accessTransaction.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString()))
-//            {
-//                ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
-//                return;
-//            }
-//             // transaction.addTransaction(string, string, string);
-//
-//            if  (accessTransaction.addTransaction
-//                (
-//                    ((EditText) findViewById(R.id.addTransDescription)).getText().toString(),
-//                    dateText.getText().toString(),
-//                    timeText.getText().toString(),
-//                    ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-//                    null,   // TODO: card selector
-//                    null   // TODO: budgetCategory selector
-//                ))
-//            {
-//                Snackbar.make(view, "Transaction Added!", Snackbar.LENGTH_SHORT)
-//                        .addCallback(new Snackbar.Callback()
-//                        {
-//                            @Override
-//                            public void onDismissed(Snackbar transientBottomBar, int event)
-//                            {
-//                                super.onDismissed(transientBottomBar, event);
-//                                finish();
-//                            }
-//                        }).show();
-//            }
-//            else
-//            {
+            boolean valid = true;
+            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString()))   // validate fields, use methods from business class
+            {
+                timeText.setError("Invalid time.");
+                dateText.setError("Invalid date.");
+                valid = false;
+            }
+            if (!accessTransaction.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString()))
+            {
+                // TODO: it should be able to tell why it didn't went through
+                ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
+                valid = false;
+            }
+            if (!accessTransaction.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString()))
+            {
+                ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
+                valid = false;
+            }
+
+            if  (valid && accessTransaction.addTransaction
+                (
+                    ((EditText) findViewById(R.id.addTransDescription)).getText().toString(),
+                    dateText.getText().toString(),
+                    timeText.getText().toString(),
+                    ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                    null,   // TODO: card selector
+                    null   // TODO: budgetCategory selector
+                ))
+            {
+                Snackbar.make(view, "Transaction Added!", Snackbar.LENGTH_SHORT)
+                        .addCallback(new Snackbar.Callback()
+                        {
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event)
+                            {
+                                super.onDismissed(transientBottomBar, event);
+                                finish();
+                            }
+                        }).show();
+            }
+            else
+            {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
-//            }
+            }
         });
     }
 

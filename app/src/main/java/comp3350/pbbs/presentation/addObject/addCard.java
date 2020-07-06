@@ -2,13 +2,11 @@ package comp3350.pbbs.presentation.addObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Calendar;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
