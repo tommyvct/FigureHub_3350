@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -90,7 +91,7 @@ public class addTransaction extends AppCompatActivity
         accessBudget = new AccessBudgetCategory();
         List<String> budgetList = new ArrayList<>();
         ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
-        cardList.add("Select budget category");
+        budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList)
         {
 //            cardList.add(b.getCardName() + "\n" + b.getCardNum());
@@ -98,7 +99,7 @@ public class addTransaction extends AppCompatActivity
         }
         Spinner BudgetSelector = findViewById(R.id.budgetSelector);
         BudgetSelector.setOnItemSelectedListener(this);
-        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
+        BudgetSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
 
 
         ///////// Add Transaction Button //////////
@@ -125,8 +126,12 @@ public class addTransaction extends AppCompatActivity
             }
             if (BudgetSelector.getSelectedItemPosition() - 1 == -1)
             {
-                // TODO: setBackgroundColor didn't work, user should be clearly notified they didn't select a card.
-                ((Spinner) findViewById(R.id.cardSelector)).setBackgroundColor(0xFF6666);
+                ((TextView) BudgetSelector.getSelectedView()).setError("Please select a budget category.");
+                valid = false;
+            }
+            if (cardSelector.getSelectedItemPosition() - 1 == -1)
+            {
+                ((TextView) cardSelector.getSelectedView()).setError("Please select a card.");
                 valid = false;
             }
 

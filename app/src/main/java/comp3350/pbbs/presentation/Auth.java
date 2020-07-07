@@ -107,7 +107,7 @@ public class Auth extends AppCompatActivity
     private void showNoCredentialDialogue()
     {
         new AlertDialog.Builder(this)
-                .setTitle("Lock screen password needed")
+                .setTitle("Lock screen password required")
                 .setMessage("This app requires a lock screen password to secure your data.\nPlease go to Settings app to setup a lock screen password.")
                 .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
                 .setNegativeButton("Quit", ((dialogInterface, i) -> finish()))
@@ -117,7 +117,7 @@ public class Auth extends AppCompatActivity
     private void showMarshmallowNoCredentialDialogue()
     {
         new AlertDialog.Builder(this)
-                .setTitle("Lock screen password needed")
+                .setTitle("Lock screen password required")
                 .setMessage("This app requires a lock screen password to work properly.\nPlease make sure you have a lock screen password set.")
                 .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
                 .setNegativeButton("Continue", null)
