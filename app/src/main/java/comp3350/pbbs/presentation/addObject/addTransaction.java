@@ -3,7 +3,11 @@ package comp3350.pbbs.presentation.addObject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessBudgetCategory;
+import comp3350.pbbs.business.AccessCreditCard;
 import comp3350.pbbs.business.AccessTransaction;
+import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.CreditCard;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -15,6 +19,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,6 +37,8 @@ public class addTransaction extends AppCompatActivity
     EditText timeText;
     final Calendar c = Calendar.getInstance();
     AccessTransaction accessTransaction;
+    AccessCreditCard accessCreditCard;
+    AccessBudgetCategory accessBudget;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -41,6 +48,7 @@ public class addTransaction extends AppCompatActivity
         setContentView(R.layout.activity_add_transaction);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Add Transaction");
 
+        ///////// Date Input //////////
         accessTransaction = new AccessTransaction();
         dateText = findViewById(R.id.dateInput);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
@@ -53,6 +61,7 @@ public class addTransaction extends AppCompatActivity
              datePickerDialog.show();
         }));
 
+        ///////// Time Input //////////
         timeText = findViewById(R.id.timeInput);
         timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
         {
@@ -64,10 +73,41 @@ public class addTransaction extends AppCompatActivity
              timePickerDialog.show();
         }));
 
+        ///////// Card Selector //////////
+        accessCreditCard = new AccessCreditCard();
+        List<String> cardList = new ArrayList<>();
+        ArrayList<CreditCard> cardArrayList = accessCreditCard.getCreditCards();
+        cardList.add("Select card");
+        for (CreditCard c : cardArrayList)
+        {
+            cardList.add(c.getCardName() + "\n" + c.getCardNum());
+        }
+        Spinner cardSelector = findViewById(R.id.cardSelector);
+        cardSelector.setOnItemSelectedListener(this);
+        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardList));
+
+        ///////// Budget Selector //////////
+        accessBudget = new AccessBudgetCategory();
+        List<String> budgetList = new ArrayList<>();
+        ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
+        cardList.add("Select budget category");
+        for (BudgetCategory b : budgetArrayList)
+        {
+//            cardList.add(b.getCardName() + "\n" + b.getCardNum());
+            // TODO: display budget category in the dropdown menu
+        }
+        Spinner BudgetSelector = findViewById(R.id.budgetSelector);
+        BudgetSelector.setOnItemSelectedListener(this);
+        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
+
+
+        ///////// Add Transaction Button //////////
         findViewById(R.id.addTransSubmit).setOnClickListener(view ->
         {
             boolean valid = true;
-            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString()))   // validate fields, use methods from business class
+
+            // validate fields, use methods from business class
+            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString()))
             {
                 timeText.setError("Invalid time.");
                 dateText.setError("Invalid date.");
@@ -75,7 +115,6 @@ public class addTransaction extends AppCompatActivity
             }
             if (!accessTransaction.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString()))
             {
-                // TODO: it should be able to tell why it didn't went through
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
@@ -84,6 +123,16 @@ public class addTransaction extends AppCompatActivity
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }
+            if (BudgetSelector.getSelectedItemPosition() - 1 == -1)
+            {
+                // TODO: setBackgroundColor didn't work, user should be clearly notified they didn't select a card.
+                ((Spinner) findViewById(R.id.cardSelector)).setBackgroundColor(0xFF6666);
+                valid = false;
+            }
+
+//            String s = cardArrayList.get(cardSelector.getSelectedItemPosition()-1).toString();
+//            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
 
             if  (valid && accessTransaction.addTransaction
                 (
@@ -91,7 +140,7 @@ public class addTransaction extends AppCompatActivity
                     dateText.getText().toString(),
                     timeText.getText().toString(),
                     ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                    null,   // TODO: card selector
+                    cardArrayList.get(BudgetSelector.getSelectedItemPosition()-1),
                     null   // TODO: budgetCategory selector
                 ))
             {
@@ -112,25 +161,17 @@ public class addTransaction extends AppCompatActivity
             }
         });
 
-        List<String> cardList = new ArrayList<>();
-
-
-
-        Spinner cardSelector = findViewById(R.id.cardSelector);
-        cardSelector.setOnItemSelectedListener(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item);
-
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
     {
-
+//        Toast.makeText(getApplicationContext(), "onItemSelected\nposition: " + position + ", id: " + id, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView)
     {
-
+//        Toast.makeText(getApplicationContext(), "onNothingSelected", Toast.LENGTH_LONG);
     }
 }
