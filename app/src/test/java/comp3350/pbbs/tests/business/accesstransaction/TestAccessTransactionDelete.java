@@ -27,7 +27,7 @@ public class TestAccessTransactionDelete extends TestCase {
         Date testDate = new Date();
         float testAmount = 19.99f;
         String testDesc = "Bought groceries.";
-        CreditCard testCard = new CreditCard("1000100010001000", "Alan Alfred", 6, 2022, 27);
+        CreditCard testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         BudgetCategory testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
@@ -70,7 +70,7 @@ public class TestAccessTransactionDelete extends TestCase {
      * Test deleting invalid transactions
      */
     public void testInvalidTransactions() {
-        CreditCard testCard = new CreditCard("1000100010001000", "Alan Alfred", 6, 2022, 27);
+        CreditCard testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         BudgetCategory testBudgetCategory = new BudgetCategory("Groceries", 100);
         assertFalse(accessTransaction.deleteTransaction(new Transaction(new Date(), 20, "Bought groceries", testCard, testBudgetCategory)));
         assertFalse(accessTransaction.deleteTransaction(null));
