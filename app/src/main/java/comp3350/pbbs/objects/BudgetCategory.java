@@ -37,7 +37,7 @@ public class BudgetCategory {
      * @return A String representation of this object
      */
     public String toString(){
-        return "Budget: "+budgetName+" "+budgetLimit;
+        return "Category: "+budgetName+"\n   limit: $"+budgetLimit;
     }
 
     /**

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -69,6 +70,7 @@ public class main_budget extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        accessBudgetCategory = new AccessBudgetCategory();
         if (getArguments() != null)
         {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -83,6 +85,23 @@ public class main_budget extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_budget, container, false);
+
+        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
+
+        String[] list = new String[budgetCategoryList.size()];
+        for (int i = 0; i< budgetCategoryList.size(); i++){
+            list[i] = budgetCategoryList.get(i).toString();
+        }
+        ListView listView = (ListView) view.findViewById(R.id.listBudgets);
+
+        ArrayAdapter<String> listViewAdaptor = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                list
+        );
+
+        listView.setAdapter(listViewAdaptor);
+
         FloatingActionButton fab = view.findViewById(R.id.addBudgFAB);
         fab.setOnClickListener(new View.OnClickListener()
         {
