@@ -31,7 +31,8 @@ public class main_budget extends Fragment
 {
     private AccessBudgetCategory accessBudgetCategory;
     private ArrayList<BudgetCategory> budgetCategoryList;
-    private ArrayAdapter<BudgetCategory> budgetArrayAdapter;
+    private ArrayAdapter<BudgetCategory> listViewAdaptor;
+    private ListView listView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,19 +86,13 @@ public class main_budget extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_budget, container, false);
+        listView = (ListView) view.findViewById(R.id.listBudgets);
 
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
-
-        String[] list = new String[budgetCategoryList.size()];
-        for (int i = 0; i< budgetCategoryList.size(); i++){
-            list[i] = budgetCategoryList.get(i).toString();
-        }
-        ListView listView = (ListView) view.findViewById(R.id.listBudgets);
-
-        ArrayAdapter<String> listViewAdaptor = new ArrayAdapter<String>(
+        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
-                list
+                budgetCategoryList
         );
 
         listView.setAdapter(listViewAdaptor);
@@ -108,11 +103,24 @@ public class main_budget extends Fragment
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(view.getContext(), addBudgetCategory.class));
+                startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 1);
             }
         });
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_main_budget, container, false);
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
+        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                budgetCategoryList
+        );
+
+        listView.setAdapter(listViewAdaptor);
+        listViewAdaptor.notifyDataSetChanged();
     }
 }
