@@ -2,6 +2,7 @@ package comp3350.pbbs.presentation.addObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -51,7 +52,7 @@ public class addCard extends AppCompatActivity
                 valid = false;
             }
 
-            switch (accessCreditCard.isValidExpiration(validThruMonth.getText().toString(), validThruYear.getText().toString()))
+            switch (accessCreditCard.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString()))
             {
                 case 1:  // invalid month
                     validThruMonth.setError("There is no such month!");

@@ -103,7 +103,7 @@ public class AccessCreditCard
 	 * 		   6 if year expired <br>
 	 * 		   7 if null or empty string provided
 	 */
-	public int isValidExpiration(String month, String year)
+	public int isValidExpirationDate(String month, String year)
 	{
 		int m;
 		int y;
@@ -138,7 +138,7 @@ public class AccessCreditCard
 			result += 2;
 		}
 
-		if (currYear == y && currMonth < m)
+		if (currYear == y && currMonth > m)
 		{
 			return 5;
 		}
