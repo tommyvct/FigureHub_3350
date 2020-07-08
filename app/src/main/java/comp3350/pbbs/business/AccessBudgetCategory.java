@@ -118,7 +118,7 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit){
         Float limitFlt;
         boolean result = false;
-        if((limitFlt = parseLimit(limit)) != null) result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+        if((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0) result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
 
         return result;
     }
@@ -143,7 +143,9 @@ public class AccessBudgetCategory {
         Float oldLimitFlt;
         Float newLimitFlt;
         BudgetCategory result = null;
-        if((oldLimitFlt = parseLimit(oldLimit)) != null && (newLimitFlt = parseLimit(newLimit)) != null)
+        if((oldLimitFlt = parseLimit(oldLimit)) != null && (newLimitFlt = parseLimit(newLimit)) != null
+                && (oldLimitFlt > 0 && newLimitFlt > 0)
+                && oldLabel.length() > 0 && newLabel.length() > 0)
             result = updateBudgetCategoryParsed(new BudgetCategory(oldLabel, oldLimitFlt), new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }
@@ -168,7 +170,7 @@ public class AccessBudgetCategory {
     public BudgetCategory deleteBudgetCategory(String label, String limit){
         Float limitFlt;
         BudgetCategory result = null;
-        if((limitFlt = parseLimit(limit)) != null) result = deleteBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+        if((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0) result = deleteBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
         return result;
     }
 

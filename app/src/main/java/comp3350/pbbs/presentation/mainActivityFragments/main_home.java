@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +68,11 @@ public class main_home extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_home, container, false);
+
+        TextView textView3 = view.findViewById(R.id.textView3);
+        textView3.setText("Hello, " + new AccessUser().getUsername() + "!");
+
+        return view;
     }
 }

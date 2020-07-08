@@ -80,7 +80,7 @@ public class CreditCard
 	 * @param str the credit card holder name
 	 * @return true if the holder name meet the requirement of the format
 	 */
-	public boolean isValidName(String str) {
+	public static boolean isValidName(String str) {
 		if (str == null) {
 			return false;
 		} else {
@@ -96,7 +96,7 @@ public class CreditCard
 	 * 		   1) month and year are real-world existed, and
 	 * 		   2) after the current month of current year
 	 */
-	public boolean isValidExpiration(int m, int y) {
+	public static boolean isValidExpiration(int m, int y) {
 		boolean result;
 		Calendar calender = Calendar.getInstance();
 		int currMonth = calender.get(Calendar.MONTH) + 1;
@@ -114,7 +114,7 @@ public class CreditCard
 	 * @param n the day
 	 * @return true if the day is real-world existed
 	 */
-	public boolean isValidPayDate(int n) {
+	public static boolean isValidPayDate(int n) {
 		return n >= 1 && n <= 31;
 	}
 
