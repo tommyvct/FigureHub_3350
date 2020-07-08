@@ -13,6 +13,8 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.application.Main;
+import comp3350.pbbs.business.AccessUser;
 
 
 public class Auth extends AppCompatActivity
@@ -100,7 +102,15 @@ public class Auth extends AppCompatActivity
 
     private void toMainActivity()
     {
-        this.startActivity(new Intent(this, firstTimeGreeting.class));
+        Main.startup();
+        if (new AccessUser().getUsername() == null)  // first launch
+        {
+            this.startActivity(new Intent(this, firstTimeGreeting.class));
+        }
+        else
+        {
+            this.startActivity(new Intent(this, MainActivity.class));
+        }
         finish(); // done with authentication
     }
 
