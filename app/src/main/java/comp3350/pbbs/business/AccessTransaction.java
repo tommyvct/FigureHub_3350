@@ -2,6 +2,7 @@ package comp3350.pbbs.business;
 
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -263,5 +264,22 @@ public class AccessTransaction {
             toReturn = db.deleteTransaction(toDelete);
         }
         return toReturn;
+    }
+
+    public String[] getFormattedTransactionList() {
+        List<Transaction> transactions = retrieveTransactions();
+        List<String> toReturn = new ArrayList<String>();
+        DecimalFormat rounding = new DecimalFormat("0.00");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
+
+        for(Transaction transaction : transactions) {
+            String row = transaction.getDescription() +
+                    " $" + rounding.format(transaction.getAmount()) +
+                    " Paid: " + transaction.getCard().getCardName() +
+                    " " + dateFormat.format(transaction.getTime()) +
+                    " " + transaction.getBudgetCategory().getBudgetName();
+            toReturn.add(row);
+        }
+        return toReturn.toArray(new String[0]);
     }
 }
