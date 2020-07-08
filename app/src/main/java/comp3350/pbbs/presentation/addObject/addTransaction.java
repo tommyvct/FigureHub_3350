@@ -94,8 +94,7 @@ public class addTransaction extends AppCompatActivity
         budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList)
         {
-//            cardList.add(b.getCardName() + "\n" + b.getCardNum());
-            // TODO: display budget category in the dropdown menu
+            budgetList.add(b.getBudgetName());
         }
         Spinner BudgetSelector = findViewById(R.id.budgetSelector);
         BudgetSelector.setOnItemSelectedListener(this);
@@ -145,8 +144,8 @@ public class addTransaction extends AppCompatActivity
                     dateText.getText().toString(),
                     timeText.getText().toString(),
                     ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                    cardArrayList.get(BudgetSelector.getSelectedItemPosition()-1),
-                    null   // TODO: budgetCategory selector
+                    cardArrayList.get(cardSelector.getSelectedItemPosition()-1),
+                    budgetArrayList.get(BudgetSelector.getSelectedItemPosition()-1)
                 ))
             {
                 Snackbar.make(view, "Transaction Added!", Snackbar.LENGTH_SHORT)
