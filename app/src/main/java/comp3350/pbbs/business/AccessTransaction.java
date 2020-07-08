@@ -4,8 +4,10 @@ package comp3350.pbbs.business;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
@@ -39,12 +41,16 @@ public class AccessTransaction {
         db = Services.getDataAccess(Main.dbName);
     }
 
+    public AccessTransaction(boolean test) {
+        db = Services.getDataAccess("test");
+    }
+
     /**
      * This method parses the given date string and time string into a single date time object.
      * @param dateStr   The given date to convert
      * @param timeStr   The given time to convert
      * @return          java.text.Date object that contains the date time, or null if the strings
-     *                  do nbot match any of the predefined formats
+     *                  do not match any of the predefined formats
      */
     private Date parseDatetime(String dateStr, String timeStr) {
         Date toReturn = null;
@@ -121,13 +127,40 @@ public class AccessTransaction {
     /**
      * This method checks if the description is valid or not
      *
-     * A valid description is non null
+     * A valid description is non null and not empty
      *
      * @param desc      The description to check
      * @return          True if the description is valid, or false if it is invalid
      */
     public boolean isValidDescription(String desc) {
-        return desc != null;
+        return desc != null && !desc.isEmpty();
+    }
+
+    /**
+     * This method parses the given variables into a transaction object
+     *
+     * @param desc              The description of the transaction
+     * @param dateStr           The date of the transaction
+     * @param timeStr           The time of the transaction
+     * @param amountStr         The amount of the transaction
+     * @param card              The card the transaction was paid with
+     * @param budgetCategory    The category of the transaction
+     * @return                  The parsed transaction, or null if the transaction could not be
+     *                          parsed correctly.
+     */
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+        Transaction transaction = null;
+        // Parse the date
+        Date transactionTime = parseDatetime(dateStr, timeStr);
+        // Parse the amount
+        float amount = parseAmount(amountStr);
+        // Create the transaction
+        try {
+            transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
+        }
+        catch (IllegalArgumentException ignored) { }
+
+        return transaction;
     }
 
     /**
@@ -146,20 +179,89 @@ public class AccessTransaction {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if(isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
-            // Parse the date
-            Date transactionTime = parseDatetime(dateStr, timeStr);
-            // Parse the amount
-            float amount = parseAmount(amountStr);
-            // Create the transaction
-            try {
-                Transaction transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
-                // TODO: make this an if statement when this has a return type of boolean
-                db.addTransactions(Arrays.asList(transaction));
-                toReturn = true;
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
+            if(transaction != null) {
+                toReturn = db.insertTransaction(transaction);
             }
-            catch (IllegalArgumentException iae) { }
         }
 
+        return toReturn;
+    }
+
+    /**
+     * This method takes the old transaction and updates it to the current given values
+     *
+     * @param oldTransaction    The transaction to replace
+     * @param desc              The description of the new transaction
+     * @param dateStr           The date of the new transaction
+     * @param timeStr           The time of the new transaction
+     * @param amountStr         The amount of the new transaction
+     * @param card              The card the new transaction was paid with
+     * @param budgetCategory    The category of the new transaction
+     * @return                  True if the transaction was replaced successfully, or false if it
+     *                          was not replaced successfully
+     */
+    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+        boolean toReturn = false;
+        // Ensure the parameters are valid
+        if(isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
+            if(transaction != null) {
+                toReturn = db.updateTransaction(oldTransaction, transaction);
+            }
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * Retrieves a list of all the transactions in the database.
+     *
+     * @return List of all transactions in the database
+     */
+    public List<Transaction> retrieveTransactions() {
+        return db.getTransactions();
+    }
+
+    /**
+     * Retrieves a list of transactions that fall between the 2 given dates
+     *
+     * @param to    Starting date range
+     * @param from  Ending date range
+     * @return      List of transactions that come after @param to and come before @param from.
+     */
+    public List<Transaction> retrieveTransactions(Date to, Date from) {
+        List<Transaction> toReturn = null;
+
+        // If the parameters are valid
+        if(to != null && from != null) {
+            toReturn = new ArrayList<Transaction>();
+            List<Transaction> allTransactions = retrieveTransactions();
+
+            // Loop through all transactions
+            for(Transaction transaction : allTransactions) {
+                // If the time of the transaction is between the range [to, from], add to the list
+                if(transaction.getTime().after(to) && transaction.getTime().before(from)) {
+                    toReturn.add(transaction);
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * Deletes the given transaction in the database
+     *
+     * @param toDelete  The transaction to delete
+     * @return          True if the transaction was deleted successfully, false if not
+     */
+    public boolean deleteTransaction(Transaction toDelete) {
+        boolean toReturn = false;
+
+        if(toDelete != null) {
+            toReturn = db.deleteTransaction(toDelete);
+        }
         return toReturn;
     }
 }

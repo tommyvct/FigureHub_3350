@@ -31,6 +31,10 @@ public class StubDatabase {
 	 */
 	public StubDatabase(String name){
 		this.databaseName = name;
+		budgets = new ArrayList<BudgetCategory>();
+		creditCards = new ArrayList<CreditCard>();
+		transactions = new ArrayList<Transaction>();
+		user = new ArrayList<User>();
 	}
 
 	/**
@@ -65,9 +69,10 @@ public class StubDatabase {
 		budgets.add(phoneBill);
 
 		creditCards = new ArrayList<CreditCard>();
-		card1 = new CreditCard("1000100010001000", "Jimmy", 12, 2021, 18);
+		card1 = new CreditCard("whatever", "1000100010001000", "Jimmy", 12, 2021, 18);
 		creditCards.add(card1);
-		card2 = new CreditCard("1002100310041005", "Jimmy", 11, 2021, 15);
+		card2 = new CreditCard("", "1002100310041005", "Jimmy", 11, 2021, 15);
+		// card2 name should be "No Name"
 		creditCards.add(card2);
 
 		date = new Date();
@@ -223,8 +228,8 @@ public class StubDatabase {
 	/**
 	 * This method will insert a new transaction with the ArrayList.
 	 */
-	public void insertTransaction(Transaction newTransaction){
-		transactions.add(newTransaction);
+	public boolean insertTransaction(Transaction newTransaction){
+		return transactions.add(newTransaction);
 	}
 
 	/**
@@ -238,21 +243,25 @@ public class StubDatabase {
 	/**
 	 * This method will be used to update a transaction.
 	 */
-	public void updateTransaction(Transaction currentTransaction, Transaction newTransaction){
+	public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction){
+		boolean toReturn = false;
 		int index = transactions.indexOf(currentTransaction);
 		if (index >= 0){
-			transactions.set(index,newTransaction);
+			toReturn = transactions.set(index, newTransaction) != null;
 		}
+		return toReturn;
 	}
 
 	/**
 	 * This method will be used to remove a transaction.
 	 */
-	public void deleteTransaction(Transaction currentTransaction){
+	public boolean deleteTransaction(Transaction currentTransaction){
+		boolean toReturn = false;
 		int index = transactions.indexOf(currentTransaction);
 		if (index >= 0){
-			transactions.remove(index);
+			toReturn = transactions.remove(index) != null;
 		}
+		return toReturn;
 	}
 
 	/**

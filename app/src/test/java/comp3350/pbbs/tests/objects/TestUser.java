@@ -24,11 +24,6 @@ public class TestUser extends TestCase{
         assertEquals("Jentsch", newUser.getLastName());
     }
 
-    public void testToString(){
-        assertEquals("Terra Jentsch", newUser.toString());
-        assertNotEquals("TerraJentsch", newUser.toString());
-    }
-
     public void testEquals(){
         User compUser = new User("terra", "jentsch");
         assertTrue(newUser.equals(compUser));

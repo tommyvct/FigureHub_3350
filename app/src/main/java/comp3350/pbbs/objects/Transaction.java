@@ -34,7 +34,7 @@ public class Transaction {
             throw new IllegalArgumentException("A Transaction needs a time.");
         if(amount < 0)
             throw new IllegalArgumentException("Expected a positive transaction amount.");
-        if(description == null)
+        if(description == null || description.isEmpty())
             throw new IllegalArgumentException("A Transaction needs a description.");
         if(card == null)
             throw new IllegalArgumentException("A Transaction needs a credit card.");
