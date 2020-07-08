@@ -97,7 +97,7 @@ public class main_budget extends Fragment
         ListView listView = (ListView) view.findViewById(R.id.listBudgets);
 
         ArrayAdapter<String> listViewAdaptor = new ArrayAdapter<>(
-                Objects.requireNonNull(getActivity()),
+                requireActivity(),
                 android.R.layout.simple_list_item_1,
                 list
         );
