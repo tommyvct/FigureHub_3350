@@ -69,13 +69,7 @@ public class main_transactions extends Fragment
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(view.getContext(), addTransaction.class));
-                listAdapter = new ArrayAdapter<String>(
-                        getActivity(),
-                        android.R.layout.simple_list_item_1,
-                        accessTransaction.getFormattedTransactionList()
-                );
-                transactionList.setAdapter(listAdapter);
+                startActivityForResult(new Intent(view.getContext(), addTransaction.class), 1);
             }
         });
 
@@ -90,5 +84,16 @@ public class main_transactions extends Fragment
         transactionList.setAdapter(listAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        listAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                accessTransaction.getFormattedTransactionList()
+        );
+        transactionList.setAdapter(listAdapter);
+        listAdapter.notifyDataSetChanged();
     }
 }
