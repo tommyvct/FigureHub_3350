@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessUser;
 
 public class firstTimeGreeting extends AppCompatActivity
 {
@@ -27,6 +28,7 @@ public class firstTimeGreeting extends AppCompatActivity
             }
             else
             {
+                new AccessUser().setUsername(nameBox.getText().toString());
                 startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
                 finish();
             }
