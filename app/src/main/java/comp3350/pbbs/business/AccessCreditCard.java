@@ -2,8 +2,6 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
@@ -103,50 +101,30 @@ public class AccessCreditCard
 	 * 		   6 if year expired <br>
 	 * 		   7 if null or empty string provided
 	 */
-	public int isValidExpirationDate(String month, String year)
-	{
-		int m;
-		int y;
-
-		try
-		{
-			m = Integer.parseInt(month);
-			y = Integer.parseInt(year);
-		}
-		catch (NumberFormatException e)
-		{
-			return 7;
-		}
-
+	public int isValidExpirationDate(String month, String year) {
+		int m, y;
 		int result = 0;
 		Calendar calender = Calendar.getInstance();
 		int currMonth = calender.get(Calendar.MONTH) + 1;
 		int currYear = calender.get(Calendar.YEAR);
 
+		try {
+			m = Integer.parseInt(month);
+			y = Integer.parseInt(year);
+		} catch (NumberFormatException e) {
+			return 7;
+		}
+
 		if ( y < 1000)
-		{
 			return 4;
-		}
-
 		if (m < 1 || m > 12)
-		{
 			result += 1;
-		}
-
 		if (y > 2099)
-		{
 			result += 2;
-		}
-
 		if (currYear == y && currMonth > m)
-		{
 			return 5;
-		}
-
 		if (y < currYear)
-		{
 			return 6;
-		}
 
 		return result;
 	}
