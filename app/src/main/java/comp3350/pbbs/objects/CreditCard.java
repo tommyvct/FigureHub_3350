@@ -11,8 +11,8 @@ import java.util.Calendar;
  */
 public class CreditCard
 {
-	private String cardNum;		// 16-digits number of a credit card
-	private String cardName;	// card name that is user self-defined
+	private String cardName;    // something like
+	private String cardNum;		// could be anything alphanumeric
 	private String holderName;	// user full name of a credit card
 	private int expireMonth;	// the month a credit card is expired, 2-digits (MM)
 	private int expireYear;		// the year a credit card is expired, 4-digits (YYYY)
@@ -22,22 +22,20 @@ public class CreditCard
 	 * constants: constraints to a credit card
 	 */
 	private static final int CARD_NUM_LENGTH = 16;				// the length of a card number
-	private static final String REGEX = "^[a-zA-Z \\-.']*$"; 	// the format of a holder name
-
+	private static final String REGEX = "^[a-zA-Z \\-.']*$"; 	// the format of a name
 
 	/**
 	 * constructor: includes full info of a credit card
 	 * @param num 16-digits number of a credit card
-	 * @param cd card name that is user self-defined
 	 * @param usr user full name of a credit card
 	 * @param expM the month a credit card is expired, 2-digits (MM)
 	 * @param expY the year a credit card is expired, 4-digits (YYYY)
 	 * @param pay the day user needs to ready for payment, 2-digits (DD)
 	 */
-	public CreditCard(String num, String cd, String usr, int expM, int expY, int pay) {
+	public CreditCard(String cardName, String num, String usr, int expM, int expY, int pay) {
 		errorMsg(num, usr, expM, expY, pay);
+		this.cardName = cardName.isEmpty() ? "No Name" : cardName;
 		cardNum = num;
-		cardName = cd;
 		holderName = usr;
 		expireMonth = expM;
 		expireYear = expY;
@@ -53,7 +51,7 @@ public class CreditCard
 	 * @param pay the day user needs to ready for payment, 2-digits (DD)
 	 */
 	public void errorMsg(String num, String usr, int expM, int expY, int pay) {
-		if (!isValidLength(num))
+		if (num == null || num.isEmpty())
 			throw new IllegalArgumentException("A Credit Card requires a valid number.");
 		if (!isValidName(usr))
 			throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
@@ -63,25 +61,26 @@ public class CreditCard
 			throw new IllegalArgumentException("A Credit Card requires a valid payment date.");
 	}
 
-	/**
-	 * method: check if a credit card number is 16-digits
- 	 * @param str the credit card number
-	 * @return true if the card number is exactly 16-digits long
-	 */
-	public boolean isValidLength(String str) {
-		if (str == null) {
-			return false;
-		} else {
-			return str.length() == CARD_NUM_LENGTH;
-		}
-	}
+	// unnecessary
+//	/**
+//	 * method: check if a credit card number is 16-digits
+// 	 * @param str the credit card number
+//	 * @return true if the card number is exactly 16-digits long
+//	 */
+//	public boolean isValidLength(String str) {
+//		if (str == null) {
+//			return false;
+//		} else {
+//			return str.length() == CARD_NUM_LENGTH;
+//		}
+//	}
 
 	/**
 	 * method: check if the a credit card holder's full name is valid
 	 * @param str the credit card holder name
 	 * @return true if the holder name meet the requirement of the format
 	 */
-	public boolean isValidName(String str) {
+	public static boolean isValidName(String str) {
 		if (str == null) {
 			return false;
 		} else {
@@ -97,7 +96,7 @@ public class CreditCard
 	 * 		   1) month and year are real-world existed, and
 	 * 		   2) after the current month of current year
 	 */
-	public boolean isValidExpiration(int m, int y) {
+	public static boolean isValidExpiration(int m, int y) {
 		boolean result;
 		Calendar calender = Calendar.getInstance();
 		int currMonth = calender.get(Calendar.MONTH) + 1;
@@ -115,7 +114,7 @@ public class CreditCard
 	 * @param n the day
 	 * @return true if the day is real-world existed
 	 */
-	public boolean isValidPayDate(int n) {
+	public static boolean isValidPayDate(int n) {
 		return n >= 1 && n <= 31;
 	}
 
@@ -135,9 +134,9 @@ public class CreditCard
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 						  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-		String info = "\nCARD " + getCardName() + ": " + getCardNum() + "\nHolder: " +
-					getHolderName() + "\nExpire until: " + month[getExpireMonth() - 1] +
-					" " + getExpireYear() + "\nExpected payment due: " + getPayDate();
+		String info = getCardName() + "\n" + getCardNum() + "\nCard Holder: " + getHolderName() +
+					  "\nValid Until: " + month[getExpireMonth() - 1] + " " +
+					  getExpireYear() + "\nExpected payment due on " + getPayDate();
 		return info;
 	}
 
@@ -149,11 +148,11 @@ public class CreditCard
 
 	public String getCardName() { return cardName; }
 
-	public String getHolderName() { return holderName; }
+	public int getPayDate() { return payDate; }
 
 	public int getExpireMonth() { return expireMonth; }
 
 	public int getExpireYear() { return expireYear; }
 
-	public int getPayDate() { return payDate; }
+	public String getHolderName() { return holderName; }
 }

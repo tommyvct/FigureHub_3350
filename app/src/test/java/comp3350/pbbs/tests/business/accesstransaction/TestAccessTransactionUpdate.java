@@ -43,7 +43,7 @@ public class TestAccessTransactionUpdate extends TestCase {
         testAmount = 19.99f;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
-        testCard = new CreditCard("1000100010001000", "BMO","Alan Alfred", 6, 2022, 27);
+        testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);

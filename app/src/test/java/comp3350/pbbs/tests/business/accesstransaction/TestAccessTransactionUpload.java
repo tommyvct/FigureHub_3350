@@ -28,7 +28,7 @@ public class TestAccessTransactionUpload extends TestCase {
         testDate = "30/3/2020";
         testTime = "2:30";
         testAmount = "12.07";
-        testCard = new CreditCard("1000100010001000", "BMO","Alan Alfred", 6, 2022, 27);
+        testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
     }
 

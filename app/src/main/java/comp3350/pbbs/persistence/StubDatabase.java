@@ -22,7 +22,7 @@ public class StubDatabase {
 	private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
 	private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
 	private ArrayList<Transaction> transactions;    //ArrayList for transactions
-	private ArrayList<User> user;                   //ArrayList for user
+	private String username;                        //"Hi, {username}!"
 	private Date date;                         		//local date variable
 
 	/**
@@ -34,7 +34,6 @@ public class StubDatabase {
 		budgets = new ArrayList<BudgetCategory>();
 		creditCards = new ArrayList<CreditCard>();
 		transactions = new ArrayList<Transaction>();
-		user = new ArrayList<User>();
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class StubDatabase {
 		BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
 		CreditCard card1, card2;                                //multiple cards
 		Transaction t1, t2, t3, t4;                             //multiple transactions
-		User user1;                                             //user variable
+//		User user1;                                             //user variable
 
 		budgets = new ArrayList<BudgetCategory>();
 		rent = new BudgetCategory("Rent/Mortgage", 500);
@@ -69,9 +68,10 @@ public class StubDatabase {
 		budgets.add(phoneBill);
 
 		creditCards = new ArrayList<CreditCard>();
-		card1 = new CreditCard("1000100010001000", "CIBC", "Jimmy", 12, 2021, 18);
+		card1 = new CreditCard("whatever", "1000100010001000", "Jimmy", 12, 2021, 18);
 		creditCards.add(card1);
-		card2 = new CreditCard("1002100310041005", "CIBC","Jimmy", 11, 2021, 15);
+		card2 = new CreditCard("", "1002100310041005", "Jimmy", 11, 2021, 15);
+		// card2 name should be "No Name"
 		creditCards.add(card2);
 
 		date = new Date();
@@ -85,9 +85,8 @@ public class StubDatabase {
 		t4 = new Transaction(calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
 		transactions.add(t4);
 
-		user = new ArrayList<User>();
-		user1 = new User("Jimmy","Kimel");
-		user.add(user1);
+		username = null;
+//		username = "Terra";   // for test
 	}
 
 	/**
@@ -264,24 +263,22 @@ public class StubDatabase {
 	}
 
 	/**
-	 * Getter method to get the user.
-	 * @return user ArrayList.
+	 * Getter for username
+	 * @return username
 	 */
-	public ArrayList<User> getUser(){
-		return user;
+	public String getUsername()
+	{
+		return username;
 	}
 
 	/**
-	 * This method will be used to update the user.
-	 * @return updated user
+	 * setter for username, used when renaming <br>
+	 * the username could be anything single line. <br>
+	 * this is ensured on presentation side
+	 * @param newUsername
 	 */
-	public User updateUser(User currentUser, User newUser){
-		int index = user.indexOf(currentUser);
-		User result = null;
-		if (index >= 0){
-			result = user.set(index,newUser);
-		}
-		return result;
+	public void setUsername(String newUsername)
+	{
+		this.username = newUsername;
 	}
-
 }

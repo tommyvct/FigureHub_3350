@@ -24,7 +24,6 @@ public class AllTests
         suite.addTestSuite(TestTransaction.class);
         suite.addTestSuite(TestCreditCard.class);
         suite.addTestSuite(TestBudgetCategory.class);
-        suite.addTestSuite(TestUser.class);
     }
 
     private static void testBusiness()

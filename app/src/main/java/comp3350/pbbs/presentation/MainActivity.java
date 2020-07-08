@@ -6,6 +6,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.application.Main;
+
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;

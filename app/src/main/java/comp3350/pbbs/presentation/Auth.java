@@ -13,6 +13,8 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.application.Main;
+import comp3350.pbbs.business.AccessUser;
 
 
 public class Auth extends AppCompatActivity
@@ -100,14 +102,22 @@ public class Auth extends AppCompatActivity
 
     private void toMainActivity()
     {
-        this.startActivity(new Intent(this, firstTimeGreeting.class));
+        Main.startup();
+        if (new AccessUser().getUsername() == null)  // first launch
+        {
+            this.startActivity(new Intent(this, firstTimeGreeting.class));
+        }
+        else
+        {
+            this.startActivity(new Intent(this, MainActivity.class));
+        }
         finish(); // done with authentication
     }
 
     private void showNoCredentialDialogue()
     {
         new AlertDialog.Builder(this)
-                .setTitle("Lock screen password needed")
+                .setTitle("Lock screen password required")
                 .setMessage("This app requires a lock screen password to secure your data.\nPlease go to Settings app to setup a lock screen password.")
                 .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
                 .setNegativeButton("Quit", ((dialogInterface, i) -> finish()))
@@ -117,7 +127,7 @@ public class Auth extends AppCompatActivity
     private void showMarshmallowNoCredentialDialogue()
     {
         new AlertDialog.Builder(this)
-                .setTitle("Lock screen password needed")
+                .setTitle("Lock screen password required")
                 .setMessage("This app requires a lock screen password to work properly.\nPlease make sure you have a lock screen password set.")
                 .setPositiveButton("Go to Settings", (dialogInterface, i) -> this.startActivity(new Intent(Settings.ACTION_SETTINGS)))
                 .setNegativeButton("Continue", null)

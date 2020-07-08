@@ -1,6 +1,9 @@
 package comp3350.pbbs.business;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
+
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
@@ -70,10 +73,90 @@ public class AccessCreditCard
 	}
 
 	/**
-	 * method: retrieve all credit cards in the database
-	 * @return an ArrayList of CreditCard objects
+	 * Getter method to get the credit cards.
+	 * @return creditCards ArrayList.
 	 */
-	public ArrayList<CreditCard> getAllCreditCards() {
+	public ArrayList<CreditCard> getCreditCards()
+	{
 		return db.getCreditCards();
+	}
+
+	/**
+	 * method: check if the a credit card holder's full name is valid
+	 * @param str the credit card holder name
+	 * @return true if the holder name meet the requirement of the format
+	 */
+	public boolean isValidName(String str) {
+		return CreditCard.isValidName(str);
+	}
+
+	/**
+	 * method: check if the input expire date is valid
+	 * @param month the month
+	 * @param year the year
+	 * @return 0 if everything's alright <br>
+	 * 		   1 if invalid month <br>
+	 * 		   2 if invalid year <br>
+	 * 		   3 if both month and year is invalid <br>
+	 * 		   4 if year is less than 4 digit <br>
+	 * 		   5 if month expired <br>
+	 * 		   6 if year expired <br>
+	 * 		   7 if null or empty string provided
+	 */
+	public int isValidExpirationDate(String month, String year)
+	{
+		int m;
+		int y;
+
+		try
+		{
+			m = Integer.parseInt(month);
+			y = Integer.parseInt(year);
+		}
+		catch (NumberFormatException e)
+		{
+			return 7;
+		}
+
+		int result = 0;
+		Calendar calender = Calendar.getInstance();
+		int currMonth = calender.get(Calendar.MONTH) + 1;
+		int currYear = calender.get(Calendar.YEAR);
+
+		if ( y < 1000)
+		{
+			return 4;
+		}
+
+		if (m < 1 || m > 12)
+		{
+			result += 1;
+		}
+
+		if (y > 2099)
+		{
+			result += 2;
+		}
+
+		if (currYear == y && currMonth > m)
+		{
+			return 5;
+		}
+
+		if (y < currYear)
+		{
+			return 6;
+		}
+
+		return result;
+	}
+
+	/**
+	 * method: check if the input pay date is valid
+	 * @param n the day
+	 * @return true if the day is real-world existed
+	 */
+	public boolean isValidPayDate(int n) {
+		return CreditCard.isValidPayDate(n);
 	}
 }

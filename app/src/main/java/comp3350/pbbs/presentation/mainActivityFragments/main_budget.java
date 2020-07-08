@@ -1,14 +1,26 @@
 package comp3350.pbbs.presentation.mainActivityFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessBudgetCategory;
+import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.presentation.addObject.addBudgetCategory;
+import comp3350.pbbs.presentation.addObject.addTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +29,10 @@ import comp3350.pbbs.R;
  */
 public class main_budget extends Fragment
 {
+    private AccessBudgetCategory accessBudgetCategory;
+    private ArrayList<BudgetCategory> budgetCategoryList;
+    private ArrayAdapter<BudgetCategory> listViewAdaptor;
+    private ListView listView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,18 +71,56 @@ public class main_budget extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        accessBudgetCategory = new AccessBudgetCategory();
         if (getArguments() != null)
         {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.fragment_main_budget, container, false);
+        listView = (ListView) view.findViewById(R.id.listBudgets);
+
+        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
+        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                budgetCategoryList
+        );
+
+        listView.setAdapter(listViewAdaptor);
+
+        FloatingActionButton fab = view.findViewById(R.id.addBudgFAB);
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 1);
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_budget, container, false);
+        //return inflater.inflate(R.layout.fragment_main_budget, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
+        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                budgetCategoryList
+        );
+
+        listView.setAdapter(listViewAdaptor);
+        listViewAdaptor.notifyDataSetChanged();
     }
 }
