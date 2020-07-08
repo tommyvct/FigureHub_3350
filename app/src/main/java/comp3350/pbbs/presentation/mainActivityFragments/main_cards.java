@@ -72,18 +72,6 @@ public class main_cards extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
-        FloatingActionButton fab = view.findViewById(R.id.addCardFAB);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                startActivity(new Intent(view.getContext(), addCard.class));
-            }
-        });
-
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
         return view;
     }
 }
