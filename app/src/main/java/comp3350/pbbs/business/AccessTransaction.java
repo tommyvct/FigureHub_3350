@@ -179,7 +179,6 @@ public class AccessTransaction {
     public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        System.out.println(isValidAmount(amountStr) +"&&"+ isValidDateTime(dateStr, timeStr) +"&&"+ isValidDescription(desc));
         if(isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if(transaction != null) {
