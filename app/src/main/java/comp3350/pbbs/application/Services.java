@@ -8,6 +8,11 @@ public class Services {
 
     private static StubDatabase dbAccessService = null;
 
+    /**
+     *
+     * @param dbName database name
+     * @return a {@code StubDatabase} instance with given name
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static StubDatabase createDataAccess(String dbName){
         if (dbAccessService == null){
@@ -18,6 +23,11 @@ public class Services {
         return dbAccessService;
     }
 
+    /**
+     *
+     * @param dbName database name
+     * @return {@code null} if currently no data access is created, otherwise the current data access
+     */
     public static StubDatabase getDataAccess(@SuppressWarnings("unused") String dbName){
         if(dbAccessService == null){
             System.out.println("Connection to data access has not been established.");

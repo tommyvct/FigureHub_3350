@@ -8,11 +8,7 @@ public class Main
 
     public static void main(String[] args){
         startup();
-
-//        MainActivity.run()    //This is the main Interface
-
         shutDown();
-
     }
 
     @SuppressLint("NewApi")

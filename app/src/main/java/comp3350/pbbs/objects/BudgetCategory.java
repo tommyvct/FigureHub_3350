@@ -47,7 +47,7 @@ public class BudgetCategory implements Serializable {
      */
     @NotNull
     public String toString() {
-        return "category: " + budgetName + "\nBudget limit: $" + budgetLimit;
+        return "" + budgetName + "\nLimit: $" + budgetLimit;
     }
 
     /**

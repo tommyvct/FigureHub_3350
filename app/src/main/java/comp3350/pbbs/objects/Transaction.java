@@ -106,11 +106,10 @@ public class Transaction {
      */
     @NotNull
     public String toString() {
-        return "TRANSACTION:" +
-                "\nAmount: " + amount +
-                "\nTime: " + time +
-                "\nDescription: " + description +
-                "\nCard name: " + card +
-                "\nBudget " + budgetCategory;
+        return  "" + description + "\n" +
+                "$" + amount + "\n" +
+                time + "\n" +
+                card.toStringShort() + "\n" +
+                "Belongs to " + budgetCategory.getBudgetName() + " budget";
     }
 }

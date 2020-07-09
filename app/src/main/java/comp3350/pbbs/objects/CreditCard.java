@@ -129,9 +129,16 @@ public class CreditCard {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
         //the string "next month" needs to be replaced to real month later
-        return getCardName() + "\nCard number: " + getCardNum() + "\nCard holder: " +
-                getHolderName() + "\nValid until: " + month[getExpireMonth() - 1] + " " +
-                getExpireYear() + "\nExpected payment due day: " + getPayDate() + " next month";
+        return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4) + "\n" +
+                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n" +
+
+                "Expected payment on " + getPayDate() + " next month";
+    }
+
+    public String toStringShort()
+    {
+        return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 
     /**
