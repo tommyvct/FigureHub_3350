@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 
@@ -73,8 +75,7 @@ public class main_home extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        TextView textView3 = view.findViewById(R.id.textView3);
-        textView3.setText("Hello, " + new AccessUser().getUsername() + "!");
+        ((TextView) view.findViewById(R.id.textView3)).setText("Hello, " + new AccessUser().getUsername() + "!");
 
         return view;
     }

@@ -222,7 +222,7 @@ public class AccessTransaction {
      *
      * @return List of all transactions in the database
      */
-    public List<Transaction> retrieveTransactions() {
+    public ArrayList<Transaction> retrieveTransactions() {
         return db.getTransactions();
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
 /**
@@ -198,6 +199,25 @@ public class AccessBudgetCategory {
      */
     public BudgetCategory deleteBudgetCategoryParsed(BudgetCategory currentBudgetCat) {
         return dataAccess.deleteBudgetCategory(currentBudgetCat);
+    }
+
+    /**
+     * Calculates the total amount spent for a given BudgetCategory from the transactions in that category
+     * @param currentBudgetCat is the specified BudgetCategory
+     * @return the total amount from transactions in that budget category
+     */
+    public int calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat){
+        int sum = 0;
+        List<Transaction> transactions = dataAccess.getTransactions();
+
+        for(int i = 0; i < transactions.size(); i++){
+            Transaction currentTransaction = transactions.get(i);
+            if(currentTransaction.getBudgetCategory().equals(currentBudgetCat)){
+                sum += currentTransaction.getAmount();
+            }
+        }
+
+        return sum;
     }
 
 }
