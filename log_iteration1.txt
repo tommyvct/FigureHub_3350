@@ -1,0 +1,91 @@
+GROUP 4 DEVELOPER LOG
+ORGANIZED BY DAY
+
+Note: The following log is also documented in the Github repository,
+under Projects -> Iteration 1 : Developer logs
+
+# JUNE 19
+## Terra
+Added big user stories as issues/developer tasks on GitHub
+Considered possible flow diagrams for interface
+
+
+# JUNE 21
+## GROUP MEETING
+Had a meeting about creating the android studio project and an introduction to github and android studio
+
+Attended: Aziz, Hao, and Josh
+Time taken: 2 hours
+
+# JUNE 23
+## GROUP MEETING
+Had a meeting about implementing the objects. 
+Attended by : Aziz, Hao, Tommy, and Josh.
+Time taken: 2.5 hours
+
+Details
+- Talked about how specific objects will be implemented
+- Created the development log on github
+- Discuss more on specific objects
+- Broke create objects developer tasks into multiple 
+  tasks, one for each object
+
+# JUNE 24
+## GROUP MEETING
+Had a meeting to divide tasks between developers.
+
+Attended: Josh, Aziz, Terra, Hao, and Tommy
+Time taken: 1.5 hours
+
+Details
+- Discussed John's reply to Aziz's email
+- Assigned developer tasks
+  - Describe the flow of the application -> Tommy
+  - Create Credit Card object -> Hao
+  - Create Budget Category object -> Aziz
+  - Create Transaction object -> Josh
+  - Create User object -> Terra
+- Helped get Terra set up
+- Started development
+
+# JUNE 25
+## Tommy
+Started bio authentication, created pull request
+
+## Josh
+Reviewed pull request, requested changes
+
+## Terra
+Set up android emulator
+
+
+# JUNE 27
+Had a meeting to organize the project in the android studio.
+
+Attended by: Josh, Aziz, Terra, Hao, and Tommy
+Time taken: 1 hour
+
+## Josh
+Reviewed Tommy's pull request with latest changes and discussed
+during the meeting
+
+Completed Transaction class V1 with no integration with CreditCard 
+object or BudgetCategory object
+Time taken: 4 hours
+
+## Hao
+Class CreditCard alpha version is completed.
+Pushed to local branch, will commit after next meeting discussion.
+Time taken: 3 hours
+
+## Aziz
+Created budgetCategories class. I pushed it to the local repository
+then discussed it with the teammates and then merged it with the project.
+Time taken: 3 hours
+
+## Terra
+Created User class and Test Cases
+
+Created pull request
+Time take: 3 hours
+
