@@ -30,21 +30,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        accessBudgetCategory = new AccessBudgetCategory();
-        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
-        ArrayList<String> budgetTotals = new ArrayList<String>();
-        for(int i = 0; i < budgetCategoryList.size(); i++){
-            BudgetCategory currentBudgetCat = budgetCategoryList.get(i);
-            budgetTotals.add("Category: " + currentBudgetCat.getBudgetName() + " Amount Spent: $" +
-                    accessBudgetCategory.calculateBudgetCategoryTotal(currentBudgetCat) + " / $" + currentBudgetCat.getBudgetLimit());
-        }
-        listViewAdaptor = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                budgetTotals);
-        final ListView listView = (ListView)findViewById(R.id.listBudgetTotals);
-        listView.setAdapter(listViewAdaptor);
-
         BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
         NavController nc = Navigation.findNavController(this, R.id.fragment);
 
