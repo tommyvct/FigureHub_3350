@@ -58,7 +58,7 @@ Excluding default android files of the emulator, source code files of this proje
 	* Desciption: name of this category
 	* Limit: amount of money as the cost upperlimit
 
-5. **Transactions** page aims to record each transaction the user made. The add button brings the user to *Add Transaction* page, where requires input of **Description**, **Date**, **Time**, and **Amount** to fill values in, and **Card** and **Budget Category** to select. A transaction record includes:
+5. **Transactions** page aims to record each transaction the user made. The add button brings the user to *Add Transaction* page, where requires input of **Description**, **Date & Time**, and **Amount** to fill values in, and **Card** and **Budget Category** to select. A transaction record includes:
 	* Amount: Amount of money spent
 	* Date and Time: Time when this transaction happened
 	* Description: What is the purpose of this transaction
