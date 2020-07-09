@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,6 +19,7 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.presentation.ViewBudgetCategory;
 import comp3350.pbbs.presentation.addObject.addBudgetCategory;
 
 /**
@@ -100,6 +102,14 @@ public class main_budget extends Fragment {
         );
 
         listView.setAdapter(listViewAdaptor);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3){
+                Intent viewBudget = new Intent(view.getContext(), ViewBudgetCategory.class);
+                viewBudget.putExtra("budgetCategory", budgetCategoryList.get(position));
+                startActivity(viewBudget);
+            }
+        });
 
         return view;
     }

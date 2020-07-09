@@ -1,5 +1,6 @@
 package comp3350.pbbs.objects;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
@@ -9,7 +10,7 @@ import java.text.DecimalFormat;
  *
  * This class defines the object budget category which can be used to create many types of budget.
  */
-public class BudgetCategory {
+public class BudgetCategory implements Serializable {
     private String budgetName;      //Name of the budget
     private double budgetLimit;     //Limit of the category
 

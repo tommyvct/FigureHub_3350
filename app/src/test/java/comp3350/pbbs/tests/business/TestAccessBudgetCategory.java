@@ -3,10 +3,14 @@ package comp3350.pbbs.tests.business;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.persistence.StubDatabase;
 
 /**
  * TestAccessBudgetCategory
@@ -294,6 +298,58 @@ public class TestAccessBudgetCategory extends TestCase {
         assertNotNull(testAccess.findBudgetCategory(testBC));
         assertNotNull(testAccess.deleteBudgetCategory("Furniture", "100"));
         assertNull(testAccess.findBudgetCategory(testBC));
+    }
+
+    /**
+     * Test calculating budget total for invalid inputs
+     */
+    public void testCalculateInvalidBudgetCategory() {
+        assertEquals(0, testAccess.calculateBudgetCategoryTotal(null));
+    }
+
+    /**
+     * Test calculating budget total for no transactions
+     */
+    public void testCalculateNoTransactionsTotal() {
+        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
+        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
+        //The two budget categories should not have any associated transactions
+        assertEquals(0, testAccess.calculateBudgetCategoryTotal(bc1));
+        assertEquals(0, testAccess.calculateBudgetCategoryTotal(bc2));
+    }
+
+    /**
+     * Test calculating budget total for a single transaction
+     */
+    public void testCalculateOneTransactionTotal() {
+        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
+        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
+        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", testCard, bc1);
+        StubDatabase db = Services.getDataAccess("TBCU");
+        db.insertTransaction(t1);
+        assertEquals(20, testAccess.calculateBudgetCategoryTotal(bc1));
+        assertEquals(0, testAccess.calculateBudgetCategoryTotal(bc2));
+    }
+
+    /**
+     * Test calculating budget total for multiple transactions
+     */
+    public void testCalculateMultipleTransactionsTotal() {
+        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
+        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
+        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
+        Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
+        StubDatabase db = Services.getDataAccess("TBCU");
+        db.insertTransaction(t1);
+        db.insertTransaction(t2);
+        assertEquals(60, testAccess.calculateBudgetCategoryTotal(bc1));
+        assertEquals(0, testAccess.calculateBudgetCategoryTotal(bc2));
+        Transaction t3 = new Transaction(new Date(), 50, "Ate burger", testCard, bc2);
+        db.insertTransaction(t3);
+        assertEquals(60, testAccess.calculateBudgetCategoryTotal(bc1));
+        assertEquals(50, testAccess.calculateBudgetCategoryTotal(bc2));
     }
 
     /**
