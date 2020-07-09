@@ -118,10 +118,10 @@ public class CreditCard
 	 */
 	public String toString() {
 		String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-						  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+				"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 		String info = getCardName() + "\n" + getCardNum() + "\nCard Holder: " + getHolderName() +
-					  "\nValid Until: " + month[getExpireMonth() - 1] + " " +
-					  getExpireYear() + "\nExpected payment due on " + getPayDate();
+				"\nValid Until: " + month[getExpireMonth() - 1] + " " +
+				getExpireYear() + "\nExpected payment due on " + getPayDate();
 		return info;
 	}
 
