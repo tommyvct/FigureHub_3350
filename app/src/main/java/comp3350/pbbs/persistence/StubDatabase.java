@@ -71,8 +71,7 @@ public class StubDatabase {
         creditCards = new ArrayList<CreditCard>();
         card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
         creditCards.add(card1);
-        card2 = new CreditCard("", "1002100310041005", "Jimmy", 11, 2021, 15);
-        // card2 name should be "No Name"
+        card2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
         creditCards.add(card2);
 
         date = new Date();
@@ -290,11 +289,11 @@ public class StubDatabase {
     }
 
     /**
-     * setter for username, used when renaming <br>
-     * the username could be anything single line. <br>
+     * setter for username, used when renaming
+     * the username could be anything single line.
      * this is ensured on presentation side
      *
-     * @param newUsername
+     * @param newUsername String representation of the user's name
      */
     public void setUsername(String newUsername) {
         this.username = newUsername;
