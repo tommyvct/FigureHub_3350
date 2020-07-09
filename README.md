@@ -15,6 +15,7 @@
 
 4. Team members:
 	* *Azizul Hakim*,	*Terra Jentsch*,	*Joshua Smallwood*,	*Tommy Wu*,	*Hao Zheng*.
+	
 	>Names are represented in ascending order based on the first letter of surnames of develpers.
 
 ---
