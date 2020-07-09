@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
@@ -13,6 +12,13 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
+/**
+ * TestAccessTransactionDelete
+ * Group4
+ * PBBS
+ *
+ * This class tests part of the AccessTransaction class
+ */
 public class TestAccessTransactionDelete extends TestCase {
     private AccessTransaction accessTransaction;
     private Transaction testTransaction1;

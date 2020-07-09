@@ -6,14 +6,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 
-public class firstTimeGreeting extends AppCompatActivity
-{
+/**
+ * firstTimeGreeting
+ * Group4
+ * PBBS
+ *
+ * This class implements the greeting when an user enters the app
+ */
+public class firstTimeGreeting extends AppCompatActivity {
+
+    /**
+     * This method initiates the first time greeting activity and asks users name.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_greeting);
 
@@ -22,12 +32,9 @@ public class firstTimeGreeting extends AppCompatActivity
 
         b.setOnClickListener(view ->
         {
-            if (nameBox.getText().toString().isEmpty())
-            {
+            if (nameBox.getText().toString().isEmpty()) {
                 nameBox.setError("This field cannot be empty.");
-            }
-            else
-            {
+            } else {
                 new AccessUser().setUsername(nameBox.getText().toString());
                 startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
                 finish();

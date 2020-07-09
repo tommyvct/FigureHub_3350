@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 /**
  * BudgetCategory
- * Azizul Hakim
+ * Group4
  * PBBS
  *
  * This class defines the object budget category which can be used to create many types of budget.
@@ -17,11 +17,11 @@ public class BudgetCategory {
      * This is the constructor method which assigns the fields to a Budget Category
      *
      * @param newBudgetName The name of this budget
-     * @param newLimit The limit of this budget
+     * @param newLimit      The limit of this budget
      */
-    public BudgetCategory(String newBudgetName, double newLimit){
+    public BudgetCategory(String newBudgetName, double newLimit) {
         //Limit can't be negative
-        if(newLimit <0){
+        if (newLimit < 0) {
             throw new IllegalArgumentException("Expected a budget limit should be positive");
         }
         this.budgetName = newBudgetName;
@@ -29,15 +29,21 @@ public class BudgetCategory {
     }
 
     //Getters for the object fields
-    public String getBudgetName(){ return budgetName; }
-    public double getBudgetLimit(){ return budgetLimit; }
+    public String getBudgetName() {
+        return budgetName;
+    }
+
+    public double getBudgetLimit() {
+        return budgetLimit;
+    }
 
     /**
      * This method returns a String representation of this object
+     *
      * @return A String representation of this object
      */
-    public String toString(){
-        return "Category: "+budgetName+"\n   limit: $"+budgetLimit;
+    public String toString() {
+        return "Category: " + budgetName + "\n   limit: $" + budgetLimit;
     }
 
     /**
@@ -46,18 +52,18 @@ public class BudgetCategory {
      * @param budgetObj The object to compare
      * @return True if this budget is the same as the other budget
      */
-    public boolean equals(Object budgetObj){
+    public boolean equals(Object budgetObj) {
         boolean equal = false;
         BudgetCategory b;
 
         DecimalFormat rounding = new DecimalFormat("0.00");
-        if(budgetObj instanceof BudgetCategory){
+        if (budgetObj instanceof BudgetCategory) {
             b = (BudgetCategory) budgetObj;
-            if((rounding.format(b.getBudgetLimit()).equals(rounding.format(this.getBudgetLimit()))) && b.getBudgetName().equals(this.getBudgetName())){
+            if ((rounding.format(b.getBudgetLimit()).equals(rounding.format(this.getBudgetLimit()))) && b.getBudgetName().equals(this.getBudgetName())) {
                 equal = true;
             }
         }
         return equal;
-        }
     }
+}
 
