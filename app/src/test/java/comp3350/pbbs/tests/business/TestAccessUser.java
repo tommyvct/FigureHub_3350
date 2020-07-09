@@ -13,13 +13,13 @@ import comp3350.pbbs.business.AccessUser;
  *
  * This class tests the AccessUser class.
  */
-public class TestAccessUser extends TestCase{
+public class TestAccessUser extends TestCase {
     private AccessUser testAccess = null;           //variable for AccessUser class
 
     /**
      * This method creates StubDatabase and AccessUser
      */
-    public void setUp(){
+    public void setUp() {
         Services.createDataAccess(Main.dbName);
         testAccess = new AccessUser();
     }
@@ -27,7 +27,7 @@ public class TestAccessUser extends TestCase{
     /**
      * Tests the AccessUser object
      */
-    public void testAccessUser(){
+    public void testAccessUser() {
         assertNotNull(testAccess);
     }
 
@@ -37,8 +37,7 @@ public class TestAccessUser extends TestCase{
      * after setUsername, getUsername should be able to return it.
      * change the username to a new one using setUsername, getUsername should be get it too.
      */
-    public void testGetUser()
-    {
+    public void testGetUser() {
         assertNull(testAccess.getUsername());
 
         testAccess.setUsername("Tommy");
@@ -52,7 +51,7 @@ public class TestAccessUser extends TestCase{
     /**
      * This method closes StubDatabase
      */
-    public void tearDown(){
+    public void tearDown() {
         Services.closeDataAccess();
     }
 }

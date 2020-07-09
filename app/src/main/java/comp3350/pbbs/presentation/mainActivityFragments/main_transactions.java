@@ -2,14 +2,13 @@ package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 
 import comp3350.pbbs.R;
@@ -17,20 +16,22 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.Transaction;
 
 /**
+ * main_transaction
+ * Group4
+ * PBBS
+ *
  * A simple {@link Fragment} subclass.
  * Use the {@link main_transactions#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class main_transactions extends Fragment
-{
+public class main_transactions extends Fragment {
     private AccessTransaction accessTransaction;
-    private String[] displayItems;
     private ListView transactionList;
     private ArrayAdapter<Transaction> listAdapter;
 
-    public main_transactions()
-    {
-        // Required empty public constructor
+    // Required empty public constructor
+    public main_transactions() {
+
     }
 
     /**
@@ -39,8 +40,7 @@ public class main_transactions extends Fragment
      *
      * @return A new instance of fragment main_transactions.
      */
-    public static main_transactions newInstance()
-    {
+    public static main_transactions newInstance() {
         main_transactions fragment = new main_transactions();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -48,15 +48,13 @@ public class main_transactions extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
 
@@ -74,6 +72,9 @@ public class main_transactions extends Fragment
         return view;
     }
 
+    /**
+     * This method updates the list after adding.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         listAdapter = new ArrayAdapter<Transaction>(

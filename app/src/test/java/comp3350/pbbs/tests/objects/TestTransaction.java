@@ -1,11 +1,14 @@
 package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
+
 import java.util.Calendar;
 import java.util.Date;
+
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
+
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -50,8 +53,8 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(null, amount, description, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -68,8 +71,8 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, -0.24f, description, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -86,14 +89,14 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, amount, null, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
 
         try {
             new Transaction(now, amount, "", card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -111,8 +114,8 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, amount, description, null, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -130,7 +133,7 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, amount, description, card, null);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException iae) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 }

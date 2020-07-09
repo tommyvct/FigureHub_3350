@@ -15,6 +15,9 @@ import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 
 /**
+ * main_home
+ * Group4
+ * PBBS
  * A simple {@link Fragment} subclass.
  * Use the {@link main_home#newInstance} factory method to
  * create an instance of this fragment.

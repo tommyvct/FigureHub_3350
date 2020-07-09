@@ -1,5 +1,7 @@
 package comp3350.pbbs.presentation;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,13 +21,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity
-{
+/**
+ * This class implements the main page
+ */
+public class MainActivity extends AppCompatActivity {
     FloatingActionButton addObjectFAB;
 
+    /**
+     * This method initiates the bottom navigation view.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -12,13 +12,20 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
-public class TestAccessBudgetCategory extends TestCase{
+/**
+ * TestAccessBudgetCategory
+ * Group4
+ * PBBS
+ *
+ * This class tests AccessBudgetCategory class
+ */
+public class TestAccessBudgetCategory extends TestCase {
     private AccessBudgetCategory testAccess = null;
 
     /**
      * creating StubDatabase and AccessBudgetCategory
      */
-    public void setUp(){
+    public void setUp() {
         Services.createDataAccess("TBCU");
         testAccess = new AccessBudgetCategory();
     }
@@ -26,7 +33,7 @@ public class TestAccessBudgetCategory extends TestCase{
     /**
      * test that the AccessBudgetCategory worked an contains stub data.
      */
-    public void testNewAccess(){
+    public void testNewAccess() {
         assertNotNull(testAccess);
         //test that there are 4 budget categories in the stub DB
         assertEquals(4, testAccess.getAllBudgetCategories().size());
@@ -44,8 +51,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertNotNull(testAccess.findBudgetCategory(phoneBill));
     }
 
-    //Testing that all methods work using valid input
-    public void testValidInput(){
+    /**
+     * Testing that all methods work using valid input
+     */
+    public void testValidInput() {
         //Adding multiple categories at once
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
@@ -83,7 +92,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
-    public void testInvalidLimitIntegerInput(){
+    /**
+     * Testing that all methods work using invalid integer input
+     */
+    public void testInvalidLimitIntegerInput() {
         //setup
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
@@ -119,7 +131,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
-    public void testInvalidLimitZeroInput(){
+    /**
+     * Testing that all methods work using invalid zero input
+     */
+    public void testInvalidLimitZeroInput() {
         //setup
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
@@ -155,7 +170,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
-    public void testInvalidEmptyInput1(){
+    /**
+     * Testing that all methods work using innalid empty input
+     */
+    public void testInvalidEmptyInput1() {
         //setup
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
@@ -191,7 +209,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
-    public void testInvalidEmptyInput2(){
+    /**
+     * Testing that all methods work using invalid empty input
+     */
+    public void testInvalidEmptyInput2() {
         //setup
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
@@ -230,7 +251,7 @@ public class TestAccessBudgetCategory extends TestCase{
     /**
      * testing the findBudgetCategory method in AccessBudgetCategory
      */
-    public void testFinding(){
+    public void testFinding() {
         BudgetCategory failSearch = new BudgetCategory("Balloons", 1000);
         BudgetCategory successSearch = new BudgetCategory("Groceries", 100);
         assertNull(testAccess.findBudgetCategory(failSearch));
@@ -240,7 +261,7 @@ public class TestAccessBudgetCategory extends TestCase{
     /**
      * testing adding a list of BudgetCategory to the stub, as well as adding individually
      */
-    public void testAdding(){
+    public void testAdding() {
         ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
@@ -258,7 +279,7 @@ public class TestAccessBudgetCategory extends TestCase{
     /**
      * testing switching two versions of BudgetCategory
      */
-    public void testUpdate(){
+    public void testUpdate() {
         BudgetCategory oldBC = new BudgetCategory("Electronics", 50);
         testAccess.insertBudgetCategory("Electronics", "50");
         assertNotNull(testAccess.findBudgetCategory(oldBC));
@@ -271,7 +292,7 @@ public class TestAccessBudgetCategory extends TestCase{
     /**
      * test removing a BudgetCategory from the stub.
      */
-    public void testDelete(){
+    public void testDelete() {
         BudgetCategory testBC = new BudgetCategory("Furniture", 100);
         testAccess.insertBudgetCategory("Furniture", "100");
         assertNotNull(testAccess.findBudgetCategory(testBC));
@@ -331,5 +352,10 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(50, testAccess.calculateBudgetCategoryTotal(bc2));
     }
 
-    public void tearDown(){ Services.closeDataAccess();}
+    /**
+     * This method closes StubDatabase
+     */
+    public void tearDown() {
+        Services.closeDataAccess();
+    }
 }
