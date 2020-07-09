@@ -15,7 +15,6 @@
 
 4. Team members:
 	* *Azizul Hakim*,	*Terra Jentsch*,	*Joshua Smallwood*,	*Tommy Wu*,	*Hao Zheng*.
-	
 	>Names are represented in ascending order based on the first letter of surnames of develpers.
 
 ---
@@ -84,4 +83,3 @@ The development environment makes use of **SDK Android 6.0 (Marshmallow) API 23*
 
 All rights reserved by members in the development team: Group 4 of COMP3350 summer 2020, University of Manitoba.
 
----
