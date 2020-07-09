@@ -2,15 +2,14 @@ package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,16 +19,19 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.presentation.ViewBudgetCategory;
 import comp3350.pbbs.presentation.addObject.addBudgetCategory;
-import comp3350.pbbs.presentation.addObject.addTransaction;
 
 /**
+ * main_budget
+ * Group4
+ * PBBS
+ *
  * A simple {@link Fragment} subclass.
  * Use the {@link main_budget#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class main_budget extends Fragment
-{
+public class main_budget extends Fragment {
     private AccessBudgetCategory accessBudgetCategory;
     private ArrayList<BudgetCategory> budgetCategoryList;
     private ArrayAdapter<BudgetCategory> listViewAdaptor;
@@ -44,9 +46,9 @@ public class main_budget extends Fragment
     private String mParam1;
     private String mParam2;
 
-    public main_budget()
-    {
-        // Required empty public constructor
+    // Required empty public constructor
+    public main_budget() {
+
     }
 
     /**
@@ -58,8 +60,7 @@ public class main_budget extends Fragment
      * @return A new instance of fragment main_budget.
      */
     // TODO: Rename and change types and number of parameters
-    public static main_budget newInstance(String param1, String param2)
-    {
+    public static main_budget newInstance(String param1, String param2) {
         main_budget fragment = new main_budget();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -68,26 +69,22 @@ public class main_budget extends Fragment
         return fragment;
     }
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         accessBudgetCategory = new AccessBudgetCategory();
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_budget, container, false);
-        listView = (ListView) view.findViewById(R.id.listBudgets);
+        listView = view.findViewById(R.id.listBudgets);
 
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
 
@@ -105,10 +102,21 @@ public class main_budget extends Fragment
         );
 
         listView.setAdapter(listViewAdaptor);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3){
+                Intent viewBudget = new Intent(view.getContext(), ViewBudgetCategory.class);
+                viewBudget.putExtra("budgetCategory", budgetCategoryList.get(position));
+                startActivity(viewBudget);
+            }
+        });
 
         return view;
     }
 
+    /**
+     * This method updates the list after adding.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();

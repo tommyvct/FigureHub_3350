@@ -5,8 +5,6 @@ import junit.framework.TestCase;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +15,13 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
+/**
+ * TestAccessTransactionUpdate
+ * Group4
+ * PBBS
+ *
+ * This class tests part of the AccessTransaction class
+ */
 public class TestAccessTransactionUpdate extends TestCase {
     private AccessTransaction accessTransaction;
     private Transaction testTransaction1;

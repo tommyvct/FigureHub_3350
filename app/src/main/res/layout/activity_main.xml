@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.MainActivity">
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addObjectFAB"
         android:layout_width="wrap_content"
