@@ -11,10 +11,10 @@ import java.util.Calendar;
  */
 public class CreditCard {
     private String cardName;    // name of a credit card
-    private String cardNum;        // number of a credit card
-    private String holderName;    // user full name of a credit card
+    private String cardNum;     // number of a credit card
+    private String holderName;  // user full name of a credit card
     private int expireMonth;    // the month a credit card is expired, 2-digits (MM)
-    private int expireYear;        // the year a credit card is expired, 4-digits (YYYY)
+    private int expireYear;     // the year a credit card is expired, 4-digits (YYYY)
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
 
     /**
