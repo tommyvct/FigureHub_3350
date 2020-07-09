@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         switch(requestCode){
             case 1:
                 //TODO: This is returning null
-                f = this.getSupportFragmentManager().findFragmentById(R.id.);
+                f = this.getSupportFragmentManager().findFragmentById(R.id.main_transactions);
 
                 System.out.println(f.getClass().getSimpleName());
                 if(f instanceof main_transactions)
