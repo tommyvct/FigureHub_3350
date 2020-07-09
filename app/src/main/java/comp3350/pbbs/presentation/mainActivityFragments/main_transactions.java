@@ -20,9 +20,7 @@ import comp3350.pbbs.objects.Transaction;
  * Group4
  * PBBS
  *
- * A simple {@link Fragment} subclass.
- * Use the {@link main_transactions#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment displays all transactions.
  */
 public class main_transactions extends Fragment {
     private AccessTransaction accessTransaction;
@@ -30,22 +28,8 @@ public class main_transactions extends Fragment {
     private ArrayAdapter<Transaction> listAdapter;
 
     // Required empty public constructor
-    public main_transactions() {
+    public main_transactions() {}
 
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment main_transactions.
-     */
-    public static main_transactions newInstance() {
-        main_transactions fragment = new main_transactions();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +45,8 @@ public class main_transactions extends Fragment {
         // List view
         accessTransaction = new AccessTransaction();
         transactionList = view.findViewById(R.id.transactionList);
-        listAdapter = new ArrayAdapter<Transaction>(
-                getActivity(),
+        listAdapter = new ArrayAdapter<>(
+                requireActivity(),
                 android.R.layout.simple_list_item_1,
                 accessTransaction.retrieveTransactions()
         );
@@ -77,8 +61,8 @@ public class main_transactions extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        listAdapter = new ArrayAdapter<Transaction>(
-                getActivity(),
+        listAdapter = new ArrayAdapter<>(
+                requireActivity(),
                 android.R.layout.simple_list_item_1,
                 accessTransaction.retrieveTransactions()
         );

@@ -1,6 +1,8 @@
 package comp3350.pbbs.business;
 
 
+import android.annotation.SuppressLint;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -40,7 +42,7 @@ public class AccessTransaction {
         db = Services.getDataAccess(Main.dbName);
     }
 
-    public AccessTransaction(boolean test) {
+    public AccessTransaction(@SuppressWarnings("unused") boolean test) {
         db = Services.getDataAccess("test");
     }
 
@@ -57,13 +59,14 @@ public class AccessTransaction {
 
         // Check the possible date formats
         for (String format : DATE_FORMATS) {
+            @SuppressLint("SimpleDateFormat")
             DateFormat df = new SimpleDateFormat(format);
             // Needed or else 30/13/2020 will become 30/1/2021
             df.setLenient(false);
             try {
                 // Parse the date
                 toReturn = df.parse(dateStr + " " + timeStr);
-            } catch (ParseException pe) {
+            } catch (ParseException ignored) {
             }
         }
         return toReturn;
@@ -237,7 +240,7 @@ public class AccessTransaction {
 
         // If the parameters are valid
         if (to != null && from != null) {
-            toReturn = new ArrayList<Transaction>();
+            toReturn = new ArrayList<>();
             List<Transaction> allTransactions = retrieveTransactions();
 
             // Loop through all transactions
@@ -274,10 +277,12 @@ public class AccessTransaction {
      *
      * @return the formatted transactions list
      */
+    @SuppressWarnings("unused")
     public String[] getFormattedTransactionList() {
         List<Transaction> transactions = retrieveTransactions();
-        List<String> toReturn = new ArrayList<String>();
+        List<String> toReturn = new ArrayList<>();
         DecimalFormat rounding = new DecimalFormat("0.00");
+        @SuppressLint("SimpleDateFormat")
         DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
 
         //this format which will be shown in the GUI

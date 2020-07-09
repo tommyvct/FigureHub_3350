@@ -18,7 +18,7 @@
                 android:id="@+id/addTransDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description" />
+                android:hint="@string/description" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -32,7 +32,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Date"
+                    android:hint="@string/date"
                     android:inputType="date"
                     android:focusable="false" />
 
@@ -43,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Time"
+                    android:hint="@string/time"
                     android:inputType="time"
                     android:focusable="false" />
 
@@ -59,7 +59,7 @@
                 android:id="@+id/addTransAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Amount"
+                android:hint="@string/amount"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +79,7 @@
             android:id="@+id/addTransSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:text="@string/add" />
     </LinearLayout>
 
 </ScrollView>
