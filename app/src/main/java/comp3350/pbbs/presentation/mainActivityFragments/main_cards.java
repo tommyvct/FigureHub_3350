@@ -85,15 +85,6 @@ public class main_cards extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
-        FloatingActionButton fab = view.findViewById(R.id.addCardFAB);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                startActivityForResult(new Intent(view.getContext(), addCard.class),1);
-            }
-        });
 
         accessCreditCard = new AccessCreditCard();
         listView =(ListView) view.findViewById(R.id.listCards);
@@ -105,8 +96,6 @@ public class main_cards extends Fragment
         );
         listView.setAdapter(listViewAdapter);
 
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
         return view;
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
