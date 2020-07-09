@@ -43,7 +43,7 @@ public class addCard extends AppCompatActivity
         validThruYear.setText("20");
 
         findViewById(R.id.addCardSubmit).setOnClickListener(view ->
-        {
+      {
             boolean valid = true;
 
             if (cardNumber.getText().toString().isEmpty())
@@ -114,11 +114,8 @@ public class addCard extends AppCompatActivity
                 valid = false;
             }
 
-            if
-            (
-                valid &&
-                accessCreditCard.insertCreditCard
-                (
+            if (valid &&
+                    accessCreditCard.insertCreditCard(
                     new CreditCard
                     (
                         cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
@@ -126,10 +123,7 @@ public class addCard extends AppCompatActivity
                         cardholderName.getText().toString(),
                         Integer.parseInt(validThruMonth.getText().toString()),
                         Integer.parseInt(validThruYear.getText().toString()),
-                        Integer.parseInt(payday.getText().toString())
-                    )
-                )
-            )
+                        Integer.parseInt(payday.getText().toString()))))
             {
                  Snackbar.make(view, "Card Added!", Snackbar.LENGTH_SHORT)
                          .addCallback(new Snackbar.Callback()

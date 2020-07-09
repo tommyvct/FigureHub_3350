@@ -8,11 +8,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.presentation.addObject.addCard;
+import comp3350.pbbs.business.AccessCreditCard;
+import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.presentation.addObject.addTransaction;
 
 /**
@@ -22,6 +30,10 @@ import comp3350.pbbs.presentation.addObject.addTransaction;
  */
 public class main_cards extends Fragment
 {
+    private AccessCreditCard accessCreditCard;
+    private ArrayList<CreditCard> creditCardsList;
+    private ArrayAdapter<CreditCard> listViewAdapter;
+    private ListView listView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +72,7 @@ public class main_cards extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        accessCreditCard = new AccessCreditCard();
         if (getArguments() != null)
         {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -72,6 +85,28 @@ public class main_cards extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
+
+        accessCreditCard = new AccessCreditCard();
+        listView =(ListView) view.findViewById(R.id.listCards);
+        creditCardsList = accessCreditCard.getCreditCards();
+        listViewAdapter = new ArrayAdapter<CreditCard>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                creditCardsList
+        );
+        listView.setAdapter(listViewAdapter);
+
         return view;
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        creditCardsList = accessCreditCard.getCreditCards();
+        listViewAdapter = new ArrayAdapter<CreditCard>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                creditCardsList
+        );
+
+        listView.setAdapter(listViewAdapter);
+        listViewAdapter.notifyDataSetChanged();
     }
 }

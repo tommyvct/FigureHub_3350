@@ -32,7 +32,8 @@ public class main_budget extends Fragment
 {
     private AccessBudgetCategory accessBudgetCategory;
     private ArrayList<BudgetCategory> budgetCategoryList;
-    private ArrayAdapter<BudgetCategory> budgetArrayAdapter;
+    private ArrayAdapter<BudgetCategory> listViewAdaptor;
+    private ListView listView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +87,7 @@ public class main_budget extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_main_budget, container, false);
+        listView = (ListView) view.findViewById(R.id.listBudgets);
 
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
 
@@ -96,14 +98,27 @@ public class main_budget extends Fragment
 
         ListView listView = (ListView) view.findViewById(R.id.listBudgets);
 
-        ArrayAdapter<String> listViewAdaptor = new ArrayAdapter<>(
+        listViewAdaptor = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                list
+                budgetCategoryList
         );
 
         listView.setAdapter(listViewAdaptor);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
+        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
+                getActivity(),
+                android.R.layout.simple_list_item_1,
+                budgetCategoryList
+        );
+
+        listView.setAdapter(listViewAdaptor);
+        listViewAdaptor.notifyDataSetChanged();
     }
 }
