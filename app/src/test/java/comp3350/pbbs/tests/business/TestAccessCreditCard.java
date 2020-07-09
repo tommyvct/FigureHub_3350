@@ -64,7 +64,7 @@ public class TestAccessCreditCard extends TestCase {
      * This method tests updateCreditCard(CreditCard)
      */
     public void testUpdateCreditCard() {
-        CreditCard card1 = new CreditCard("fasd f", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(acc.updateCreditCard(card, card1));
         assertFalse(acc.updateCreditCard(card, card1));
     }
