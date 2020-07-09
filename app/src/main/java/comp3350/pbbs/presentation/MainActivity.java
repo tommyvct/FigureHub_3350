@@ -6,31 +6,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
-<<<<<<< HEAD
 import comp3350.pbbs.presentation.addObject.addTransaction;
 import comp3350.pbbs.presentation.addObject.addCard;
 import comp3350.pbbs.presentation.addObject.addBudgetCategory;
-=======
-import comp3350.pbbs.application.Main;
-import comp3350.pbbs.business.AccessBudgetCategory;
-import comp3350.pbbs.objects.BudgetCategory;
->>>>>>> master
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.View;
-=======
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
->>>>>>> master
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
