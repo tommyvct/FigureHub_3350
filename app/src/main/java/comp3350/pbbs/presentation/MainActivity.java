@@ -1,23 +1,26 @@
 package comp3350.pbbs.presentation;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import comp3350.pbbs.R;
-import comp3350.pbbs.application.Main;
-
-import android.os.Bundle;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity
-{
+import comp3350.pbbs.R;
 
+/**
+ * This class implements the main page
+ */
+public class MainActivity extends AppCompatActivity {
+
+    /**
+     * This method initiates the bottom navigation view.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

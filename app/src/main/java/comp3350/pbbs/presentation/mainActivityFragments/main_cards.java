@@ -2,28 +2,28 @@ package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessTransaction;
-import comp3350.pbbs.presentation.addObject.addCard;
 import comp3350.pbbs.business.AccessCreditCard;
 import comp3350.pbbs.objects.CreditCard;
-import comp3350.pbbs.presentation.addObject.addTransaction;
+import comp3350.pbbs.presentation.addObject.addCard;
 
 /**
+ * main_cards
+ * Group4
+ * PBBS
+ *
  * A simple {@link Fragment} subclass.
  * Use the {@link main_cards#newInstance} factory method to
  * create an instance of this fragment.
@@ -44,9 +44,10 @@ public class main_cards extends Fragment
     private String mParam1;
     private String mParam2;
 
+    // Required empty public constructor
     public main_cards()
     {
-        // Required empty public constructor
+
     }
 
     /**
@@ -96,7 +97,7 @@ public class main_cards extends Fragment
         });
 
         accessCreditCard = new AccessCreditCard();
-        listView =(ListView) view.findViewById(R.id.listCards);
+        listView = view.findViewById(R.id.listCards);
         creditCardsList = accessCreditCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<CreditCard>(
                 getActivity(),
@@ -105,10 +106,12 @@ public class main_cards extends Fragment
         );
         listView.setAdapter(listViewAdapter);
 
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_main_transactions, container, false);
         return view;
     }
+
+    /**
+     * This method updates the list after adding.
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         creditCardsList = accessCreditCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<CreditCard>(

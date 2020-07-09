@@ -8,13 +8,12 @@ import static org.junit.Assert.assertNotEquals;
 
 /**
  * TestBudgetCategories
- * Azizul Hakim
+ * Group4
  * PBBS
  *
  * This class defines a test suite for the budgetCategories class.
  */
-public class TestBudgetCategory extends TestCase
-{
+public class TestBudgetCategory extends TestCase {
     private String budgetName;              //Test budget name
     private Double budgetLimit;             //Test budget limit
     private BudgetCategory newBudget;     //Test budgetCategories object
@@ -22,16 +21,16 @@ public class TestBudgetCategory extends TestCase
     /**
      * Method to set the test values.
      */
-    public void setUp(){
-      budgetName = "Groceries";
-      budgetLimit = 100.00;
-      newBudget = new BudgetCategory(budgetName, budgetLimit);
+    public void setUp() {
+        budgetName = "Groceries";
+        budgetLimit = 100.00;
+        newBudget = new BudgetCategory(budgetName, budgetLimit);
     }
 
     /**
      * Method to test the getBudgetName
      */
-    public void testGetBudgetName(){
+    public void testGetBudgetName() {
         assertEquals("Groceries", newBudget.getBudgetName());
         assertNotEquals("Rent", newBudget.getBudgetName());
     }
@@ -39,15 +38,15 @@ public class TestBudgetCategory extends TestCase
     /**
      * Method to test the getBudgetLimit
      */
-    public void testGetBudgetLimit(){
-        assertEquals(100.00,newBudget.getBudgetLimit());
+    public void testGetBudgetLimit() {
+        assertEquals(100.00, newBudget.getBudgetLimit());
         assertNotEquals(200.00, newBudget.getBudgetLimit());
     }
 
     /**
      * Method to test the equals
      */
-    public void testEquals(){
+    public void testEquals() {
         BudgetCategory Budget1 = new BudgetCategory("Groceries", 100.00);
         assertNotNull(Budget1);
         assertTrue(newBudget.equals(Budget1));
@@ -56,7 +55,7 @@ public class TestBudgetCategory extends TestCase
         assertNotNull(Budget2);
         assertFalse(newBudget.equals(Budget2));
 
-        BudgetCategory Budget3 = new BudgetCategory("Utilities",0);
+        BudgetCategory Budget3 = new BudgetCategory("Utilities", 0);
         assertNotNull(Budget3);
         assertFalse(newBudget.equals(Budget3));
 
@@ -64,7 +63,8 @@ public class TestBudgetCategory extends TestCase
         try {
             BudgetCategory Budget4 = new BudgetCategory("Phone", -20.00);
             fail("Expected limit will be positive");
-        }catch (IllegalArgumentException e){}
+        } catch (IllegalArgumentException e) {
+        }
 
     }
 

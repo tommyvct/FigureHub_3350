@@ -2,13 +2,18 @@ package comp3350.pbbs.tests.business.accesstransaction;
 
 import junit.framework.TestCase;
 
-import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 
-
+/**
+ * TestAccessTransactionUpload
+ * Group4
+ * PBBS
+ *
+ * This class tests part of the AccessTransaction class
+ */
 public class TestAccessTransactionUpload extends TestCase {
     private AccessTransaction accessTransaction;
     private String testDate;
@@ -121,11 +126,11 @@ public class TestAccessTransactionUpload extends TestCase {
      * Test inserting invalid amount strings
      */
     public void testInvalidTransactionAmounts() {
-        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "20.205",  testCard, testBudgetCategory));
-        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "-20",  testCard, testBudgetCategory));
-        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "amount",  testCard, testBudgetCategory));
-        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "",  testCard, testBudgetCategory));
-        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, null,  testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "20.205", testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "-20", testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "amount", testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, "", testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, null, testCard, testBudgetCategory));
     }
 
     /**
@@ -142,8 +147,8 @@ public class TestAccessTransactionUpload extends TestCase {
         assertFalse(accessTransaction.isValidDescription(null));
         assertFalse(accessTransaction.isValidDescription(""));
 
-        assertFalse(accessTransaction.addTransaction(null, testDate, testTime, testAmount,  testCard, testBudgetCategory));
-        assertFalse(accessTransaction.addTransaction("", testDate, testTime, testAmount,  testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction(null, testDate, testTime, testAmount, testCard, testBudgetCategory));
+        assertFalse(accessTransaction.addTransaction("", testDate, testTime, testAmount, testCard, testBudgetCategory));
     }
 
     /**
