@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity
         Fragment f = null;
         switch(requestCode){
             case 1:
+                //TODO: This is returning null
                 f = this.getSupportFragmentManager().findFragmentById(R.id.);
+
                 System.out.println(f.getClass().getSimpleName());
                 if(f instanceof main_transactions)
                 {
