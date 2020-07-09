@@ -128,6 +128,7 @@ public class CreditCard {
     public String toString() {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4) + "\n" +
                 "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +

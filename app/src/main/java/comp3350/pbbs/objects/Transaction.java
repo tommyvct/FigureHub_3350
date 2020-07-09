@@ -1,9 +1,13 @@
 package comp3350.pbbs.objects;
 
 
+import android.annotation.SuppressLint;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -106,10 +110,15 @@ public class Transaction {
      */
     @NotNull
     public String toString() {
+        DecimalFormat rounding = new DecimalFormat("0.00");
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
+
         return  "" + description + "\n" +
-                "$" + amount + "\n" +
-                time + "\n" +
+                "$" + rounding.format(amount) + "\n" +
+                dateFormat.format(time) + "\n" +
                 card.toStringShort() + "\n" +
                 "Belongs to " + budgetCategory.getBudgetName() + " budget";
+
     }
 }

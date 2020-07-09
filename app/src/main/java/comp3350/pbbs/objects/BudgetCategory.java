@@ -1,5 +1,6 @@
 package comp3350.pbbs.objects;
 
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -47,7 +48,7 @@ public class BudgetCategory implements Serializable {
      */
     @NotNull
     public String toString() {
-        return "" + budgetName + "\nLimit: $" + budgetLimit;
+        return "" + budgetName + "\nLimit: $" + new DecimalFormat("0.00").format(budgetLimit);
     }
 
     /**
