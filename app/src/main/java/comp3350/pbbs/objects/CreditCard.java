@@ -11,10 +11,10 @@ import java.util.Calendar;
  */
 public class CreditCard {
     private String cardName;    // name of a credit card
-    private String cardNum;        // number of a credit card
-    private String holderName;    // user full name of a credit card
+    private String cardNum;     // number of a credit card
+    private String holderName;  // user full name of a credit card
     private int expireMonth;    // the month a credit card is expired, 2-digits (MM)
-    private int expireYear;        // the year a credit card is expired, 4-digits (YYYY)
+    private int expireYear;     // the year a credit card is expired, 4-digits (YYYY)
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
 
     /**
@@ -125,9 +125,10 @@ public class CreditCard {
     public String toString() {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        String info = getCardName() + "\n" + getCardNum() + "\nCard Holder: " + getHolderName() +
-                "\nValid Until: " + month[getExpireMonth() - 1] + " " +
-                getExpireYear() + "\nExpected payment due on " + getPayDate();
+        String info = getCardName() + "\nCard number: " + getCardNum() + "\nCard holder: " +
+                getHolderName() + "\nValid until: " + month[getExpireMonth() - 1] + " " +
+                getExpireYear() + "\nExpected payment due day: " + getPayDate() + " next month";
+        //the string "next month" needs to be replaced to real month later
         return info;
     }
 

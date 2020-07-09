@@ -103,11 +103,11 @@ public class Transaction {
      * @return A string representing this object and its fields.
      */
     public String toString() {
-        return "Transaction: " +
-                " Amount: " + amount +
-                " Time: " + time +
-                " Description: " + description +
-                " Card: " + card +
-                " Budget Category: " + budgetCategory;
+        return "TRANSACTION:" +
+                "\nAmount: " + amount +
+                "\nTime: " + time +
+                "\nDescription: " + description +
+                "\nCard name: " + card +
+                "\nBudget " + budgetCategory;
     }
 }
