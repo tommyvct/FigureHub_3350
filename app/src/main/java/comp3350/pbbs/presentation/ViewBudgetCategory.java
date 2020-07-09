@@ -1,11 +1,9 @@
 package comp3350.pbbs.presentation;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.app.Activity;
 import android.widget.TextView;
-
 import java.text.DecimalFormat;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;

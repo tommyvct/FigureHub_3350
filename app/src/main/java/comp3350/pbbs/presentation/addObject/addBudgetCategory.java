@@ -1,14 +1,10 @@
 package comp3350.pbbs.presentation.addObject;
 
+import java.util.Objects;
 import android.os.Bundle;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Objects;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 

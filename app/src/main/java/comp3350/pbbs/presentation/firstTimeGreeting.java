@@ -1,12 +1,10 @@
 package comp3350.pbbs.presentation;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
-
+import androidx.appcompat.app.AppCompatActivity;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 

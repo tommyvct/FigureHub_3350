@@ -1,17 +1,15 @@
 package comp3350.pbbs.presentation;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.widget.Button;
-
+import android.content.Intent;
+import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.business.AccessUser;
