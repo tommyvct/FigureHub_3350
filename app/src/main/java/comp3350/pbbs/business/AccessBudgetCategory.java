@@ -40,11 +40,11 @@ public class AccessBudgetCategory {
      *
      * @return the budgetCategory at position currentBudgetCat in the ArrayList
      */
+    @SuppressWarnings("unused")
     public BudgetCategory getBudgetCategory() {
-        boolean result = false;
         if (budgetCategories == null) {
-            budgetCategories = new ArrayList<BudgetCategory>();
-            result = dataAccess.addBudgetCategories(budgetCategories);
+            budgetCategories = new ArrayList<>();
+            dataAccess.addBudgetCategories(budgetCategories);
             currentBudgetCat = 0;
         }
         if (currentBudgetCat < budgetCategories.size()) {

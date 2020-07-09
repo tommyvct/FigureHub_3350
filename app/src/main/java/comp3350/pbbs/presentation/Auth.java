@@ -1,22 +1,26 @@
 package comp3350.pbbs.presentation;
 
 import android.content.Intent;
-import android.os.Build;
+//import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.Button;
+//import android.provider.Settings;
+//import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+//import androidx.annotation.NonNull;
+//import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
+//import androidx.biometric.BiometricPrompt;
+//import androidx.core.content.ContextCompat;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.business.AccessUser;
 
 
+/**
+ * Used to be utilizing android lock screen credential to secure the app,
+ * now it's only a dummy entry activity used as a junction for asking user nickname on first launch.
+ */
 public class Auth extends AppCompatActivity
 {
     @Override
@@ -58,7 +62,7 @@ public class Auth extends AppCompatActivity
 //        return new BiometricPrompt.PromptInfo.Builder()
 //                // Title and subtitle need to be changed.
 //                    .setTitle("Biometric login for my app")
-//                    .setSubtitle("Log in using your lockscreen credential")
+//                    .setSubtitle("Log in using your lock screen credential")
 //                    .setDeviceCredentialAllowed(true)
 //                    .build();
 //    }
