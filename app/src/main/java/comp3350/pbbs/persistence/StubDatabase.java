@@ -18,12 +18,12 @@ import comp3350.pbbs.objects.Transaction;
  * This class defines the persistence layer (stub database).
  */
 public class StubDatabase {
-    private String databaseName;                    //name of the database
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    private String databaseName;                    //name of the database, not used in iteration 1
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
     private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
     private String username;                        //"Hi, {username}!"
-    private Date date;                                //local date variable
 
     /**
 	 * This method is the constructor of the database stub
@@ -32,9 +32,9 @@ public class StubDatabase {
      */
     public StubDatabase(String name) {
         this.databaseName = name;
-        budgets = new ArrayList<BudgetCategory>();
-        creditCards = new ArrayList<CreditCard>();
-        transactions = new ArrayList<Transaction>();
+        budgets = new ArrayList<>();
+        creditCards = new ArrayList<>();
+        transactions = new ArrayList<>();
     }
 
     /**
@@ -45,7 +45,7 @@ public class StubDatabase {
     public static Date calcDate(Date d, int n) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(d);
-        calendar.add(calendar.DATE, n);
+        calendar.add(Calendar.DATE, n);
         d = calendar.getTime();
         return d;
     }
@@ -58,7 +58,7 @@ public class StubDatabase {
         CreditCard card1, card2;                                //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
 
-        budgets = new ArrayList<BudgetCategory>();
+        budgets = new ArrayList<>();
         rent = new BudgetCategory("Rent/Mortgage", 500);
         budgets.add(rent);
         groceries = new BudgetCategory("Groceries", 100);
@@ -68,15 +68,16 @@ public class StubDatabase {
         phoneBill = new BudgetCategory("Phone Bill", 75);
         budgets.add(phoneBill);
 
-        creditCards = new ArrayList<CreditCard>();
+        creditCards = new ArrayList<>();
         card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
         creditCards.add(card1);
         card2 = new CreditCard("", "1002100310041005", "Jimmy", 11, 2021, 15);
         // card2 name should be "No Name"
         creditCards.add(card2);
 
-        date = new Date();
-        transactions = new ArrayList<Transaction>();
+        //local date variable
+        Date date = new Date();
+        transactions = new ArrayList<>();
         t1 = new Transaction(calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
         t2 = new Transaction(calcDate(date, -8), 450, "Rent Paid", card2, rent);
@@ -161,6 +162,7 @@ public class StubDatabase {
      *
      * @return true if added successfully.
      */
+    @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean addAllCreditCards(List<CreditCard> cardList) {
         return cardList.addAll(creditCards);
     }
@@ -225,6 +227,7 @@ public class StubDatabase {
      *
      * @return the transaction object.
      */
+    @SuppressWarnings("unused")  // will be used at some point in the future
     public Transaction findTransaction(Transaction currentTransaction) {
         Transaction transaction = null;
         int index = transactions.indexOf(currentTransaction);
@@ -294,7 +297,7 @@ public class StubDatabase {
      * the username could be anything single line. <br>
      * this is ensured on presentation side
      *
-     * @param newUsername
+     * @param newUsername new username
      */
     public void setUsername(String newUsername) {
         this.username = newUsername;

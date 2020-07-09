@@ -1,6 +1,8 @@
 package comp3350.pbbs.objects;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -102,6 +104,7 @@ public class Transaction {
      *
      * @return A string representing this object and its fields.
      */
+    @NotNull
     public String toString() {
         return "TRANSACTION:" +
                 "\nAmount: " + amount +

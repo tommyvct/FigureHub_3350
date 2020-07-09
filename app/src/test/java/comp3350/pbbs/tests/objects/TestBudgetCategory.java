@@ -49,21 +49,21 @@ public class TestBudgetCategory extends TestCase {
     public void testEquals() {
         BudgetCategory Budget1 = new BudgetCategory("Groceries", 100.00);
         assertNotNull(Budget1);
-        assertTrue(newBudget.equals(Budget1));
+        assertEquals(newBudget, Budget1);
 
         BudgetCategory Budget2 = new BudgetCategory("Rent", 200.00);
         assertNotNull(Budget2);
-        assertFalse(newBudget.equals(Budget2));
+        assertNotEquals(newBudget, Budget2);
 
         BudgetCategory Budget3 = new BudgetCategory("Utilities", 0);
         assertNotNull(Budget3);
-        assertFalse(newBudget.equals(Budget3));
+        assertNotEquals(newBudget, Budget3);
 
         //won't create an object if passed negative value in budgetLimit
         try {
             BudgetCategory Budget4 = new BudgetCategory("Phone", -20.00);
             fail("Expected limit will be positive");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
     }

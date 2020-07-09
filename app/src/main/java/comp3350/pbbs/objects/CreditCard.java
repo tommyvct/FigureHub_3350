@@ -1,5 +1,7 @@
 package comp3350.pbbs.objects;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 
 /**
@@ -122,14 +124,14 @@ public class CreditCard {
      *
      * @return a string represents this object and its fields
      */
+    @NotNull
     public String toString() {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        String info = getCardName() + "\nCard number: " + getCardNum() + "\nCard holder: " +
+        //the string "next month" needs to be replaced to real month later
+        return getCardName() + "\nCard number: " + getCardNum() + "\nCard holder: " +
                 getHolderName() + "\nValid until: " + month[getExpireMonth() - 1] + " " +
                 getExpireYear() + "\nExpected payment due day: " + getPayDate() + " next month";
-        //the string "next month" needs to be replaced to real month later
-        return info;
     }
 
     /**

@@ -18,7 +18,7 @@ public class Services {
         return dbAccessService;
     }
 
-    public static StubDatabase getDataAccess(String dbName){
+    public static StubDatabase getDataAccess(@SuppressWarnings("unused") String dbName){
         if(dbAccessService == null){
             System.out.println("Connection to data access has not been established.");
             System.exit(1);
