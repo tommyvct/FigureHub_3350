@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
@@ -89,25 +90,22 @@ public class main_budget extends Fragment
         listView = (ListView) view.findViewById(R.id.listBudgets);
 
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
-        listViewAdaptor = new ArrayAdapter<BudgetCategory>(
-                getActivity(),
+
+        String[] list = new String[budgetCategoryList.size()];
+        for (int i = 0; i< budgetCategoryList.size(); i++){
+            list[i] = budgetCategoryList.get(i).toString();
+        }
+
+        ListView listView = (ListView) view.findViewById(R.id.listBudgets);
+
+        listViewAdaptor = new ArrayAdapter<>(
+                requireActivity(),
                 android.R.layout.simple_list_item_1,
                 budgetCategoryList
         );
 
         listView.setAdapter(listViewAdaptor);
 
-        FloatingActionButton fab = view.findViewById(R.id.addBudgFAB);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 1);
-            }
-        });
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_main_budget, container, false);
         return view;
     }
 
