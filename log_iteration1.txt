@@ -372,3 +372,20 @@ Fixed toString format.
 Fixed dollar display format.
 Time taken: 5 hours
 
+
+## Outstanding bugs and their fixes:
+There is a bug on all upload forms. You can press the submit button multiple times when everything
+is filled out before going back to the main list view, resulting in duplicate records being added to the database.
+
+It can be fixed by moving the snack bar to previous activity.
+
+
+## Design decisions and rationals
+1. A snack bar can be seen in the app when a user tries to add a new transaction, a new budget category or
+a new credit card. This is implemented because it shows the user whether he/she successfully added or
+failed to add a new entry.
+
+2. The first time greeting activity is designed to welcome the user every time they come back to the home page.
+
+3. The bottom navigation bar is implemented to let the users show an organized way of storing their spending,
+budgets and personal credit cards.
