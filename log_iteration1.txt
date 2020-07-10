@@ -389,3 +389,12 @@ failed to add a new entry.
 
 3. The bottom navigation bar is implemented to let the users show an organized way of storing their spending,
 budgets and personal credit cards.
+
+4. We designed a functionality in the budget category list items to show some "interesting" calculations,
+if the users click on a budget category and it'll show the amount spent on that category.
+
+5. In our app, we decided to let users input future transactions which will be helpful for them to plan for
+future purchases.
+
+6. At the home page, user can give any name he/she likes, we want to  give users the ability to
+express their personal identity however they wish.

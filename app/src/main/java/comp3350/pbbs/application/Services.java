@@ -2,6 +2,10 @@ package comp3350.pbbs.application;
 
 import android.os.Build;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import androidx.annotation.RequiresApi;
 
 import comp3350.pbbs.persistence.StubDatabase;
@@ -52,5 +56,18 @@ public class Services {
      */
     public static void closeDataAccess() {
         dbAccessService = null;
+    }
+
+    /**
+     * This method performs the date calculation
+     *
+     * @return a Date object
+     */
+    public static Date calcDate(Date d, int n) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(d);
+        calendar.add(Calendar.DATE, n);
+        d = calendar.getTime();
+        return d;
     }
 }
