@@ -68,7 +68,7 @@ Excluding default android studio project resources and files, source code files 
 
 ---
 
-### Environment
+### Environments
 
 The PBBS was tested on following environments:
 |Emulator/Device|OS|
@@ -89,11 +89,11 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 	Fix: Move the snackbar to previous activity, which was the original design. 
     
-    Due to unfamiliarity, current design is relatively easier to understand and implement. 
+	Due to unfamiliarity, current design is relatively easier to understand and implement. 
 
 ---
 
 ### License
 
-All rights reserved by members in the development team: Group 4 of COMP3350 summer 2020, University of Manitoba.
+- All rights reserved by members in the development team: Group 4 of COMP3350 summer 2020, University of Manitoba.
 
