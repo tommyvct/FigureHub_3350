@@ -395,3 +395,6 @@ if the users click on a budget category and it'll show the amount spent on that 
 
 5. In our app, we decided to let users input future transactions which will be helpful for them to plan for
 future purchases.
+
+6. At the home page, user can give any name he/she likes, we want to  give users the ability to
+express their personal identity however they wish.
