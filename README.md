@@ -44,7 +44,7 @@ Excluding default android studio project resources and files, source code files 
 1. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
 2. The default interface after inputting the name is the **Home** page. There are 4 menu options in total and are listed at the bottom part of the screen. In addition to Home, the app provides navigation options for Cards, Budget, and Transactions. Each of these 3 menus has a **add** button at the bottom right corner for their sub-menus.
-	>Home page so far has no features but a welcome slogn, will be complete in next interation.
+	>Home page so far has no features but a welcome slogan, this will be more fleshed out in the next interation.
 
 3. **Cards** page contains detailed information of each credit card the user has. The add button brings the user to the *Add Card* page, which brings up a form that requires input of **Card Name**, **Card Number**, **Expire Date (month & year)**, **Payment Day**, and **Holder Name**, defined as follows:
 	* Card Name: a description or name of the card *(ex. Mastercard)*
