@@ -130,7 +130,9 @@ public class CreditCard {
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
         //the string "next month" needs to be replaced to real month later
-        return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4) + "\n" +
+        return  getCardName() + (getCardNum().length() > 4 ?
+                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
+                + "\n" +
                 "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
                 getHolderName() + "\n" +
 
