@@ -70,9 +70,9 @@ Excluding default android studio project resources and files, source code files 
 
 ### Environment
 
-The PBBS was tested on an **android app emulator** with device **Nexus 7 API 23**, as well as a physical **Samsung Note 9** device running **Android 10**.
+- The PBBS was tested on an **android app emulator** with device **Nexus 7 API 23**, as well as a physical **Samsung Note 9** device running **Android 10**.
 
-The development environment makes use of **SDK Android 6.0 (Marshmallow) API 23** and **JDK 8**. The emulator used is a **Nexus 7** tablet with **API 23**.
+- The development environment makes use of **SDK Android 6.0 (Marshmallow) API 23** and **JDK 8**. The emulator used is a **Nexus 7** tablet with **API 23**.
 
 ---
 
