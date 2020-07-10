@@ -389,3 +389,6 @@ failed to add a new entry.
 
 3. The bottom navigation bar is implemented to let the users show an organized way of storing their spending,
 budgets and personal credit cards.
+
+4. We designed a functionality in the budget category list items to show some "interesting" calculations,
+if the users click on a budget category and it'll show the amount spent on that category.
