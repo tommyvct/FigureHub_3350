@@ -51,9 +51,9 @@ public class TestAccessTransactionUpdate extends TestCase {
         testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
-        testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
+        testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
         // Won't be added to the database
-        testTransaction3 = new Transaction(StubDatabase.calcDate(testDate, -2), 12.07f, testDesc, testCard, testBudgetCategory);
+        testTransaction3 = new Transaction(Services.calcDate(testDate, -2), 12.07f, testDesc, testCard, testBudgetCategory);
         df = new SimpleDateFormat("d/M/yyyy");
         testDateStr = df.format(testTransaction3.getTime());
         df = new SimpleDateFormat("k:m");
@@ -116,7 +116,7 @@ public class TestAccessTransactionUpdate extends TestCase {
      */
     public void testValidAmounts() {
         assertTrue(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, "20", testCard, testBudgetCategory));
-        testTransaction3 = new Transaction(StubDatabase.calcDate(testDate, -2), 20, testDesc, testCard, testBudgetCategory);
+        testTransaction3 = new Transaction(Services.calcDate(testDate, -2), 20, testDesc, testCard, testBudgetCategory);
         assertUpdated();
     }
 

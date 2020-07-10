@@ -46,8 +46,8 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
-        testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
-        testTransaction3 = new Transaction(StubDatabase.calcDate(testDate, -2), testAmount, testDesc, testCard, testBudgetCategory);
+        testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
+        testTransaction3 = new Transaction(Services.calcDate(testDate, -2), testAmount, testDesc, testCard, testBudgetCategory);
 
         assertTrue(db.addTransactions(Arrays.asList(testTransaction1, testTransaction2, testTransaction3)));
     }
@@ -63,7 +63,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
      * Tests retrieving transactions on a range containing a single date
      */
     public void testRangeOneDay() {
-        List<Transaction> results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(testDate, -1), StubDatabase.calcDate(testDate, 1));
+        List<Transaction> results = accessTransaction.retrieveTransactions(Services.calcDate(testDate, -1), Services.calcDate(testDate, 1));
         assertTrue(results.contains(testTransaction1));
         assertFalse(results.contains(testTransaction2));
         assertFalse(results.contains(testTransaction3));
@@ -73,7 +73,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
      * Tests retrieving transactions on a range containing two dates
      */
     public void testRangeTwoDays() {
-        List<Transaction> results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(testDate, -2), StubDatabase.calcDate(testDate, 1));
+        List<Transaction> results = accessTransaction.retrieveTransactions(Services.calcDate(testDate, -2), Services.calcDate(testDate, 1));
         assertTrue(results.contains(testTransaction1));
         assertTrue(results.contains(testTransaction2));
         assertFalse(results.contains(testTransaction3));
@@ -101,10 +101,10 @@ public class TestAccessTransactionRetrieve extends TestCase {
         assertTrue(results.contains(testTransaction2));
         assertTrue(results.contains(testTransaction3));
 
-        Transaction testTransaction4 = new Transaction(StubDatabase.calcDate(testDate, -5), testAmount, testDesc, testCard, testBudgetCategory);
+        Transaction testTransaction4 = new Transaction(Services.calcDate(testDate, -5), testAmount, testDesc, testCard, testBudgetCategory);
         assertFalse(results.contains(testTransaction4));
 
-        results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(testDate, -500), StubDatabase.calcDate(testDate, 500));
+        results = accessTransaction.retrieveTransactions(Services.calcDate(testDate, -500), Services.calcDate(testDate, 500));
         assertTrue(results.contains(testTransaction1));
         assertTrue(results.contains(testTransaction2));
         assertTrue(results.contains(testTransaction3));
