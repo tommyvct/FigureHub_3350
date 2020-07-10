@@ -90,7 +90,11 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 ### Known Bugs
 - There is a bug on all upload forms. You can press the submit button multiple times when everything is filled out before going back to the main list view, resulting in duplicate records being added to the database.
 
----
+	Fix: Move the snackbar to previous activity, which was the original design. 
+    
+    Due to unfamiliarity, current design is relatively easier to understand and implement. 
+
+
 
 ### License
 
