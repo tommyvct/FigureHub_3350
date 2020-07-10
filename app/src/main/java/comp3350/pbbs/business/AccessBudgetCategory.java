@@ -206,8 +206,8 @@ public class AccessBudgetCategory {
      * @param currentBudgetCat is the specified BudgetCategory
      * @return the total amount from transactions in that budget category
      */
-    public int calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat){
-        int sum = 0;
+    public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat){
+        float sum = 0;
         List<Transaction> transactions = dataAccess.getTransactions();
 
         for(int i = 0; i < transactions.size(); i++){
