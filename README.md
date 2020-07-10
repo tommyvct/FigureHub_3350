@@ -53,11 +53,15 @@ Excluding default android studio project resources and files, source code files 
 	* Payment Day: due day of next payment from the current month *(ex. 15)*
 	* Holder Name: the user's full name shown on the card *(ex. Joshua Smallwood)*
 
-4. **Budget** page is to let the user setup a limit for each consumption category. The add button brings the user to *Add Budget Category* page, which brings up a form that requires input of **Description** and **Limit**. A budget category includes:
+4. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to *Add Budget Category* page, which brings up a form that requires input of **Description** and **Limit**. A budget category includes:
 	* Desciption: name of this category *(ex. Snack food)*
 	* Limit: amount of money as the cost upperlimit *(ex. 50)*
+	
+   If you tap on a single budget in the list, you can view closer details, as outlined in the next feature.
 
-5. **Transactions** page aims to record each transaction the user made. The add button brings the user to *Add Transaction* page, which brings up a form that requires input of **Description**, **Date & Time**, and **Amount** to fill values in, and **Card** and **Budget Category** to select. A transaction record includes:
+5. **View Budget** page is to let the user view the total amount they have spent under a single budget and compare it to their set budget limit.
+
+6. **Transactions** page aims to record each transaction the user made. The add button brings the user to *Add Transaction* page, which brings up a form that requires input of **Description**, **Date & Time**, and **Amount** to fill values in, and **Card** and **Budget Category** to select. A transaction record includes:
 	* Amount: Amount of money spent *(ex. 20)*
 	* Date and Time: Time when this transaction happened *(Implemented as a date and time selector)*
 	* Description: What is the purpose of this transaction *(ex. Bought Groceries)*
