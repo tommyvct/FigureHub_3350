@@ -84,7 +84,6 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 **JDK 8** is also used.
 
-
 ---
 
 ### Known Bugs
@@ -94,7 +93,7 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
     
     Due to unfamiliarity, current design is relatively easier to understand and implement. 
 
-
+---
 
 ### License
 
