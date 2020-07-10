@@ -70,7 +70,7 @@ public class CreditCard {
      * @return true if the holder name meet the requirement of the format
      */
     public static boolean isValidName(String str) {
-        if (str == null) {
+        if (str == null || str.isEmpty()) {
             return false;
         } else {
             return str.matches(REGEX);
