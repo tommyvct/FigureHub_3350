@@ -14,7 +14,7 @@
 	* You can view the developer logs from the link above. It is also sorted as a text document in the main zip file directory.
 
 4. Team members:
-	* *Azizul Hakim, 7848052*,	*Terra Jentsch, 7613907*,	*Joshua Smallwood, 7826555*,	*Tommy Wu, 7852291*,	*Hao Zheng, 7870389*.
+	* *Azizul Hakim (7848052)*,	*Terra Jentsch (7613907)*,	*Joshua Smallwood (7826555)*,	*Tommy Wu (7852291)*,	*Hao Zheng (7870389)*.
 	>Names are represented in ascending order based on the first letter of surnames of developers.
 
 ---
