@@ -80,8 +80,9 @@ The PBBS was tested on following environments:
 |Samsung Note 9 (Qualcomm Snapdragon 845)|Android 10 Q (API Level 29)|
 
 
-The development environment makes use of **Android 11 (R) API Level 30 SDK**, targed to Android 11, with minimum SDK version of **Android 6 (Marshmallow) API Level 23** .
-**JDK 8** is used.
+The development environment makes use of **Android 11 (R) API Level 30 SDK**, targed to Android 11, with minimum SDK version of **Android 6 (Marshmallow) API Level 23**.
+
+**JDK 8** is also used.
 
 
 ---
