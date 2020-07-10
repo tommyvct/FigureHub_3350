@@ -71,11 +71,21 @@ Excluding default android files of the emulator, source code files of this proje
 ### Environment
 >(Delete this after done) clearly describe which Android systems your app was tested on, including emulator and hardware.
 
-The PBBS was tested on an **android app emulator** with device **Nexus 7 API 23**.
+The PBBS was tested on following environments:
+|Emulator/Device|OS|
+|:-:|:-:|
+|Nexus 7 Emulator (amd64)|Android 6 Marshmallow (API Level 23)|
+|Nexus 7 Emulator (amd64)|Android 10 Q (API Level 29)|
+|Xiaomi Mi 5S (Qualcomm Snapdragon 821)| Android 8 Oreo (API Level 26)|
+|Xiaomi Mi Note LTE (Qualcomm Snapdragon 810) | Android 6 Marshmallow (API Level 23)|
+|Samsung Note 9 (Qualcomm Snapdragon 845)|Android 10 Q (API Level 29)|
+
 
 >(Delete this after done) Describe exactly the environment(s) used, to ensure the markers can replicate an environment and avoid unexpected results. Remember that regardless of the hardware, it must run on the emulator with system image 6.0 (Marshmallow, API level 23).
 
-The development environment makes use of **SDK Android 6.0 (Marshmallow) API 23** and **JDK 8**.
+The development environment makes use of **Android 11 (R) API Level 30 SDK**, targed to Android 11 with minimum SDK version of **Android 6 (Marshmallow) API Level 23** and **JDK 8**.
+
+
 
 ---
 
