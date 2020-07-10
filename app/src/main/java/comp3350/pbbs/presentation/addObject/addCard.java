@@ -1,13 +1,18 @@
 package comp3350.pbbs.presentation.addObject;
 
-import java.util.Objects;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Objects;
+
 import comp3350.pbbs.R;
-import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.business.AccessCreditCard;
+import comp3350.pbbs.objects.CreditCard;
 
 /**
  * addCard
@@ -30,6 +35,8 @@ public class addCard extends AppCompatActivity {
      *
      * @param savedInstanceState a bundle variable to save the state
      */
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +52,6 @@ public class addCard extends AppCompatActivity {
         cardholderName = findViewById(R.id.cardholderName);
 
         accessCreditCard = new AccessCreditCard();
-
         validThruYear.setText("20");       //For year, the first 2 digits will always be 20
 
         findViewById(R.id.addCardSubmit).setOnClickListener(view ->

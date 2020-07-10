@@ -35,7 +35,7 @@ public class AccessUser {
     /**
      * setter for username, used when renaming
      *
-     * @param newUsername
+     * @param newUsername new username
      */
     public void setUsername(String newUsername) {
         dataAccess.setUsername(newUsername);

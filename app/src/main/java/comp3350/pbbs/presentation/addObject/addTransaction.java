@@ -59,6 +59,7 @@ public class addTransaction extends AppCompatActivity
         dateText = findViewById(R.id.dateInput);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
         {
+            //noinspection CodeBlock2Expr
             datePickerDialog = new DatePickerDialog(addTransaction.this,
                     (view, year1, monthOfYear, dayOfMonth) ->
                     {
@@ -71,6 +72,7 @@ public class addTransaction extends AppCompatActivity
         timeText = findViewById(R.id.timeInput);
         timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
         {
+            //noinspection CodeBlock2Expr
             timePickerDialog = new TimePickerDialog(addTransaction.this,
                     (timePicker, hourOfDay, minute) ->
                     {

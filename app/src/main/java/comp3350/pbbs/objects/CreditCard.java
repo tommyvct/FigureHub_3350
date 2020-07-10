@@ -1,5 +1,7 @@
 package comp3350.pbbs.objects;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 
 /**
@@ -68,7 +70,7 @@ public class CreditCard {
      * @return true if the holder name meet the requirement of the format
      */
     public static boolean isValidName(String str) {
-        if (str == null) {
+        if (str == null || str.isEmpty()) {
             return false;
         } else {
             return str.matches(REGEX);
@@ -122,14 +124,22 @@ public class CreditCard {
      *
      * @return a string represents this object and its fields
      */
+    @NotNull
     public String toString() {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        String info = getCardName() + "\nCard number: " + getCardNum() + "\nCard holder: " +
-                getHolderName() + "\nValid until: " + month[getExpireMonth() - 1] + " " +
-                getExpireYear() + "\nExpected payment due day: " + getPayDate() + " next month";
+
         //the string "next month" needs to be replaced to real month later
-        return info;
+        return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4) + "\n" +
+                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n" +
+
+                "Expected payment on " + getPayDate() + " next month";
+    }
+
+    public String toStringShort()
+    {
+        return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 
     /**

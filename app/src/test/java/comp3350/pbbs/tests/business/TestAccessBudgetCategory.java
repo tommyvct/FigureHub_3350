@@ -56,7 +56,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testValidInput() {
         //Adding multiple categories at once
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);
@@ -97,7 +97,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testInvalidLimitIntegerInput() {
         //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);
@@ -136,7 +136,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testInvalidLimitZeroInput() {
         //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);
@@ -171,11 +171,11 @@ public class TestAccessBudgetCategory extends TestCase {
     }
 
     /**
-     * Testing that all methods work using innalid empty input
+     * Testing that all methods work using invalid empty input
      */
     public void testInvalidEmptyInput1() {
         //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);
@@ -214,7 +214,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testInvalidEmptyInput2() {
         //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);
@@ -262,7 +262,7 @@ public class TestAccessBudgetCategory extends TestCase {
      * testing adding a list of BudgetCategory to the stub, as well as adding individually
      */
     public void testAdding() {
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<>();
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         newBudgetCategories.add(bc1);

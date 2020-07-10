@@ -40,6 +40,25 @@ public class addBudgetCategory extends AppCompatActivity {
 
         findViewById(R.id.addBudgetSubmit).setOnClickListener(view ->
         {
+            boolean valid = true;
+
+            if (BudgetNameET.getText().toString().isEmpty())
+            {
+                BudgetNameET.setError("Name required.");
+                valid = false;
+            }
+
+            if (BudgetLimitET.getText().toString().isEmpty())
+            {
+                BudgetLimitET.setError("Limit required.");
+                valid = false;
+            }
+
+            if (!valid)
+            {
+                return;
+            }
+
             //checking if the newly created budget is valid or not
             if (accessBudgetCategory.insertBudgetCategory(BudgetNameET.getText().toString(), BudgetLimitET.getText().toString()))   // validate fields, use methods from business class
             {
@@ -52,6 +71,10 @@ public class addBudgetCategory extends AppCompatActivity {
                                 finish();
                             }
                         }).show();
+            }
+            else
+            {
+                Snackbar.make(view, "Failed to add Budget Category.", Snackbar.LENGTH_SHORT).show();
             }
         });
     }

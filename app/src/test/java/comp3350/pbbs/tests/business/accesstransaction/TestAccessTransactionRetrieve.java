@@ -34,7 +34,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
     private StubDatabase db;
 
     /**
-     * Sets the test values and prepopulates database
+     * Sets the test values and pre-populates database
      */
     public void setUp() {
         db = Services.createDataAccess("test");
@@ -43,7 +43,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testAmount = 20;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
-        testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);

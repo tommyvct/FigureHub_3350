@@ -1,0 +1,391 @@
+GROUP 4 DEVELOPER LOG
+ORGANIZED BY DAY
+
+Note: The following log is also documented in the Github repository,
+under Projects -> Iteration 1 : Developer logs
+
+# JUNE 19
+## Individual entry:
+## Terra
+Added big user stories as issues/developer tasks on GitHub
+Considered possible flow diagrams for interface
+
+
+# JUNE 21
+## Meeting Details:
+Had a meeting about creating the android studio project and an introduction to github and android studio
+
+Attended: Aziz, Hao, and Josh
+Time taken: 2 hours
+
+# JUNE 23
+## Meeting Details:
+Had a meeting about implementing the objects. 
+Attended by : Aziz, Hao, Tommy, and Josh.
+Time taken: 2.5 hours
+
+Details
+- Talked about how specific objects will be implemented
+- Created the development log on github
+- Discuss more on specific objects
+- Broke create objects developer tasks into multiple 
+  tasks, one for each object
+
+# JUNE 24
+## Meeting Details:
+Had a meeting to divide tasks between developers.
+
+Attended: Josh, Aziz, Terra, Hao, and Tommy
+Time taken: 1.5 hours
+
+Details
+- Discussed John's reply to Aziz's email
+- Assigned developer tasks
+  - Describe the flow of the application -> Tommy
+  - Create Credit Card object -> Hao
+  - Create Budget Category object -> Aziz
+  - Create Transaction object -> Josh
+  - Create User object -> Terra
+- Helped get Terra set up
+- Started development
+
+# JUNE 25
+## Individual entries:
+## Tommy
+Started bio authentication, created pull request
+
+## Josh
+Reviewed pull request, requested changes
+
+## Terra
+Set up android emulator
+
+
+# JUNE 27
+## Meeting Details:
+Had a meeting to organize the project in the android studio.
+
+Attended by: Josh, Aziz, Terra, Hao, and Tommy
+Time taken: 1 hour
+
+
+## Individual entries:
+## Josh
+Reviewed Tommy's pull request with latest changes and discussed
+during the meeting
+
+Completed Transaction class V1 with no integration with CreditCard 
+object or BudgetCategory object
+Time taken: 4 hours
+
+## Hao
+Class CreditCard alpha version is completed.
+Pushed to local branch, will commit after next meeting discussion.
+Time taken: 3 hours
+
+## Aziz
+Created budgetCategories class. I pushed it to the local repository
+then discussed it with the teammates and then merged it with the project.
+Time taken: 3 hours
+
+## Terra
+Created User class and Test Cases
+
+Created pull request
+Time take: 3 hours
+
+
+# June 28
+## Individual entries:
+## Josh
+Merged Added biometric, reviewed BudgetCategories and User object and
+requested changes. Approved Aziz's pull request on BudgetCategories
+
+## Aziz
+Pushed and made a pull request for BudgetCategories object.
+Created Test for BudgetCategory
+Time taken: 1.5 hours
+
+
+# June 29
+## Meeting Details:
+Discussed these issues:
+- coding standards
+   - naming (camelCase?)(methods)
+   - file structure
+- Assign next tasks
+   - Persistence, presentation and business layer
+Aziz assigned on persistence layer
+Terra assigned on Budget Access layer
+Josh assigned on Transaction Access layer
+Hao assigned on Credit Card Access layer
+Tommy assigned on presentation layer (interface for inputting transaction
+and interface for adding Credit card)
+Also discussed:
+- What will stub contain? (suggestions)
+   - 2 credit cards
+   - 3 budget categories
+   - 5 transactions
+   - 1 user
+
+Attended by: Josh, Aziz, Terra, Hao, Tommy
+Time taken: 1 hour
+
+## Individual entries:
+## Josh
+Reviewed CreditCard class
+Merged a bunch of pull requests
+Fully integrated all domain objects
+Time taken: 2 hours
+
+## Hao
+Created CreditCard class and wrote tests for it
+Time taken: 2 hours
+
+## Aziz
+Planned the whole persistence layer.
+Time taken: 1.5 hours
+
+## Tommy
+Created main activity with bottom navigation bar and dummy fragments.
+A float action button on transaction fragment to add transaction.
+Time taken: 3 hours
+
+## Terra
+Merged previous changes with the master.
+Time taken: 0.5 hour
+
+
+# June 30
+## Individual entries:
+## Josh
+Set up CI on local repository fork
+Time taken: 2 hours
+
+## Aziz
+Created the stub database. Committed and made a pull request to everyone
+to review. Discussed and edited the whole class.
+Time taken: 6 hours
+
+## Tommy
+Implemented a skeleton of add transaction UI.
+A skeleton of add card activity.
+Time taken: 3 hours
+
+
+# July 1
+## Individual entries:
+## Josh
+Set up CI on gitHub repository
+Time taken: 0.5 hour
+
+## Hao
+Started CreditCard access layer and test
+Time taken: 1 hour
+
+## Terra
+Created 'Main' and 'Services' in 'application' package
+Refactored StubDatabase (more consistent method names)
+Refactored BudgetCategory (from BudgetCategories)
+Started Budget Access Layer
+Time taken: 2 hours
+
+
+# July 2
+## Individual entries:
+## Josh
+Create transaction access layer with features for parsing
+and uploading transactions.
+Time taken: 3 hours
+
+
+# July 3
+## Meeting details:
+Discussed everyone's progress and the next tasks.
+Aziz assigned on task AccessUser and its tests.
+Attended by: All
+Time taken: 1 hour
+
+## Individual entries:
+## Josh
+Document transaction access layer.
+Time taken: 1 hour
+
+## Hao
+Class `AccessCreditCard` and its test class are completed.
+Class `CreditCard` and its test class are updated.
+Modified class `StubDatabase` for integration purposes.
+Time taken: 4 hours
+
+## Aziz
+### July 3
+I was assigned the task to create the User Access class
+for the business layer. Started writing the classes.
+Time taken: 1 hour
+
+## Tommy
+Added Create profile activities on the first page
+Time taken: 3 hours
+
+## Terra
+Finished AccessBudgetCategory, added testing, and validation.
+Refactored relevant BudgetCategory methods in StubDatabase
+Added validation of types in AccessBudgetCategory
+waiting on Pull requests to merge fully.
+Time taken: 3 hours
+
+
+# July 4
+## Individual entries:
+## Josh
+Reviewed and merged pull requests
+Update transaction access layer to include retrieving transactions.
+Time taken: 2 hours
+
+## Hao
+Updated files of package `object`, `business`, and `persistence` to
+ensure all tests are passed.
+Integration is completed.
+Merged all up-to-date files to master branch.
+Time taken: 3 hours
+
+## Aziz
+Created AccessUser.java and TestAccessuser.java
+Updated AllTests.java and StubDatabase.java
+Time taken: 2 hours
+
+## Tommy
+Almost finished add transaction and card interface
+FAB on cards fragment
+Time taken: 2.5 hours
+
+## Terra
+Pushed validation for AccessBudgetCategory
+Time taken: 1.5 hours
+
+# July 5
+## Individual entries:
+## Josh
+Update transaction access layer to include updating and deleting
+transactions.
+Time taken: 2 hours
+
+
+# July 6
+## Individual entries:
+## Josh
+Merged pull requests.
+Time taken: 1 hour
+
+## Tommy
+Start database connection in `presentation.MainActivity.onCreate()`,
+stitched `presentation.addTransaction` and `business.AccessTransaction` together.
+Refurbished CreditCard class, added another instance field, and updated
+the tests accordingly. tried to add a dropdown CreditCard selector.
+Finished card selector, budget selector almost finished.
+Time taken: 5 hours
+
+## Terra
+Worked on BudgetCategory interface.
+Time taken: 2 hours
+
+
+# July 7
+## Individual entries:
+## Josh
+Merge pull requests.
+Add view for list of transactions.
+Automatically update the list when uploading transactions and budget categories.
+Time taken: 4 hours
+
+## Aziz
+Sketched the overall architecture (3 layer) of the project.
+Actual time expected: 1 hour
+Time taken: 1 hour
+
+## Tommy
+Finished add card and card selector in add transactions,
+rewrote AccessCreditCard.isValidExpiration().
+Multiple refinements on add object activities
+Removed unnecessary User object
+Time taken: 3 hours
+
+## Terra
+Pushed additional changes to AddBudgetCategory testing.
+Pushed budget category interface.
+Implemented list displaying all budget categories.
+Time taken: 4 hours
+
+
+## July 8
+## Individual entries:
+## Josh
+Merge pull requests.
+Add activity to view individual budget categories and their totals.
+Start developer log text file.
+Time taken: 6 hours
+
+## Hao
+Started writing README.md for the project.
+Time taken: 3 hours
+
+## Aziz
+Finished credit card list auto-update after adding a new card (on GUI).
+Pushed the changes and merged them with the master branch.
+Commented and formatted the whole project.
+Time taken: 7 hours
+
+## Tommy
+Fixed the budget list fragment, moved `addObjectFAB` to BottomNavView
+Removed authentication
+Lists now able to automatic refresh after coming back from addObject activities.
+Time taken: 7 hours
+
+## Terra
+Added calculation functionality to AccessBudgetCategory to get totals from transactions.
+Displayed summary of budget categories and spending on Home page.
+Time taken: 3 hours
+
+
+# July 9
+## Individual entries:
+## Josh
+Add to `README.md`
+Look over test code
+Time taken: 4 hours
+
+## Hao
+Modified `toString()` methods of classes in package `object` to better
+show the transaction records in the GUI.
+Merged to master branch.
+README.md alpha version is complete.
+Time taken: 4 hours
+
+## Aziz
+Finished the developer log for iteration 1.
+Time taken: 2 hours
+
+## Tommy
+Finished code cleanup, cleared or suppressed most of the warnings.
+Tweaked addBudgetCategory a little bit.
+Fixed toString format.
+Fixed dollar display format.
+Time taken: 5 hours
+
+
+## Outstanding bugs and their fixes:
+There is a bug on all upload forms. You can press the submit button multiple times when everything
+is filled out before going back to the main list view, resulting in duplicate records being added to the database.
+
+It can be fixed by moving the snack bar to previous activity.
+
+
+## Design decisions and rationals
+1. A snack bar can be seen in the app when a user tries to add a new transaction, a new budget category or
+a new credit card. This is implemented because it shows the user whether he/she successfully added or
+failed to add a new entry.
+
+2. The first time greeting activity is designed to welcome the user every time they come back to the home page.
+
+3. The bottom navigation bar is implemented to let the users show an organized way of storing their spending,
+budgets and personal credit cards.

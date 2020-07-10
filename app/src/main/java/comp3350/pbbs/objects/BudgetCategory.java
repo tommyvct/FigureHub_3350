@@ -1,5 +1,8 @@
 package comp3350.pbbs.objects;
 
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
@@ -25,6 +28,9 @@ public class BudgetCategory implements Serializable {
         if (newLimit < 0) {
             throw new IllegalArgumentException("Expected a budget limit should be positive");
         }
+        if (newBudgetName == null || newBudgetName.isEmpty()) {
+            throw new IllegalArgumentException("Expected a budget limit should have a name");
+        }
         this.budgetName = newBudgetName;
         this.budgetLimit = newLimit;
     }
@@ -43,8 +49,9 @@ public class BudgetCategory implements Serializable {
      *
      * @return A String representation of this object
      */
+    @NotNull
     public String toString() {
-        return "category: " + budgetName + "\nBudget limit: $" + budgetLimit;
+        return "" + budgetName + "\nLimit: $" + new DecimalFormat("0.00").format(budgetLimit);
     }
 
     /**
