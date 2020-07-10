@@ -392,3 +392,6 @@ budgets and personal credit cards.
 
 4. We designed a functionality in the budget category list items to show some "interesting" calculations,
 if the users click on a budget category and it'll show the amount spent on that category.
+
+5. In our app, we decided to let users input future transactions which will be helpful for them to plan for
+future purchases.
