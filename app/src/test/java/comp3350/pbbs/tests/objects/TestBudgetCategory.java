@@ -58,14 +58,25 @@ public class TestBudgetCategory extends TestCase {
         BudgetCategory Budget3 = new BudgetCategory("Utilities", 0);
         assertNotNull(Budget3);
         assertNotEquals(newBudget, Budget3);
+    }
 
+    public void testInvalidBudgetCategories() {
         //won't create an object if passed negative value in budgetLimit
         try {
             BudgetCategory Budget4 = new BudgetCategory("Phone", -20.00);
-            fail("Expected limit will be positive");
+            fail("Expected limit should be positive");
         } catch (IllegalArgumentException ignored) {
         }
-
+        try {
+            BudgetCategory Budget4 = new BudgetCategory("", 20);
+            fail("Expected category should have a name");
+        } catch (IllegalArgumentException ignored) {
+        }
+        try {
+            BudgetCategory Budget4 = new BudgetCategory(null, 20);
+            fail("Expected category should have a name");
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
 }

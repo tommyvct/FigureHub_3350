@@ -28,6 +28,9 @@ public class BudgetCategory implements Serializable {
         if (newLimit < 0) {
             throw new IllegalArgumentException("Expected a budget limit should be positive");
         }
+        if (newBudgetName == null || newBudgetName.isEmpty()) {
+            throw new IllegalArgumentException("Expected a budget limit should have a name");
+        }
         this.budgetName = newBudgetName;
         this.budgetLimit = newLimit;
     }
