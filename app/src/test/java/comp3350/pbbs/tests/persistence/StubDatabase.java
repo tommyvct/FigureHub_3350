@@ -1,4 +1,4 @@
-package comp3350.pbbs.persistence;
+package comp3350.pbbs.tests.persistence;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,19 +6,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * StubDatabase
  * Group4
  * PBBS
- *
+ * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase {
+public class StubDatabase implements DataAccess {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    //name of the database, not used in iteration 1
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
@@ -27,15 +29,16 @@ public class StubDatabase {
     private String username;                        //"Hi, {username}!"
 
     /**
-	 * This method is the constructor of the database stub
-	 *
+     * This method is the constructor of the database stub
+     *
      * @param name name of the database
      */
     public StubDatabase(String name) {
         this.databaseName = name;
-        budgets = new ArrayList<>();
-        creditCards = new ArrayList<>();
-        transactions = new ArrayList<>();
+    }
+
+    public StubDatabase() {
+        this(Main.dbName);
     }
 
     /**
@@ -83,7 +86,7 @@ public class StubDatabase {
      * @return true if added successfully.
      */
     public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-        return budgets.addAll(budgetList);
+        return budgetList.addAll(budgets);
     }
 
     /**
@@ -105,6 +108,7 @@ public class StubDatabase {
      */
     public boolean insertBudgetCategory(BudgetCategory newBudget) {
         return budgets.add(newBudget);
+
     }
 
     /**
@@ -125,7 +129,8 @@ public class StubDatabase {
         int index = budgets.indexOf(currentBudget);
         BudgetCategory result = null;
         if (index >= 0) {
-            result = budgets.set(index, newBudget);
+            budgets.set(index, newBudget);
+            result = budgets.get(index);
         }
         return result;
     }
@@ -142,6 +147,11 @@ public class StubDatabase {
             result = budgets.remove(index);
         }
         return result;
+    }
+
+    @Override
+    public int getBudgetsSize() {
+        return budgets.size();
     }
 
     /**
@@ -167,7 +177,9 @@ public class StubDatabase {
      * This method will insert a new card with the ArrayList.
      */
     public void insertCreditCard(CreditCard newCard) {
-        creditCards.add(newCard);
+        if (creditCards.indexOf(newCard) <= 0) {
+            creditCards.add(newCard);
+        }
     }
 
     /**
@@ -197,7 +209,14 @@ public class StubDatabase {
      * This method will remove a credit card.
      */
     public void deleteCreditCard(CreditCard currCard) {
-        creditCards.remove(currCard);
+        if (creditCards.indexOf(currCard) >= 0) {
+            creditCards.remove(currCard);
+        }
+    }
+
+    @Override
+    public int getCardsSize() {
+        return creditCards.size();
     }
 
     /**
@@ -206,7 +225,7 @@ public class StubDatabase {
      * @return true if added successfully.
      */
     public boolean addTransactions(List<Transaction> transactionsList) {
-        return transactions.addAll(transactionsList);
+        return transactionsList.addAll(transactions);
     }
 
     /**
@@ -270,6 +289,11 @@ public class StubDatabase {
         return toReturn;
     }
 
+    @Override
+    public int getTransactionsSize() {
+        return transactions.size();
+    }
+
     /**
      * Getter for username
      *
@@ -284,11 +308,12 @@ public class StubDatabase {
      * the username could be anything single line.
      * this is ensured on presentation side
      *
-
      * @param newUsername String representation of the user's name
-
      */
     public void setUsername(String newUsername) {
+        if (newUsername == null) {
+            throw new NullPointerException("Expecting a String!");
+        }
         this.username = newUsername;
     }
 }

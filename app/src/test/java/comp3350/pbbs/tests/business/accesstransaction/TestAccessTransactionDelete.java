@@ -10,7 +10,8 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessTransactionDelete
@@ -28,7 +29,7 @@ public class TestAccessTransactionDelete extends TestCase {
      * Before each test, set the test values
      */
     public void setUp() {
-        StubDatabase db = Services.createDataAccess("test");
+        DataAccess db = Services.createDataAccess("test");
         accessTransaction = new AccessTransaction(true);
         Date testDate = new Date();
         float testAmount = 19.99f;

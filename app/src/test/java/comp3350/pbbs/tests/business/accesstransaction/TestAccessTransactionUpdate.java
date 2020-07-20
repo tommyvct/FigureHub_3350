@@ -13,7 +13,7 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * TestAccessTransactionUpdate
@@ -35,7 +35,7 @@ public class TestAccessTransactionUpdate extends TestCase {
     private float testAmount;
     private CreditCard testCard;
     private BudgetCategory testBudgetCategory;
-    private StubDatabase db;
+    private DataAccess db;
 
     /**
      * Sets the test variables before each test
