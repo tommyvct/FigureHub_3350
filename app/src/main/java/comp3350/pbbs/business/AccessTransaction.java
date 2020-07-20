@@ -16,7 +16,7 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * TransactionAccess
@@ -27,7 +27,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  * focusing on sending new transactions to the database
  */
 public class AccessTransaction {
-    private StubDatabase db;    // Access to the database
+    private DataAccess db;    // Access to the database
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{

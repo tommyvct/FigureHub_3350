@@ -7,7 +7,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * AccessBudgetCategory
@@ -17,7 +17,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  * This class provides safe access to the stub DB to access and modify the DB
  */
 public class AccessBudgetCategory {
-    private StubDatabase dataAccess;                    //variable for the database
+    private DataAccess dataAccess;                    //variable for the database
     private List<BudgetCategory> budgetCategories;      //budgetCategories list
     private BudgetCategory budgetCat;                   //a BudgetCategory object
     private int currentBudgetCat;                       //number of budgetCategories
@@ -27,7 +27,7 @@ public class AccessBudgetCategory {
      * Also initializes all class variables.
      */
     public AccessBudgetCategory() {
-        dataAccess = (StubDatabase) Services.getDataAccess(Main.dbName);
+        dataAccess = Services.getDataAccess(Main.dbName);
         budgetCategories = null;
         budgetCat = null;
         currentBudgetCat = 0;

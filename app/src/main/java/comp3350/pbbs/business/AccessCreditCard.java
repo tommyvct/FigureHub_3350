@@ -6,7 +6,7 @@ import java.util.Calendar;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * AccessCreditCard
@@ -16,7 +16,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  * This class defines the access layer where deliver credit card info to the database
  */
 public class AccessCreditCard {
-    private StubDatabase db;    // create an object of the database
+    private DataAccess db;    // create an object of the database
 
     /**
      * constructor: enabling access to the database
