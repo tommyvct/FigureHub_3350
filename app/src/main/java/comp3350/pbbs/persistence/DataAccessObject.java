@@ -80,7 +80,7 @@ public class DataAccessObject implements DataAccess {
 		return budgetCategories;
 	}
 
-	public boolean addAllBudgetCategories(List<BudgetCategory> budgetList) {
+	public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
 		BudgetCategory budgetCategory;
 		String myBudgetName;
 		double myBudgetLimit;
@@ -141,36 +141,40 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
-		boolean result = false;
 		String values;
 		try {
 			values = "'" + currentBudget.getBudgetName() + "'";
 			cmdString = "Delete from BudgetCategory where budgetName=" + values;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);
-			result = true;
 		} catch (Exception e) {
 			processSQLError(e);
 		}
 		return currentBudget;
 	}
 
-	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		boolean result = false;
+	@Override
+	public int getBudgetsSize() {
+		return 0;
+	}
+
+	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+		BudgetCategory budgetCategory = null;
 		String values, where;
 		try {
 			values = "budgetName='" + newBudget.getBudgetName()
 					+ "', budgetLimit=" + newBudget.getBudgetLimit();
 			where = "where budgetName='" + currentBudget.getBudgetName()
-					+ "', budgetLimit=" + currentBudget.getBudgetLimit();	// primary key?
+					+ "', budgetLimit=" + currentBudget.getBudgetLimit();    // primary key?
+			budgetCategory = new BudgetCategory(newBudget.getBudgetName(), newBudget.getBudgetLimit());
 			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);
-			result = true;
+
 		} catch (Exception e) {
 			processSQLError(e);
 		}
-		return result;
+		return budgetCategory;
 	}
 
 	/**
@@ -440,7 +444,7 @@ public class DataAccessObject implements DataAccess {
 					+ "', time='" + currentTransaction.getTime()
 					+ "', amount=" + currentTransaction.getAmount()
 					+ ", card='" + currentTransaction.getCard()
-					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
+					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";    // primary key?
 			cmdString = "Update Transactions " + " Set " + values + " " + where;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);
@@ -449,6 +453,19 @@ public class DataAccessObject implements DataAccess {
 			processSQLError(e);
 		}
 		return result;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	@Override
+	public void setUsername(String newUsername) {
+		if (newUsername == null) {
+			throw new NullPointerException("Expecting a String!");
+		}
+		this.username = newUsername;
 	}
 
 	/**
