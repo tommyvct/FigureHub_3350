@@ -13,22 +13,23 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.objects.BudgetCategory;
 
-public class DataAccessObject
-{
-	private Connection c1;	// for DB switch
-	private Statement st1;	// 1 statement running at a time
+public class DataAccessObject implements DataAccess {
+	private Connection c1;    // for DB switch
+	private Statement st1;    // 1 statement running at a time
 	private ResultSet rs1, rs2, rs3, rs4; // for DB switch and 3 objects
-	private String dbName;	// name of DB
-	private String dbType;	// type of DB
-	private String cmdString;	// store SQL codes
+	private String dbName;    // name of DB
+	private String dbType;    // type of DB
+	private String cmdString;    // store SQL codes
 	private int updateCount;
 
 	private ArrayList<BudgetCategory> budgetCategories;
 	private ArrayList<CreditCard> creditCards;
 	private ArrayList<Transaction> transactions;
+	private String username = null;
 
 	/**
 	 * Constructor of DB
+	 *
 	 * @param dbName the DB name
 	 */
 	public DataAccessObject(String dbName) {
@@ -37,9 +38,10 @@ public class DataAccessObject
 
 	/**
 	 * This method contains hsql setup and allows DB to run
+	 *
 	 * @param dbPath directory of the project DB
 	 */
-	public void open(String dbPath) {
+	public void populateData(String dbPath) {
 		String url;
 		try {
 			dbType = "HSQL";
@@ -80,7 +82,26 @@ public class DataAccessObject
 		return budgetCategories;
 	}
 
-	public boolean addAllBudgetCategories(List<BudgetCategory> budgetList) {
+	@Override
+	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+		BudgetCategory budgetCategory;
+		String values, where;
+		try {
+			values = "BudgetName='" + newBudget.getBudgetName() +
+					"', BudgetLimit='" + newBudget.getBudgetLimit();
+			where = "BudgetName='" + currentBudget.getBudgetName() +
+					"', BudgetLimit='" + currentBudget.getBudgetLimit();
+			budgetCategory = new BudgetCategory(newBudget.getBudgetName(), newBudget.getBudgetLimit());
+			cmdString = "Update CreditCards " + " Set " + values + " " + where;
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
+		} catch (Exception e) {
+			processSQLError(e);
+		}
+		return budgetCategory;
+	}
+
+	public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
 		BudgetCategory budgetCategory;
 		String myBudgetName;
 		double myBudgetLimit;
@@ -102,8 +123,10 @@ public class DataAccessObject
 		return result;
 	}
 
-	public boolean findBudgetCategory(BudgetCategory currBudget) {
-		BudgetCategory budgetCategory;
+
+	public BudgetCategory findBudgetCategory(BudgetCategory currBudget) {
+		BudgetCategory budgetCategory = null;
+		//BudgetCategory returnedBudget;
 		String myBudgetName;
 		double myBudgetLimit;
 		boolean result = false;
@@ -111,7 +134,7 @@ public class DataAccessObject
 			cmdString = "Select * from BudgetCategories where budgetName="
 					+ currBudget.getBudgetName();
 			rs2 = st1.executeQuery(cmdString);
-			while (rs2.next()) {
+			while (rs2.next() && !result) {
 				myBudgetName = rs2.getString("budgetName");
 				myBudgetLimit = rs2.getDouble("budgetLimit");
 				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
@@ -122,7 +145,7 @@ public class DataAccessObject
 		} catch (Exception e) {
 			processSQLError(e);
 		}
-		return result;
+		return budgetCategory;
 	}
 
 	public boolean insertBudgetCategory(BudgetCategory newBudget) {
@@ -140,9 +163,10 @@ public class DataAccessObject
 		return result;
 	}
 
-	public boolean deleteBudgetCategory(BudgetCategory currBudget) {
+	public BudgetCategory deleteBudgetCategory(BudgetCategory currBudget) {
 		boolean result = false;
 		String values;
+		BudgetCategory budgetCategory = null;
 		try {
 			values = "'" + currBudget.getBudgetName() + "'";
 			cmdString = "Delete from BudgetCategory where budgetName=" + values;
@@ -152,7 +176,12 @@ public class DataAccessObject
 		} catch (Exception e) {
 			processSQLError(e);
 		}
-		return result;
+		return budgetCategory;
+	}
+
+	@Override
+	public int getBudgetsSize() {
+		return budgetCategories.size();
 	}
 
 	public boolean updateBudgetCategory(BudgetCategory newBudget) {
@@ -271,7 +300,13 @@ public class DataAccessObject
 		return result;
 	}
 
-	public boolean updateCreditCard(CreditCard newCard) {
+	@Override
+	public int getCardsSize() {
+		return creditCards.size();
+	}
+
+
+	public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
 		boolean result = false;
 		String values, where;
 		try {
@@ -280,7 +315,12 @@ public class DataAccessObject
 					"', expireMonth=" + newCard.getExpireMonth() +
 					", expireYear=" + newCard.getExpireYear() +
 					", payDate=" + newCard.getPayDate();
-			where = "where cardNum='" + newCard.getCardNum() + "'";
+			where = "where cardNum='" + currCard.getCardNum() +
+					"', holderName='" + currCard.getHolderName() +
+					"', expireMonth=" + currCard.getExpireMonth() +
+					", expireYear=" + currCard.getExpireYear() +
+					", payDate=" + currCard.getPayDate();
+			;
 			cmdString = "Update CreditCards " + " Set " + values + " " + where;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);
@@ -304,7 +344,8 @@ public class DataAccessObject
 		return transactions;
 	}
 
-	public boolean addAllTransactions(List<Transaction> transactionsList) {
+
+	public boolean addTransactions(List<Transaction> transactionsList) {
 		Transaction transaction;
 		Date myDate;
 		float myAmount;
@@ -396,7 +437,25 @@ public class DataAccessObject
 		return result;
 	}
 
-	public boolean updateTransaction(Transaction newTransaction) {
+	@Override
+	public int getTransactionsSize() {
+		return transactions.size();
+	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
+	@Override
+	public void setUsername(String newUsername) {
+		if (newUsername == null) {
+			throw new NullPointerException("Expecting a String!");
+		}
+		this.username = newUsername;
+	}
+
+	public boolean updateTransaction(Transaction newTransaction, Transaction curr) {
 		boolean result = false;
 		String values, where;
 		try {
@@ -404,7 +463,7 @@ public class DataAccessObject
 					"', amount=" + newTransaction.getAmount() +
 					", card='" + newTransaction.getCard() +
 					"', budgetCategory='" + newTransaction.getBudgetCategory() + "'";
-			where = "where description='" + newTransaction.getDescription() + "'";
+			where = "where description='" + curr.getDescription() + "'";
 			cmdString = "Update Transactions " + " Set " + values + " " + where;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);

@@ -33,7 +33,7 @@ public class Services {
         if (dbAccessService == null) {
             dbAccessService = new DataAccessObject(dbName);
             if (dbName.equals(Main.dbName))
-                dbAccessService.populateData();
+                dbAccessService.populateData(dbName);
         }
         return dbAccessService;
     }

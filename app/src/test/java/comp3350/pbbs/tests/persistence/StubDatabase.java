@@ -44,7 +44,7 @@ public class StubDatabase implements DataAccess {
     /**
      * This method is used for populating fake data into the stub database
      */
-    public void populateData() {
+    public void populateData(String dbPath) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         CreditCard card1, card2;                                //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
