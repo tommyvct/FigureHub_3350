@@ -132,11 +132,8 @@ public class CreditCard {
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" +
-
-                "Expected payment on " + getPayDate() + " next month";
+                + "\n" + "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n"
+                + getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
     }
 
     public String toStringShort()
