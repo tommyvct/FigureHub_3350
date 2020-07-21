@@ -10,6 +10,10 @@ import comp3350.pbbs.objects.BudgetCategory;
 
 public class TestAccessBudgetCategory extends TestCase{
     private AccessBudgetCategory testAccess = null;
+    private ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
+    private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
+    private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
+    private BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
 
     /**
      * creating StubDatabase and AccessBudgetCategory
@@ -17,6 +21,10 @@ public class TestAccessBudgetCategory extends TestCase{
     public void setUp(){
         Services.createDataAccess("TBCU");
         testAccess = new AccessBudgetCategory();
+
+        newBudgetCategories.add(bc1);
+        newBudgetCategories.add(bc2);
+        testAccess.addBudgetCategories(newBudgetCategories);
     }
 
     /**
@@ -25,7 +33,7 @@ public class TestAccessBudgetCategory extends TestCase{
     public void testNewAccess(){
         assertNotNull(testAccess);
         //test that there are 4 budget categories in the stub DB
-        assertEquals(4, testAccess.getAllBudgetCategories().size());
+        assertEquals(6, testAccess.getAllBudgetCategories().size());
 
         //These are the expected contents of the stub DB
         BudgetCategory rent, groceries, utilities, phoneBill;
@@ -42,20 +50,7 @@ public class TestAccessBudgetCategory extends TestCase{
 
     //Testing that all methods work using valid input
     public void testValidInput(){
-        //Adding multiple categories at once
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        //Test that addition was success and that the findBudgetCategory method works
-        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
-
         //Add one category by itself
-        BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
         assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertEquals(bc3, testAccess.findBudgetCategory(bc3));
 
@@ -64,7 +59,7 @@ public class TestAccessBudgetCategory extends TestCase{
 
         //Update an existing category
         BudgetCategory newBC3 = new BudgetCategory("Furniture", 100);
-        assertEquals(bc3, testAccess.updateBudgetCategory("Houseware", "15", "Furniture", "100"));  //returns old BudgetCategory
+        assertEquals(bc3, testAccess.updateBudgetCategory(bc3, "Furniture", "100"));  //returns old BudgetCategory
         assertEquals(newBC3, testAccess.findBudgetCategory(newBC3));    // New BudgetCategory can be found
         assertNull(testAccess.findBudgetCategory(bc3)); // Old BudgetCategory cannot be found
 
@@ -72,7 +67,7 @@ public class TestAccessBudgetCategory extends TestCase{
         assertEquals(7, testAccess.getAllBudgetCategories().size());
 
         //Delete a category
-        assertEquals(newBC3, testAccess.deleteBudgetCategory("Furniture", "100"));
+        assertEquals(newBC3, testAccess.deleteBudgetCategory(newBC3));
         assertNull(testAccess.findBudgetCategory(newBC3));
 
         //test that there are now 6 budget categories in DB
@@ -80,19 +75,6 @@ public class TestAccessBudgetCategory extends TestCase{
     }
 
     public void testInvalidLimitIntegerInput(){
-        //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        //Test that addition was success and that the findBudgetCategory method works
-        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
-
-        //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("Houseware", "fifty"));
 
         //test that there are still only 6 budget categories in DB
@@ -100,34 +82,15 @@ public class TestAccessBudgetCategory extends TestCase{
 
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
-        assertNull(testAccess.updateBudgetCategory("restaurants", "50", "Food places", "hundred"));
+        assertNull(testAccess.updateBudgetCategory(bc2, "Food places", "hundred"));
         assertNull(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
-
-        //test that there are still 6 budget categories in DB
-        assertEquals(6, testAccess.getAllBudgetCategories().size());
-
-        //invalid input for limit (must be integer) while deleting
-        assertNull(testAccess.deleteBudgetCategory("restaurants", "fifty"));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
     public void testInvalidLimitZeroInput(){
-        //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        //Test that addition was success and that the findBudgetCategory method works
-        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
-
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("Houseware", "0"));
 
@@ -136,34 +99,15 @@ public class TestAccessBudgetCategory extends TestCase{
 
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
-        assertNull(testAccess.updateBudgetCategory("restaurants", "50", "Food places", "0"));
+        assertNull(testAccess.updateBudgetCategory(bc2, "Food places", "0"));
         assertNull(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
-
-        //test that there are still 6 budget categories in DB
-        assertEquals(6, testAccess.getAllBudgetCategories().size());
-
-        //invalid input for limit (must be integer) while deleting
-        assertNull(testAccess.deleteBudgetCategory("restaurants", "0"));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
     public void testInvalidEmptyInput1(){
-        //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        //Test that addition was success and that the findBudgetCategory method works
-        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
-
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("Houseware", ""));
 
@@ -172,34 +116,15 @@ public class TestAccessBudgetCategory extends TestCase{
 
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
-        assertNull(testAccess.updateBudgetCategory("restaurants", "50", "Food places", ""));
+        assertNull(testAccess.updateBudgetCategory(bc2, "Food places", ""));
         assertNull(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
-
-        //test that there are still 6 budget categories in DB
-        assertEquals(6, testAccess.getAllBudgetCategories().size());
-
-        //invalid input for limit (must be integer) while deleting
-        assertNull(testAccess.deleteBudgetCategory("restaurants", ""));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, testAccess.getAllBudgetCategories().size());
     }
 
     public void testInvalidEmptyInput2(){
-        //setup
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        //Test that addition was success and that the findBudgetCategory method works
-        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
-
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("", "50"));
 
@@ -208,16 +133,9 @@ public class TestAccessBudgetCategory extends TestCase{
 
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
-        assertNull(testAccess.updateBudgetCategory("restaurants", "50", "", "100"));
+        assertNull(testAccess.updateBudgetCategory(bc2, "", "100"));
         assertNull(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
-
-        //test that there are still 6 budget categories in DB
-        assertEquals(6, testAccess.getAllBudgetCategories().size());
-
-        //invalid input for limit (must be integer) while deleting
-        assertNull(testAccess.deleteBudgetCategory("", "50"));
-        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, testAccess.getAllBudgetCategories().size());
@@ -237,16 +155,11 @@ public class TestAccessBudgetCategory extends TestCase{
      * testing adding a list of BudgetCategory to the stub, as well as adding individually
      */
     public void testAdding(){
-        ArrayList<BudgetCategory> newBudgetCategories = new ArrayList<BudgetCategory>();
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
-        newBudgetCategories.add(bc1);
-        newBudgetCategories.add(bc2);
-
         assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
-        assertNotNull(testAccess.findBudgetCategory(bc2));
+        //Test that addition was success and that the findBudgetCategory method works
+        assertEquals(bc1, testAccess.findBudgetCategory(bc1));
+        assertEquals(bc2, testAccess.findBudgetCategory(bc2));
 
-        BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
         assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertNotNull(testAccess.findBudgetCategory(bc3));
     }
@@ -260,7 +173,7 @@ public class TestAccessBudgetCategory extends TestCase{
         assertNotNull(testAccess.findBudgetCategory(oldBC));
 
         BudgetCategory newBC = new BudgetCategory("Computer", 500);
-        assertNotNull(testAccess.updateBudgetCategory("Electronics", "50", "Computer", "500"));
+        assertNotNull(testAccess.updateBudgetCategory(oldBC, "Computer", "500"));
         assertNotNull(testAccess.findBudgetCategory(newBC));
     }
 
@@ -271,7 +184,7 @@ public class TestAccessBudgetCategory extends TestCase{
         BudgetCategory testBC = new BudgetCategory("Furniture", 100);
         testAccess.insertBudgetCategory("Furniture", "100");
         assertNotNull(testAccess.findBudgetCategory(testBC));
-        assertNotNull(testAccess.deleteBudgetCategory("Furniture", "100"));
+        assertNotNull(testAccess.deleteBudgetCategory(testBC));
         assertNull(testAccess.findBudgetCategory(testBC));
     }
 
