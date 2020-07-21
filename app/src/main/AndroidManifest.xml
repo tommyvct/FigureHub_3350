@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.addObject.addCard"></activity>
-        <activity android:name=".presentation.addObject.addBudgetCategory"></activity>
+        <activity android:name=".presentation.addObject.addCard" />
+        <activity android:name=".presentation.addObject.addBudgetCategory" />
+        <activity android:name=".presentation.ViewBudgetCategory" />
         <activity android:name=".presentation.firstTimeGreeting" />
         <activity android:name=".presentation.addObject.addTransaction" />
         <activity android:name=".presentation.MainActivity" />

@@ -1,32 +1,73 @@
 package comp3350.pbbs.application;
 
 import android.os.Build;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import androidx.annotation.RequiresApi;
+
 import comp3350.pbbs.persistence.StubDatabase;
 
+/**
+ * Services
+ * Group4
+ * PBBS
+ *
+ * This class creates and closes database for all other classes to use.
+ */
 public class Services {
 
-    private static StubDatabase dbAccessService = null;
+    private static StubDatabase dbAccessService = null;             //static stub DB variable
 
+    /**
+     * This method creates a new initializes a stub database variable and populates data if the dbName is correct.
+     *
+     * @param  dbName A string representing the name of the database.
+     * @return StubDatabase for other classes to use
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static StubDatabase createDataAccess(String dbName){
-        if (dbAccessService == null){
+    public static StubDatabase createDataAccess(String dbName) {
+        if (dbAccessService == null) {
             dbAccessService = new StubDatabase(dbName);
-            if(dbName.equals(Main.dbName))
+            if (dbName.equals(Main.dbName))
                 dbAccessService.populateData();
         }
         return dbAccessService;
     }
 
-    public static StubDatabase getDataAccess(String dbName){
-        if(dbAccessService == null){
+    /**
+     * This method returns the database which has been created otherwise it exits from the system.
+     *
+     * @param  dbName A string representing the name of the database.
+     * @return StubDatabase once it has been created
+     */
+    public static StubDatabase getDataAccess(String dbName) {
+        if (dbAccessService == null) {
             System.out.println("Connection to data access has not been established.");
             System.exit(1);
         }
         return dbAccessService;
     }
 
-    public static void closeDataAccess(){
+    /**
+     * This method closes the database access.
+     */
+    public static void closeDataAccess() {
         dbAccessService = null;
+    }
+
+    /**
+     * This method performs the date calculation
+     *
+     * @return a Date object
+     */
+    public static Date calcDate(Date d, int n) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(d);
+        calendar.add(Calendar.DATE, n);
+        d = calendar.getTime();
+        return d;
     }
 }

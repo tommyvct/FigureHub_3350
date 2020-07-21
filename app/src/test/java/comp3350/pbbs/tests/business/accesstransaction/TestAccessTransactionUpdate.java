@@ -5,8 +5,6 @@ import junit.framework.TestCase;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +15,13 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
+/**
+ * TestAccessTransactionUpdate
+ * Group4
+ * PBBS
+ *
+ * This class tests part of the AccessTransaction class
+ */
 public class TestAccessTransactionUpdate extends TestCase {
     private AccessTransaction accessTransaction;
     private Transaction testTransaction1;
@@ -43,12 +48,12 @@ public class TestAccessTransactionUpdate extends TestCase {
         testAmount = 19.99f;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
-        testCard = new CreditCard("fasd f", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
-        testTransaction2 = new Transaction(StubDatabase.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
+        testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
         // Won't be added to the database
-        testTransaction3 = new Transaction(StubDatabase.calcDate(testDate, -2), 12.07f, testDesc, testCard, testBudgetCategory);
+        testTransaction3 = new Transaction(Services.calcDate(testDate, -2), 12.07f, testDesc, testCard, testBudgetCategory);
         df = new SimpleDateFormat("d/M/yyyy");
         testDateStr = df.format(testTransaction3.getTime());
         df = new SimpleDateFormat("k:m");
@@ -111,7 +116,7 @@ public class TestAccessTransactionUpdate extends TestCase {
      */
     public void testValidAmounts() {
         assertTrue(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, "20", testCard, testBudgetCategory));
-        testTransaction3 = new Transaction(StubDatabase.calcDate(testDate, -2), 20, testDesc, testCard, testBudgetCategory);
+        testTransaction3 = new Transaction(Services.calcDate(testDate, -2), 20, testDesc, testCard, testBudgetCategory);
         assertUpdated();
     }
 
