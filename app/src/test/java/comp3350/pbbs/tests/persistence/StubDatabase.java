@@ -22,7 +22,8 @@ import comp3350.pbbs.persistence.DataAccess;
  */
 public class StubDatabase implements DataAccess {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
-    private String databaseName;                    //name of the database, not used in iteration 1
+    private String dbName;                          //name of the database, not used in iteration 1
+    private String dbType = "stub";
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
     private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
@@ -34,7 +35,7 @@ public class StubDatabase implements DataAccess {
      * @param name name of the database
      */
     public StubDatabase(String name) {
-        this.databaseName = name;
+        this.dbName = name;
     }
 
     public StubDatabase() {
@@ -44,7 +45,7 @@ public class StubDatabase implements DataAccess {
     /**
      * This method is used for populating fake data into the stub database
      */
-    public void populateData() {
+    public void open(String dbPath) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         CreditCard card1, card2;                                //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
@@ -78,6 +79,11 @@ public class StubDatabase implements DataAccess {
         transactions.add(t4);
 
         username = null;    //initializing the username with Null, it is going to call the mane from user input
+        System.out.println("Opened " + dbType + " database " + dbName);
+    }
+
+    public void close() {
+        System.out.println("Closed " + dbType + " database " + dbName);
     }
 
     /**

@@ -13,11 +13,10 @@ import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.objects.BudgetCategory;
 
-public class DataAccessObject
-{
+public class DataAccessObject implements DataAccess {
 	private Connection c1;	// for DB switch
 	private Statement st1;	// 1 statement running at a time
-	private ResultSet rs1, rs2, rs3, rs4; // for DB switch and 3 objects
+	private ResultSet rs1, rs2, rs3, rs4, rs5; // for DB switch and 4 accesses
 	private String dbName;	// name of DB
 	private String dbType;	// type of DB
 	private String cmdString;	// store SQL codes
@@ -26,6 +25,7 @@ public class DataAccessObject
 	private ArrayList<BudgetCategory> budgetCategories;
 	private ArrayList<CreditCard> creditCards;
 	private ArrayList<Transaction> transactions;
+	private String username;
 
 	/**
 	 * Constructor of DB
@@ -167,8 +167,7 @@ public class DataAccessObject
 		return currentBudget;
 	}
 
-	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		boolean result = false;
+	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
 		String values, where;
 		try {
 			values = "budgetName='" + newBudget.getBudgetName()
@@ -178,11 +177,10 @@ public class DataAccessObject
 			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
 			updateCount = st1.executeUpdate(cmdString);
 			checkWarning(st1, updateCount);
-			result = true;
 		} catch (Exception e) {
 			processSQLError(e);
 		}
-		return result;
+		return newBudget;
 	}
 
 	/**
@@ -461,6 +459,26 @@ public class DataAccessObject
 			processSQLError(e);
 		}
 		return result;
+	}
+
+	/**
+	 * Methods for Users
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String newUsername) {
+		String values, where;
+		try {
+			values = "username='" + newUsername;
+			where = "where username='" + username;
+			cmdString = "Update Username " + " Set " + values + " " + where;
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
+		} catch (Exception e) {
+			processSQLError(e);
+		}
 	}
 
 	/**

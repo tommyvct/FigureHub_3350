@@ -14,7 +14,7 @@ import comp3350.pbbs.objects.*;
 import comp3350.pbbs.application.*;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.persistence.DataAccessObject;
-import comp3350.pbbs.tests.persistence.StubDatabase;
+//import comp3350.pbbs.tests.persistence.StubDatabase;
 
 public class TestDataAccess extends TestCase {
     private DataAccess dataAccess;
@@ -25,8 +25,8 @@ public class TestDataAccess extends TestCase {
 
     public void setUp() {
         //initially testing testing will be done on stub database
-        dataAccess = new StubDatabase();
-        dataAccess.populateData();
+        dataAccess = new DataAccessObject(Main.dbName);
+        dataAccess.open(Main.getDBPathName());
         //switching to HSQL database can also be done by following these 2 lines:
         //dataAccess = new DataAccessObject(Main.dbName);
         //dataAccess.populateData();

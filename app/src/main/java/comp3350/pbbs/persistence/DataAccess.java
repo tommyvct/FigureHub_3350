@@ -7,7 +7,9 @@ import comp3350.pbbs.objects.*;
 
 public interface DataAccess {
 
-    void populateData();
+    void open(String dbName);
+
+    void close();
 
     boolean addBudgetCategories(List<BudgetCategory> budgetList);
 
