@@ -7,6 +7,8 @@ import comp3350.pbbs.persistence.StubDatabase;
 
 /**
  * AccessUser
+ * Group4
+ * PBBS
  *
  * This class creates an AccessUser class for the business layer.
  */
@@ -16,24 +18,26 @@ public class AccessUser {
     /**
      * This method creates StubDatabase and initializes all the fields
      */
-    public AccessUser(){
+    public AccessUser() {
         dataAccess = (StubDatabase) Services.getDataAccess(Main.dbName);
     }
 
 
     /**
      * Getter for username
+     *
      * @return username
      */
-    public String getUsername(){
+    public String getUsername() {
         return dataAccess.getUsername();
     }
 
     /**
      * setter for username, used when renaming
-     * @param newUsername
+     *
+     * @param newUsername new username
      */
-    public void setUsername(String newUsername){
+    public void setUsername(String newUsername) {
         dataAccess.setUsername(newUsername);
     }
 }

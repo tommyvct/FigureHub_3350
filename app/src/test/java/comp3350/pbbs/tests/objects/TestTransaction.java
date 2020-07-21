@@ -1,11 +1,14 @@
 package comp3350.pbbs.tests.objects;
 
 import junit.framework.TestCase;
+
 import java.util.Calendar;
 import java.util.Date;
+
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
+
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -27,7 +30,7 @@ public class TestTransaction extends TestCase {
      */
     public void setUp() {
         now = new Date();
-        card = new CreditCard("fasd f", "1111111111111111", "Jane Doe", 1, 2021, 15);
+        card = new CreditCard("mastercard", "1111111111111111", "Jane Doe", 1, 2021, 15);
         budgetCategory = new BudgetCategory("Groceries", 200);
         amount = 5.57f;
         description = "Bought groceries.";
@@ -50,8 +53,8 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(null, amount, description, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -68,8 +71,8 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, -0.24f, description, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -86,14 +89,14 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, amount, null, card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
 
         try {
             new Transaction(now, amount, "", card, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -104,15 +107,15 @@ public class TestTransaction extends TestCase {
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        CreditCard otherCard = new CreditCard("fasd f", "2222222222222222", "Jane Doe", 1, 2023, 15);
+        CreditCard otherCard = new CreditCard("mastercard", "2222222222222222", "Jane Doe", 1, 2023, 15);
         otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 
         try {
             new Transaction(now, amount, description, null, budgetCategory);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 
     /**
@@ -130,7 +133,7 @@ public class TestTransaction extends TestCase {
         try {
             new Transaction(now, amount, description, card, null);
             fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
         }
-        catch (IllegalArgumentException iae) { }
     }
 }
