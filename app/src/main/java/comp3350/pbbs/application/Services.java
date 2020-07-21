@@ -56,6 +56,9 @@ public class Services {
      * This method closes the database access.
      */
     public static void closeDataAccess() {
+        if (dbAccessService != null) {
+            dbAccessService.close();
+        }
         dbAccessService = null;
     }
 

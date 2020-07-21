@@ -14,7 +14,7 @@ import comp3350.pbbs.objects.*;
 import comp3350.pbbs.application.*;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.persistence.DataAccessObject;
-//import comp3350.pbbs.tests.persistence.StubDatabase;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 public class TestDataAccess extends TestCase {
     private DataAccess dataAccess;
