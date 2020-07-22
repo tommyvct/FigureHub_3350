@@ -100,7 +100,7 @@ public class DataAccessObject implements DataAccess {
 		double myBudgetLimit;
 		boolean result = false;
 		try {
-			cmdString = "Select * from BudgetCategories";
+			cmdString = "Select * from BUDGETCATEGORIES";
 			rs2 = st1.executeQuery(cmdString);
 			while (rs2.next()) {
 				myBudgetName = rs2.getString("budgetName");
