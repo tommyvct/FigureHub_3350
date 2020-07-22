@@ -1,6 +1,8 @@
 package comp3350.pbbs.business;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
@@ -206,18 +208,22 @@ public class AccessBudgetCategory {
      * @param currentBudgetCat is the specified BudgetCategory
      * @return the total amount from transactions in that budget category
      */
-    public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat){
+    public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat, Calendar monthAndYear){
         float sum = 0;
         List<Transaction> transactions = dataAccess.getTransactions();
 
         for(int i = 0; i < transactions.size(); i++){
             Transaction currentTransaction = transactions.get(i);
-            if(currentTransaction.getBudgetCategory().equals(currentBudgetCat)){
+            BudgetCategory transactionBudget = currentTransaction.getBudgetCategory();
+            Calendar currTime = Calendar.getInstance();
+            currTime.setTime(currentTransaction.getTime());
+            if(transactionBudget.equals(currentBudgetCat) &&
+               currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
+               currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)){
                 sum += currentTransaction.getAmount();
             }
         }
 
         return sum;
     }
-
 }

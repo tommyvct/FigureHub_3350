@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -295,5 +296,30 @@ public class AccessTransaction {
             toReturn.add(row);
         }
         return toReturn.toArray(new String[0]);
+    }
+
+    /**
+     * Retrieves a list of months that have transactions for a certain budget category.
+     *
+     * @param category      The budget Category to query.
+     * @return              A list of Calendar instances with the year and month specified.
+     */
+    public List<Calendar> getActiveMonths(BudgetCategory category) {
+        List<Calendar> activeMonths = new ArrayList<Calendar>();
+
+        // Loop through all transactions
+        for(Transaction transaction : retrieveTransactions()) {
+            if(category.equals(transaction.getBudgetCategory())) {
+                // Construct the calendar object
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(transaction.getTime());
+                // Remove day
+                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+                // Add to set if not appeared
+                if(!activeMonths.contains(calendar))
+                    activeMonths.add(calendar);
+            }
+        }
+        return activeMonths;
     }
 }

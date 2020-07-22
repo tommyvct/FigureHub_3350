@@ -110,4 +110,67 @@ public class TestAccessTransactionRetrieve extends TestCase {
         assertTrue(results.contains(testTransaction3));
         assertFalse(results.contains(testTransaction4));
     }
+
+    /**
+     * Test getting active months with no transactions
+     */
+    public void testEmptyActiveMonths() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        BudgetCategory bc1 = new BudgetCategory("test", 20);
+        List<Calendar> result = accessTransaction.getActiveMonths(bc1);
+        assertTrue(result.isEmpty());
+    }
+
+    /**
+     * Test getting active months with a single transaction
+     */
+    public void testSingleActiveMonth() {
+        BudgetCategory bc1 = new BudgetCategory("test", 20);
+        Transaction t1 = new Transaction(testDate, testAmount, testDesc, testCard, bc1);
+        db.insertTransaction(t1);
+        List<Calendar> result = accessTransaction.getActiveMonths(bc1);
+        assertEquals(1, result.size());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        assertTrue(result.contains(calendar));
+    }
+
+    /**
+     * Test getting active months with multiple transactions
+     */
+    public void testMultipleActiveMonths() {
+        BudgetCategory bc1 = new BudgetCategory("test", 20);
+        Transaction t1 = new Transaction(testDate, testAmount, testDesc, testCard, bc1);
+        Transaction t2 = new Transaction(testDate, testAmount+1, testDesc, testCard, bc1);
+        db.insertTransaction(t1);
+        db.insertTransaction(t2);
+        List<Calendar> result = accessTransaction.getActiveMonths(bc1);
+        assertEquals(1, result.size());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        assertTrue(result.contains(calendar));
+        calendar.set(1000, 1, 1);
+        Transaction t3 = new Transaction(calendar.getTime(), testAmount, testDesc, testCard, bc1);
+        db.insertTransaction(t3);
+        result = accessTransaction.getActiveMonths(bc1);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(calendar));
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        assertTrue(result.contains(calendar));
+    }
+
+    /**
+     * Test getting active months with an invalid input
+     */
+    public void testInvalidActiveMonths() {
+        try {
+            accessTransaction.getActiveMonths(null);
+            fail("Expected NullPointerException.");
+        } catch (NullPointerException ignored) {
+
+        }
+    }
 }
