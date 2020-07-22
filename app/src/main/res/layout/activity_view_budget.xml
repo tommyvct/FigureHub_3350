@@ -9,11 +9,20 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/budget_info"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="730dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Spinner
+        android:id="@+id/budgetMonthSelector"
+        android:layout_width="211dp"
+        android:layout_height="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/budget_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

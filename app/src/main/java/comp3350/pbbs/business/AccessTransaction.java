@@ -313,11 +313,22 @@ public class AccessTransaction {
                 // Construct the calendar object
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTime());
-                // Remove day
-                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+                // Remove time after month
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.HOUR, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
                 // Add to set if not appeared
-                if(!activeMonths.contains(calendar))
+                if(!activeMonths.contains(calendar)) {
+                    System.out.print(calendar.getTime() + " not in [");
+                    for(Calendar a : activeMonths) {
+                        System.out.print(a.getTime() + ", ");
+                    }
+                    System.out.println("], adding");
                     activeMonths.add(calendar);
+                }
             }
         }
         return activeMonths;
