@@ -27,7 +27,7 @@ public class AccessBudgetCategory {
      * Also initializes all class variables.
      */
     public AccessBudgetCategory() {
-        dataAccess = (StubDatabase) Services.getDataAccess(Main.dbName);
+        dataAccess = Services.getDataAccess(Main.dbName);
         budgetCategories = null;
         budgetCat = null;
         currentBudgetCat = 0;
@@ -47,8 +47,9 @@ public class AccessBudgetCategory {
             dataAccess.addBudgetCategories(budgetCategories);
             currentBudgetCat = 0;
         }
-        if (currentBudgetCat < budgetCategories.size()) {
-            budgetCat = (BudgetCategory) budgetCategories.get(currentBudgetCat);
+        if (currentBudgetCat < budgetCategories.size())
+        {
+            budgetCat = budgetCategories.get(currentBudgetCat);
             currentBudgetCat++;
         } else {
             budgetCategories = null;
@@ -138,22 +139,21 @@ public class AccessBudgetCategory {
 
     /**
      * Takes in params directly from Presentation layer, and converts them to proper format for
-     * deleting a BudgetCategory.
+     * deleting a BudgetCategory
      *
      * NOT IMPLEMENTED in presentation for iteration1.
      *
-     * @param oldLabel, newLabel name of the BudgetCategory
-     * @param oldLimit, newLimit limit of the BudgetCategory in string form - to be parsed to Float
-     * @return update budgetCategory
+     * @param  oldBudgetCategory the category to be replaced
+     * @param newLabel name of the BudgetCategory
+     * @param newLimit limit of the BudgetCategory in string form - to be parsed to Float
+     * @return success
+     * deleting a BudgetCategory.@return update budgetCategory
      */
-    public BudgetCategory updateBudgetCategory(String oldLabel, String oldLimit, String newLabel, String newLimit) {
-        Float oldLimitFlt;
+    public BudgetCategory updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
         BudgetCategory result = null;
-        if ((oldLimitFlt = parseLimit(oldLimit)) != null && (newLimitFlt = parseLimit(newLimit)) != null
-                && (oldLimitFlt > 0 && newLimitFlt > 0)
-                && oldLabel.length() > 0 && newLabel.length() > 0)
-            result = updateBudgetCategoryParsed(new BudgetCategory(oldLabel, oldLimitFlt), new BudgetCategory(newLabel, newLimitFlt));
+        if((newLimitFlt = parseLimit(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
+            result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }
 
@@ -176,28 +176,11 @@ public class AccessBudgetCategory {
      *
      * NOT IMPLEMENTED in presentation for iteration1.
      *
-     * @param label name of the BudgetCategory
-     * @param limit limit of the BudgetCategory in string form - to be parsed to Float
-     * @return deleted budgetCategory
-     */
-    public BudgetCategory deleteBudgetCategory(String label, String limit) {
-        Float limitFlt;
-        BudgetCategory result = null;
-        if ((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0) {
-            result = deleteBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
-        }
-        return result;
-    }
-
-    /**
-     * Removes a BudgetCategory from the DB
-     *
-     * NOT IMPLEMENTED in presentation for iteration1.
-     *
      * @param currentBudgetCat the category to be removed
      * @return deleted budgetCategory
      */
-    public BudgetCategory deleteBudgetCategoryParsed(BudgetCategory currentBudgetCat) {
+    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    {
         return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }
 
