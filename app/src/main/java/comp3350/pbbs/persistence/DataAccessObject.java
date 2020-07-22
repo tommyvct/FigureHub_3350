@@ -86,7 +86,7 @@ public class DataAccessObject implements DataAccess {
 		double myBudgetLimit;
 		boolean result = false;
 		try {
-			cmdString = "Select * from BudgetCategories";
+			cmdString = "Select * from BUDGETCATEGORIES";
 			rs2 = st1.executeQuery(cmdString);
 			while (rs2.next()) {
 				myBudgetName = rs2.getString("budgetName");
@@ -155,7 +155,17 @@ public class DataAccessObject implements DataAccess {
 
 	@Override
 	public int getBudgetsSize() {
-		return 0;
+		int count = 0;
+		try {
+			cmdString = "Select Count(*) from BudgetCategories";
+			rs2 = st1.executeQuery(cmdString);
+			rs2.next();
+			count = rs2.getInt(1);
+			rs2.close();
+		} catch (Exception e) {
+			processSQLError(e);
+		}
+		return count;
 	}
 
 	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
@@ -212,7 +222,7 @@ public class DataAccessObject implements DataAccess {
 		try {
 			cmdString = "Select * from CreditCards";
 			rs3 = st1.executeQuery(cmdString);
-			while (rs3.next()) {
+			while (rs3.next() && !result) {
 				myCardName = rs3.getString("cardName");
 				myCardNum = rs3.getString("cardNum");
 				myHolderName = rs3.getString("holderName");
