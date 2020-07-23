@@ -136,8 +136,7 @@ public class CreditCard {
                 + getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 

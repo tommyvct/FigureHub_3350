@@ -82,7 +82,7 @@ public class DataAccessObject implements DataAccess {
 	public int getBudgetsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from BUDGETCATEGORIES";
+			cmdString = "SELECT Count(*) from BUDGETCATEGORIES";
 			rs2 = stmt.executeQuery(cmdString);
 			rs2.next();
 			count = rs2.getInt(1);
@@ -99,7 +99,7 @@ public class DataAccessObject implements DataAccess {
 		double myBudgetLimit;
 		boolean result = false;
 		try {
-			cmdString = "Select * from BUDGETCATEGORIES";
+			cmdString = "SELECT * from BUDGETCATEGORIES";
 			rs2 = stmt.executeQuery(cmdString);
 			while (rs2.next()) {
 				myBudgetName = rs2.getString("BUDGETNAME");
@@ -120,7 +120,7 @@ public class DataAccessObject implements DataAccess {
 		String myBudgetName;
 		double myBudgetLimit;
 		try {
-			cmdString = "Select * from BUDGETCATEGORIES where BUDGETNAME="
+			cmdString = "SELECT * from BUDGETCATEGORIES where BUDGETNAME="
 					+ currentBudget.getBudgetName();
 			rs2 = stmt.executeQuery(cmdString);
 			while (rs2.next()) {
@@ -152,14 +152,12 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
-		boolean result = false;
 		String values;
 		try {
 			values = "'" + currentBudget.getBudgetName() + "'";
 			cmdString = "Delete from BUDGETCATEGORIES where BUDGETNAME=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			result = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
@@ -187,7 +185,7 @@ public class DataAccessObject implements DataAccess {
 	 */
 	public ArrayList<CreditCard> getCreditCards() {
 		try {
-			cmdString = "Select * from CreditCards";
+			cmdString = "Select * from CREDITCARDS";
 			rs3 = stmt.executeQuery(cmdString);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
@@ -198,7 +196,7 @@ public class DataAccessObject implements DataAccess {
 	public int getCardsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from CreditCards";
+			cmdString = "Select Count(*) from CREDITCARDS";
 			rs3 = stmt.executeQuery(cmdString);
 			rs3.next();
 			count = rs3.getInt(1);
@@ -215,15 +213,15 @@ public class DataAccessObject implements DataAccess {
 		int myExpireMonth, myExpireYear, myPayDate;
 		boolean result = false;
 		try {
-			cmdString = "Select * from CreditCards";
+			cmdString = "Select * from CREDITCARDS";
 			rs3 = stmt.executeQuery(cmdString);
 			while (rs3.next()) {
-				myCardName = rs3.getString("cardName");
-				myCardNum = rs3.getString("cardNum");
-				myHolderName = rs3.getString("holderName");
-				myExpireMonth = rs3.getInt("expireMonth");
-				myExpireYear = rs3.getInt("expireYear");
-				myPayDate = rs3.getInt("payDate");
+				myCardName = rs3.getString("CARDNAME");
+				myCardNum = rs3.getString("CARDNUM");
+				myHolderName = rs3.getString("HOLDERNAME");
+				myExpireMonth = rs3.getInt("EXPIREMONTH");
+				myExpireYear = rs3.getInt("EXPIREYEAR");
+				myPayDate = rs3.getInt("PAYDATE");
 				creditCard = new CreditCard(myCardName, myCardNum, myHolderName,
 						myExpireMonth, myExpireYear, myPayDate);
 				cardList.add(creditCard);
@@ -242,15 +240,15 @@ public class DataAccessObject implements DataAccess {
 		int myExpireMonth, myExpireYear, myPayDate;
 		boolean result = false;
 		try {
-			cmdString = "Select * from CreditCards where cardNum=" + currCard.getCardNum();
+			cmdString = "Select * from CREDITCARDS where CARDNUM=" + currCard.getCardNum();
 			rs3 = stmt.executeQuery(cmdString);
 			while (rs3.next()) {
-				myCardName = rs3.getString("cardName");
-				myCardNum = rs3.getString("cardNum");
-				myHolderName = rs3.getString("holderName");
-				myExpireMonth = rs3.getInt("expireMonth");
-				myExpireYear = rs3.getInt("expireYear");
-				myPayDate = rs3.getInt("payDate");
+				myCardName = rs3.getString("CARDNAME");
+				myCardNum = rs3.getString("CARDNUM");
+				myHolderName = rs3.getString("HOLDERNAME");
+				myExpireMonth = rs3.getInt("EXPIREMONTH");
+				myExpireYear = rs3.getInt("EXPIREYEAR");
+				myPayDate = rs3.getInt("PAYDATE");
 				creditCard = new CreditCard(myCardName, myCardNum, myHolderName,
 						myExpireMonth, myExpireYear, myPayDate);
 				creditCards.add(creditCard);
@@ -272,7 +270,7 @@ public class DataAccessObject implements DataAccess {
 					+ "', " + newCard.getExpireMonth()
 					+ ", " + newCard.getExpireYear()
 					+ ", " + newCard.getPayDate();
-			cmdString = "Insert into CreditCards " + " Values(" + values + ")";
+			cmdString = "Insert into CREDITCARDS " + " Values(" + values + ")";
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 		} catch (Exception e) {
@@ -284,7 +282,7 @@ public class DataAccessObject implements DataAccess {
 		String values;
 		try {
 			values = "'" + currCard.getCardNum() + "'";
-			cmdString = "Delete from CreditCards where cardNum=" + values;
+			cmdString = "Delete from CREDITCARDS where CARDNUM=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 		} catch (Exception e) {
@@ -296,19 +294,19 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		String values, where;
 		try {
-			values = "cardNum=" + newCard.getCardNum()
-					+ "cardName='" + newCard.getCardName()
-					+ "', holderName='" + newCard.getHolderName()
-					+ "', expireMonth=" + newCard.getExpireMonth()
-					+ ", expireYear=" + newCard.getExpireYear()
-					+ ", payDate=" + newCard.getPayDate();
-			where = "where cardNum=" + currCard.getCardNum()
-					+ "cardName='" + currCard.getCardName()
-					+ "', holderName='" + currCard.getHolderName()
-					+ "', expireMonth=" + currCard.getExpireMonth()
-					+ ", expireYear=" + currCard.getExpireYear()
-					+ ", payDate=" + currCard.getPayDate();	// primary key?
-			cmdString = "Update CreditCards " + " Set " + values + " " + where;
+			values = "CARDNAME='" + newCard.getCardName()
+					+ "', CARDNUM='" + newCard.getCardNum()
+					+ "', HOLDERNAME='" + newCard.getHolderName()
+					+ "', EXPIREMONTH=" + newCard.getExpireMonth()
+					+ ", EXPIREYEAR=" + newCard.getExpireYear()
+					+ ", PAYDATE=" + newCard.getPayDate();
+			where = "where CARDNAMR='" + newCard.getCardName()
+					+ "', CARDNUM='" + newCard.getCardNum()
+					+ "', HOLDERNAME='" + newCard.getHolderName()
+					+ "', EXPIREMONTH=" + newCard.getExpireMonth()
+					+ ", EXPIREYEAR=" + newCard.getExpireYear()
+					+ ", PAYDATE=" + newCard.getPayDate();
+			cmdString = "Update CREDITCARDS " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -323,7 +321,7 @@ public class DataAccessObject implements DataAccess {
 	 */
 	public ArrayList<Transaction> getTransactions() {
 		try {
-			cmdString = "Select * from Transactions";
+			cmdString = "Select * from TRANSACTIONS";
 			rs4 = stmt.executeQuery(cmdString);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
@@ -334,7 +332,7 @@ public class DataAccessObject implements DataAccess {
 	public int getTransactionsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from Transactions";
+			cmdString = "Select Count(*) from TRANSACTIONS";
 			rs4 = stmt.executeQuery(cmdString);
 			rs4.next();
 			count = rs4.getInt(1);
@@ -354,14 +352,14 @@ public class DataAccessObject implements DataAccess {
 		BudgetCategory myBudgetCategory;
 		boolean result = false;
 		try {
-			cmdString = "Select * from Transactions";
+			cmdString = "Select * from TRANSACTIONS";
 			rs4 = stmt.executeQuery(cmdString);
 			while (rs4.next()) {
-				myDate = rs4.getDate("time");
-				myAmount = rs4.getFloat("amount");
-				myDescription = rs4.getString("description");
-				myCreditCard = (CreditCard)rs4.getObject("card");
-				myBudgetCategory = (BudgetCategory)rs4.getObject("budgetCategory");
+				myDate = rs4.getDate("TIME");
+				myAmount = rs4.getFloat("AMOUNT");
+				myDescription = rs4.getString("DESCRIPTION");
+				myCreditCard = (CreditCard)rs4.getObject("CARD");
+				myBudgetCategory = (BudgetCategory)rs4.getObject("BUDGETCATEGORY");
 				transaction = new Transaction(myDate, myAmount, myDescription,
 						myCreditCard, myBudgetCategory);
 				transactionsList.add(transaction);
@@ -382,15 +380,15 @@ public class DataAccessObject implements DataAccess {
 		CreditCard myCreditCard;
 		BudgetCategory myBudgetCategory;
 		try {
-			cmdString = "Select * from Transactions where creditCard=" +
+			cmdString = "Select * from TRANSACTIONS where CREDITCARD=" +
 					currentTransaction.getDescription();
 			rs4 = stmt.executeQuery(cmdString);
 			while (rs4.next()) {
-				myDate = rs4.getDate("time");
-				myAmount = rs4.getFloat("amount");
-				myDescription = rs4.getString("description");
-				myCreditCard = (CreditCard)rs4.getObject("card");
-				myBudgetCategory = (BudgetCategory)rs4.getObject("budgetCategory");
+				myDate = rs4.getDate("TIME");
+				myAmount = rs4.getFloat("AMOUNT");
+				myDescription = rs4.getString("DESCRIPTION");
+				myCreditCard = (CreditCard)rs4.getObject("CARD");
+				myBudgetCategory = (BudgetCategory)rs4.getObject("BUDGETCATEGORY");
 				transaction = new Transaction(myDate, myAmount, myDescription,
 						myCreditCard, myBudgetCategory);
 				transactions.add(transaction);
@@ -411,7 +409,7 @@ public class DataAccessObject implements DataAccess {
 					+ ", '" + newTransaction.getTime()
 					+ "', '" + newTransaction.getCard() + "', '"
 					+ newTransaction.getBudgetCategory() + "'";
-			cmdString = "Insert into Transactions " + " Values(" + values + ")";
+			cmdString = "Insert into TRANSACTIONS " + " Values(" + values + ")";
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -426,7 +424,7 @@ public class DataAccessObject implements DataAccess {
 		String values;
 		try {
 			values = "'" + currentTransaction.getDescription() + "'";
-			cmdString = "Delete from Transactions where description=" + values;
+			cmdString = "Delete from TRANSACTIONS where DESCRIPTION=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -440,17 +438,17 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		String values, where;
 		try {
-			values = "description='" + newTransaction.getDescription()
-					+ "', time='" + newTransaction.getTime()
-					+ "', amount=" + newTransaction.getAmount()
-					+ ", card='" + newTransaction.getCard()
-					+ "', budgetCategory='" + newTransaction.getBudgetCategory() + "'";
-			where = "where description='" + currentTransaction.getDescription()
-					+ "', time='" + currentTransaction.getTime()
-					+ "', amount=" + currentTransaction.getAmount()
-					+ ", card='" + currentTransaction.getCard()
-					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
-			cmdString = "Update Transactions " + " Set " + values + " " + where;
+			values = "DESCRIPTION='" + newTransaction.getDescription()
+					+ "', TIME='" + newTransaction.getTime()
+					+ "', AMOUNT=" + newTransaction.getAmount()
+					+ ", CARD='" + newTransaction.getCard()
+					+ "', BUDGETCATEGORY='" + newTransaction.getBudgetCategory() + "'";
+			where = "where DESCRIPTION='" + currentTransaction.getDescription()
+					+ "', TIME='" + currentTransaction.getTime()
+					+ "', AMOUNT=" + currentTransaction.getAmount()
+					+ ", CARD='" + currentTransaction.getCard()
+					+ "', BUDGETCATEGORY='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
+			cmdString = "Update TRANSACTIONS " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -470,9 +468,9 @@ public class DataAccessObject implements DataAccess {
 	public void setUsername(String newUsername) {
 		String values, where;
 		try {
-			values = "username='" + newUsername;
-			where = "where username='" + username;
-			cmdString = "Update Username " + " Set " + values + " " + where;
+			values = "USERNAME='" + newUsername;
+			where = "where USERNAME='" + username;
+			cmdString = "Update USERNAME " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 		} catch (Exception e) {
