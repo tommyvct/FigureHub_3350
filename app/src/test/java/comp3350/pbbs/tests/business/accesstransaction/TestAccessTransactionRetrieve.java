@@ -133,7 +133,12 @@ public class TestAccessTransactionRetrieve extends TestCase {
         assertEquals(1, result.size());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         assertTrue(result.contains(calendar));
     }
 
@@ -150,7 +155,12 @@ public class TestAccessTransactionRetrieve extends TestCase {
         assertEquals(1, result.size());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         assertTrue(result.contains(calendar));
         calendar.set(1000, 1, 1);
         Transaction t3 = new Transaction(calendar.getTime(), testAmount, testDesc, testCard, bc1);
@@ -158,7 +168,12 @@ public class TestAccessTransactionRetrieve extends TestCase {
         result = accessTransaction.getActiveMonths(bc1);
         assertEquals(2, result.size());
         assertTrue(result.contains(calendar));
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         assertTrue(result.contains(calendar));
     }
 

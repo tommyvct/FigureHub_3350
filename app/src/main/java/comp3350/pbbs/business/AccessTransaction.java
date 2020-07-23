@@ -322,11 +322,6 @@ public class AccessTransaction {
                 calendar.set(Calendar.MILLISECOND, 0);
                 // Add to set if not appeared
                 if(!activeMonths.contains(calendar)) {
-                    System.out.print(calendar.getTime() + " not in [");
-                    for(Calendar a : activeMonths) {
-                        System.out.print(a.getTime() + ", ");
-                    }
-                    System.out.println("], adding");
                     activeMonths.add(calendar);
                 }
             }
