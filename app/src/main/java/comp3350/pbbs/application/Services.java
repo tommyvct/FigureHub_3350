@@ -33,7 +33,11 @@ public class Services {
         if (dbAccessService == null) {
             dbAccessService = new DataAccessObject(dbName);
             if (dbName.equals(Main.dbName))
+<<<<<<< HEAD
                 dbAccessService.open(Main.getDBPathName());
+=======
+                dbAccessService.populateData(dbName);
+>>>>>>> BudgetCategories
         }
         return dbAccessService;
     }

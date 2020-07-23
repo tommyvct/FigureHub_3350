@@ -25,7 +25,7 @@ public class DataAccessObject implements DataAccess {
 	private ArrayList<BudgetCategory> budgetCategories;
 	private ArrayList<CreditCard> creditCards;
 	private ArrayList<Transaction> transactions;
-	private String username;
+	private String username = null;
 
 	/**
 	 * Constructor of DB
@@ -39,7 +39,7 @@ public class DataAccessObject implements DataAccess {
 	 * This method contains hsql setup and allows DB to run
 	 * @param dbPath directory of the project DB
 	 */
-	public void open(String dbPath) {
+	public void populateData(String dbPath) {
 		String url;
 		try {
 			dbType = "HSQL";
@@ -51,6 +51,10 @@ public class DataAccessObject implements DataAccess {
 			e.printStackTrace(System.out);
 		}
 		System.out.println("Opened " + dbType + " database " + dbPath);
+	}
+
+	public void open(String dbPath) {
+		//TODO: THIS
 	}
 
 	/**
@@ -79,20 +83,6 @@ public class DataAccessObject implements DataAccess {
 		return budgetCategories;
 	}
 
-	public int getBudgetsSize() {
-		int count = 0;
-		try {
-			cmdString = "Select Count(*) from BUDGETCATEGORIES";
-			rs2 = stmt.executeQuery(cmdString);
-			rs2.next();
-			count = rs2.getInt(1);
-			rs2.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-		}
-		return count;
-	}
-
 	public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
 		BudgetCategory budgetCategory;
 		String myBudgetName;
@@ -119,8 +109,9 @@ public class DataAccessObject implements DataAccess {
 		BudgetCategory budgetCategory = null;
 		String myBudgetName;
 		double myBudgetLimit;
+		boolean result = false;
 		try {
-			cmdString = "Select * from BUDGETCATEGORIES where BUDGETNAME="
+			cmdString = "Select * from BUDGETCATEGORIES where budgetName="
 					+ currentBudget.getBudgetName();
 			rs2 = stmt.executeQuery(cmdString);
 			while (rs2.next()) {
@@ -152,34 +143,50 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
-		boolean result = false;
 		String values;
 		try {
 			values = "'" + currentBudget.getBudgetName() + "'";
 			cmdString = "Delete from BUDGETCATEGORIES where BUDGETNAME=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			result = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 		return currentBudget;
 	}
 
-	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		String values, where;
+	@Override
+	public int getBudgetsSize() {
+		int count = 0;
 		try {
-			values = "BUDGETNAME='" + newBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
-			where = "where BUDGETNAME='" + currentBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + currentBudget.getBudgetLimit();	// primary key?
-			cmdString = "Update BUDGETCATEGORIES " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			cmdString = "Select Count(*) from BudgetCategories";
+			rs2 = stmt.executeQuery(cmdString);
+			rs2.next();
+			count = rs2.getInt(1);
+			rs2.close();
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		return newBudget;
+		return count;
+	}
+
+	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+		BudgetCategory budgetCategory = null;
+		String values, where;
+		try {
+			values = "budgetName='" + newBudget.getBudgetName()
+					+ "', budgetLimit=" + newBudget.getBudgetLimit();
+			where = "where budgetName='" + currentBudget.getBudgetName()
+					+ "', budgetLimit=" + currentBudget.getBudgetLimit();    // primary key?
+			budgetCategory = new BudgetCategory(newBudget.getBudgetName(), newBudget.getBudgetLimit());
+			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
+			updateCount = stmt.executeUpdate(cmdString);
+			checkWarning(stmt, updateCount);
+
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+		return budgetCategory;
 	}
 
 	/**
@@ -217,7 +224,7 @@ public class DataAccessObject implements DataAccess {
 		try {
 			cmdString = "Select * from CreditCards";
 			rs3 = stmt.executeQuery(cmdString);
-			while (rs3.next()) {
+			while (rs3.next() && !result) {
 				myCardName = rs3.getString("cardName");
 				myCardNum = rs3.getString("cardNum");
 				myHolderName = rs3.getString("holderName");
@@ -449,7 +456,7 @@ public class DataAccessObject implements DataAccess {
 					+ "', time='" + currentTransaction.getTime()
 					+ "', amount=" + currentTransaction.getAmount()
 					+ ", card='" + currentTransaction.getCard()
-					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
+					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";    // primary key?
 			cmdString = "Update Transactions " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
