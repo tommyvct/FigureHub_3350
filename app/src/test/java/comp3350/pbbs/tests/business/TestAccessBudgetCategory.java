@@ -3,6 +3,7 @@ package comp3350.pbbs.tests.business;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import comp3350.pbbs.application.Services;
@@ -217,7 +218,9 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for invalid inputs
      */
     public void testCalculateInvalidBudgetCategory() {
-        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(null));
+        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(null, null));
+        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(new BudgetCategory("test", 20), null));
+        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(null, Calendar.getInstance()));
     }
 
     /**
@@ -226,9 +229,12 @@ public class TestAccessBudgetCategory extends TestCase {
     public void testCalculateNoTransactionsTotal() {
         BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
+        Calendar currMonth = Calendar.getInstance();
+        currMonth.setTime(new Date());
         //The two budget categories should not have any associated transactions
-        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1));
-        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2));
+        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
+        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
+        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
     }
 
     /**
@@ -240,9 +246,13 @@ public class TestAccessBudgetCategory extends TestCase {
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", testCard, bc1);
         StubDatabase db = Services.getDataAccess("TBCU");
+        Calendar currMonth = Calendar.getInstance();
+        currMonth.setTime(new Date());
         db.insertTransaction(t1);
-        assertEquals(20.0f, testAccess.calculateBudgetCategoryTotal(bc1));
-        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2));
+        assertEquals(20.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
+        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
+        currMonth.add(Calendar.MONTH, 1);
+        assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
     }
 
     /**
@@ -255,14 +265,33 @@ public class TestAccessBudgetCategory extends TestCase {
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
         StubDatabase db = Services.getDataAccess("TBCU");
+        Calendar currMonth = Calendar.getInstance();
+        currMonth.setTime(new Date());
         db.insertTransaction(t1);
         db.insertTransaction(t2);
-        assertEquals(60f, testAccess.calculateBudgetCategoryTotal(bc1));
-        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(bc2));
+        assertEquals(60f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
+        assertEquals(0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
         Transaction t3 = new Transaction(new Date(), 50, "Ate burger", testCard, bc2);
         db.insertTransaction(t3);
-        assertEquals(60f, testAccess.calculateBudgetCategoryTotal(bc1));
-        assertEquals(50f, testAccess.calculateBudgetCategoryTotal(bc2));
+        assertEquals(60f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
+        assertEquals(50f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
+    }
+
+    public void testCalculateTransactionDifferentMonths() {
+        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
+        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
+        Calendar currMonth = Calendar.getInstance();
+        currMonth.setTime(new Date());
+        currMonth.add(Calendar.MONTH, 1);
+        Transaction t2 = new Transaction(currMonth.getTime(), 40, "Bought a video game", testCard, bc1);
+        StubDatabase db = Services.getDataAccess("TBCU");
+        currMonth.setTime(new Date());
+        db.insertTransaction(t1);
+        db.insertTransaction(t2);
+        assertEquals(20f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
+        currMonth.add(Calendar.MONTH, 1);
+        assertEquals(40f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
     }
 
     /**
