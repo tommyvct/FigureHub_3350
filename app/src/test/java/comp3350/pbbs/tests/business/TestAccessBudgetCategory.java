@@ -11,7 +11,7 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * TestAccessBudgetCategory
@@ -245,7 +245,7 @@ public class TestAccessBudgetCategory extends TestCase {
         BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", testCard, bc1);
-        StubDatabase db = Services.getDataAccess("TBCU");
+        DataAccess db = Services.getDataAccess("TBCU");
         Calendar currMonth = Calendar.getInstance();
         currMonth.setTime(new Date());
         db.insertTransaction(t1);
@@ -264,7 +264,7 @@ public class TestAccessBudgetCategory extends TestCase {
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
-        StubDatabase db = Services.getDataAccess("TBCU");
+        DataAccess db = Services.getDataAccess("TBCU");
         Calendar currMonth = Calendar.getInstance();
         currMonth.setTime(new Date());
         db.insertTransaction(t1);
@@ -285,7 +285,7 @@ public class TestAccessBudgetCategory extends TestCase {
         currMonth.setTime(new Date());
         currMonth.add(Calendar.MONTH, 1);
         Transaction t2 = new Transaction(currMonth.getTime(), 40, "Bought a video game", testCard, bc1);
-        StubDatabase db = Services.getDataAccess("TBCU");
+        DataAccess db = Services.getDataAccess("TBCU");
         currMonth.setTime(new Date());
         db.insertTransaction(t1);
         db.insertTransaction(t2);

@@ -7,7 +7,7 @@ import comp3350.pbbs.objects.*;
 
 public interface DataAccess {
 
-    void open(String dbName);
+    void open(String dbPath);
 
     void close();
 
