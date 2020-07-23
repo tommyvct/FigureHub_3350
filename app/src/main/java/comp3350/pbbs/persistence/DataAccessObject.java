@@ -14,8 +14,8 @@ import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.objects.BudgetCategory;
 
 public class DataAccessObject implements DataAccess {
-	private Connection con;	// for DB switch
-	private Statement stmt;	// 1 statement running at a time
+	private Connection c1;	// for DB switch
+	private Statement st1;	// 1 statement running at a time
 	private ResultSet rs1, rs2, rs3, rs4, rs5; // for DB switch and 4 accesses
 	private String dbName;	// name of DB
 	private String dbType;	// type of DB
@@ -45,10 +45,10 @@ public class DataAccessObject implements DataAccess {
 			dbType = "HSQL";
 			url = "jdbc:hsqldb:file:" + dbPath;
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
-			con = DriverManager.getConnection(url, "SA", "");
-			stmt = con.createStatement();
+			c1 = DriverManager.getConnection(url, "SA", "");
+			st1 = c1.createStatement();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		System.out.println("Opened " + dbType + " database " + dbPath);
 	}
@@ -58,11 +58,11 @@ public class DataAccessObject implements DataAccess {
 	 */
 	public void close() {
 		try {
-			stmt = con.createStatement();
-			stmt.execute("SHUTDOWN");
-			con.close();
+			cmdString = "shutdown compact";
+			rs1 = st1.executeQuery(cmdString);
+			c1.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		System.out.println("Closed " + dbType + " database " + dbName);
 	}
@@ -72,9 +72,10 @@ public class DataAccessObject implements DataAccess {
 	 */
 	public ArrayList<BudgetCategory> getBudgets() {
 		try {
-			rs2 = stmt.executeQuery("SELECT * FROM BUDGETCATEGORIES");
+			cmdString = "Select * from BudgetCategories";
+			rs2 = st1.executeQuery(cmdString);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return budgetCategories;
 	}
@@ -82,13 +83,13 @@ public class DataAccessObject implements DataAccess {
 	public int getBudgetsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from BUDGETCATEGORIES";
-			rs2 = stmt.executeQuery(cmdString);
+			cmdString = "Select Count(*) from BudgetCategories";
+			rs2 = st1.executeQuery(cmdString);
 			rs2.next();
 			count = rs2.getInt(1);
 			rs2.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return count;
 	}
@@ -100,17 +101,17 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			cmdString = "Select * from BUDGETCATEGORIES";
-			rs2 = stmt.executeQuery(cmdString);
+			rs2 = st1.executeQuery(cmdString);
 			while (rs2.next()) {
-				myBudgetName = rs2.getString("BUDGETNAME");
-				myBudgetLimit = rs2.getDouble("BUDGETLIMIT");
+				myBudgetName = rs2.getString("budgetName");
+				myBudgetLimit = rs2.getDouble("budgetLimit");
 				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
 				budgetList.add(budgetCategory);
 				result = true;
 			}
 			rs2.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -120,18 +121,18 @@ public class DataAccessObject implements DataAccess {
 		String myBudgetName;
 		double myBudgetLimit;
 		try {
-			cmdString = "Select * from BUDGETCATEGORIES where BUDGETNAME="
+			cmdString = "Select * from BudgetCategories where budgetName="
 					+ currentBudget.getBudgetName();
-			rs2 = stmt.executeQuery(cmdString);
+			rs2 = st1.executeQuery(cmdString);
 			while (rs2.next()) {
-				myBudgetName = rs2.getString("BUDGETNAME");
-				myBudgetLimit = rs2.getDouble("BUDGETLIMIT");
+				myBudgetName = rs2.getString("budgetName");
+				myBudgetLimit = rs2.getDouble("budgetLimit");
 				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
 				budgetCategories.add(budgetCategory);
 			}
 			rs2.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return budgetCategory;
 	}
@@ -141,12 +142,12 @@ public class DataAccessObject implements DataAccess {
 		String values;
 		try {
 			values = "'" + newBudget.getBudgetName() + "', " + newBudget.getBudgetLimit();
-			cmdString = "Insert into BUDGETCATEGORIES " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			cmdString = "Insert into BudgetCategories " + " Values(" + values + ")";
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -156,12 +157,12 @@ public class DataAccessObject implements DataAccess {
 		String values;
 		try {
 			values = "'" + currentBudget.getBudgetName() + "'";
-			cmdString = "Delete from BUDGETCATEGORIES where BUDGETNAME=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			cmdString = "Delete from BudgetCategory where budgetName=" + values;
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return currentBudget;
 	}
@@ -169,15 +170,15 @@ public class DataAccessObject implements DataAccess {
 	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
 		String values, where;
 		try {
-			values = "BUDGETNAME='" + newBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
-			where = "where BUDGETNAME='" + currentBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + currentBudget.getBudgetLimit();	// primary key?
-			cmdString = "Update BUDGETCATEGORIES " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			values = "budgetName='" + newBudget.getBudgetName()
+					+ "', budgetLimit=" + newBudget.getBudgetLimit();
+			where = "where budgetName='" + currentBudget.getBudgetName()
+					+ "', budgetLimit=" + currentBudget.getBudgetLimit();	// primary key?
+			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return newBudget;
 	}
@@ -188,9 +189,9 @@ public class DataAccessObject implements DataAccess {
 	public ArrayList<CreditCard> getCreditCards() {
 		try {
 			cmdString = "Select * from CreditCards";
-			rs3 = stmt.executeQuery(cmdString);
+			rs3 = st1.executeQuery(cmdString);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return creditCards;
 	}
@@ -199,12 +200,12 @@ public class DataAccessObject implements DataAccess {
 		int count = 0;
 		try {
 			cmdString = "Select Count(*) from CreditCards";
-			rs3 = stmt.executeQuery(cmdString);
+			rs3 = st1.executeQuery(cmdString);
 			rs3.next();
 			count = rs3.getInt(1);
 			rs3.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return count;
 	}
@@ -216,7 +217,7 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			cmdString = "Select * from CreditCards";
-			rs3 = stmt.executeQuery(cmdString);
+			rs3 = st1.executeQuery(cmdString);
 			while (rs3.next()) {
 				myCardName = rs3.getString("cardName");
 				myCardNum = rs3.getString("cardNum");
@@ -231,7 +232,7 @@ public class DataAccessObject implements DataAccess {
 			}
 			rs3.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -243,7 +244,7 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			cmdString = "Select * from CreditCards where cardNum=" + currCard.getCardNum();
-			rs3 = stmt.executeQuery(cmdString);
+			rs3 = st1.executeQuery(cmdString);
 			while (rs3.next()) {
 				myCardName = rs3.getString("cardName");
 				myCardNum = rs3.getString("cardNum");
@@ -258,7 +259,7 @@ public class DataAccessObject implements DataAccess {
 			}
 			rs3.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -273,10 +274,10 @@ public class DataAccessObject implements DataAccess {
 					+ ", " + newCard.getExpireYear()
 					+ ", " + newCard.getPayDate();
 			cmdString = "Insert into CreditCards " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 	}
 
@@ -285,10 +286,10 @@ public class DataAccessObject implements DataAccess {
 		try {
 			values = "'" + currCard.getCardNum() + "'";
 			cmdString = "Delete from CreditCards where cardNum=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 	}
 
@@ -309,11 +310,11 @@ public class DataAccessObject implements DataAccess {
 					+ ", expireYear=" + currCard.getExpireYear()
 					+ ", payDate=" + currCard.getPayDate();	// primary key?
 			cmdString = "Update CreditCards " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -324,9 +325,9 @@ public class DataAccessObject implements DataAccess {
 	public ArrayList<Transaction> getTransactions() {
 		try {
 			cmdString = "Select * from Transactions";
-			rs4 = stmt.executeQuery(cmdString);
+			rs4 = st1.executeQuery(cmdString);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return transactions;
 	}
@@ -335,12 +336,12 @@ public class DataAccessObject implements DataAccess {
 		int count = 0;
 		try {
 			cmdString = "Select Count(*) from Transactions";
-			rs4 = stmt.executeQuery(cmdString);
+			rs4 = st1.executeQuery(cmdString);
 			rs4.next();
 			count = rs4.getInt(1);
 			rs4.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return count;
 	}
@@ -355,7 +356,7 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			cmdString = "Select * from Transactions";
-			rs4 = stmt.executeQuery(cmdString);
+			rs4 = st1.executeQuery(cmdString);
 			while (rs4.next()) {
 				myDate = rs4.getDate("time");
 				myAmount = rs4.getFloat("amount");
@@ -369,7 +370,7 @@ public class DataAccessObject implements DataAccess {
 			}
 			rs4.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -384,7 +385,7 @@ public class DataAccessObject implements DataAccess {
 		try {
 			cmdString = "Select * from Transactions where creditCard=" +
 					currentTransaction.getDescription();
-			rs4 = stmt.executeQuery(cmdString);
+			rs4 = st1.executeQuery(cmdString);
 			while (rs4.next()) {
 				myDate = rs4.getDate("time");
 				myAmount = rs4.getFloat("amount");
@@ -397,7 +398,7 @@ public class DataAccessObject implements DataAccess {
 			}
 			rs4.close();
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return transaction;
 	}
@@ -412,11 +413,11 @@ public class DataAccessObject implements DataAccess {
 					+ "', '" + newTransaction.getCard() + "', '"
 					+ newTransaction.getBudgetCategory() + "'";
 			cmdString = "Insert into Transactions " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -427,11 +428,11 @@ public class DataAccessObject implements DataAccess {
 		try {
 			values = "'" + currentTransaction.getDescription() + "'";
 			cmdString = "Delete from Transactions where description=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -451,11 +452,11 @@ public class DataAccessObject implements DataAccess {
 					+ ", card='" + currentTransaction.getCard()
 					+ "', budgetCategory='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
 			cmdString = "Update Transactions " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 			result = true;
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		return result;
 	}
@@ -473,10 +474,10 @@ public class DataAccessObject implements DataAccess {
 			values = "username='" + newUsername;
 			where = "where username='" + username;
 			cmdString = "Update Username " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
+			updateCount = st1.executeUpdate(cmdString);
+			checkWarning(st1, updateCount);
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 	}
 
@@ -490,11 +491,15 @@ public class DataAccessObject implements DataAccess {
 				warning.getMessage();
 			}
 		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			processSQLError(e);
 		}
 		if (updateCount != 1) {
 			System.out.println("Tuple not inserted correctly.");
 		}
+	}
+
+	public void processSQLError(Exception e) {
+		e.printStackTrace();
 	}
 }
 
