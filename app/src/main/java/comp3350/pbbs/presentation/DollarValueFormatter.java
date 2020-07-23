@@ -5,6 +5,12 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.text.DecimalFormat;
 
+/**
+ * Group4
+ * PBBS
+ *
+ * Class that handles formatting float values to dollars
+ */
 public class DollarValueFormatter extends ValueFormatter {
     private DecimalFormat rounding = new DecimalFormat("0.00");
 

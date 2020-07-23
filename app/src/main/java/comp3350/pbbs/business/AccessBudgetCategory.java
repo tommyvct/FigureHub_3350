@@ -205,7 +205,10 @@ public class AccessBudgetCategory {
 
     /**
      * Calculates the total amount spent for a given BudgetCategory from the transactions in that category
+     * based on the given month
+     *
      * @param currentBudgetCat is the specified BudgetCategory
+     * @param monthAndYear is the month and year to query
      * @return the total amount from transactions in that budget category
      */
     public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat, Calendar monthAndYear){
@@ -217,6 +220,7 @@ public class AccessBudgetCategory {
             BudgetCategory transactionBudget = currentTransaction.getBudgetCategory();
             Calendar currTime = Calendar.getInstance();
             currTime.setTime(currentTransaction.getTime());
+            // Check if the budget categories are the same and if the year and month are the same
             if(transactionBudget.equals(currentBudgetCat) &&
                currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
                currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)){
