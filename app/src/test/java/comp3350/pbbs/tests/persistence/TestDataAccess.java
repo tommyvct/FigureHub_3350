@@ -69,7 +69,7 @@ public class TestDataAccess extends TestCase {
         //duplicate budget can be added
         result = dataAccess.insertBudgetCategory(b1);
         assertTrue(result);
-        assertEquals(6, dataAccess.getBudgetsSize());
+        assertEquals(5, dataAccess.getBudgetsSize());
 
         //testing the getBudgets
         assertNotEquals(budgets, dataAccess.getBudgets());
@@ -102,7 +102,7 @@ public class TestDataAccess extends TestCase {
 
         //addAllCreditCards test
         result = dataAccess.addAllCreditCards(cards);
-       // assertTrue(result); //all the other cards added successfully
+        assertTrue(result); //all the other cards added successfully
 
         //testing the size of the ArrayList
         assertEquals(2, dataAccess.getCardsSize());
