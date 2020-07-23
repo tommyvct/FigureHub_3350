@@ -5,7 +5,7 @@ import android.annotation.SuppressLint;
 public class Main
 {
     public static final String dbName = "TBCU"; //database contains Transactions, Budget Categories, Credit Cards, and Users
-    private static String dbPathName = "db/TBCU";
+    private static String dbPathName = "database/TBCU";
 
     public static void main(String[] args){
         startup();
