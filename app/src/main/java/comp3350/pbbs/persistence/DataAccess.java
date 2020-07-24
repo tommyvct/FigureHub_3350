@@ -13,15 +13,15 @@ public interface DataAccess {
 
     boolean addBudgetCategories(List<BudgetCategory> budgetList);
 
-    BudgetCategory findBudgetCategory(BudgetCategory currentBudget);
+    boolean findBudgetCategory(BudgetCategory currentBudget);
 
     boolean insertBudgetCategory(BudgetCategory newBudget);
 
-    ArrayList<BudgetCategory> getBudgets();
+    List<BudgetCategory> getBudgets();
 
-    BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
+    boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
 
-    BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget);
+    boolean deleteBudgetCategory(BudgetCategory currentBudget);
 
     int getBudgetsSize();
 
@@ -41,7 +41,7 @@ public interface DataAccess {
 
     boolean addTransactions(List<Transaction> transactionsList);
 
-    Transaction findTransaction(Transaction currentTransaction);
+    boolean findTransaction(Transaction currentTransaction);
 
     boolean insertTransaction(Transaction newTransaction);
 
@@ -55,6 +55,6 @@ public interface DataAccess {
 
     String getUsername();
 
-    void setUsername(String newUsername);
+    boolean setUsername(String newUsername);
 }
 
