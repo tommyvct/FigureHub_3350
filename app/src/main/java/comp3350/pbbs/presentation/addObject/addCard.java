@@ -130,16 +130,10 @@ public class addCard extends AppCompatActivity {
                                             cardholderName.getText().toString(),
                                             Integer.parseInt(validThruMonth.getText().toString()),
                                             Integer.parseInt(validThruYear.getText().toString()),
-                                            Integer.parseInt(payday.getText().toString())))) {
-                //Adding the new card
-                Snackbar.make(view, "Card Added!", Snackbar.LENGTH_SHORT)
-                        .addCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                super.onDismissed(transientBottomBar, event);
-                                finish();
-                            }
-                        }).show();
+                                            Integer.parseInt(payday.getText().toString()))))
+            {
+                setResult(1);
+                finish();
             }
         });
     }
