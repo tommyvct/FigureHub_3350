@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * TestAccessTransactionUpload

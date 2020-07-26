@@ -9,7 +9,7 @@ import java.util.Date;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -234,7 +234,7 @@ public class TestAccessBudgetCategory extends TestCase {
         //The two budget categories should not have any associated transactions
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
-        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+//        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);   // never used
     }
 
     /**

@@ -33,6 +33,7 @@ public class AllTests {
     private static void testObjects() {
         suite.addTestSuite(TestTransaction.class);
         suite.addTestSuite(TestCreditCard.class);
+        suite.addTestSuite(TestDebitCard.class);
         suite.addTestSuite(TestBudgetCategory.class);
     }
 
@@ -47,5 +48,6 @@ public class AllTests {
         suite.addTestSuite(TestAccessUser.class);
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessCreditCard.class);
+        suite.addTestSuite(TestAccessDebitCard.class);
     }
 }

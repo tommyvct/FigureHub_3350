@@ -6,13 +6,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCreditCard;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * addCard

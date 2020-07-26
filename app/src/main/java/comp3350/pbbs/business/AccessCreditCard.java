@@ -3,7 +3,7 @@ package comp3350.pbbs.business;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.persistence.StubDatabase;
@@ -93,7 +93,7 @@ public class AccessCreditCard {
      * @param str the credit card holder name
      * @return true if the holder name meet the requirement of the format
      */
-    public boolean isValidName(String str) {
+    public static boolean isValidName(String str) {
         return CreditCard.isValidName(str);
     }
 
@@ -111,7 +111,7 @@ public class AccessCreditCard {
      * 6 if year expired <br>
      * 7 if null or empty string provided
      */
-    public int isValidExpirationDate(String month, String year) {
+    public static int isValidExpirationDate(String month, String year) {
         int m, y;
         int result = 0;
         Calendar calender = Calendar.getInstance();
@@ -145,7 +145,7 @@ public class AccessCreditCard {
      * @param n the day
      * @return true if the day is real-world existed
      */
-    public boolean isValidPayDate(int n) {
+    public static boolean isValidPayDate(int n) {
         return CreditCard.isValidPayDate(n);
     }
 }

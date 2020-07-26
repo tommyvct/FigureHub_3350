@@ -3,11 +3,10 @@ package comp3350.pbbs.tests.business;
 import junit.framework.TestCase;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 import comp3350.pbbs.business.AccessCreditCard;
 
 /**
@@ -81,14 +80,14 @@ public class TestAccessCreditCard extends TestCase {
      * Test validating pay dates
      */
     public void testPayDay() {
-        assertTrue(acc.isValidPayDate(1));
-        assertTrue(acc.isValidPayDate(15));
-        assertTrue(acc.isValidPayDate(31));
-        assertFalse(acc.isValidPayDate(-1));
-        assertFalse(acc.isValidPayDate(0));
-        assertFalse(acc.isValidPayDate(-15));
-        assertFalse(acc.isValidPayDate(32));
-        assertFalse(acc.isValidPayDate(64));
+        assertTrue(AccessCreditCard.isValidPayDate(1));
+        assertTrue(AccessCreditCard.isValidPayDate(15));
+        assertTrue(AccessCreditCard.isValidPayDate(31));
+        assertFalse(AccessCreditCard.isValidPayDate(-1));
+        assertFalse(AccessCreditCard.isValidPayDate(0));
+        assertFalse(AccessCreditCard.isValidPayDate(-15));
+        assertFalse(AccessCreditCard.isValidPayDate(32));
+        assertFalse(AccessCreditCard.isValidPayDate(64));
     }
 
     /**
@@ -96,32 +95,32 @@ public class TestAccessCreditCard extends TestCase {
      */
     public void testExpirationDate() {
         Calendar calender = Calendar.getInstance();
-        int currMonth = calender.get(Calendar.MONTH) + 1;
+        // int currMonth = calender.get(Calendar.MONTH) + 1;  // never used
         int currYear = calender.get(Calendar.YEAR);
-        assertEquals(0, acc.isValidExpirationDate("1", "2068"));
-        assertEquals(0, acc.isValidExpirationDate("12", "2068"));
-        assertEquals(1, acc.isValidExpirationDate("-1", "2068"));
-        assertEquals(1, acc.isValidExpirationDate("-20", "2068"));
-        assertEquals(1, acc.isValidExpirationDate("13", "2068"));
-        assertEquals(1, acc.isValidExpirationDate("24", "2068"));
-        assertEquals(2, acc.isValidExpirationDate("1", "2100"));
-        assertEquals(2, acc.isValidExpirationDate("1", "3000"));
-        assertEquals(3, acc.isValidExpirationDate("13", "2100"));
-        assertEquals(3, acc.isValidExpirationDate("24", "3000"));
-        assertEquals(4, acc.isValidExpirationDate("1", "-20"));
-        assertEquals(4, acc.isValidExpirationDate("-1", "-20"));
-        assertEquals(4, acc.isValidExpirationDate("1", "900"));
-        assertEquals(4, acc.isValidExpirationDate("1", "90"));
-        assertEquals(4, acc.isValidExpirationDate("1", "9"));
-        assertEquals(5, acc.isValidExpirationDate("1", Integer.toString(currYear)));
-        assertEquals(6, acc.isValidExpirationDate("1", Integer.toString(currYear-1)));
-        assertEquals(7, acc.isValidExpirationDate("string", "2068"));
-        assertEquals(7, acc.isValidExpirationDate("1", "string"));
-        assertEquals(7, acc.isValidExpirationDate("string", "string 2"));
-        assertEquals(7, acc.isValidExpirationDate("", "2068"));
-        assertEquals(7, acc.isValidExpirationDate(null, "2068"));
-        assertEquals(7, acc.isValidExpirationDate("1", ""));
-        assertEquals(7, acc.isValidExpirationDate("1", null));
+        assertEquals(0, AccessCreditCard.isValidExpirationDate("1", "2068"));
+        assertEquals(0, AccessCreditCard.isValidExpirationDate("12", "2068"));
+        assertEquals(1, AccessCreditCard.isValidExpirationDate("-1", "2068"));
+        assertEquals(1, AccessCreditCard.isValidExpirationDate("-20", "2068"));
+        assertEquals(1, AccessCreditCard.isValidExpirationDate("13", "2068"));
+        assertEquals(1, AccessCreditCard.isValidExpirationDate("24", "2068"));
+        assertEquals(2, AccessCreditCard.isValidExpirationDate("1", "2100"));
+        assertEquals(2, AccessCreditCard.isValidExpirationDate("1", "3000"));
+        assertEquals(3, AccessCreditCard.isValidExpirationDate("13", "2100"));
+        assertEquals(3, AccessCreditCard.isValidExpirationDate("24", "3000"));
+        assertEquals(4, AccessCreditCard.isValidExpirationDate("1", "-20"));
+        assertEquals(4, AccessCreditCard.isValidExpirationDate("-1", "-20"));
+        assertEquals(4, AccessCreditCard.isValidExpirationDate("1", "900"));
+        assertEquals(4, AccessCreditCard.isValidExpirationDate("1", "90"));
+        assertEquals(4, AccessCreditCard.isValidExpirationDate("1", "9"));
+        assertEquals(5, AccessCreditCard.isValidExpirationDate("1", Integer.toString(currYear)));
+        assertEquals(6, AccessCreditCard.isValidExpirationDate("1", Integer.toString(currYear-1)));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("string", "2068"));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("1", "string"));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("string", "string 2"));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("", "2068"));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate(null, "2068"));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("1", ""));
+        assertEquals(7, AccessCreditCard.isValidExpirationDate("1", null));
     }
 
     /**
@@ -142,9 +141,9 @@ public class TestAccessCreditCard extends TestCase {
      * Test validating cardholder names
      */
     public void testName() {
-        assertTrue(acc.isValidName("cool name"));
-        assertFalse(acc.isValidName(""));
-        assertFalse(acc.isValidName(null));
-        assertFalse(acc.isValidName("X AE A-12"));
+        assertTrue(AccessCreditCard.isValidName("cool name"));
+        assertFalse(AccessCreditCard.isValidName(""));
+        assertFalse(AccessCreditCard.isValidName(null));
+        assertFalse(AccessCreditCard.isValidName("X AE A-12"));
     }
 }

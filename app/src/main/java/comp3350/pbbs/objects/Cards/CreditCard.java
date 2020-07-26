@@ -1,4 +1,4 @@
-package comp3350.pbbs.objects;
+package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,18 +11,13 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard {
+public class CreditCard implements ICard {
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
     private int expireMonth;    // the month a credit card is expired, 2-digits (MM)
     private int expireYear;     // the year a credit card is expired, 4-digits (YYYY)
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
-
-    /**
-     * constants: constraints to a credit card
-     */
-    private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
      * constructor: includes full info of a credit card
@@ -52,7 +47,7 @@ public class CreditCard {
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public void errorMsg(String num, String usr, int expM, int expY, int pay) {
+    public static void errorMsg(String num, String usr, int expM, int expY, int pay) {
         if (num == null || num.isEmpty())
             throw new IllegalArgumentException("A Credit Card requires a valid number.");
         if (!isValidName(usr))

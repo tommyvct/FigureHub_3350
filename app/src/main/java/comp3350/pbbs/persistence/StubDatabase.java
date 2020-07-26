@@ -1,14 +1,15 @@
 package comp3350.pbbs.persistence;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.ICard;
 import comp3350.pbbs.objects.Transaction;
 
 /**
@@ -22,7 +23,9 @@ public class StubDatabase {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    //name of the database, not used in iteration 1
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
-    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
+//    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
+//    private ArrayList<DebitCard> debitCards;      //ArrayList for credit cards
+    private ArrayList<ICard> cards;
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
     private String username;                        //"Hi, {username}!"
 
@@ -34,7 +37,9 @@ public class StubDatabase {
     public StubDatabase(String name) {
         this.databaseName = name;
         budgets = new ArrayList<>();
-        creditCards = new ArrayList<>();
+//        creditCards = new ArrayList<>();
+//        debitCards = new ArrayList<>();
+        cards = new ArrayList<>();
         transactions = new ArrayList<>();
     }
 
@@ -43,7 +48,7 @@ public class StubDatabase {
      */
     public void populateData() {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        CreditCard card1, card2;                                //variables for multiple cards
+        CreditCard creditCard1, creditCard2;                    //variables for multiple credit cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
 
         budgets = new ArrayList<>();
@@ -56,22 +61,26 @@ public class StubDatabase {
         phoneBill = new BudgetCategory("Phone Bill", 75);
         budgets.add(phoneBill);
 
-        creditCards = new ArrayList<>();
-        card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
-        creditCards.add(card1);
-        card2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
-        creditCards.add(card2);
+//        creditCards = new ArrayList<>();
+        creditCard1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
+        cards.add(creditCard1);
+        creditCard2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
+        cards.add(creditCard2);
+
+//        debitCards = new ArrayList<>();
+        cards.add(new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
+        cards.add(new DebitCard("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
 
         //local date variable
         Date date = new Date();
         transactions = new ArrayList<>();
-        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
+        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", creditCard1, groceries);
         transactions.add(t1);
-        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
+        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", creditCard2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
+        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", creditCard2, utilities);
         transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
+        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", creditCard2, phoneBill);
         transactions.add(t4);
 
         username = null;    //initializing the username with Null, it is going to call the mane from user input
@@ -145,13 +154,66 @@ public class StubDatabase {
     }
 
     /**
-     * This method will add all the cards to a card list.
+     * This method will add all the credit cards to the given card list.
      *
+     * @param cardList all credit cards in the stub SB will be added to here.
      * @return true if added successfully.
      */
     @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean addAllCreditCards(List<CreditCard> cardList) {
-        return cardList.addAll(creditCards);
+        ArrayList<CreditCard> toAdd = new ArrayList<>();
+
+        for (ICard c : cards)
+        {
+            if (c instanceof CreditCard)
+            {
+                toAdd.add((CreditCard) c);
+            }
+        }
+        return cardList.addAll(toAdd);
+    }
+
+    /**
+     * This method will add all the debit cards to the given card list.
+     *
+     * @param cardList all debit cards in the stub SB will be added to here.
+     * @return true if added successfully.
+     */  // TODO: Test pending
+    @SuppressWarnings("unused")  // will be used at some point in the future
+    public boolean addAllDebitCards(List<DebitCard> cardList) {
+        ArrayList<DebitCard> toAdd = new ArrayList<>();
+
+        for (ICard c : cards)
+        {
+            if (c instanceof DebitCard)
+            {
+                toAdd.add((DebitCard) c);
+            }
+        }
+        return cardList.addAll(toAdd);
+    }
+
+    /**
+     * This method will add all the cards to the given card list.
+     *
+     * @param cardList all cards in the stub SB will be added to here.
+     * @return true if added successfully.
+     */
+    @SuppressWarnings("unused")
+    public boolean addAllCards(List<ICard> cardList)
+    {
+        return cardList.addAll(cards);
+    }
+
+    /**
+     * This method will find if a card exist or not.
+     *
+     * @param toFind card to find
+     * @return the card object.
+     */
+    private boolean findCard(ICard toFind)
+    {
+        return cards.indexOf(toFind) >= 0;
     }
 
     /**
@@ -160,14 +222,48 @@ public class StubDatabase {
      * @return the card object.
      */
     public boolean findCreditCard(CreditCard currCard) {
-        return creditCards.indexOf(currCard) >= 0;
+        return findCard(currCard);
+    }
+
+    /**
+     * This method will find if a card exist or not.
+     *
+     * @return the card object.
+     */  // TODO: Test pending
+    public boolean findDebitCard(DebitCard currCard) {
+        return findCard(currCard);
+    }
+
+    /**
+     * This method will insert a new card with the ArrayList.
+     */
+    private void insertCard(ICard newCard)
+    {
+        cards.add(newCard);
     }
 
     /**
      * This method will insert a new card with the ArrayList.
      */
     public void insertCreditCard(CreditCard newCard) {
-        creditCards.add(newCard);
+        insertCard(newCard);
+    }
+
+    /**
+     * This method will insert a new card with the ArrayList.
+     */  // TODO: Test pending
+    public void insertDebitCard(DebitCard newCard) {
+        insertCard(newCard);
+    }
+
+    /**
+     * Getter method to get all the cards.
+     *
+     * @return all the cards.
+     */
+    private ArrayList<ICard> getCards()
+    {
+        return cards;
     }
 
     /**
@@ -176,7 +272,49 @@ public class StubDatabase {
      * @return creditCards ArrayList.
      */
     public ArrayList<CreditCard> getCreditCards() {
-        return creditCards;
+        ArrayList<CreditCard> ret = new ArrayList<>();
+
+        for (ICard c : cards)
+        {
+            if (c instanceof CreditCard)
+            {
+                ret.add((CreditCard) c);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Getter method to get the debit cards.
+     *
+     * @return debitCards ArrayList.
+     */  // TODO: Test pending
+    public ArrayList<DebitCard> getDebitCards() {
+        ArrayList<DebitCard> ret = new ArrayList<>();
+
+        for (ICard c : cards)
+        {
+            if (c instanceof DebitCard)
+            {
+                ret.add((DebitCard) c);
+            }
+        }
+
+        return ret;
+    }
+
+    private boolean updateCard(ICard currCard, ICard newCard)
+    {
+        int index = cards.indexOf(currCard);
+
+        if (index >= 0)
+        {
+            cards.set(index, newCard);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -185,19 +323,38 @@ public class StubDatabase {
      * @return true if updated correctly.
      */
     public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
-        int index = creditCards.indexOf(currCard);
-        if (index >= 0) {
-            creditCards.set(index, newCard);
-            return true;
-        }
-        return false;
+        return updateCard(currCard, newCard);
+    }
+
+    /**
+     * This method will be used to update a debit card.
+     *
+     * @return true if updated correctly.
+     */  // TODO: Test pending
+    public boolean updateDebitCard(DebitCard currCard, DebitCard newCard) {
+        return updateCard(currCard, newCard);
+    }
+
+    /**
+     * This method will remove given card.
+     */
+    private boolean deleteCard(ICard currCard)
+    {
+        return cards.remove(currCard);
+    }
+
+    /**
+     * This method will remove a debit card.
+     */  // TODO: Test pending
+    public boolean deleteDebitCard(DebitCard currCard) {
+        return deleteCard(currCard);
     }
 
     /**
      * This method will remove a credit card.
      */
-    public void deleteCreditCard(CreditCard currCard) {
-        creditCards.remove(currCard);
+    public boolean deleteCreditCard(CreditCard currCard) {
+        return deleteCard(currCard);
     }
 
     /**

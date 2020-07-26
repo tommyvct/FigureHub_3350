@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCreditCard;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * main_cards

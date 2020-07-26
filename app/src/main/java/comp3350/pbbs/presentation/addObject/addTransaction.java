@@ -26,7 +26,7 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCreditCard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * addTransaction
