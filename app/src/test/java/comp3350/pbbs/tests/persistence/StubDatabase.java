@@ -36,6 +36,9 @@ public class StubDatabase implements DataAccess {
      */
     public StubDatabase(String name) {
         this.dbName = name;
+        budgets = new ArrayList<>();
+        creditCards = new ArrayList<>();
+        transactions = new ArrayList<>();
     }
 
     /**
@@ -44,7 +47,8 @@ public class StubDatabase implements DataAccess {
      * @param dbPath    Database path
      */
     public void open(String dbPath) {
-        populateData();
+        if(dbPath.contains("populate"))
+            populateData();
     }
 
     /**
@@ -55,7 +59,6 @@ public class StubDatabase implements DataAccess {
         CreditCard card1, card2;                                //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
 
-        budgets = new ArrayList<>();
         rent = new BudgetCategory("Rent/Mortgage", 500);
         budgets.add(rent);
         groceries = new BudgetCategory("Groceries", 100);
@@ -65,7 +68,6 @@ public class StubDatabase implements DataAccess {
         phoneBill = new BudgetCategory("Phone Bill", 75);
         budgets.add(phoneBill);
 
-        creditCards = new ArrayList<>();
         card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
         creditCards.add(card1);
         card2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
@@ -73,7 +75,6 @@ public class StubDatabase implements DataAccess {
 
         //local date variable
         Date date = new Date();
-        transactions = new ArrayList<>();
         t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
         t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
@@ -301,6 +302,8 @@ public class StubDatabase implements DataAccess {
      * @return username
      */
     public String getUsername() {
+        if(username == null)
+            throw new NullPointerException("No username is set");
         return username;
     }
 

@@ -105,7 +105,7 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	public BudgetCategory findBudgetCategory(BudgetCategory currentBudget) {
+	public boolean findBudgetCategory(BudgetCategory currentBudget) {
 		BudgetCategory budgetCategory = null;
 		String myBudgetName;
 		double myBudgetLimit;
@@ -120,11 +120,12 @@ public class DataAccessObject implements DataAccess {
 				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
 				budgetCategories.add(budgetCategory);
 			}
+			result = true;
 			rs2.close();
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		return budgetCategory;
+		return result;
 	}
 
 	public boolean insertBudgetCategory(BudgetCategory newBudget) {
@@ -142,17 +143,19 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
+	public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
 		String values;
+		boolean toReturn = false;
 		try {
 			values = "'" + currentBudget.getBudgetName() + "'";
 			cmdString = "Delete from BUDGETCATEGORIES where BUDGETNAME=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
+			toReturn = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		return currentBudget;
+		return toReturn;
 	}
 
 	@Override
@@ -170,22 +173,22 @@ public class DataAccessObject implements DataAccess {
 		return count;
 	}
 
-	public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		BudgetCategory budgetCategory = null;
+	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+		boolean toReturn = false;
 		String values, where;
 		try {
 			values = "budgetName='" + newBudget.getBudgetName()
 					+ "', budgetLimit=" + newBudget.getBudgetLimit();
 			where = "where budgetName='" + currentBudget.getBudgetName()
 					+ "', budgetLimit=" + currentBudget.getBudgetLimit();    // primary key?
-			budgetCategory = new BudgetCategory(newBudget.getBudgetName(), newBudget.getBudgetLimit());
 			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
+			toReturn = true;
 
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		return budgetCategory;
+		return toReturn;
 	}
 
 	/**
@@ -269,8 +272,9 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	public void insertCreditCard(CreditCard newCard) {
+	public boolean insertCreditCard(CreditCard newCard) {
 		String values;
+		boolean toReturn = false;
 		try {
 			values = newCard.getCardNum()
 					+ ", '" + newCard.getCardName()
@@ -281,21 +285,26 @@ public class DataAccessObject implements DataAccess {
 			cmdString = "Insert into CREDITCARDS " + " Values(" + values + ")";
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
+			toReturn = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
+		return toReturn;
 	}
 
-	public void deleteCreditCard(CreditCard currCard) {
+	public boolean deleteCreditCard(CreditCard currCard) {
 		String values;
+		boolean toReturn = false;
 		try {
 			values = "'" + currCard.getCardNum() + "'";
 			cmdString = "Delete from CREDITCARDS where CARDNUM=" + values;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
+			toReturn = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
+		return toReturn;
 	}
 
 	public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
@@ -380,8 +389,8 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	public Transaction findTransaction(Transaction currentTransaction) {
-		Transaction transaction = null;
+	public boolean findTransaction(Transaction currentTransaction) {
+		boolean transaction = false;
 		Date myDate;
 		float myAmount;
 		String myDescription;
@@ -397,9 +406,7 @@ public class DataAccessObject implements DataAccess {
 				myDescription = rs4.getString("DESCRIPTION");
 				myCreditCard = (CreditCard)rs4.getObject("CARD");
 				myBudgetCategory = (BudgetCategory)rs4.getObject("BUDGETCATEGORY");
-				transaction = new Transaction(myDate, myAmount, myDescription,
-						myCreditCard, myBudgetCategory);
-				transactions.add(transaction);
+				transaction = true;
 			}
 			rs4.close();
 		} catch (Exception e) {
@@ -473,7 +480,8 @@ public class DataAccessObject implements DataAccess {
 		return username;
 	}
 
-	public void setUsername(String newUsername) {
+	public boolean setUsername(String newUsername) {
+		boolean toReturn = false;
 		String values, where;
 		try {
 			values = "USERNAME='" + newUsername;
@@ -481,9 +489,11 @@ public class DataAccessObject implements DataAccess {
 			cmdString = "Update USERNAME " + " Set " + values + " " + where;
 			updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
+			toReturn = true;
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
+		return toReturn;
 	}
 
 	/**
