@@ -198,7 +198,7 @@ public class AccessBudgetCategory {
         float sum = 0;
         List<Transaction> transactions = dataAccess.getTransactions();
 
-        for(int i = 0; i < transactions.size(); i++){
+        for(int i = 0; i < transactions.size() && monthAndYear != null; i++){
             Transaction currentTransaction = transactions.get(i);
             BudgetCategory transactionBudget = currentTransaction.getBudgetCategory();
             Calendar currTime = Calendar.getInstance();

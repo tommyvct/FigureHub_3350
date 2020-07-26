@@ -2,10 +2,13 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
 /**
@@ -147,5 +150,33 @@ public class AccessCreditCard {
      */
     public boolean isValidPayDate(int n) {
         return CreditCard.isValidPayDate(n);
+    }
+
+    /**
+     * Calculates the total amount spent for a given CreditCard from the transactions in that category
+     * based on the given month
+     *
+     * @param currentCard is the specified BudgetCategory
+     * @param monthAndYear is the month and year to query
+     * @return the total amount from transactions in that budget category
+     */
+    public float calculateCreditCardTotal(CreditCard currentCard, Calendar monthAndYear){
+        float sum = 0;
+        List<Transaction> transactions = db.getTransactions();
+
+        for(int i = 0; i < transactions.size() && monthAndYear != null; i++){
+            Transaction currentTransaction = transactions.get(i);
+            CreditCard transactionCard = currentTransaction.getCard();
+            Calendar currTime = Calendar.getInstance();
+            currTime.setTime(currentTransaction.getTime());
+            // Check if the budget categories are the same and if the year and month are the same
+            if(transactionCard.equals(currentCard) &&
+                    currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
+                    currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)){
+                sum += currentTransaction.getAmount();
+            }
+        }
+
+        return sum;
     }
 }

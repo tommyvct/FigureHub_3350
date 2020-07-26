@@ -118,7 +118,7 @@ public class TestAccessBudgetCategory extends TestCase {
         assertEquals(6, testAccess.getAllBudgetCategories().size());
 
         //invalid input for limit (must be integer) while updating
-        BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
+        BudgetCategory newBC2 = new BudgetCategory("Food places", 0);
         assertNull(testAccess.updateBudgetCategory(bc2, "Food places", "0"));
         assertNull(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
@@ -165,6 +165,13 @@ public class TestAccessBudgetCategory extends TestCase {
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, testAccess.getAllBudgetCategories().size());
+    }
+
+    public boolean updateHelper(String newName, int newLimit, boolean pass){
+        boolean success = false;
+        BudgetCategory newBC2 = new BudgetCategory(newName, newLimit);
+        success = testAccess.updateBudgetCategory(bc2, newName, ""+newLimit) != null;
+        return success;
     }
 
     /**
@@ -227,8 +234,6 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for no transactions
      */
     public void testCalculateNoTransactionsTotal() {
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         Calendar currMonth = Calendar.getInstance();
         currMonth.setTime(new Date());
         //The two budget categories should not have any associated transactions
@@ -241,8 +246,6 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for a single transaction
      */
     public void testCalculateOneTransactionTotal() {
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", testCard, bc1);
         StubDatabase db = Services.getDataAccess("TBCU");
@@ -259,8 +262,6 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for multiple transactions
      */
     public void testCalculateMultipleTransactionsTotal() {
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
-        BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
@@ -278,7 +279,6 @@ public class TestAccessBudgetCategory extends TestCase {
     }
 
     public void testCalculateTransactionDifferentMonths() {
-        BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
         CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Calendar currMonth = Calendar.getInstance();
