@@ -2,6 +2,7 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.application.Main;
@@ -83,7 +84,7 @@ public class AccessCreditCard {
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<CreditCard> getCreditCards() {
+    public List<CreditCard> getCreditCards() {
         return db.getCreditCards();
     }
 

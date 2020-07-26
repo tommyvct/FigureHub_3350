@@ -38,23 +38,19 @@ public class StubDatabase implements DataAccess {
         this.dbName = name;
     }
 
-    public StubDatabase() {
-        this(Main.dbName);
-    }
-
     /**
      * Opens the database by populating with fake data.
      *
      * @param dbPath    Database path
      */
     public void open(String dbPath) {
-        populateData(dbPath);
+        populateData();
     }
 
     /**
      * This method is used for populating fake data into the stub database
      */
-    public void populateData(String dbPath) {
+    public void populateData() {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         CreditCard card1, card2;                                //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
@@ -87,7 +83,7 @@ public class StubDatabase implements DataAccess {
         t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
-        username = null;    //initializing the username with Null, it is going to call the mane from user input
+        username = null;
         System.out.println("Opened " + dbType + " database " + dbName);
     }
 
@@ -101,21 +97,16 @@ public class StubDatabase implements DataAccess {
      * @return true if added successfully.
      */
     public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-        return budgetList.addAll(budgets);
+        return budgets.addAll(budgetList);
     }
 
     /**
      * This method will find if a budget exist or not
      *
-     * @return the BudgetCategory object
+     * @return True if found, false if not found
      */
-    public BudgetCategory findBudgetCategory(BudgetCategory currentBudget) {
-        BudgetCategory budgetCategory = null;
-        int index = budgets.indexOf(currentBudget);
-        if (index >= 0) {
-            budgetCategory = budgets.get(index);
-        }
-        return budgetCategory;
+    public boolean findBudgetCategory(BudgetCategory currentBudget) {
+        return budgets.contains(currentBudget);
     }
 
     /**
@@ -123,7 +114,6 @@ public class StubDatabase implements DataAccess {
      */
     public boolean insertBudgetCategory(BudgetCategory newBudget) {
         return budgets.add(newBudget);
-
     }
 
     /**
@@ -138,30 +128,25 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will be used to update a Budget.
      *
-     * @return updated budgetCategory
+     * @return True if the budget category was updated successfully, or false if not
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+    public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
         int index = budgets.indexOf(currentBudget);
-        BudgetCategory result = null;
+        boolean changed = false;
         if (index >= 0) {
-            budgets.set(index, newBudget);
-            result = budgets.get(index);
+            BudgetCategory result = budgets.set(index, newBudget);
+            changed = result != null;
         }
-        return result;
+        return changed;
     }
 
     /**
      * This method will remove a budget category.
      *
-     * @return newly deleted budgetCategory
+     * @return True if the budget category was deleted, or false if not
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
-        int index = budgets.indexOf(currentBudget);
-        BudgetCategory result = null;
-        if (index >= 0) {
-            result = budgets.remove(index);
-        }
-        return result;
+    public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
+        return budgets.remove(currentBudget);
     }
 
     @Override
@@ -174,9 +159,8 @@ public class StubDatabase implements DataAccess {
      *
      * @return true if added successfully.
      */
-    @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean addAllCreditCards(List<CreditCard> cardList) {
-        return cardList.addAll(creditCards);
+        return creditCards.addAll(cardList);
     }
 
     /**
@@ -185,16 +169,18 @@ public class StubDatabase implements DataAccess {
      * @return the card object.
      */
     public boolean findCreditCard(CreditCard currCard) {
-        return creditCards.indexOf(currCard) >= 0;
+        return creditCards.contains(currCard);
     }
 
     /**
      * This method will insert a new card with the ArrayList.
      */
-    public void insertCreditCard(CreditCard newCard) {
-        if (creditCards.indexOf(newCard) <= 0) {
-            creditCards.add(newCard);
+    public boolean insertCreditCard(CreditCard newCard) {
+        boolean result = false;
+        if (!findCreditCard(newCard)) {
+            result = creditCards.add(newCard);
         }
+        return result;
     }
 
     /**
@@ -213,20 +199,25 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
         int index = creditCards.indexOf(currCard);
+        boolean result = false;
         if (index >= 0) {
             creditCards.set(index, newCard);
-            return true;
+            result = true;
         }
-        return false;
+        return result;
     }
 
     /**
      * This method will remove a credit card.
+     *
+     * @return True if removed successfully
      */
-    public void deleteCreditCard(CreditCard currCard) {
-        if (creditCards.indexOf(currCard) >= 0) {
-            creditCards.remove(currCard);
+    public boolean deleteCreditCard(CreditCard currCard) {
+        boolean result = false;
+        if (creditCards.contains(currCard)) {
+            result = creditCards.remove(currCard);
         }
+        return result;
     }
 
     @Override
@@ -240,22 +231,17 @@ public class StubDatabase implements DataAccess {
      * @return true if added successfully.
      */
     public boolean addTransactions(List<Transaction> transactionsList) {
-        return transactionsList.addAll(transactions);
+        return transactions.addAll(transactionsList);
     }
 
     /**
      * This method will find if a transaction exist or not.
      *
-     * @return the transaction object.
+     * @return True if found, or false if not found
      */
     @SuppressWarnings("unused")  // will be used at some point in the future
-    public Transaction findTransaction(Transaction currentTransaction) {
-        Transaction transaction = null;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            transaction = transactions.get(index);
-        }
-        return transaction;
+    public boolean findTransaction(Transaction currentTransaction) {
+        return transactions.contains(currentTransaction);
     }
 
     /**
@@ -324,11 +310,13 @@ public class StubDatabase implements DataAccess {
      * this is ensured on presentation side
      *
      * @param newUsername String representation of the user's name
+     * @return True if the username was set successfully
      */
-    public void setUsername(String newUsername) {
+    public boolean setUsername(String newUsername) {
         if (newUsername == null) {
             throw new NullPointerException("Expecting a String!");
         }
         this.username = newUsername;
+        return true;
     }
 }

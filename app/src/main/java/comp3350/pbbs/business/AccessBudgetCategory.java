@@ -2,7 +2,6 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
@@ -66,7 +65,7 @@ public class AccessBudgetCategory {
      *
      * @return the list of categories
      */
-    public ArrayList<BudgetCategory> getAllBudgetCategories() {
+    public List<BudgetCategory> getAllBudgetCategories() {
         return dataAccess.getBudgets();
     }
 
@@ -74,9 +73,9 @@ public class AccessBudgetCategory {
      * For finding if a budget category is in the DB
      *
      * @param currentBudgetCategory the category we are looking for
-     * @return null if it can't be found, or the category found.
+     * @return False if it can't be found, or true if the category found.
      */
-    public BudgetCategory findBudgetCategory(BudgetCategory currentBudgetCategory) {
+    public boolean findBudgetCategory(BudgetCategory currentBudgetCategory) {
         return dataAccess.findBudgetCategory(currentBudgetCategory);
     }
 
@@ -151,9 +150,9 @@ public class AccessBudgetCategory {
      * @return success
      * deleting a BudgetCategory.@return update budgetCategory
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
+    public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
-        BudgetCategory result = null;
+        boolean result = false;
         if((newLimitFlt = parseLimit(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
@@ -166,9 +165,9 @@ public class AccessBudgetCategory {
      *
      * @param currentBudget the budget category currently in the DB
      * @param newBudget     the budget category to replace currentBudget
-     * @return updated budgetCategory
+     * @return True if updated, of false if not updated
      */
-    public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
+    public boolean updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
 
@@ -179,9 +178,9 @@ public class AccessBudgetCategory {
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param currentBudgetCat the category to be removed
-     * @return deleted budgetCategory
+     * @return True if deleted, false if not deleted
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    public boolean deleteBudgetCategory(BudgetCategory currentBudgetCat)
     {
         return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }

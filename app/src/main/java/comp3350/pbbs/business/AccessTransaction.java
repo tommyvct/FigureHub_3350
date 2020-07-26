@@ -225,7 +225,7 @@ public class AccessTransaction {
      *
      * @return List of all transactions in the database
      */
-    public ArrayList<Transaction> retrieveTransactions() {
+    public List<Transaction> retrieveTransactions() {
         return db.getTransactions();
     }
 

@@ -84,7 +84,7 @@ public class addTransaction extends AppCompatActivity
         ///////// Card Selector //////////
         accessCreditCard = new AccessCreditCard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<CreditCard> cardArrayList = accessCreditCard.getCreditCards();
+        List<CreditCard> cardArrayList = accessCreditCard.getCreditCards();
         cardList.add("Select card");
         for (CreditCard c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -96,7 +96,7 @@ public class addTransaction extends AppCompatActivity
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
         List<String> budgetList = new ArrayList<>();
-        ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
+        List<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
         budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());

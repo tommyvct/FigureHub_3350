@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCreditCard;
@@ -26,7 +27,7 @@ import comp3350.pbbs.objects.CreditCard;
 public class main_cards extends Fragment
 {
     private AccessCreditCard accessCreditCard;
-    private ArrayList<CreditCard> creditCardsList;
+    private List<CreditCard> creditCardsList;
     private ArrayAdapter<CreditCard> listViewAdapter;
     private ListView listView;
 

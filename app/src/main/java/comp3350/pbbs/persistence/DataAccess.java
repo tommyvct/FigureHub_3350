@@ -29,13 +29,13 @@ public interface DataAccess {
 
     boolean findCreditCard(CreditCard currCard);
 
-    void insertCreditCard(CreditCard newCard);
+    boolean insertCreditCard(CreditCard newCard);
 
-    ArrayList<CreditCard> getCreditCards();
+    List<CreditCard> getCreditCards();
 
     boolean updateCreditCard(CreditCard currCard, CreditCard newCard);
 
-    void deleteCreditCard(CreditCard currCard);
+    boolean deleteCreditCard(CreditCard currCard);
 
     int getCardsSize();
 
@@ -45,7 +45,7 @@ public interface DataAccess {
 
     boolean insertTransaction(Transaction newTransaction);
 
-    ArrayList<Transaction> getTransactions();
+    List<Transaction> getTransactions();
 
     boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
 
