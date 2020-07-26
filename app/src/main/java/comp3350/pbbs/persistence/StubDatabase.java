@@ -211,7 +211,7 @@ public class StubDatabase {
      * @param toFind card to find
      * @return the card object.
      */
-    private boolean findCard(ICard toFind)
+    public boolean findCard(ICard toFind)
     {
         return cards.indexOf(toFind) >= 0;
     }
@@ -237,7 +237,7 @@ public class StubDatabase {
     /**
      * This method will insert a new card with the ArrayList.
      */
-    private void insertCard(ICard newCard)
+    public void insertCard(ICard newCard)
     {
         cards.add(newCard);
     }
@@ -261,7 +261,7 @@ public class StubDatabase {
      *
      * @return all the cards.
      */
-    private ArrayList<ICard> getCards()
+    public ArrayList<ICard> getCards()
     {
         return cards;
     }
@@ -304,7 +304,7 @@ public class StubDatabase {
         return ret;
     }
 
-    private boolean updateCard(ICard currCard, ICard newCard)
+    public boolean updateCard(ICard currCard, ICard newCard)
     {
         int index = cards.indexOf(currCard);
 
@@ -338,7 +338,7 @@ public class StubDatabase {
     /**
      * This method will remove given card.
      */
-    private boolean deleteCard(ICard currCard)
+    public boolean deleteCard(ICard currCard)
     {
         return cards.remove(currCard);
     }

@@ -58,7 +58,7 @@ public class AccessTransaction {
      * @return java.text.Date object that contains the date time, or null if the strings
      * do not match any of the predefined formats
      */
-    private static Date parseDatetime(String dateStr, String timeStr) {
+    protected static Date parseDatetime(String dateStr, String timeStr) {
         Date toReturn = null;
 
         // Check the possible date formats
@@ -82,7 +82,7 @@ public class AccessTransaction {
      * @param amountStr The string to convert
      * @return The converted float, or null if the amount is invalid
      */
-    private static Float parseAmount(String amountStr) {
+    protected static Float parseAmount(String amountStr) {
         Float toReturn = null;
 
         if (amountStr != null) {
