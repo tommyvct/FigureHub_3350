@@ -57,6 +57,10 @@ public class DataAccessObject implements DataAccess {
 		//TODO: THIS
 	}
 
+	public String getDBName() {
+		return dbName;
+	}
+
 	/**
 	 * This method commits all changes to the DB then terminate it
 	 */

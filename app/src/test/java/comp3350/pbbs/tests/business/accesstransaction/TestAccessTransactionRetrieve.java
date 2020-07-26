@@ -13,6 +13,7 @@ import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessTransactionRetrieve
@@ -37,7 +38,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
      * Sets the test values and pre-populates database
      */
     public void setUp() {
-        db = Services.createDataAccess("test");
+        db = Services.createDataAccess(new StubDatabase("test"));
 
         testDate = new Date();
         testAmount = 20;

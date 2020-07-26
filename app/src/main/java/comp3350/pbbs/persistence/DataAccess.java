@@ -11,6 +11,8 @@ public interface DataAccess {
 
     void close();
 
+    String getDBName();
+
     boolean addBudgetCategories(List<BudgetCategory> budgetList);
 
     boolean findBudgetCategory(BudgetCategory currentBudget);

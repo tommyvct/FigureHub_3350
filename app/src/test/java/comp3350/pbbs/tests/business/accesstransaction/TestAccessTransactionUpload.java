@@ -6,6 +6,7 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessTransactionUpload
@@ -27,7 +28,7 @@ public class TestAccessTransactionUpload extends TestCase {
      * Sets the test variables before each test
      */
     public void setUp() {
-        Services.createDataAccess("test");
+        Services.createDataAccess(new StubDatabase("test"));
         accessTransaction = new AccessTransaction(true);
         testDesc = "Bought groceries.";
         testDate = "30/3/2020";

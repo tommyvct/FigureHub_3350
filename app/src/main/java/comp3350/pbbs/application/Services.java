@@ -23,17 +23,30 @@ public class Services {
     private static DataAccess dbAccessService = null;
 
     /**
-     * This method creates a new initializes a stub database variable and populates data if the dbName is correct.
+     * This method creates a new database variable.
      *
      * @param dbName A string representing the name of the database.
-     * @return StubDatabase for other classes to use
+     * @return Database for other classes to use
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static DataAccess createDataAccess(String dbName) {
         if (dbAccessService == null) {
             dbAccessService = new DataAccessObject(dbName);
-            if (dbName.equals(Main.dbName))
-                dbAccessService.open(Main.getDBPathName());
+            dbAccessService.open(dbName);
+        }
+        return dbAccessService;
+    }
+
+    /**
+     * This method creates a new initializes a stub database variable and populates data if the dbName is correct.
+     *
+     * @param dataAccess A string representing the name of the database.
+     * @return StubDatabase for other classes to use
+     */
+    public static DataAccess createDataAccess(DataAccess dataAccess) {
+        if (dbAccessService == null) {
+            dbAccessService = dataAccess;
+            dbAccessService.open(dbAccessService.getDBName());
         }
         return dbAccessService;
     }

@@ -51,6 +51,10 @@ public class StubDatabase implements DataAccess {
             populateData();
     }
 
+    public String getDBName() {
+        return dbName;
+    }
+
     /**
      * This method is used for populating fake data into the stub database
      */

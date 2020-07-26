@@ -29,7 +29,7 @@ public class TestAccessTransactionDelete extends TestCase {
      * Before each test, set the test values
      */
     public void setUp() {
-        DataAccess db = Services.createDataAccess("test");
+        DataAccess db = Services.createDataAccess(new StubDatabase("test"));
         accessTransaction = new AccessTransaction(true);
         Date testDate = new Date();
         float testAmount = 19.99f;

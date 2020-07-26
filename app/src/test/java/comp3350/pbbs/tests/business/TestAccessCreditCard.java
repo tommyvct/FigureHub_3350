@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
+import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.CreditCard;
 import comp3350.pbbs.business.AccessCreditCard;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessCreditCard
@@ -25,7 +27,7 @@ public class TestAccessCreditCard extends TestCase {
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
-        Main.startup();
+        Services.createDataAccess(new StubDatabase("test"));
         card = new CreditCard("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
         acc = new AccessCreditCard();
         acc.insertCreditCard(card);
@@ -35,7 +37,7 @@ public class TestAccessCreditCard extends TestCase {
      * This teardown method disconnects from the database
      */
     public void tearDown() {
-        Main.shutDown();
+        Services.closeDataAccess();
     }
 
     /**
