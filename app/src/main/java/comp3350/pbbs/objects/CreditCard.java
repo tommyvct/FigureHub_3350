@@ -2,6 +2,7 @@ package comp3350.pbbs.objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -112,11 +113,21 @@ public class CreditCard {
     /**
      * method: compare if two credit cards are same
      *
-     * @param other another credit card
+     * @param cardObject another credit card
      * @return true if both credit cards have the same card number
      */
-    public boolean equals(CreditCard other) {
-        return getCardNum().equals(other.getCardNum());
+    public boolean equals(Object cardObject) {
+
+        boolean equal = false;
+        CreditCard b;
+
+        if (cardObject instanceof CreditCard) {
+            b = (CreditCard) cardObject;
+            if (getCardNum().equals(b.getCardNum())) {
+                equal = true;
+            }
+        }
+        return equal;
     }
 
     /**
