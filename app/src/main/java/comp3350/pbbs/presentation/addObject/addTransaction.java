@@ -148,15 +148,8 @@ public class addTransaction extends AppCompatActivity
                             cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     )) {
-                //Adding the new transaction
-                Snackbar.make(view, "Transaction Added!", Snackbar.LENGTH_SHORT)
-                        .addCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                super.onDismissed(transientBottomBar, event);
-                                finish();
-                            }
-                        }).show();
+                        setResult(1);
+                        finish();
             } else {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
             }

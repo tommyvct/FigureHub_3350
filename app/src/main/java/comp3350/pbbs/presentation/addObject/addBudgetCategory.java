@@ -66,15 +66,8 @@ public class addBudgetCategory extends AppCompatActivity {
             //checking if the newly created budget is valid or not
             if (accessBudgetCategory.insertBudgetCategory(BudgetNameET.getText().toString(), BudgetLimitET.getText().toString()))   // validate fields, use methods from business class
             {
-                //Adding the new budget
-                Snackbar.make(view, "Budget Category Added!", Snackbar.LENGTH_SHORT)
-                        .addCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                super.onDismissed(transientBottomBar, event);
-                                finish();
-                            }
-                        }).show();
+                setResult(1);
+                finish();
             }
             else
             {
