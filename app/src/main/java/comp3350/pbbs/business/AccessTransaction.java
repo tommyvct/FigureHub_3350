@@ -14,8 +14,11 @@ import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.ICard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -55,7 +58,7 @@ public class AccessTransaction {
      * @return java.text.Date object that contains the date time, or null if the strings
      * do not match any of the predefined formats
      */
-    private Date parseDatetime(String dateStr, String timeStr) {
+    protected static Date parseDatetime(String dateStr, String timeStr) {
         Date toReturn = null;
 
         // Check the possible date formats
@@ -79,7 +82,7 @@ public class AccessTransaction {
      * @param amountStr The string to convert
      * @return The converted float, or null if the amount is invalid
      */
-    private Float parseAmount(String amountStr) {
+    protected static Float parseAmount(String amountStr) {
         Float toReturn = null;
 
         if (amountStr != null) {
@@ -111,7 +114,7 @@ public class AccessTransaction {
      * @param timeStr The time to check.
      * @return True if the amount is valid, or false if it is invalid
      */
-    public boolean isValidDateTime(String dateStr, String timeStr) {
+    public static boolean isValidDateTime(String dateStr, String timeStr) {
         return parseDatetime(dateStr, timeStr) != null;
     }
 
@@ -124,7 +127,7 @@ public class AccessTransaction {
      * @param amountStr The amount to check.
      * @return True if the amount is valid, or false if it is invalid
      */
-    public boolean isValidAmount(String amountStr) {
+    public static boolean isValidAmount(String amountStr) {
         return parseAmount(amountStr) != null;
     }
 
@@ -136,7 +139,7 @@ public class AccessTransaction {
      * @param desc The description to check
      * @return True if the description is valid, or false if it is invalid
      */
-    public boolean isValidDescription(String desc) {
+    public static boolean isValidDescription(String desc) {
         return desc != null && !desc.isEmpty();
     }
 
@@ -147,12 +150,12 @@ public class AccessTransaction {
      * @param dateStr        The date of the transaction
      * @param timeStr        The time of the transaction
      * @param amountStr      The amount of the transaction
-     * @param card           The card the transaction was paid with
+     * @param creditCard     The card the transaction was paid with
      * @param budgetCategory The category of the transaction
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
      */
-    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard creditCard, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
         Date transactionTime = parseDatetime(dateStr, timeStr);
@@ -160,12 +163,41 @@ public class AccessTransaction {
         float amount = parseAmount(amountStr);
         // Create the transaction
         try {
-            transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
+            transaction = new Transaction(transactionTime, amount, desc, creditCard, budgetCategory);
         } catch (IllegalArgumentException ignored) {
         }
 
         return transaction;
     }
+
+    /**
+     * This method parses the given variables into a transaction object
+     *
+     * @param desc           The description of the transaction
+     * @param dateStr        The date of the transaction
+     * @param timeStr        The time of the transaction
+     * @param amountStr      The amount of the transaction
+     * @param debitCard      The card linked with the bank account
+     * @param bankAccount    The bank account used
+     * @param budgetCategory The category of the transaction
+     * @return The parsed transaction, or null if the transaction could not be
+     * parsed correctly.
+     */ // TODO: Test pending
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+        Transaction transaction = null;
+        // Parse the date
+        Date transactionTime = parseDatetime(dateStr, timeStr);
+        // Parse the amount
+        float amount = parseAmount(amountStr);
+        // Create the transaction
+        try {
+            transaction = new Transaction(transactionTime, amount, desc, debitCard, bankAccount, budgetCategory);
+        } catch (IllegalArgumentException ignored) {
+        }
+
+        return transaction;
+    }
+
 
     /**
      * This method parses the transaction and adds it to the database
@@ -191,6 +223,33 @@ public class AccessTransaction {
 
         return toReturn;
     }
+
+    /**
+     * This method parses the transaction and adds it to the database
+     *
+     * @param desc           The description of the transaction
+     * @param dateStr        The date of the transaction
+     * @param timeStr        The time of the transaction
+     * @param amountStr      The amount of the transaction
+     * @param debitCard      The card linked with the bank account
+     * @param bankAccount    The bank account used
+     * @param budgetCategory The category of the transaction
+     * @return True if the transaction was added successfully, or false if it was
+     * not added successfully
+     */   // TODO: test pending
+    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+        boolean toReturn = false;
+        // Ensure the parameters are valid
+        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
+            if (transaction != null) {
+                toReturn = db.insertTransaction(transaction);
+            }
+        }
+
+        return toReturn;
+    }
+
 
     /**
      * This method takes the old transaction and updates it to the current given values
@@ -219,6 +278,36 @@ public class AccessTransaction {
 
         return toReturn;
     }
+
+    /**
+     * This method takes the old transaction and updates it to the current given values
+     *
+     * NOT IMPLEMENTED in presentation for iteration1.
+     *
+     * @param oldTransaction The transaction to replace
+     * @param desc           The description of the new transaction
+     * @param dateStr        The date of the new transaction
+     * @param timeStr        The time of the new transaction
+     * @param amountStr      The amount of the new transaction
+     * @param debitCard      The card linked with the bank account
+     * @param bankAccount    The bank account used
+     * @param budgetCategory The category of the new transaction
+     * @return True if the transaction was replaced successfully, or false if it
+     * was not replaced successfully
+     */   // TODO:  test pending
+    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+        boolean toReturn = false;
+        // Ensure the parameters are valid
+        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
+            if (transaction != null) {
+                toReturn = db.updateTransaction(oldTransaction, transaction);
+            }
+        }
+
+        return toReturn;
+    }
+
 
     /**
      * Retrieves a list of all the transactions in the database.

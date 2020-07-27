@@ -8,26 +8,25 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessValidation;
-import comp3350.pbbs.objects.Cards.CreditCard;
 import comp3350.pbbs.objects.Cards.DebitCard;
 
 /**
- * TestAccessCreditCard
+ * TestAccessDebitCard
  * Group4
  * PBBS
  *
- * This class tests the methods in the AccessCreditCard class
+ * This class tests the methods in the AccessDebitCard class
  */
-public class TestAccessCreditCard extends TestCase {
-    private CreditCard card;        // a CreditCard object
-    private AccessICard acc;    // a AccessCreditCard object
+public class TestAccessDebitCard extends TestCase {
+    private DebitCard card;        // a DebitCard object
+    private AccessICard acc;    // a AccessDebitCard object
 
     /**
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
         Main.startup();
-        card = new CreditCard("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+        card = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
         acc = new AccessICard();
         acc.insertCard(card);
     }
@@ -40,32 +39,38 @@ public class TestAccessCreditCard extends TestCase {
     }
 
     /**
-     * This method tests finding credit cards in the database
+     * This method tests finding debit cards in the database
      */
-    public void testFindCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+    public void testFindDebitCard() {
+        DebitCard card1 = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
         assertTrue(acc.findCard(card));
         assertFalse(acc.findCard(card1));
     }
 
+    /**
+     * This method tests inserting debit cards
+     */
+    public void testInsertDebitCard() {
+        DebitCard card1 = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
+        assertTrue(acc.insertCard(card1));
+        assertFalse(acc.insertCard(card1));
+    }
 
     /**
-     * This method tests deleting credit cards
+     * This method tests deleting debit cards
      */
-    public void testDeleteCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+    public void testDeleteDebitCard() {
+        DebitCard card1 = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
         assertTrue(acc.deleteCard(card));
         assertFalse(acc.deleteCard(card));
         assertFalse(acc.deleteCard(card1));
     }
 
     /**
-     * This method tests updating credit cards
+     * This method tests updating debit cards
      */
-    public void testUpdateCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        DebitCard debitCard = new DebitCard("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
-        assertFalse(acc.updateCard(card1, debitCard));
+    public void testUpdateDebitCard() {
+        DebitCard card1 = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
         assertTrue(acc.updateCard(card, card1));
         assertFalse(acc.updateCard(card, card1));
         assertTrue(acc.findCard(card1));
@@ -73,25 +78,11 @@ public class TestAccessCreditCard extends TestCase {
     }
 
     /**
-     * Test validating pay dates
-     */
-    public void testPayDay() {
-        assertTrue(AccessValidation.isValidPayDate(1));
-        assertTrue(AccessValidation.isValidPayDate(15));
-        assertTrue(AccessValidation.isValidPayDate(31));
-        assertFalse(AccessValidation.isValidPayDate(-1));
-        assertFalse(AccessValidation.isValidPayDate(0));
-        assertFalse(AccessValidation.isValidPayDate(-15));
-        assertFalse(AccessValidation.isValidPayDate(32));
-        assertFalse(AccessValidation.isValidPayDate(64));
-    }
-
-    /**
      * Test validating expiration dates
      */
     public void testExpirationDate() {
         Calendar calender = Calendar.getInstance();
-        // int currMonth = calender.get(Calendar.MONTH) + 1;  // never used
+        // int currMonth = calender.get(Calendar.MONTH) + 1; // never used
         int currYear = calender.get(Calendar.YEAR);
         assertEquals(0, AccessValidation.isValidExpirationDate("1", "2068"));
         assertEquals(0, AccessValidation.isValidExpirationDate("12", "2068"));
@@ -120,15 +111,15 @@ public class TestAccessCreditCard extends TestCase {
     }
 
     /**
-     * Test retrieving a list of credit cards
+     * Test retrieving a list of debit cards
      */
     public void testCardList() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        List<CreditCard> list = acc.getCreditCards();
+        DebitCard card1 = new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
+        List<DebitCard> list = acc.getDebitCards();
         assertTrue(list.contains(card));
         assertFalse(list.contains(card1));
         acc.insertCard(card1);
-        list = acc.getCreditCards();
+        list = acc.getDebitCards();
         assertTrue(list.contains(card));
         assertTrue(list.contains(card1));
     }
@@ -137,7 +128,7 @@ public class TestAccessCreditCard extends TestCase {
      * Test validating cardholder names
      */
     public void testName() {
-        assertTrue( AccessValidation.isValidName("cool name"));
+        assertTrue(AccessValidation.isValidName("cool name"));
         assertFalse(AccessValidation.isValidName(""));
         assertFalse(AccessValidation.isValidName(null));
         assertFalse(AccessValidation.isValidName("X AE A-12"));

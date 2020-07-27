@@ -6,13 +6,12 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Objects;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessCreditCard;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessValidation;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * addCard
@@ -28,14 +27,14 @@ public class addCard extends AppCompatActivity {
     EditText validThruYear;                 //EditText variable for valid year
     EditText payday;                        //EditText variable for payday
     EditText cardholderName;                //EditText variable for holder name
-    AccessCreditCard accessCreditCard;      //AccessCreditCard variable
+    AccessICard accessICard;      //AccessCreditCard variable
+    // TODO: add Debit card
 
     /**
      * This method creates a new creditCard and adds it with the creditCard list
      *
      * @param savedInstanceState a bundle variable to save the state
      */
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,7 @@ public class addCard extends AppCompatActivity {
         payday = findViewById(R.id.payDay);
         cardholderName = findViewById(R.id.cardholderName);
 
-        accessCreditCard = new AccessCreditCard();
+        accessICard = new AccessICard();
         validThruYear.setText("20");       //For year, the first 2 digits will always be 20
 
         findViewById(R.id.addCardSubmit).setOnClickListener(view ->
@@ -64,7 +63,7 @@ public class addCard extends AppCompatActivity {
                 valid = false;
             }
 
-            switch (accessCreditCard.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
+            switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
                 case 1:  // invalid month
                     validThruMonth.setError("There is no such month!");
                     valid = false;
@@ -106,7 +105,7 @@ public class addCard extends AppCompatActivity {
             if (payday.getText().toString().isEmpty()) {
                 payday.setError("Which day of month do you need to pay this card?");
                 valid = false;
-            } else if (!accessCreditCard.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
+            } else if (!AccessValidation.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
             {
                 payday.setError("There is no such day in a month!");
                 valid = false;
@@ -115,22 +114,22 @@ public class addCard extends AppCompatActivity {
             if (cardholderName.getText().toString().isEmpty()) {
                 cardholderName.setError("Provide a cardholder name.");
                 valid = false;
-            } else if (!accessCreditCard.isValidName(cardholderName.getText().toString()))   // validate fields, use methods from business class
+            } else if (!AccessValidation.isValidName(cardholderName.getText().toString()))   // validate fields, use methods from business class
             {
                 cardholderName.setError("Cardholder name can only contain letters, period and dash.");
                 valid = false;
             }
 
             //if everything is valid then checks if the card can be inserted or not
-            if (valid && accessCreditCard.insertCreditCard(
-                    new CreditCard(
-                        cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
-                        cardNumber.getText().toString(),
-                        cardholderName.getText().toString(),
-                        Integer.parseInt(validThruMonth.getText().toString()),
-                        Integer.parseInt(validThruYear.getText().toString()),
-                        Integer.parseInt(payday.getText().toString())))
-                    )
+            if (valid && accessICard.insertCard(
+                            new CreditCard
+                                    (
+                                            cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+                                            cardNumber.getText().toString(),
+                                            cardholderName.getText().toString(),
+                                            Integer.parseInt(validThruMonth.getText().toString()),
+                                            Integer.parseInt(validThruYear.getText().toString()),
+                                            Integer.parseInt(payday.getText().toString()))))
             {
                 setResult(1);
                 finish();

@@ -23,10 +23,10 @@ import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
-import comp3350.pbbs.business.AccessCreditCard;
+import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
 
 /**
  * addTransaction
@@ -43,7 +43,7 @@ public class addTransaction extends AppCompatActivity
     EditText timeText;                              //EditText variable for time
     final Calendar c = Calendar.getInstance();      //Calendar variable to get the relevant date
     AccessTransaction accessTransaction;            //AccessTransaction variable
-    AccessCreditCard accessCreditCard;              //AccessCreditCard variable
+    AccessICard accessICard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
 
     /**
@@ -86,9 +86,9 @@ public class addTransaction extends AppCompatActivity
         }));
 
         ///////// Card Selector //////////
-        accessCreditCard = new AccessCreditCard();
+        accessICard = new AccessICard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<CreditCard> cardArrayList = accessCreditCard.getCreditCards();
+        ArrayList<CreditCard> cardArrayList = accessICard.getCreditCards();
         cardList.add("Select card");
         for (CreditCard c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -117,16 +117,16 @@ public class addTransaction extends AppCompatActivity
             boolean valid = true;
 
             // validate fields, use methods from business class
-            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
+            if (!AccessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
                 timeText.setError("Invalid time.");
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!accessTransaction.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
+            if (!AccessTransaction.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!accessTransaction.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString())) {
+            if (!AccessTransaction.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString())) {
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }

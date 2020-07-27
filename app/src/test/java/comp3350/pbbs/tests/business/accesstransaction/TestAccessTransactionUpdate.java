@@ -10,8 +10,10 @@ import java.util.List;
 
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
+import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.DebitCard;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -34,6 +36,8 @@ public class TestAccessTransactionUpdate extends TestCase {
     private String testDesc;
     private float testAmount;
     private CreditCard testCard;
+    private DebitCard testDebitCard;
+    private BankAccount testBankAccount;
     private BudgetCategory testBudgetCategory;
     private StubDatabase db;
 
@@ -59,6 +63,9 @@ public class TestAccessTransactionUpdate extends TestCase {
         df = new SimpleDateFormat("k:m");
         testTimeStr = df.format(testTransaction3.getTime());
         testAmountStr = "" + testTransaction3.getAmount();
+
+        testDebitCard = new DebitCard("Mastercard debit", "94564654684", "Tommy", 03, 2024);
+        testBankAccount = new BankAccount("cheque", "965214", testDebitCard);
 
         assertTrue(db.insertTransaction(testTransaction1));
         assertTrue(db.insertTransaction(testTransaction2));
@@ -145,6 +152,10 @@ public class TestAccessTransactionUpdate extends TestCase {
      */
     public void testInvalidCard() {
         assertFalse(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, testAmountStr, null, testBudgetCategory));
+        assertFalse(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, testAmountStr, null, null, testBudgetCategory));
+        assertFalse(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, testAmountStr, null, testBankAccount, testBudgetCategory));
+        assertFalse(accessTransaction.updateTransaction(testTransaction1, testDesc, testDateStr, testTimeStr, testAmountStr, testDebitCard, null, testBudgetCategory));
+
     }
 
     /**
