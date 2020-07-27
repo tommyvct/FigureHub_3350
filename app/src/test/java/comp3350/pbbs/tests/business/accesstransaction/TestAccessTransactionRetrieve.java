@@ -182,7 +182,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
      */
     public void testInvalidActiveMonths() {
         try {
-            accessTransaction.getActiveMonths(null);
+            accessTransaction.getActiveCardMonths(null);
             fail("Expected NullPointerException.");
         } catch (NullPointerException ignored) {
 

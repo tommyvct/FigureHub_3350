@@ -13,6 +13,7 @@
         <activity android:name=".presentation.addObject.addCard" />
         <activity android:name=".presentation.addObject.addBudgetCategory" />
         <activity android:name=".presentation.ViewBudgetCategory" />
+        <activity android:name=".presentation.ViewCard" />
         <activity android:name=".presentation.firstTimeGreeting" />
         <activity android:name=".presentation.addObject.addTransaction" />
         <activity android:name=".presentation.MainActivity" />

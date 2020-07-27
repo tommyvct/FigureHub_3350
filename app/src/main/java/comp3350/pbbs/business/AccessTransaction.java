@@ -328,4 +328,35 @@ public class AccessTransaction {
         }
         return activeMonths;
     }
+
+    /**
+     * Retrieves a list of months that have transactions for a certain card.
+     *
+     * @param card      The credit card to query.
+     * @return              A list of Calendar instances with the year and month specified.
+     */
+    public List<Calendar> getActiveCardMonths(CreditCard card) {
+        List<Calendar> activeMonths = new ArrayList<Calendar>();
+
+        // Loop through all transactions
+        for(Transaction transaction : retrieveTransactions()) {
+            if(card.equals(transaction.getCard())) {
+                // Construct the calendar object
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(transaction.getTime());
+                // Remove time after month
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.HOUR, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                // Add to set if not appeared
+                if(!activeMonths.contains(calendar)) {
+                    activeMonths.add(calendar);
+                }
+            }
+        }
+        return activeMonths;
+    }
 }

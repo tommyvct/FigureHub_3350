@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCreditCard;
 import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.presentation.ViewCard;
 
 /**
  * main_cards
@@ -58,6 +59,13 @@ public class main_cards extends Fragment
         );
         listView.setAdapter(listViewAdapter);
 
+        // display Card detail
+        listView.setOnItemClickListener((arg0, view1, position, arg3) ->
+        {
+            Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
+            viewCard.putExtra("creditCard", creditCardsList.get(position));
+            startActivity(viewCard);
+        });
         return view;
     }
 
