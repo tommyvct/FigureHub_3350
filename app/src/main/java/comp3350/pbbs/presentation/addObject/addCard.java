@@ -123,14 +123,14 @@ public class addCard extends AppCompatActivity {
 
             //if everything is valid then checks if the card can be inserted or not
             if (valid && accessCreditCard.insertCreditCard(
-                            new CreditCard
-                                    (
-                                            cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
-                                            cardNumber.getText().toString(),
-                                            cardholderName.getText().toString(),
-                                            Integer.parseInt(validThruMonth.getText().toString()),
-                                            Integer.parseInt(validThruYear.getText().toString()),
-                                            Integer.parseInt(payday.getText().toString()))))
+                    new CreditCard(
+                        cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+                        cardNumber.getText().toString(),
+                        cardholderName.getText().toString(),
+                        Integer.parseInt(validThruMonth.getText().toString()),
+                        Integer.parseInt(validThruYear.getText().toString()),
+                        Integer.parseInt(payday.getText().toString())))
+                    )
             {
                 setResult(1);
                 finish();
