@@ -1,11 +1,11 @@
 package comp3350.pbbs.persistence;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.CreditCard;
 import comp3350.pbbs.objects.Cards.DebitCard;
@@ -26,6 +26,7 @@ public class StubDatabase {
 //    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
 //    private ArrayList<DebitCard> debitCards;      //ArrayList for credit cards
     private ArrayList<ICard> cards;
+    private ArrayList<BankAccount> accounts;        // ArrayList for bank accounts
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
     private String username;                        //"Hi, {username}!"
 
@@ -41,6 +42,7 @@ public class StubDatabase {
 //        debitCards = new ArrayList<>();
         cards = new ArrayList<>();
         transactions = new ArrayList<>();
+        accounts = new ArrayList<>();
     }
 
     /**
@@ -217,43 +219,11 @@ public class StubDatabase {
     }
 
     /**
-     * This method will find if a card exist or not.
-     *
-     * @return the card object.
-     */
-    public boolean findCreditCard(CreditCard currCard) {
-        return findCard(currCard);
-    }
-
-    /**
-     * This method will find if a card exist or not.
-     *
-     * @return the card object.
-     */  // TODO: Test pending
-    public boolean findDebitCard(DebitCard currCard) {
-        return findCard(currCard);
-    }
-
-    /**
      * This method will insert a new card with the ArrayList.
      */
     public void insertCard(ICard newCard)
     {
         cards.add(newCard);
-    }
-
-    /**
-     * This method will insert a new card with the ArrayList.
-     */
-    public void insertCreditCard(CreditCard newCard) {
-        insertCard(newCard);
-    }
-
-    /**
-     * This method will insert a new card with the ArrayList.
-     */  // TODO: Test pending
-    public void insertDebitCard(DebitCard newCard) {
-        insertCard(newCard);
     }
 
     /**
@@ -318,24 +288,6 @@ public class StubDatabase {
     }
 
     /**
-     * This method will be used to update a credit card.
-     *
-     * @return true if updated correctly.
-     */
-    public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
-        return updateCard(currCard, newCard);
-    }
-
-    /**
-     * This method will be used to update a debit card.
-     *
-     * @return true if updated correctly.
-     */  // TODO: Test pending
-    public boolean updateDebitCard(DebitCard currCard, DebitCard newCard) {
-        return updateCard(currCard, newCard);
-    }
-
-    /**
      * This method will remove given card.
      */
     public boolean deleteCard(ICard currCard)
@@ -343,18 +295,29 @@ public class StubDatabase {
         return cards.remove(currCard);
     }
 
-    /**
-     * This method will remove a debit card.
-     */  // TODO: Test pending
-    public boolean deleteDebitCard(DebitCard currCard) {
-        return deleteCard(currCard);
+    public ArrayList<BankAccount> getAllBankAccounts()
+    {
+        return accounts;
     }
 
     /**
-     * This method will remove a credit card.
+     * Get all accounts from given debit card
+     * @param from the card
+     * @return ArrayList contains accounts
      */
-    public boolean deleteCreditCard(CreditCard currCard) {
-        return deleteCard(currCard);
+    public ArrayList<BankAccount> getAccountsFromDebitCard(DebitCard from)
+    {
+        ArrayList<BankAccount> ret = new ArrayList<>();
+
+        for (BankAccount account : accounts)
+        {
+            if (account.getLinkedCard().equals(from))
+            {
+                ret.add(account);
+            }
+        }
+
+        return ret;
     }
 
     /**

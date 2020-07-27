@@ -69,6 +69,10 @@ public class Transaction {
         if (bankAccount == null)
             throw new IllegalArgumentException("A Transaction needs a bank account.");
 
+        if (!bankAccount.getLinkedCard().equals(card))
+        {
+            throw new IllegalArgumentException("This card does not have given account.");
+        }
         this.card = card;
         this.bankAccount = bankAccount;
     }

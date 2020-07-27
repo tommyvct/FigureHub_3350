@@ -33,7 +33,7 @@ public class TestDebitCard extends TestCase {
 
     /**
      * method: test isValidLength(str)
-     * case: a debit card number cannot be null or non-16-digits long
+     * case: a debit card number cannot be null
      */
     public void testCardNum() {
         DebitCard card1 = new DebitCard("mastercard", num, name, expMon, expYear);

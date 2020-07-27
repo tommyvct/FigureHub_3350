@@ -9,6 +9,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.DebitCard;
 
 /**
  * TestAccessCreditCard
@@ -71,6 +72,8 @@ public class TestAccessCreditCard extends TestCase {
      */
     public void testUpdateCreditCard() {
         CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        DebitCard debitCard = new DebitCard("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
+        assertFalse(acc.updateCard(card1, debitCard));
         assertTrue(acc.updateCard(card, card1));
         assertFalse(acc.updateCard(card, card1));
         assertTrue(acc.findCard(card1));

@@ -30,7 +30,7 @@ public class AccessICard
     /**
      * method: find a card exist or not in the database
      *
-     * @param newCard a card needs to be found from the database
+     * @param toFind a card needs to be found from the database
      * @return true if this card has been added into the database
      */
     public boolean findCard(ICard toFind)

@@ -35,6 +35,7 @@ public class AllTests {
         suite.addTestSuite(TestCreditCard.class);
         suite.addTestSuite(TestDebitCard.class);
         suite.addTestSuite(TestBudgetCategory.class);
+        suite.addTestSuite(TestBankAccount.class);
     }
 
     /**

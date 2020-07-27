@@ -1,14 +1,27 @@
 package comp3350.pbbs.objects;
 
+import comp3350.pbbs.objects.Cards.DebitCard;
+
 public class BankAccount  // TODO: implementation pending
 {
     private String accountName;
     private String accountNumber;
+    private DebitCard linkedCard;
 
-    public BankAccount(String accountName, String accountNumber)
+    public BankAccount(String accountName, String accountNumber, DebitCard linkedCard)
     {
-        this.accountName = accountName;
+        if (accountNumber == null)
+        {
+            throw new IllegalArgumentException("account number cannot be null");
+        }
+        if (linkedCard == null)
+        {
+            throw new IllegalArgumentException("A bank account must be linked to a debit card");
+        }
+
+        this.accountName = (accountName == null || accountName.isEmpty()) ? "No Name" : accountName;
         this.accountNumber = accountNumber;
+        this.linkedCard = linkedCard;
     }
 
     public String getAccountName()
@@ -21,13 +34,13 @@ public class BankAccount  // TODO: implementation pending
         return accountNumber;
     }
 
-    public void setAccountName(String accountName)
+    public DebitCard getLinkedCard()
     {
-        this.accountName = accountName;
+        return linkedCard;
     }
 
-    public void setAccountNumber(String accountNumber)
+    public boolean equals(BankAccount o)
     {
-        this.accountNumber = accountNumber;
+        return this.accountNumber.equals(o.accountNumber);
     }
 }
