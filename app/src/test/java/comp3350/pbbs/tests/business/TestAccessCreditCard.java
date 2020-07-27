@@ -48,14 +48,6 @@ public class TestAccessCreditCard extends TestCase {
         assertFalse(acc.findCard(card1));
     }
 
-    /**
-     * This method tests inserting credit cards
-     */
-    public void testInsertCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(acc.insertCard(card1));
-        assertFalse(acc.insertCard(card1));
-    }
 
     /**
      * This method tests deleting credit cards
@@ -132,7 +124,7 @@ public class TestAccessCreditCard extends TestCase {
      */
     public void testCardList() {
         CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        List<CreditCard> list = acc.getCreditCards();
+        List<CreditCard> list = testAccess.getCreditCards();
         assertTrue(list.contains(card));
         assertFalse(list.contains(card1));
         acc.insertCard(card1);
