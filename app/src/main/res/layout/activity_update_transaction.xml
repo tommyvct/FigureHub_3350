@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".presentation.updateObject.updateTransaction">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateAddTransDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateDateInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/date"
+                android:inputType="date"
+                android:focusable="false" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateTimeInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/time"
+                android:inputType="time"
+                android:focusable="false" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateAddTransAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/amount"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/updateCardSelector"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            />
+
+        <Spinner
+            android:id="@+id/updateBudgetSelector"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            />
+
+        <Button
+            android:id="@+id/updateAddTransSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add" />
+    </LinearLayout>
+
+</ScrollView>

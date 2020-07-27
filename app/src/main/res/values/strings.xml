@@ -23,5 +23,7 @@
     <string name="budget">Budget</string>
     <string name="cards">Cards</string>
     <string name="Continue">Continue</string>
+    <string name="update">update</string>
+    <string name="delete">delete</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>
