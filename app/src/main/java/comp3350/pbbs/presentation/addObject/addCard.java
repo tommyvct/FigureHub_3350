@@ -33,7 +33,7 @@ public class addCard extends AppCompatActivity {
     AccessCard accessCard;      //AccessCreditCard variable
     RadioGroup radioGroup;
     boolean debit;
-    // TODO: add Debit card
+    // TODO: add bankaccount and validation
 
     /**
      * This method creates a new creditCard and adds it with the creditCard list
