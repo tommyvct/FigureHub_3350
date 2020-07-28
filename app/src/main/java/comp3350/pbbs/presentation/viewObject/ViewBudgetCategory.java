@@ -221,3 +221,4 @@ public class ViewBudgetCategory extends Activity {
         pieChart.animateY(1400, Easing.EaseInOutQuad);
     }
 }
+
