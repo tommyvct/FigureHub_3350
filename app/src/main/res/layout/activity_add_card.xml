@@ -5,10 +5,34 @@
     android:layout_height="wrap_content"
     tools:context=".presentation.addObject.addCard">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/addCreditRadioButton">
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/addCreditRadioButton"
+                android:text="@string/credit">
+            </RadioButton>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/addDebitRadioButton"
+                android:text="@string/debit">
+            </RadioButton>
+
+        </RadioGroup>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -66,6 +90,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/paydayLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -75,8 +100,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/pay_day"
                 android:maxLength="2"
-                android:inputType="number"
-                 />
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,6 +117,8 @@
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
         <Button

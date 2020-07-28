@@ -25,5 +25,7 @@
     <string name="Continue">Continue</string>
     <string name="update">update</string>
     <string name="delete">delete</string>
+    <string name="credit">Credit</string>
+    <string name="debit">Debit</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>
