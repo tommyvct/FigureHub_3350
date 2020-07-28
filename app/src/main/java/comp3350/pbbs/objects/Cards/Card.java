@@ -176,7 +176,7 @@ public class Card implements Serializable {
         ret += "\n" + getHolderName();
         if (getPayDate() != 0)
         {
-            ret += "\\nExpected payment on " + getPayDate() + " next month";
+            ret += "\nExpected payment on " + getPayDate() + " next month";
         }
 
         return ret;

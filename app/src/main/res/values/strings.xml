@@ -5,6 +5,7 @@
     <string name="card_name">Card Name</string>
     <string name="card_number">Card Number</string>
     <string name="expire_date">Expire Date</string>
+    <string name="expire_date_optional">Expire Date (optional)</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="pay_day">Pay Day</string>
