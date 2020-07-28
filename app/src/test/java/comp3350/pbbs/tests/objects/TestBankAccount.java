@@ -7,18 +7,24 @@ import comp3350.pbbs.application.Main;
 
 import junit.framework.TestCase;
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 import static org.junit.Assert.assertNotEquals;
 
 public class TestBankAccount extends TestCase
 {
-    Card debitCard1;
-    Card debitCard2;
+    String accountName;
+    String accountNumber;
+    Card linkedCard;
+    Card Card1;
+    Card Card2;
 
     public void setUp()
     {
-        debitCard1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-        debitCard2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+        Card1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+        accountName = "sjdfoihasdfsa";
+        accountNumber = "55649541631";
+        linkedCard = Card1;
     }
 
     /**
@@ -63,12 +69,12 @@ public class TestBankAccount extends TestCase
      *
      */
     public void testLinkedCard() {
-        DebitCard newCard;
+        Card newCard;
         BankAccount acc1, acc2;
         acc1 = new BankAccount(accountName, accountNumber, linkedCard);
         acc2 = new BankAccount(accountName, accountNumber, linkedCard);
         assertEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
-        newCard = new DebitCard("TD Access Debit", "5135794680086666", "John", 5, 2022);
+        newCard = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
         acc2 = new BankAccount(accountName, accountNumber, newCard);
         assertNotEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
 

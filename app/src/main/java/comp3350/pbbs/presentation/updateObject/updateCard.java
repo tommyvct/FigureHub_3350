@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.Serializable;
 import java.util.Objects;
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.presentation.addObject.addCard;
@@ -20,7 +20,7 @@ import comp3350.pbbs.presentation.addObject.addCard;
 
 public class updateCard extends AppCompatActivity implements Serializable {
 
-	AccessICard accessCreditCard;	// AccessCreditCard variable
+	AccessCard accessCreditCard;	// AccessCreditCard variable
 	EditText cardName;					// EditText variable for cardName
 	EditText cardNumber;				// EditText variable for cardNumber
 	EditText validThruMonth;			// EditText variable for valid month
@@ -36,7 +36,7 @@ public class updateCard extends AppCompatActivity implements Serializable {
 		setContentView(R.layout.activity_update_card);
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Card");
 
-		accessCreditCard = new AccessICard();
+		accessCreditCard = new AccessCard();
 		cardName = findViewById(R.id.updateCardName);
 		cardNumber = findViewById(R.id.updateCardNumber);
 		validThruMonth = findViewById(R.id.updateValidThruMonth);

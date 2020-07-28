@@ -3,6 +3,7 @@ package comp3350.pbbs.business;
 import java.util.ArrayList;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.persistence.StubDatabase;
 
 /**
@@ -12,14 +13,14 @@ import comp3350.pbbs.persistence.StubDatabase;
  *
  * This class defines the access layer where deliver cards info to the database
  */
-public class AccessICard
+public class AccessCard
 {
     private StubDatabase db;    // create an object of the database
 
     /**
      * constructor: enabling access to the database
      */
-    public AccessICard() {
+    public AccessCard() {
         db = Services.getDataAccess(Main.dbName);
     }
 
@@ -40,7 +41,7 @@ public class AccessICard
      * @param newCard a card needs to be added into the database
      * @return true if this card does not exist in the database
      */
-    public boolean insertCard(ICard newCard) {
+    public boolean insertCard(Card newCard) {
         return db.insertCard(newCard);
     }
 
@@ -52,7 +53,7 @@ public class AccessICard
      * @param toDelete a debit card needs to be deleted from the database
      * @return true if this debit card does exist in the database
      */
-    public boolean deleteCard(ICard toDelete) {
+    public boolean deleteCard(Card toDelete) {
         return db.deleteCard(toDelete);
     }
 

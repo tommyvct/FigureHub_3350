@@ -12,7 +12,7 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class Card {
+public class Card implements Serializable {
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
@@ -28,7 +28,7 @@ public class Card {
     /**
      * constructor: includes full info of a credit card
      *
-     * @param card name of a credit card
+     * @param cardName name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
@@ -37,7 +37,7 @@ public class Card {
      */
     public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        cardName = (card == null || card.isEmpty()) ? "No Name" : card;
+        this.cardName = (cardName == null || cardName.isEmpty()) ? "No Name" : cardName;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
@@ -45,6 +45,15 @@ public class Card {
         payDate = pay;
     }
 
+    /**
+     * Constructor: includes full info of a debit card
+     *
+     * @param cardName name of a credit card
+     * @param cardNum number of a credit card
+     * @param holderName user full name of a credit card
+     * @param expireMonth the month a credit card is expired, 2-digits (MM), can be 0 in case of the card have no expiry date
+     * @param expireYear the year a credit card is expired, 4-digits (YYYY), can be 0 in case of the card have no expiry date
+     */
     public Card(String cardName, String cardNum, String holderName, int expireMonth, int expireYear)
     {
         this.cardName = cardName.isEmpty() ? "No Name" : cardName;
@@ -158,10 +167,19 @@ public class Card {
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
         //the string "next month" needs to be replaced to real month later
-        return  getCardName() + (getCardNum().length() > 4 ?
-                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
+        String ret =  getCardName() + (getCardNum().length() > 4 ?
+                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum());
+        if (getExpireMonth() != 0 && getExpireYear() != 0)
+        {
+            ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n";
+        }
+        ret += getHolderName() + "\n";
+        if (getPayDate() != 0)
+        {
+            ret += "Expected payment on " + getPayDate() + " next month";
+        }
+
+        return ret;
     }
 
     public String toStringShort() {

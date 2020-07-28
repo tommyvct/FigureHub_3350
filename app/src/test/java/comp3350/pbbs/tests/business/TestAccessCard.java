@@ -6,8 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.Card;
 
@@ -20,7 +19,7 @@ import comp3350.pbbs.objects.Cards.Card;
  */
 public class TestAccessCard extends TestCase {
     private Card card;        // a CreditCard object
-    private AccessICard acc;    // a AccessCreditCard object
+    private AccessCard acc;    // a AccessCreditCard object
 
     /**
      * This method connects to the database, create and initiate instance variables
@@ -28,7 +27,7 @@ public class TestAccessCard extends TestCase {
     public void setUp() {
         Main.startup();
         card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
-        acc = new AccessICard();
+        acc = new AccessCard();
         acc.insertCard(card);
     }
 

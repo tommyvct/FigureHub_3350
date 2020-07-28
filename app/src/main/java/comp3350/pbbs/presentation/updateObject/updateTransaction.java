@@ -25,7 +25,7 @@ import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
@@ -39,7 +39,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
     EditText timeText;                              //EditText variable for time
     final Calendar c = Calendar.getInstance();      //Calendar variable to get the relevant date
     AccessTransaction accessTransaction;            //AccessTransaction variable
-    AccessICard accessCreditCard;              //AccessCreditCard variable
+    AccessCard accessCreditCard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
     Transaction oldTransaction;
 
@@ -86,7 +86,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         }));
 
         ///////// Card Selector //////////TODO: DEBIT
-        accessCreditCard = new AccessICard();
+        accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
         ArrayList<Card> cardArrayList = accessCreditCard.getCreditCards();
         cardDisplayList.add("Select card");

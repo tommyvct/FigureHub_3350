@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
 
 /**
@@ -25,7 +25,7 @@ import comp3350.pbbs.objects.Cards.Card;
  */
 public class main_cards extends Fragment
 {
-    private AccessICard accessICard;
+    private AccessCard accessCard;
     private ArrayList<Card> cardsList;
     private ArrayAdapter<Card> listViewAdapter;
     private ListView listView;
@@ -38,7 +38,7 @@ public class main_cards extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        accessICard = new AccessICard();
+        accessCard = new AccessCard();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class main_cards extends Fragment
 
         // list all the credit cards
         listView = view.findViewById(R.id.listCards);
-        accessICard = new AccessICard();    // gain access to credit cards
-        cardsList = accessICard.getCreditCards();
+        accessCard = new AccessCard();    // gain access to credit cards
+        cardsList = accessCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
@@ -65,7 +65,7 @@ public class main_cards extends Fragment
      * This method updates the list after adding.
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        cardsList = accessICard.getCreditCards();
+        cardsList = accessCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,

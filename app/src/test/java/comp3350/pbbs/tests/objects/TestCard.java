@@ -8,13 +8,13 @@ import comp3350.pbbs.objects.Cards.Card;
 import static org.junit.Assert.assertNotEquals;
 
 /**
- * TestCreditCard
+ * TestCard
  * Group4
  * PBBS
  *
- * This class tests the methods in the CreditCard class
+ * This class tests the methods in the Card class
  */
-public class TestCreditCard extends TestCase {
+public class TestCard extends TestCase {
     private String card;    // name of a card
     private String num;     // serial number of a card
     private String name;    // user full name of a card
@@ -39,22 +39,22 @@ public class TestCreditCard extends TestCase {
      * case: a credit card name is "No Name" when it is null/empty
      */
     public void testCardName() {
-        CreditCard card1, card2;
+        Card card1, card2;
 
         // case 1: with regular card name
-        card1 = new CreditCard(card, num, name, expMon, expYear, payDay);
-        card2 = new CreditCard(card, num, name, expMon, expYear, payDay);
+        card1 = new Card(card, num, name, expMon, expYear, payDay);
+        card2 = new Card(card, num, name, expMon, expYear, payDay);
         assertEquals(card1.getCardName(), card2.getCardName());
-        card2 = new CreditCard("Visa", num, name, expMon, expYear, payDay);
+        card2 = new Card("Visa", num, name, expMon, expYear, payDay);
         assertNotEquals(card1.getCardName(), card2.getCardName());
 
         // case: with null card name
-        card1 = new CreditCard(null, num, name, expMon, expYear, payDay);
-        card2 = new CreditCard(null, num, name, expMon, expYear, payDay);
+        card1 = new Card(null, num, name, expMon, expYear, payDay);
+        card2 = new Card(null, num, name, expMon, expYear, payDay);
         assertEquals(card1.getCardName(), card2.getCardName());
-        card1 = new CreditCard("No Name", num, name, expMon, expYear, payDay);
+        card1 = new Card("No Name", num, name, expMon, expYear, payDay);
         assertEquals(card1.getCardName(), card2.getCardName());
-        card2 = new CreditCard("Visa", num, name, expMon, expYear, payDay);
+        card2 = new Card("Visa", num, name, expMon, expYear, payDay);
         assertNotEquals(card1.getCardName(), card2.getCardName());
     }
 

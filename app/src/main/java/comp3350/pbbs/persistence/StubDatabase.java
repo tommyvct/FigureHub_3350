@@ -70,6 +70,7 @@ public class StubDatabase {
 //        debitCards = new ArrayList<>();
         cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
         cards.add(new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
+        cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
 
         //local date variable
         Date date = new Date();
@@ -226,7 +227,7 @@ public class StubDatabase {
      * @param from the debit card
      * @return BankAccount ArrayList links this debit card
      */
-    public ArrayList<BankAccount> getAccountsFromDebitCard(DebitCard from)
+    public ArrayList<BankAccount> getAccountsFromDebitCard(Card from)
     {
         ArrayList<BankAccount> ret = new ArrayList<>();
         for (BankAccount account : accounts) {
@@ -382,27 +383,6 @@ public class StubDatabase {
                 ret.add((Card) c);
             }
         }
-        return ret;
-    }
-
-
-    /**
-     * Get all accounts from given debit card
-     * @param from the card
-     * @return ArrayList contains accounts
-     */
-    public ArrayList<BankAccount> getAccountsFromDebitCard(Card from)
-    {
-        ArrayList<BankAccount> ret = new ArrayList<>();
-
-        for (BankAccount account : accounts)
-        {
-            if (account.getLinkedCard().equals(from))
-            {
-                ret.add(account);
-            }
-        }
-
         return ret;
     }
 
