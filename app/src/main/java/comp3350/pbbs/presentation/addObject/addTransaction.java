@@ -145,7 +145,7 @@ public class addTransaction extends AppCompatActivity
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                            (CreditCard) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     )) {
                         setResult(1);

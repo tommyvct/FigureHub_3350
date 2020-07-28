@@ -28,10 +28,8 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.CreditCard;
-import comp3350.pbbs.objects.Cards.ICard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.presentation.addObject.addTransaction;
 
 public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
 
@@ -90,9 +88,9 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Card Selector //////////TODO: DEBIT
         accessCreditCard = new AccessICard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
-        ArrayList<ICard> cardArrayList = accessCreditCard.getCreditCards();
+        ArrayList<Card> cardArrayList = accessCreditCard.getCreditCards();
         cardDisplayList.add("Select card");
-        for (ICard c : cardArrayList) {
+        for (Card c : cardArrayList) {
             cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
         }
         Spinner cardSelector = findViewById(R.id.updateCardSelector);
@@ -150,7 +148,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString(),
-                            (CreditCard) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     ))
             {
