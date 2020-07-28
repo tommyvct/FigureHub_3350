@@ -59,14 +59,16 @@ public class Card implements Serializable {
         this.cardName = cardName.isEmpty() ? "No Name" : cardName;
         if (cardNum == null || cardNum.isEmpty())
             throw new IllegalArgumentException("A Credit Card requires a valid number.");
+        this.cardNum = cardNum;
         if (!isValidName(holderName))
             throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+        this.holderName = holderName;
         if (expireMonth != 0 && expireYear != 0 && !isValidExpiration(expireMonth, expireYear))
             throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
         else
         {
-            this.expireMonth = 0;
-            this.expireYear = 0;
+            this.expireMonth = expireMonth;
+            this.expireYear = expireYear;
         }
         this.payDate = 0;
     }
@@ -140,16 +142,14 @@ public class Card implements Serializable {
     /**
      * method: compare if two credit cards are same
      *
-     * @param cardObject another credit card
+     * @param cardObject another  card
      * @return true if both credit cards have the same card number
      */
     public boolean equals(Object cardObject) {
         boolean equal = false;
-        Card b;
 
         if (cardObject instanceof Card) {
-            b = (Card) cardObject;
-            if (getCardNum().equals(b.getCardNum())) {
+            if (getCardNum().equals(((Card) cardObject).getCardNum())) {
                 equal = true;
             }
         }
@@ -167,16 +167,16 @@ public class Card implements Serializable {
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
         //the string "next month" needs to be replaced to real month later
-        String ret =  getCardName() + (getCardNum().length() > 4 ?
+        String ret =  cardName + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum());
         if (getExpireMonth() != 0 && getExpireYear() != 0)
         {
-            ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n";
+            ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear();
         }
-        ret += getHolderName() + "\n";
+        ret += "\n" + getHolderName();
         if (getPayDate() != 0)
         {
-            ret += "Expected payment on " + getPayDate() + " next month";
+            ret += "\\nExpected payment on " + getPayDate() + " next month";
         }
 
         return ret;

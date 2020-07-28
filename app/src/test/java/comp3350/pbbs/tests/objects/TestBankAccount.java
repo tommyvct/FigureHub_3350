@@ -24,7 +24,7 @@ public class TestBankAccount extends TestCase
         Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
         accountName = "sjdfoihasdfsa";
         accountNumber = "55649541631";
-        linkedCard = Card1;
+        linkedCard = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
     }
 
     /**
@@ -70,7 +70,8 @@ public class TestBankAccount extends TestCase
      */
     public void testLinkedCard() {
         Card newCard;
-        BankAccount acc1, acc2;
+        BankAccount acc1;
+        BankAccount acc2;
         acc1 = new BankAccount(accountName, accountNumber, linkedCard);
         acc2 = new BankAccount(accountName, accountNumber, linkedCard);
         assertEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
