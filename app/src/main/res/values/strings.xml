@@ -27,5 +27,7 @@
     <string name="delete">delete</string>
     <string name="credit">Credit</string>
     <string name="debit">Debit</string>
+    <string name="bank_account_name">Bank Account Name</string>
+    <string name="bank_account_number">Bank Account Number</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>
