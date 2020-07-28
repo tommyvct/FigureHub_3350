@@ -1,11 +1,15 @@
 package comp3350.pbbs.persistence;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLWarning;
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,17 +19,11 @@ import comp3350.pbbs.objects.BudgetCategory;
 
 public class DataAccessObject implements DataAccess {
 	private Connection con;	// for DB switch
-	private Statement stmt;	// 1 statement running at a time
-	private ResultSet rs1, rs2, rs3, rs4, rs5; // for DB switch and 4 accesses
+	private Statement stmt; // statement
 	private String dbName;	// name of DB
 	private String dbType;	// type of DB
-	private String cmdString;	// store SQL codes
-	private int updateCount;
+	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	private ArrayList<BudgetCategory> budgetCategories;
-	private ArrayList<CreditCard> creditCards;
-	private ArrayList<Transaction> transactions;
-	private String username = null;
 
 	/**
 	 * Constructor of DB
@@ -35,26 +33,17 @@ public class DataAccessObject implements DataAccess {
 		this.dbName = dbName;
 	}
 
-	/**
-	 * This method contains hsql setup and allows DB to run
-	 * @param dbPath directory of the project DB
-	 */
-	public void populateData(String dbPath) {
+	public void open(String dbPath) {
 		String url;
 		try {
 			dbType = "HSQL";
 			url = "jdbc:hsqldb:file:" + dbPath;
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
-			con = DriverManager.getConnection(url, "SA", "");
-			stmt = con.createStatement();
+			con = DriverManager.getConnection(url, "PBBS", "");
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 		System.out.println("Opened " + dbType + " database " + dbPath);
-	}
-
-	public void open(String dbPath) {
-		//TODO: THIS
 	}
 
 	public String getDBName() {
@@ -69,65 +58,60 @@ public class DataAccessObject implements DataAccess {
 			stmt = con.createStatement();
 			stmt.execute("SHUTDOWN");
 			con.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			System.out.println("Closed " + dbType + " database " + dbName);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
-		System.out.println("Closed " + dbType + " database " + dbName);
 	}
 
 	/**
 	 * Methods for BudgetCategories
 	 */
-	public ArrayList<BudgetCategory> getBudgets() {
+	public List<BudgetCategory> getBudgets() {
+		List<BudgetCategory> toReturn = new ArrayList<BudgetCategory>();
 		try {
-			rs2 = stmt.executeQuery("SELECT * FROM BUDGETCATEGORIES");
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery("SELECT * FROM BUDGETCATEGORY");
+			while(results.next()) {
+				String budgetName = results.getString("BUDGETNAME");
+				double budgetLimit = results.getDouble("BUDGETLIMIT");
+				BudgetCategory budgetCategory = new BudgetCategory(budgetName, budgetLimit);
+				toReturn.add(budgetCategory);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
-		return budgetCategories;
+
+		return toReturn;
 	}
 
 	public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-		BudgetCategory budgetCategory;
-		String myBudgetName;
-		double myBudgetLimit;
 		boolean result = false;
-		try {
-			cmdString = "SELECT * from BUDGETCATEGORIES";
-			rs2 = stmt.executeQuery(cmdString);
-			while (rs2.next()) {
-				myBudgetName = rs2.getString("BUDGETNAME");
-				myBudgetLimit = rs2.getDouble("BUDGETLIMIT");
-				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
-				budgetList.add(budgetCategory);
-				result = true;
-			}
-			rs2.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		for(BudgetCategory budgetCategory : budgetList) {
+			result = insertBudgetCategory(budgetCategory);
+			if(!result)
+				break;
 		}
 		return result;
 	}
 
 	public boolean findBudgetCategory(BudgetCategory currentBudget) {
-		BudgetCategory budgetCategory = null;
-		String myBudgetName;
-		double myBudgetLimit;
 		boolean result = false;
 		try {
-			cmdString = "Select * from BUDGETCATEGORIES where budgetName="
-					+ currentBudget.getBudgetName();
-			rs2 = stmt.executeQuery(cmdString);
-			while (rs2.next()) {
-				myBudgetName = rs2.getString("BUDGETNAME");
-				myBudgetLimit = rs2.getDouble("BUDGETLIMIT");
-				budgetCategory = new BudgetCategory(myBudgetName, myBudgetLimit);
-				budgetCategories.add(budgetCategory);
+			String cmdString = "SELECT COUNT(*) AS CNT FROM BUDGETCATEGORY WHERE BUDGETNAME='"
+					+ currentBudget.getBudgetName() + "' AND BUDGETLIMIT="
+			        + currentBudget.getBudgetLimit();
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while (results.next()) {
+				int count = results.getInt("CNT");
+				if(count == 1) {
+					result = true;
+				}
 			}
-			result = true;
-			rs2.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -137,60 +121,65 @@ public class DataAccessObject implements DataAccess {
 		String values;
 		try {
 			values = "'" + newBudget.getBudgetName() + "', " + newBudget.getBudgetLimit();
-			cmdString = "Insert into BUDGETCATEGORIES " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
+			String cmdString = "INSERT INTO BUDGETCATEGORY (BUDGETNAME, BUDGETLIMIT) " +
+					"VALUES(" + values + ")";
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
 
 	public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
-		String values;
 		boolean toReturn = false;
 		try {
-			values = "'" + currentBudget.getBudgetName() + "'";
-			cmdString = "Delete from BUDGETCATEGORIES where BUDGETNAME=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
+			String cmdString = "DELETE FROM BUDGETCATEGORY WHERE BUDGETNAME='" +
+					currentBudget.getBudgetName() + "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			toReturn = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return toReturn;
 	}
 
-	@Override
 	public int getBudgetsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from BudgetCategories";
-			rs2 = stmt.executeQuery(cmdString);
-			rs2.next();
-			count = rs2.getInt(1);
-			rs2.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			String cmdString = "SELECT COUNT(*) AS CNT FROM BUDGETCATEGORY";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while(results.next()) {
+				count = results.getInt("CNT");
+			}
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return count;
 	}
 
 	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
 		boolean toReturn = false;
-		String values, where;
+		String values, where, cmdString;
 		try {
-			values = "budgetName='" + newBudget.getBudgetName()
-					+ "', budgetLimit=" + newBudget.getBudgetLimit();
-			where = "where budgetName='" + currentBudget.getBudgetName()
-					+ "', budgetLimit=" + currentBudget.getBudgetLimit();    // primary key?
-			cmdString = "Update BudgetCategories " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			toReturn = true;
-
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			values = "BUDGETNAME='" + newBudget.getBudgetName()
+					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
+			where = "WHERE BUDGETNAME='" + currentBudget.getBudgetName()
+					+ "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
+			cmdString = "UPDATE BUDGETCATEGORY SET " + values + " " + where;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
+			if(updateCount == 1) {
+				toReturn = true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return toReturn;
 	}
@@ -198,12 +187,25 @@ public class DataAccessObject implements DataAccess {
 	/**
 	 * Methods for CreditCards
 	 */
-	public ArrayList<CreditCard> getCreditCards() {
+	public List<CreditCard> getCreditCards() {
+		List<CreditCard> creditCards = new ArrayList<CreditCard>();
 		try {
-			cmdString = "Select * from CREDITCARDS";
-			rs3 = stmt.executeQuery(cmdString);
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			String cmdString = "SELECT * FROM CREDITCARD";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while(results.next()) {
+				String cardName = results.getString("CARDNAME");
+				String cardNum = results.getString("CARDNUM");
+				String name = results.getString("HOLDERNAME");
+				int expireMonth = results.getInt("EXPIREMONTH");
+				int expireYear = results.getInt("EXPIREYEAR");
+				int payDate = results.getInt("PAYDATE");
+				CreditCard card = new CreditCard(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				creditCards.add(card);
+			}
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return creditCards;
 	}
@@ -211,67 +213,50 @@ public class DataAccessObject implements DataAccess {
 	public int getCardsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from CREDITCARDS";
-			rs3 = stmt.executeQuery(cmdString);
-			rs3.next();
-			count = rs3.getInt(1);
-			rs3.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			String cmdString = "SELECT COUNT(*) AS CNT FROM CREDITCARD";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while (results.next()){
+				count = results.getInt("CNT");
+			}
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return count;
 	}
 
 	public boolean addAllCreditCards(List<CreditCard> cardList) {
-		CreditCard creditCard;
-		String myCardName, myCardNum, myHolderName;
-		int myExpireMonth, myExpireYear, myPayDate;
 		boolean result = false;
-		try {
-			cmdString = "Select * from CREDITCARDS";
-			rs3 = stmt.executeQuery(cmdString);
-			while (rs3.next() && !result) {
-				myCardName = rs3.getString("cardName");
-				myCardNum = rs3.getString("cardNum");
-				myHolderName = rs3.getString("holderName");
-				myExpireMonth = rs3.getInt("expireMonth");
-				myExpireYear = rs3.getInt("expireYear");
-				myPayDate = rs3.getInt("payDate");
-				creditCard = new CreditCard(myCardName, myCardNum, myHolderName,
-						myExpireMonth, myExpireYear, myPayDate);
-				cardList.add(creditCard);
-				result = true;
-			}
-			rs3.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		for(CreditCard creditCard : cardList) {
+			result = insertCreditCard(creditCard);
+			if(!result)
+				break;
 		}
 		return result;
 	}
 
 	public boolean findCreditCard(CreditCard currCard) {
-		CreditCard creditCard = null;
-		String myCardName, myCardNum, myHolderName;
-		int myExpireMonth, myExpireYear, myPayDate;
 		boolean result = false;
 		try {
-			cmdString = "Select * from CREDITCARDS where CARDNUM=" + currCard.getCardNum();
-			rs3 = stmt.executeQuery(cmdString);
-			while (rs3.next()) {
-				myCardName = rs3.getString("CARDNAME");
-				myCardNum = rs3.getString("CARDNUM");
-				myHolderName = rs3.getString("HOLDERNAME");
-				myExpireMonth = rs3.getInt("EXPIREMONTH");
-				myExpireYear = rs3.getInt("EXPIREYEAR");
-				myPayDate = rs3.getInt("PAYDATE");
-				creditCard = new CreditCard(myCardName, myCardNum, myHolderName,
-						myExpireMonth, myExpireYear, myPayDate);
-				creditCards.add(creditCard);
-				result = true;
+			String cmdString = "SELECT COUNT(*) AS CNT FROM CREDITCARD WHERE" +
+					" CARDNAME='" + currCard.getCardName() +
+					"' AND CARDNUM='" +	currCard.getCardNum() +
+					"' AND HOLDERNAME='" + currCard.getHolderName() +
+					"' AND EXPIREMONTH=" + currCard.getExpireMonth() +
+					" AND EXPIREYEAR=" + currCard.getExpireYear() +
+					" AND PAYDATE=" + currCard.getPayDate();
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while (results.next()){
+				int count = results.getInt("CNT");
+				if(count == 1) {
+					result = true;
+				}
 			}
-			rs3.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -279,34 +264,43 @@ public class DataAccessObject implements DataAccess {
 	public boolean insertCreditCard(CreditCard newCard) {
 		String values;
 		boolean toReturn = false;
-		try {
-			values = newCard.getCardNum()
-					+ ", '" + newCard.getCardName()
-					+ "', '" + newCard.getHolderName()
-					+ "', " + newCard.getExpireMonth()
-					+ ", " + newCard.getExpireYear()
-					+ ", " + newCard.getPayDate();
-			cmdString = "Insert into CREDITCARDS " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
-			toReturn = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		if(!findCreditCard(newCard)) {
+			try {
+				values = "'" + newCard.getCardName()
+						+ "', '" + newCard.getCardNum()
+						+ "', '" + newCard.getHolderName()
+						+ "', " + newCard.getExpireMonth()
+						+ ", " + newCard.getExpireYear()
+						+ ", " + newCard.getPayDate();
+				String cmdString = "INSERT INTO CREDITCARD (CARDNAME, CARDNUM, HOLDERNAME," +
+						" EXPIREMONTH, EXPIREYEAR, PAYDATE) VALUES(" + values + ")";
+				stmt = con.createStatement();
+				int updateCount = stmt.executeUpdate(cmdString);
+				checkWarning(stmt, updateCount);
+				toReturn = true;
+			} catch (SQLException e) {
+				System.out.println(e.toString());
+			}
 		}
 		return toReturn;
 	}
 
 	public boolean deleteCreditCard(CreditCard currCard) {
-		String values;
 		boolean toReturn = false;
 		try {
-			values = "'" + currCard.getCardNum() + "'";
-			cmdString = "Delete from CREDITCARDS where CARDNUM=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
+			String cmdString = "DELETE FROM CREDITCARD WHERE" +
+					" CARDNAME='" + currCard.getCardName() +
+					"' AND CARDNUM='" +	currCard.getCardNum() +
+					"' AND HOLDERNAME='" + currCard.getHolderName() +
+					"' AND EXPIREMONTH=" + currCard.getExpireMonth() +
+					" AND EXPIREYEAR=" + currCard.getExpireYear() +
+					" AND PAYDATE=" + currCard.getPayDate();
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			toReturn = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return toReturn;
 	}
@@ -321,18 +315,19 @@ public class DataAccessObject implements DataAccess {
 					+ "', EXPIREMONTH=" + newCard.getExpireMonth()
 					+ ", EXPIREYEAR=" + newCard.getExpireYear()
 					+ ", PAYDATE=" + newCard.getPayDate();
-			where = "where CARDNAMR='" + newCard.getCardName()
-					+ "', CARDNUM='" + newCard.getCardNum()
-					+ "', HOLDERNAME='" + newCard.getHolderName()
-					+ "', EXPIREMONTH=" + newCard.getExpireMonth()
-					+ ", EXPIREYEAR=" + newCard.getExpireYear()
-					+ ", PAYDATE=" + newCard.getPayDate();
-			cmdString = "Update CREDITCARDS " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
+			where = "CARDNAME='" + currCard.getCardName()
+					+ "' AND CARDNUM='" + currCard.getCardNum()
+					+ "' AND HOLDERNAME='" + currCard.getHolderName()
+					+ "' AND EXPIREMONTH=" + currCard.getExpireMonth()
+					+ " AND EXPIREYEAR=" + currCard.getExpireYear()
+					+ " AND PAYDATE=" + currCard.getPayDate();
+			String cmdString = "UPDATE CREDITCARD SET " + values + " WHERE " + where;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -340,12 +335,34 @@ public class DataAccessObject implements DataAccess {
 	/**
 	 * Methods for Transactions
 	 */
-	public ArrayList<Transaction> getTransactions() {
+	public List<Transaction> getTransactions() {
+		List<Transaction> transactions = new ArrayList<Transaction>();
 		try {
-			cmdString = "Select * from TRANSACTIONS";
-			rs4 = stmt.executeQuery(cmdString);
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			String cmdString = "SELECT * FROM TRANSACTION AS T INNER JOIN BUDGETCATEGORY AS BC ON" +
+					" T.BUDGETCATEGORYID=BC.ID INNER JOIN CREDITCARD AS C ON T.CREDITCARDID=C.ID";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while(results.next()) {
+				Date time = dateFormat.parse(results.getString("DATE"));
+				float amount = (float)results.getDouble("AMOUNT");
+				String description = results.getString("DESCRIPTION");
+				// Get credit card
+				String cardName = results.getString("CARDNAME");
+				String cardNum = results.getString("CARDNUM");
+				String name = results.getString("HOLDERNAME");
+				int expireMonth = results.getInt("EXPIREMONTH");
+				int expireYear = results.getInt("EXPIREYEAR");
+				int payDate = results.getInt("PAYDATE");
+				CreditCard card = new CreditCard(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				// Get budget category
+				String budgetName = results.getString("BUDGETNAME");
+				double budgetLimit = results.getDouble("BUDGETLIMIT");
+				BudgetCategory budgetCategory = new BudgetCategory(budgetName, budgetLimit);
+				Transaction transaction = new Transaction(time, amount, description, card, budgetCategory);
+				transactions.add(transaction);
+			}
+		} catch (SQLException | ParseException e) {
+			System.out.println(e.toString());
 		}
 		return transactions;
 	}
@@ -353,102 +370,146 @@ public class DataAccessObject implements DataAccess {
 	public int getTransactionsSize() {
 		int count = 0;
 		try {
-			cmdString = "Select Count(*) from TRANSACTIONS";
-			rs4 = stmt.executeQuery(cmdString);
-			rs4.next();
-			count = rs4.getInt(1);
-			rs4.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			String cmdString = "SELECT COUNT(*) AS CNT FROM TRANSACTION";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while (results.next()){
+				count = results.getInt("CNT");
+			}
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return count;
 	}
 
 	public boolean addTransactions(List<Transaction> transactionsList) {
-		Transaction transaction;
-		Date myDate;
-		float myAmount;
-		String myDescription;
-		CreditCard myCreditCard;
-		BudgetCategory myBudgetCategory;
 		boolean result = false;
-		try {
-			cmdString = "Select * from TRANSACTIONS";
-			rs4 = stmt.executeQuery(cmdString);
-			while (rs4.next()) {
-				myDate = rs4.getDate("TIME");
-				myAmount = rs4.getFloat("AMOUNT");
-				myDescription = rs4.getString("DESCRIPTION");
-				myCreditCard = (CreditCard)rs4.getObject("CARD");
-				myBudgetCategory = (BudgetCategory)rs4.getObject("BUDGETCATEGORY");
-				transaction = new Transaction(myDate, myAmount, myDescription,
-						myCreditCard, myBudgetCategory);
-				transactionsList.add(transaction);
-				result = true;
-			}
-			rs4.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		for(Transaction transaction : transactionsList) {
+			result = insertTransaction(transaction);
+			if(!result)
+				break;
 		}
 		return result;
 	}
 
 	public boolean findTransaction(Transaction currentTransaction) {
-		boolean transaction = false;
-		Date myDate;
-		float myAmount;
-		String myDescription;
-		CreditCard myCreditCard;
-		BudgetCategory myBudgetCategory;
+		boolean found = false;
 		try {
-			cmdString = "Select * from TRANSACTIONS where CREDITCARD=" +
-					currentTransaction.getDescription();
-			rs4 = stmt.executeQuery(cmdString);
-			while (rs4.next()) {
-				myDate = rs4.getDate("TIME");
-				myAmount = rs4.getFloat("AMOUNT");
-				myDescription = rs4.getString("DESCRIPTION");
-				myCreditCard = (CreditCard)rs4.getObject("CARD");
-				myBudgetCategory = (BudgetCategory)rs4.getObject("BUDGETCATEGORY");
-				transaction = true;
+			// Get budget category
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int budgetID = results.getInt("ID");
+			results.close();
+			// Get credit card
+			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
+					" CARDNAME='" + currentTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			cmdString = "SELECT COUNT(*) AS CNT FROM TRANSACTION WHERE" +
+					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
+					"' AND AMOUNT=" + currentTransaction.getAmount() +
+					" AND DESCRIPTION='" + currentTransaction.getDescription() +
+					"' AND CREDITCARDID=" + cardID +
+					" AND BUDGETCATEGORYID=" + budgetID;
+			stmt = con.createStatement();
+			results = stmt.executeQuery(cmdString);
+			while (results.next()){
+				int count = results.getInt("CNT");
+				if(count == 1) {
+					found = true;
+				}
 			}
-			rs4.close();
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
-		return transaction;
+		return found;
 	}
 
 	public boolean insertTransaction(Transaction newTransaction) {
 		boolean result = false;
-		String values;
 		try {
-			values = "'" + newTransaction.getDescription()
-					+ "', " + newTransaction.getAmount()
-					+ ", '" + newTransaction.getTime()
-					+ "', '" + newTransaction.getCard() + "', '"
-					+ newTransaction.getBudgetCategory() + "'";
-			cmdString = "Insert into TRANSACTIONS " + " Values(" + values + ")";
-			updateCount = stmt.executeUpdate(cmdString);
+			// Get budget category
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + newTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + newTransaction.getBudgetCategory().getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int budgetID = results.getInt("ID");
+			results.close();
+			// Get credit card
+			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
+					" CARDNAME='" + newTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + newTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			String columns = "DATE, AMOUNT, DESCRIPTION, CREDITCARDID, BUDGETCATEGORYID";
+			String values = "'" + dateFormat.format(newTransaction.getTime()) + "'," +
+					newTransaction.getAmount() + ",'" +
+					newTransaction.getDescription() + "'," +
+					cardID + "," + budgetID;
+			cmdString = "INSERT INTO TRANSACTION (" + columns + ") VALUES (" + values + ")";
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
 
 	public boolean deleteTransaction(Transaction currentTransaction) {
 		boolean result = false;
-		String values;
 		try {
-			values = "'" + currentTransaction.getDescription() + "'";
-			cmdString = "Delete from TRANSACTIONS where DESCRIPTION=" + values;
-			updateCount = stmt.executeUpdate(cmdString);
+			// Get budget category
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int budgetID = results.getInt("ID");
+			results.close();
+			// Get credit card
+			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
+					" CARDNAME='" + currentTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			cmdString = "DELETE FROM TRANSACTION WHERE" +
+					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
+					"' AND AMOUNT=" + currentTransaction.getAmount() +
+					" AND DESCRIPTION='" + currentTransaction.getDescription() +
+					"' AND CREDITCARDID=" + cardID +
+					" AND BUDGETCATEGORYID=" + budgetID;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -457,22 +518,63 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		String values, where;
 		try {
+			// Get first budget category
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + newTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + newTransaction.getBudgetCategory().getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int newBudgetID = results.getInt("ID");
+			results.close();
+			// Get first credit card
+			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
+					" CARDNAME='" + newTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + newTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int newCardID = results.getInt("ID");
+			results.close();
+			// Get second budget category
+			cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int currentBudgetID = results.getInt("ID");
+			results.close();
+			// Get first credit card
+			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
+					" CARDNAME='" + currentTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int currentCardID = results.getInt("ID");
+			results.close();
 			values = "DESCRIPTION='" + newTransaction.getDescription()
-					+ "', TIME='" + newTransaction.getTime()
+					+ "', DATE='" + dateFormat.format(newTransaction.getTime())
 					+ "', AMOUNT=" + newTransaction.getAmount()
-					+ ", CARD='" + newTransaction.getCard()
-					+ "', BUDGETCATEGORY='" + newTransaction.getBudgetCategory() + "'";
-			where = "where DESCRIPTION='" + currentTransaction.getDescription()
-					+ "', TIME='" + currentTransaction.getTime()
-					+ "', AMOUNT=" + currentTransaction.getAmount()
-					+ ", CARD='" + currentTransaction.getCard()
-					+ "', BUDGETCATEGORY='" + currentTransaction.getBudgetCategory() + "'";	// primary key?
-			cmdString = "Update TRANSACTIONS " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
+					+ ", CREDITCARDID=" + newCardID
+					+ ", BUDGETCATEGORYID=" + newBudgetID;
+			where = "WHERE DESCRIPTION='" + currentTransaction.getDescription()
+					+ "' AND DATE='" + dateFormat.format(currentTransaction.getTime())
+					+ "' AND AMOUNT=" + currentTransaction.getAmount()
+					+ " AND CREDITCARDID=" + currentCardID
+					+ " AND BUDGETCATEGORYID=" + currentBudgetID;
+			stmt = con.createStatement();
+			cmdString = "UPDATE TRANSACTION SET " + values + " " + where;
+			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 		return result;
 	}
@@ -481,23 +583,51 @@ public class DataAccessObject implements DataAccess {
 	 * Methods for Users
 	 */
 	public String getUsername() {
+		String username = null;
+		try {
+			String cmdString = "SELECT NAME FROM USERNAME";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			if(results.next()) {
+				username = results.getString("NAME");
+			}
+			else {
+				throw new NullPointerException("No username is set");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 		return username;
 	}
 
 	public boolean setUsername(String newUsername) {
-		boolean toReturn = false;
-		String values, where;
-		try {
-			values = "USERNAME='" + newUsername;
-			where = "where USERNAME='" + username;
-			cmdString = "Update USERNAME " + " Set " + values + " " + where;
-			updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
-			toReturn = true;
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		boolean result = false;
+		if (newUsername == null) {
+			throw new NullPointerException("Expecting a String!");
 		}
-		return toReturn;
+		try {
+			try {
+				String oldUsername = getUsername();
+				String cmdString = "UPDATE USERNAME SET NAME='" + newUsername + "' WHERE NAME='" + oldUsername + "'";
+				stmt = con.createStatement();
+				int updateCount = stmt.executeUpdate(cmdString);
+				checkWarning(stmt, updateCount);
+				result = true;
+			} catch(SQLException e) {
+				System.out.println(e.toString());
+			}
+		} catch (NullPointerException npe) {
+			try {
+				String cmdString = "INSERT INTO USERNAME (NAME) VALUES('" + newUsername + "')";
+				stmt = con.createStatement();
+				int updateCount = stmt.executeUpdate(cmdString);
+				checkWarning(stmt, updateCount);
+				result = true;
+			} catch(SQLException e) {
+				System.out.println(e.toString());
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -512,7 +642,7 @@ public class DataAccessObject implements DataAccess {
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		if (updateCount != 1) {
+		if (updateCount < 1) {
 			System.out.println("Tuple not inserted correctly.");
 		}
 	}

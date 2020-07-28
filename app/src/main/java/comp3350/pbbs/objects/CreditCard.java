@@ -115,8 +115,11 @@ public class CreditCard {
      * @param other another credit card
      * @return true if both credit cards have the same card number
      */
-    public boolean equals(CreditCard other) {
-        return getCardNum().equals(other.getCardNum());
+    public boolean equals(Object other) {
+        boolean result = false;
+        if(other instanceof CreditCard)
+            result = getCardNum().equals(((CreditCard)other).getCardNum());
+        return result;
     }
 
     /**

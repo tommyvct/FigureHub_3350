@@ -39,6 +39,7 @@ public class StubDatabase implements DataAccess {
         budgets = new ArrayList<>();
         creditCards = new ArrayList<>();
         transactions = new ArrayList<>();
+        username = null;
     }
 
     /**
@@ -48,48 +49,12 @@ public class StubDatabase implements DataAccess {
      */
     public void open(String dbPath) {
         if(dbPath.contains("populate"))
-            populateData();
+            DataAccess.populateData(this);
+        System.out.println("Opened " + dbType + " database " + dbName);
     }
 
     public String getDBName() {
         return dbName;
-    }
-
-    /**
-     * This method is used for populating fake data into the stub database
-     */
-    public void populateData() {
-        BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        CreditCard card1, card2;                                //variables for multiple cards
-        Transaction t1, t2, t3, t4;                             //variables for multiple transactions
-
-        rent = new BudgetCategory("Rent/Mortgage", 500);
-        budgets.add(rent);
-        groceries = new BudgetCategory("Groceries", 100);
-        budgets.add(groceries);
-        utilities = new BudgetCategory("Utilities", 80);
-        budgets.add(utilities);
-        phoneBill = new BudgetCategory("Phone Bill", 75);
-        budgets.add(phoneBill);
-
-        card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
-        creditCards.add(card1);
-        card2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
-        creditCards.add(card2);
-
-        //local date variable
-        Date date = new Date();
-        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
-        transactions.add(t1);
-        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
-        transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
-        transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
-        transactions.add(t4);
-
-        username = null;
-        System.out.println("Opened " + dbType + " database " + dbName);
     }
 
     public void close() {
@@ -274,9 +239,11 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
         boolean toReturn = false;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            toReturn = transactions.set(index, newTransaction) != null;
+        while(transactions.contains(currentTransaction)) {
+            int index = transactions.indexOf(currentTransaction);
+            if (index >= 0) {
+                toReturn = transactions.set(index, newTransaction) != null;
+            }
         }
         return toReturn;
     }
@@ -288,9 +255,8 @@ public class StubDatabase implements DataAccess {
      */
     public boolean deleteTransaction(Transaction currentTransaction) {
         boolean toReturn = false;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            toReturn = transactions.remove(index) != null;
+        while(transactions.contains(currentTransaction)) {
+            toReturn = transactions.remove(currentTransaction);
         }
         return toReturn;
     }

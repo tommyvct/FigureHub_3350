@@ -25,11 +25,15 @@ public class TestDataAccess extends TestCase {
     }
 
     public void setUp() {
-        //initially testing testing will be done on stub database
+        //initially testing will be done on stub database
         dataAccess = new StubDatabase("test");
-        dataAccess.open("populate");
         //switching to HSQL database can also be done by following these 2 lines:
         //dataAccess = new DataAccessObject(Main.dbName);
+        //dataAccess.open(Main.getDBPathName());
+        // If running tests with the data access object, you have to run each test individually,
+        // The populate data method repopulates the database every test, which causes some tests to fail
+        // due to specific count constraints
+        DataAccess.populateData(dataAccess);
     }
 
     public void tearDown() {
@@ -103,6 +107,7 @@ public class TestDataAccess extends TestCase {
         assertFalse(result); //nothing in the cards list
 
         //testing the size of the ArrayList
+        //System.out.println(dataAccess.getCreditCards());
         assertEquals(2, dataAccess.getCardsSize());
 
         //testing findCreditCard
@@ -145,6 +150,11 @@ public class TestDataAccess extends TestCase {
         BudgetCategory b1 = dataAccess.getBudgets().get(0);
 
         Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        date = calendar.getTime();
         Transaction t1 = new Transaction(Services.calcDate(date, -5), 5, "Bought Chips", card1, b1);
         assertNotNull(t1);//Transaction object created
 
@@ -188,7 +198,7 @@ public class TestDataAccess extends TestCase {
         //testing deleteTransaction
         result = dataAccess.deleteTransaction(newTransaction);
         assertTrue(result);//deleted successfully
-        assertEquals(5, dataAccess.getTransactionsSize());
+        assertEquals(4, dataAccess.getTransactionsSize());
     }
 
     public void testUser() {
