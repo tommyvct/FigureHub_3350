@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.presentation.viewObject.ViewCard;
 
 /**
  * main_cards
@@ -62,7 +63,7 @@ public class main_cards extends Fragment
         listView.setOnItemClickListener((arg0, view1, position, arg3) ->
         {
             Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
-            viewCard.putExtra("creditCard", cardsList.get(position));
+            viewCard.putExtra("Card", cardsList.get(position));
             startActivity(viewCard);
         });
         return view;
