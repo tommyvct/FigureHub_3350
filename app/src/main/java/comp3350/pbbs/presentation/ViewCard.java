@@ -2,7 +2,6 @@ package comp3350.pbbs.presentation;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,13 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
@@ -31,9 +28,8 @@ import java.util.List;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessCreditCard;
-import comp3350.pbbs.business.AccessTransaction;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.business.AccessCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 /**
  * Group4
@@ -43,8 +39,8 @@ import comp3350.pbbs.objects.CreditCard;
  */
 public class ViewCard extends Activity {
     private LineChart lineChart;
-    private AccessCreditCard accessCreditCard;
-    private CreditCard creditCard;
+    private AccessCard accessCard;
+    private Card card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +51,9 @@ public class ViewCard extends Activity {
         lineChart = findViewById(R.id.card_info);
 
         // Grab the credit card
-        creditCard =
-                Objects.requireNonNull((CreditCard) getIntent().getSerializableExtra("creditCard"));
-        accessCreditCard = new AccessCreditCard();
+        card =
+                Objects.requireNonNull((Card) getIntent().getSerializableExtra("Card"));
+        accessCard = new AccessCard();
 
 //        // Put the card info in the center
 //        pieChart.setCenterText(budgetCategory.getBudgetName());
@@ -125,7 +121,7 @@ public class ViewCard extends Activity {
 
         // Construct the month selector
         Spinner monthSelector = findViewById(R.id.cardMonthSelector);
-        List<Calendar> activeMonths = accessCreditCard.getActiveMonths(creditCard);
+        List<Calendar> activeMonths = accessCard.getActiveMonths(card);
         List<String> monthOptions = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 
@@ -196,7 +192,7 @@ public class ViewCard extends Activity {
         int index = 0;
 
         for(Calendar activeMonth : activeMonths) {
-            chartValues.add(new Entry(index, accessCreditCard.calculateCreditCardTotal(creditCard, activeMonth)));
+            chartValues.add(new Entry(index, accessCard.calculateCardTotal(card, activeMonth)));
             index++;
         }
 
@@ -259,77 +255,5 @@ public class ViewCard extends Activity {
             // set data
             lineChart.setData(data);
         }
-
-
-//    // Set the colors between 'good' and 'bad'
-//        // Names are based on html color names
-//        int forestGreen = Color.parseColor("#228B22");
-//        int fireBrick = Color.parseColor("#b22222");
-//        List<PieEntry> entries = new ArrayList<PieEntry>();
-//        ArrayList<Integer> colors = new ArrayList<Integer>();
-//
-//        // Get the amount spent and the max budget limit for this budget
-//        float amount = accessBudgetCategory.calculateBudgetCategoryTotal(budgetCategory, month);
-//        float max = (float)budgetCategory.getBudgetLimit();
-//
-//        // Calculate the diff
-//        float diff = max - amount;
-//        // If there is still money left on the budget
-//        if (diff > 0) {
-//            // Add the amount if there is any money spent
-//            if(amount > 0) {
-//                entries.add(new PieEntry(
-//                        amount,
-//                        "Current Amount"
-//                ));
-//                colors.add(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-//            }
-//
-//            // Add a color gradient between forestGreen and fireBrick based on the percent left on budget
-//            // Note that the order matters when adding entries, for pie charts the entries are inserted clockwise
-//            colors.add((Integer)new ArgbEvaluator().evaluate(amount / max, forestGreen, fireBrick));
-//            entries.add(new PieEntry(
-//                    diff,
-//                    "Left on Budget"
-//            ));
-//        }
-//        else if(diff < 0) { // If over the budget
-//            entries.add(new PieEntry(
-//                    Math.abs(diff),
-//                    "Over Budget"
-//            ));
-//            colors.add(fireBrick);
-//
-//            entries.add(new PieEntry(
-//                    max,
-//                    "Budget Limit"
-//            ));
-//            colors.add(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-//        }
-//        else { //diff == 0
-//            entries.add(new PieEntry(
-//                    max,
-//                    "At Budget Limit"
-//            ));
-//            colors.add(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-//        }
-//
-//        // Get the data set for the entries & set colours
-//        PieDataSet dataSet = new PieDataSet(entries, budgetCategory.getBudgetName());
-//        dataSet.setColors(colors);
-//        PieData data = new PieData(dataSet);
-//
-//        // Set the text for the dollar values
-//        data.setValueTextSize(23f);
-//        data.setValueTextColor(Color.LTGRAY);
-//        data.setValueFormatter(new DollarValueFormatter());
-//
-//        // Set the text for the entry labels (ex. 'At budget limit')
-//        pieChart.setEntryLabelTextSize(13f);
-//        pieChart.setEntryLabelColor(Color.LTGRAY);
-//
-//        // Set the data and animate it
-//        pieChart.setData(data);
-//        pieChart.animateY(1400, Easing.EaseInOutQuad);
     }
 }

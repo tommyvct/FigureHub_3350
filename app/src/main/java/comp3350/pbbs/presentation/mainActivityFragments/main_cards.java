@@ -63,7 +63,7 @@ public class main_cards extends Fragment
         listView.setOnItemClickListener((arg0, view1, position, arg3) ->
         {
             Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
-            viewCard.putExtra("creditCard", creditCardsList.get(position));
+            viewCard.putExtra("creditCard", cardsList.get(position));
             startActivity(viewCard);
         });
         return view;

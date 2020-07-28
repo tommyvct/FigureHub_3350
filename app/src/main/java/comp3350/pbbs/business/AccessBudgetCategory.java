@@ -81,28 +81,6 @@ public class AccessBudgetCategory {
     }
 
     /**
-     * parse the input from a String passed from Presentation layer, to a Float
-     *
-     * @param limitStr the string to be parsed into a float
-     * @return return the parsed string.
-     */
-    private Float parseLimit(String limitStr) {
-        Float result = null;
-        if (limitStr != null) {
-            if (limitStr.contains(".")) {
-                if (limitStr.matches("\\d*\\.\\d\\d$")) {
-                    result = Float.parseFloat(limitStr);
-                    if (result < 0)
-                        result = null;
-                }
-            } else if (limitStr.matches("[0-9]+")) {
-                result = (float) Integer.parseInt(limitStr);
-            }
-        }
-        return result;
-    }
-
-    /**
      * Takes in params directly from Presentation layer, and converts them to proper format for
      * BudgetCategory
      *
@@ -113,7 +91,7 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0){
+        if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0){
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
             if(findBudgetCategory(newBC) == null)
                 result = insertBudgetCategoryParsed(newBC);
@@ -147,7 +125,7 @@ public class AccessBudgetCategory {
     public BudgetCategory updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
         BudgetCategory result = null;
-        if((newLimitFlt = parseLimit(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
+        if((newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }
@@ -163,6 +141,10 @@ public class AccessBudgetCategory {
      */
     public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
+    }
+
+    public BudgetCategory deleteBudgetCategory(BudgetCategory budgetCat){
+        return dataAccess.deleteBudgetCategory(budgetCat);
     }
 
     /**

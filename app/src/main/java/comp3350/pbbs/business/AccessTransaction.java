@@ -31,6 +31,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  */
 public class AccessTransaction {
     private StubDatabase db;    // Access to the database
+    private static AccessValidation accessValidation;
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
@@ -43,37 +44,14 @@ public class AccessTransaction {
      */
     public AccessTransaction() {
         db = Services.getDataAccess(Main.dbName);
+        accessValidation = new AccessValidation();
     }
 
     public AccessTransaction(@SuppressWarnings("unused") boolean test) {
         db = Services.getDataAccess("test");
+        accessValidation = new AccessValidation();
     }
 
-    /**
-     * This method parses the given date string and time string into a single date time object.
-     *
-     * @param dateStr The given date to convert
-     * @param timeStr The given time to convert
-     * @return java.text.Date object that contains the date time, or null if the strings
-     * do not match any of the predefined formats
-     */
-    protected static Date parseDatetime(String dateStr, String timeStr) {
-        Date toReturn = null;
-
-        // Check the possible date formats
-        for (String format : DATE_FORMATS) {
-            @SuppressLint("SimpleDateFormat")
-            DateFormat df = new SimpleDateFormat(format);
-            // Needed or else 30/13/2020 will become 30/1/2021
-            df.setLenient(false);
-            try {
-                // Parse the date
-                toReturn = df.parse(dateStr + " " + timeStr);
-            } catch (ParseException ignored) {
-            }
-        }
-        return toReturn;
-    }
 
     @SuppressLint("SimpleDateFormat")
     public static String[] reverseParseDateTime(Date toReverse)
@@ -86,73 +64,6 @@ public class AccessTransaction {
         ret[1] = timeFormatter.format(toReverse);
 
         return ret;
-    }
-
-    /**
-     * This method parses the given amount string to a float number, rounded to 2 decimals
-     *
-     * @param amountStr The string to convert
-     * @return The converted float, or null if the amount is invalid
-     */
-    protected static Float parseAmount(String amountStr) {
-        Float toReturn = null;
-
-        if (amountStr != null) {
-            // If the string is decimal-like
-            if (amountStr.contains(".")) {
-                // Check if the string is a decimal number with 2 decimal places
-                if (amountStr.matches("\\d*\\.\\d\\d$")) {
-                    // Parse the string
-                    toReturn = Float.parseFloat(amountStr);
-                    if (toReturn < 0)
-                        toReturn = null;
-                }
-            }
-            // Check if the amount is a positive integer
-            else if (amountStr.matches("[0-9]+")) {
-                toReturn = (float) Integer.parseInt(amountStr);
-            }
-        }
-        return toReturn;
-    }
-
-    /**
-     * This method checks if the given date string and time string are valid.
-     *
-     * A valid date follows the format dd/mm/yyyy or dd-mm-yyyy, while a valid time follows the
-     * 24-hour format: 0:00 to 23:59
-     *
-     * @param dateStr The date to parse.
-     * @param timeStr The time to check.
-     * @return True if the amount is valid, or false if it is invalid
-     */
-    public static boolean isValidDateTime(String dateStr, String timeStr) {
-        return parseDatetime(dateStr, timeStr) != null;
-    }
-
-    /**
-     * This method tells if the given amount string is a valid numeric amount
-     *
-     * A valid amount is either a positive integer (20) or a positive decimal number with 2 decimal
-     * places (20.03)
-     *
-     * @param amountStr The amount to check.
-     * @return True if the amount is valid, or false if it is invalid
-     */
-    public static boolean isValidAmount(String amountStr) {
-        return parseAmount(amountStr) != null;
-    }
-
-    /**
-     * This method checks if the description is valid or not
-     *
-     * A valid description is non null and not empty
-     *
-     * @param desc The description to check
-     * @return True if the description is valid, or false if it is invalid
-     */
-    public static boolean isValidDescription(String desc) {
-        return desc != null && !desc.isEmpty();
     }
 
     /**
@@ -170,9 +81,9 @@ public class AccessTransaction {
     private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = parseDatetime(dateStr, timeStr);
+        Date transactionTime = accessValidation.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = parseAmount(amountStr);
+        float amount = accessValidation.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
@@ -198,9 +109,9 @@ public class AccessTransaction {
     private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = parseDatetime(dateStr, timeStr);
+        Date transactionTime = accessValidation.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = parseAmount(amountStr);
+        float amount = accessValidation.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, debitCard, bankAccount, budgetCategory);
@@ -226,7 +137,7 @@ public class AccessTransaction {
     public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
@@ -252,7 +163,7 @@ public class AccessTransaction {
     public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
@@ -281,7 +192,7 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
@@ -310,7 +221,7 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
+        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);

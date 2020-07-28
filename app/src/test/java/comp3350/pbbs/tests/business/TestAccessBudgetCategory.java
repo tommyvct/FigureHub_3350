@@ -28,7 +28,7 @@ public class TestAccessBudgetCategory extends TestCase {
     private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
     private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
     private BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
-    private CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+    private Card testCard = new Card("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
     private Transaction t1 = new Transaction(new Date(), 20.45f, "Watched a movie", testCard, bc1);
     private Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
     private Date testDate;
