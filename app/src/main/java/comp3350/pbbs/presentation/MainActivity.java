@@ -8,6 +8,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.application.Main;
 import comp3350.pbbs.presentation.addObject.addTransaction;
 import comp3350.pbbs.presentation.addObject.addCard;
 import comp3350.pbbs.presentation.addObject.addBudgetCategory;
@@ -75,5 +76,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(
             (BottomNavigationView) findViewById(R.id.bottomNavigationView),
             Navigation.findNavController(this, R.id.fragment));
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Main.shutDown();
     }
 }

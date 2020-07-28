@@ -40,10 +40,10 @@ public class DataAccessObject implements DataAccess {
 			url = "jdbc:hsqldb:file:" + dbPath;
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 			con = DriverManager.getConnection(url, "PBBS", "");
+			System.out.println("Opened " + dbType + " database " + dbPath);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		System.out.println("Opened " + dbType + " database " + dbPath);
 	}
 
 	public String getDBName() {
@@ -56,7 +56,7 @@ public class DataAccessObject implements DataAccess {
 	public void close() {
 		try {
 			stmt = con.createStatement();
-			stmt.execute("SHUTDOWN");
+			stmt.execute("SHUTDOWN COMPACT");
 			con.close();
 			System.out.println("Closed " + dbType + " database " + dbName);
 		} catch (SQLException e) {

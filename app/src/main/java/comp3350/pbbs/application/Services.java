@@ -32,7 +32,7 @@ public class Services {
     public static DataAccess createDataAccess(String dbName) {
         if (dbAccessService == null) {
             dbAccessService = new DataAccessObject(dbName);
-            dbAccessService.open(dbName);
+            dbAccessService.open(Main.getDBPathName());
         }
         return dbAccessService;
     }
