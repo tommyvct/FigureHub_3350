@@ -1,4 +1,4 @@
-package comp3350.pbbs.presentation;
+package comp3350.pbbs.presentation.viewObject;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -51,8 +51,7 @@ public class ViewCard extends Activity {
         lineChart = findViewById(R.id.card_info);
 
         // Grab the credit card
-        card =
-                Objects.requireNonNull((Card) getIntent().getSerializableExtra("Card"));
+        card = Objects.requireNonNull((Card) getIntent().getSerializableExtra("Card"));
         accessCard = new AccessCard();
 
 //        // Put the card info in the center

@@ -186,17 +186,17 @@ public class AccessBudgetCategory {
     }
 
     /**
-     * Retrieves a list of months that have transactions for a certain card.
+     * Retrieves a list of months that have transactions for a certain budget category.
      *
-     * @param budgetCat      The credit card to query.
+     * @param category      The budget Category to query.
      * @return              A list of Calendar instances with the year and month specified.
      */
-    public List<Calendar> getActiveMonths(BudgetCategory budgetCat) {
+    public List<Calendar> getActiveMonths(BudgetCategory category) {
         List<Calendar> activeMonths = new ArrayList<Calendar>();
 
         // Loop through all transactions
         for(Transaction transaction : dataAccess.getTransactions()) {
-            if(budgetCat.equals(transaction.getCard())) {
+            if(category.equals(transaction.getBudgetCategory())) {
                 // Construct the calendar object
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTime());
