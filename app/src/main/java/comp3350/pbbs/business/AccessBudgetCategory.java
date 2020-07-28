@@ -81,38 +81,6 @@ public class AccessBudgetCategory {
     }
 
     /**
-     * Adds a list of budget categories to the DB
-     *
-     * @param currentBudgetCategories a list of new categories to add to the DB
-     * @return success boolean
-     */
-    public boolean addBudgetCategories(List<BudgetCategory> currentBudgetCategories) {
-        return dataAccess.addBudgetCategories(currentBudgetCategories);
-    }
-
-    /**
-     * parse the input from a String passed from Presentation layer, to a Float
-     *
-     * @param limitStr the string to be parsed into a float
-     * @return return the parsed string.
-     */
-    private Float parseLimit(String limitStr) {
-        Float result = null;
-        if (limitStr != null) {
-            if (limitStr.contains(".")) {
-                if (limitStr.matches("\\d*\\.\\d\\d$")) {
-                    result = Float.parseFloat(limitStr);
-                    if (result < 0)
-                        result = null;
-                }
-            } else if (limitStr.matches("[0-9]+")) {
-                result = (float) Integer.parseInt(limitStr);
-            }
-        }
-        return result;
-    }
-
-    /**
      * Takes in params directly from Presentation layer, and converts them to proper format for
      * BudgetCategory
      *
@@ -123,9 +91,11 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0)
-            result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
-
+        if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0){
+            BudgetCategory newBC = new BudgetCategory(label, limitFlt);
+            if(findBudgetCategory(newBC) == null)
+                result = insertBudgetCategoryParsed(newBC);
+        }
         return result;
     }
 
@@ -154,7 +124,7 @@ public class AccessBudgetCategory {
     public BudgetCategory updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
         BudgetCategory result = null;
-        if((newLimitFlt = parseLimit(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
+        if((newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && newLabel.length() > 0)
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }
@@ -170,6 +140,24 @@ public class AccessBudgetCategory {
      */
     public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
+    }
+
+    public BudgetCategory deleteBudgetCategory(BudgetCategory budgetCat){
+        return dataAccess.deleteBudgetCategory(budgetCat);
+    }
+
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     *
+     * NOT IMPLEMENTED in presentation for iteration1.
+     *
+     * @param currentBudgetCat the category to be removed
+     * @return deleted budgetCategory
+     */
+    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    {
+        return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }
 
     /**
@@ -198,36 +186,5 @@ public class AccessBudgetCategory {
         }
 
         return sum;
-    }
-
-    /**
-     * Retrieves a list of months that have transactions for a certain budget category.
-     *
-     * @param category      The budget Category to query.
-     * @return              A list of Calendar instances with the year and month specified.
-     */
-    public List<Calendar> getActiveMonths(BudgetCategory category) {
-        List<Calendar> activeMonths = new ArrayList<Calendar>();
-
-        // Loop through all transactions
-        for(Transaction transaction : dataAccess.getTransactions()) {
-            if(category.equals(transaction.getBudgetCategory())) {
-                // Construct the calendar object
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(transaction.getTime());
-                // Remove time after month
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.HOUR, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                // Add to set if not appeared
-                if(!activeMonths.contains(calendar)) {
-                    activeMonths.add(calendar);
-                }
-            }
-        }
-        return activeMonths;
     }
 }

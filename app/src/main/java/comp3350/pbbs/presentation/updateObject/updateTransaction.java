@@ -1,4 +1,4 @@
-package comp3350.pbbs.presentation.addObject;
+package comp3350.pbbs.presentation.updateObject;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -11,11 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -28,44 +30,41 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Transaction;
 
-/**
- * addTransaction
- * Group4
- * PBBS
- *
- * This class adds a new transaction with the existing list.
- */
-public class addTransaction extends AppCompatActivity
-        implements OnItemSelectedListener {
+public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
+
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
     EditText dateText;                              //EditText variable for date
     TimePickerDialog timePickerDialog;              //variable for TimePickerDialog
     EditText timeText;                              //EditText variable for time
     final Calendar c = Calendar.getInstance();      //Calendar variable to get the relevant date
     AccessTransaction accessTransaction;            //AccessTransaction variable
-    AccessCard accessCard;              //AccessCreditCard variable
+    AccessCard accessCreditCard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
+    Transaction oldTransaction;
 
-    /**
-     * This method creates a new transaction and adds it with the transaction list
-     *
-     * @param savedInstanceState a bundle variable to save the state
-     */
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_transaction);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Transaction");
+        setContentView(R.layout.activity_update_transaction);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Update Transaction");
 
+        oldTransaction = Objects.requireNonNull((Transaction) getIntent().getSerializableExtra("toUpdate"));
+
+        ((EditText) findViewById(R.id.updateAddTransAmount)).setText(new DecimalFormat("0.00").format(oldTransaction.getAmount()));
+        ((EditText) findViewById(R.id.updateAddTransDescription)).setText(oldTransaction.getDescription());
+
+        String[] reversedDateTime = AccessTransaction.reverseParseDateTime(oldTransaction.getTime());
         ///////// Date Input //////////
         accessTransaction = new AccessTransaction();
-        dateText = findViewById(R.id.dateInput);
+        dateText = findViewById(R.id.updateDateInput);
+        dateText.setText(reversedDateTime[0]);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
         {
             //noinspection CodeBlock2Expr
-            datePickerDialog = new DatePickerDialog(addTransaction.this,
+            datePickerDialog = new DatePickerDialog(this,
                     (view, year1, monthOfYear, dayOfMonth) ->
                     {
                         dateText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
@@ -74,11 +73,12 @@ public class addTransaction extends AppCompatActivity
         }));
 
         ///////// Time Input //////////
-        timeText = findViewById(R.id.timeInput);
+        timeText = findViewById(R.id.updateTimeInput);
+        timeText.setText(reversedDateTime[1]);
         timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
         {
             //noinspection CodeBlock2Expr
-            timePickerDialog = new TimePickerDialog(addTransaction.this,
+            timePickerDialog = new TimePickerDialog(this,
                     (timePicker, hourOfDay, minute) ->
                     {
                         timeText.setText(hourOfDay + ":" + minute);
@@ -86,17 +86,18 @@ public class addTransaction extends AppCompatActivity
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector //////////
-        accessCard = new AccessCard();
-        List<String> cardList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCard.getCreditCards();
-        cardList.add("Select card");
+        ///////// Card Selector //////////TODO: DEBIT
+        accessCreditCard = new AccessCard();
+        ArrayList<String> cardDisplayList = new ArrayList<>();
+        ArrayList<Card> cardArrayList = accessCreditCard.getCreditCards();
+        cardDisplayList.add("Select card");
         for (Card c : cardArrayList) {
-            cardList.add(c.getCardName() + "\n" + c.getCardNum());
+            cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
         }
-        Spinner cardSelector = findViewById(R.id.cardSelector);
+        Spinner cardSelector = findViewById(R.id.updateCardSelector);
         cardSelector.setOnItemSelectedListener(this);
-        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardList));
+        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardDisplayList));
+        cardSelector.setSelection(cardArrayList.indexOf(oldTransaction.getCard()) + 1);
 
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
@@ -106,13 +107,13 @@ public class addTransaction extends AppCompatActivity
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());
         }
-        Spinner BudgetSelector = findViewById(R.id.budgetSelector);
+        Spinner BudgetSelector = findViewById(R.id.updateBudgetSelector);
         BudgetSelector.setOnItemSelectedListener(this);
         BudgetSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
+        BudgetSelector.setSelection(budgetArrayList.indexOf(oldTransaction.getBudgetCategory()) + 1);
 
-
-        ///////// Add Transaction Button //////////
-        findViewById(R.id.addTransSubmit).setOnClickListener(view ->
+        ///////// Update Transaction Button //////////
+        findViewById(R.id.updateAddTransSubmit).setOnClickListener(view ->
         {
             //checking if the newly created transaction is valid or not
             boolean valid = true;
@@ -123,12 +124,12 @@ public class addTransaction extends AppCompatActivity
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
-                ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
+            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString())) {
+                ((EditText) findViewById(R.id.updateAddTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString())) {
-                ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
+            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString())) {
+                ((EditText) findViewById(R.id.updateAddTransDescription)).setError("Invalid description.");
                 valid = false;
             }
             if (BudgetSelector.getSelectedItemPosition() - 1 == -1) {
@@ -140,24 +141,25 @@ public class addTransaction extends AppCompatActivity
                 valid = false;
             }
             //if everything is valid then checks if the transaction can be inserted or not
-            if (valid && accessTransaction.addTransaction
+            if (valid &&
+                    accessTransaction.updateTransaction
                     (
-                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString(),
+                            oldTransaction,
+                            ((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString(),
                             dateText.getText().toString(),
                             timeText.getText().toString(),
-                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                            ((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString(),
                             (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                    )) {
-                        setResult(1);
-                        finish();
+                    ))
+            {
+                finish();
+                Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Failed to update Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
-
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

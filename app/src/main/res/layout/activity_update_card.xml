@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".presentation.addObject.addCard">
-
+    tools:context=".presentation.updateObject.updateCard">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/addCreditOrDebit"
-            android:checkedButton="@+id/addCreditRadioButton">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/addCreditRadioButton"
-                android:text="@string/credit">
-            </RadioButton>
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/addDebitRadioButton"
-                android:text="@string/debit">
-            </RadioButton>
-
-        </RadioGroup>
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/cardName"
+                android:id="@+id/updateCardName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/card_name" />
@@ -52,7 +28,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/cardNumber"
+                android:id="@+id/updateCardNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/card_number"
@@ -60,7 +36,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/expiryDateTextHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/expire_date" />
@@ -71,7 +46,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ValidThruMonth"
+                android:id="@+id/updateValidThruMonth"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,81 +55,67 @@
                 android:maxLength="2"/>
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/validThruYear"
+                android:id="@+id/updateValidThruYear"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/year"
                 android:inputType="number"
                 android:maxLength="4"/>
-
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/cardholderName"
+                android:id="@+id/updatePayDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pay_day"
+                android:maxLength="2"
+                android:inputType="number"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updateCardHolderName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cardholder_name"
                 android:inputType="textPersonName"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/paydayLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/payDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/pay_day"
-                android:maxLength="2"
-                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/addDebitDefaultBankAccount"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addDebitDefaultBankAccountName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/bank_account_name"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/updateCardSubmit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/update"
+                tools:ignore="ButtonStyle" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addDebitDefaultBankAccountNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/bank_account_number"
-                    android:inputType="number"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
+            <Button
+                android:id="@+id/deleteCardSubmit"
+                android:layout_width="0dp"
+                android:layout_marginStart="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/biometric_error_color"
+                android:text="@string/delete"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/addCardSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add" />
 
     </LinearLayout>
 

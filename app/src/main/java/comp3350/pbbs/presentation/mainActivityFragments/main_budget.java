@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.presentation.ViewBudgetCategory;
+import comp3350.pbbs.presentation.viewObject.ViewBudgetCategory;
 
 /**
  * main_budget
@@ -60,7 +60,7 @@ public class main_budget extends Fragment {
         {
             Intent viewBudget = new Intent(view1.getContext(), ViewBudgetCategory.class);
             viewBudget.putExtra("budgetCategory", budgetCategoryList.get(position));
-            startActivity(viewBudget);
+            startActivityForResult(viewBudget, 0);
         });
 
         return view;

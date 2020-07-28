@@ -14,6 +14,7 @@ import comp3350.pbbs.presentation.addObject.addBudgetCategory;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 3));
             }
 
-//            Toast.makeText(MainActivity.this, ""+destination.getLabel(), Toast.LENGTH_LONG).show();
         });
 
     }
@@ -75,5 +75,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(
             (BottomNavigationView) findViewById(R.id.bottomNavigationView),
             Navigation.findNavController(this, R.id.fragment));
+
+        if (resultCode == 1)
+        {
+            String text = "";
+            if (requestCode == 1)
+            {
+                text += "Transaction ";
+            }
+            else if (requestCode == 3)
+            {
+                text += "Budget ";
+            }
+            else if (requestCode == 2)
+            {
+                text += "Card ";
+            }
+
+            Toast.makeText(getApplicationContext(), text + "added!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
