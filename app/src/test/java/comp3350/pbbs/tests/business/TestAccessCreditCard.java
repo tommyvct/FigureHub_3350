@@ -1,5 +1,7 @@
 package comp3350.pbbs.tests.business;
 
+import android.support.v4.os.IResultReceiver;
+
 import junit.framework.TestCase;
 
 import java.util.Calendar;
@@ -25,23 +27,28 @@ public class TestAccessCreditCard extends TestCase {
     private CreditCard card;        // a CreditCard object
     private CreditCard card2;        // a CreditCard object
     private AccessCreditCard testAccess;    // a AccessCreditCard object
+    private StubDatabase testDB;
+    private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
+    private Transaction t1;
+    private Transaction t2;
+    private Calendar currMonth;
+    private Date testDate;
 
     /**
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
         Main.startup();
+        testDB = Services.createDataAccess("TBCU");
         card = new CreditCard("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
         card2 = new CreditCard("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);
         testAccess = new AccessCreditCard();
         testAccess.insertCreditCard(card);
-    }
-
-    /**
-     * This teardown method disconnects from the database
-     */
-    public void tearDown() {
-        Main.shutDown();
+        t1 = new Transaction(new Date(), 20.45f, "Watched a movie", card, testBudgetCategory);
+        t2 = new Transaction(new Date(), 40f, "Bought a video game", card, testBudgetCategory);
+        currMonth = Calendar.getInstance();
+        testDate = new Date();
+        currMonth.setTime(testDate);
     }
 
     /**
@@ -60,16 +67,6 @@ public class TestAccessCreditCard extends TestCase {
         CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.insertCreditCard(card1));
         assertFalse(testAccess.insertCreditCard(card1));
-    }
-
-    /**
-     * This method tests deleting credit cards
-     */
-    public void testDeleteCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(testAccess.deleteCreditCard(card));
-        assertFalse(testAccess.deleteCreditCard(card));
-        assertFalse(testAccess.deleteCreditCard(card1));
     }
 
     /**
@@ -167,25 +164,17 @@ public class TestAccessCreditCard extends TestCase {
      * Test calculating budget total for no transactions
      */
     public void testCalculateNoTransactionsTotal() {
-        Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
         //The two budget categories should not have any associated transactions
         assertEquals(0.0f, testAccess.calculateCreditCardTotal(card, currMonth));
         assertEquals(0.0f, testAccess.calculateCreditCardTotal(card, currMonth));
-        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
     }
 
     /**
      * Test calculating budget total for a single transaction
      */
     public void testCalculateOneTransactionTotal() {
-        BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
-        Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", card, testBudgetCategory);
-        StubDatabase db = Services.getDataAccess("TBCU");
-        Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
-        db.insertTransaction(t1);
-        assertEquals(20.0f, testAccess.calculateCreditCardTotal(card, currMonth));
+        testDB.insertTransaction(t1);
+        assertEquals(20.45f, testAccess.calculateCreditCardTotal(card, currMonth));
         assertEquals(0.0f, testAccess.calculateCreditCardTotal(card2, currMonth));
         currMonth.add(Calendar.MONTH, 1);
         assertEquals(0.0f, testAccess.calculateCreditCardTotal(card, currMonth));
@@ -195,35 +184,105 @@ public class TestAccessCreditCard extends TestCase {
      * Test calculating budget total for multiple transactions
      */
     public void testCalculateMultipleTransactionsTotal() {
-        BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
-        Transaction t1 = new Transaction(new Date(), 20.50f, "Watched a movie", card, testBudgetCategory);
-        Transaction t2 = new Transaction(new Date(), 40.45f, "Bought a video game", card, testBudgetCategory);
-        StubDatabase db = Services.getDataAccess("TBCU");
-        Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
-        db.insertTransaction(t1);
-        db.insertTransaction(t2);
-        assertEquals(60.95f, testAccess.calculateCreditCardTotal(card, currMonth));
+        testDB.insertTransaction(t1);
+        testDB.insertTransaction(t2);
+        assertEquals(60.45f, testAccess.calculateCreditCardTotal(card, currMonth));
         assertEquals(0f, testAccess.calculateCreditCardTotal(card2, currMonth));
-        Transaction t3 = new Transaction(new Date(), 50, "Ate burger", card2, testBudgetCategory);
-        db.insertTransaction(t3);
-        assertEquals(60.95f, testAccess.calculateCreditCardTotal(card, currMonth));
-        assertEquals(50f, testAccess.calculateCreditCardTotal(card2, currMonth));
+        Transaction t3 = new Transaction(new Date(), 50.53f, "Ate burger", card2, testBudgetCategory);
+        testDB.insertTransaction(t3);
+        assertEquals(60.45f, testAccess.calculateCreditCardTotal(card, currMonth));
+        assertEquals(50.53f, testAccess.calculateCreditCardTotal(card2, currMonth));
     }
 
     public void testCalculateTransactionDifferentMonths() {
-        BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
-        Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", card, testBudgetCategory);
-        Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
         currMonth.add(Calendar.MONTH, 1);
-        Transaction t2 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card, testBudgetCategory);
-        StubDatabase db = Services.getDataAccess("TBCU");
+        Transaction t4 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card, testBudgetCategory);
         currMonth.setTime(new Date());
-        db.insertTransaction(t1);
-        db.insertTransaction(t2);
-        assertEquals(20f, testAccess.calculateCreditCardTotal(card, currMonth));
+        testDB.insertTransaction(t1);
+        testDB.insertTransaction(t4);
+        assertEquals(20.45f, testAccess.calculateCreditCardTotal(card, currMonth));
         currMonth.add(Calendar.MONTH, 1);
         assertEquals(40f, testAccess.calculateCreditCardTotal(card, currMonth));
+    }
+
+    /**
+     * Test getting active months with no transactions
+     */
+    public void testEmptyActiveMonths() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        BudgetCategory bc1 = new BudgetCategory("test", 20);
+        List<Calendar> result = testAccess.getActiveMonths(card);
+        assertTrue(result.isEmpty());
+    }
+
+    /**
+     * Test getting active months with a single transaction
+     */
+    public void testSingleActiveMonth() {
+        testDB.insertTransaction(t1);
+        List<Calendar> result = testAccess.getActiveMonths(card);
+        assertEquals(1, result.size());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        assertTrue(result.contains(calendar));
+    }
+
+    /**
+     * Test getting active months with multiple transactions
+     */
+    public void testMultipleActiveMonths() {
+        testDB.insertTransaction(t1);
+        testDB.insertTransaction(t2);
+        List<Calendar> result = testAccess.getActiveMonths(card);
+        assertEquals(1, result.size());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(testDate);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        assertTrue(result.contains(calendar));
+        calendar.set(1000, 1, 1);
+        Transaction t3 = new Transaction(calendar.getTime(), 20, "Bought groceries.", card, testBudgetCategory);
+        testDB.insertTransaction(t3);
+        result = testAccess.getActiveMonths(card);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(calendar));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        assertTrue(result.contains(calendar));
+    }
+
+    /**
+     * Test getting active months with an invalid input
+     */
+    public void testInvalidActiveMonths() {
+        try {
+            testAccess.getActiveMonths(null);
+            fail("Expected NullPointerException.");
+        } catch (NullPointerException ignored) {
+
+        }
+    }
+
+     /**
+     * This teardown method disconnects from the database and closes StubDatabase
+     */
+    public void tearDown() {
+        Main.shutDown();
+        Services.closeDataAccess();
     }
 }

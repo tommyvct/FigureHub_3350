@@ -125,8 +125,7 @@ public class ViewCard extends Activity {
 
         // Construct the month selector
         Spinner monthSelector = findViewById(R.id.cardMonthSelector);
-        AccessTransaction accessTransaction = new AccessTransaction();
-        List<Calendar> activeMonths = accessTransaction.getActiveCardMonths(creditCard);
+        List<Calendar> activeMonths = accessCreditCard.getActiveMonths(creditCard);
         List<String> monthOptions = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 

@@ -71,8 +71,7 @@ public class ViewBudgetCategory extends Activity {
 
         // Construct the month selector
         Spinner monthSelector = findViewById(R.id.budgetMonthSelector);
-        AccessTransaction accessTransaction = new AccessTransaction();
-        List<Calendar> activeMonths = accessTransaction.getActiveMonths(budgetCategory);
+        List<Calendar> activeMonths = accessBudgetCategory.getActiveMonths(budgetCategory);
         List<String> monthOptions = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 
