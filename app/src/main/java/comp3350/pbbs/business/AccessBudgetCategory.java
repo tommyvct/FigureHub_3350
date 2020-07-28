@@ -8,6 +8,7 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -142,10 +143,6 @@ public class AccessBudgetCategory {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
 
-    public BudgetCategory deleteBudgetCategory(BudgetCategory budgetCat){
-        return dataAccess.deleteBudgetCategory(budgetCat);
-    }
-
     /**
      * Takes in params directly from Presentation layer, and converts them to proper format for
      * deleting a BudgetCategory
@@ -186,5 +183,36 @@ public class AccessBudgetCategory {
         }
 
         return sum;
+    }
+
+    /**
+     * Retrieves a list of months that have transactions for a certain card.
+     *
+     * @param budgetCat      The credit card to query.
+     * @return              A list of Calendar instances with the year and month specified.
+     */
+    public List<Calendar> getActiveMonths(BudgetCategory budgetCat) {
+        List<Calendar> activeMonths = new ArrayList<Calendar>();
+
+        // Loop through all transactions
+        for(Transaction transaction : dataAccess.getTransactions()) {
+            if(budgetCat.equals(transaction.getCard())) {
+                // Construct the calendar object
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(transaction.getTime());
+                // Remove time after month
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.HOUR, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                // Add to set if not appeared
+                if(!activeMonths.contains(calendar)) {
+                    activeMonths.add(calendar);
+                }
+            }
+        }
+        return activeMonths;
     }
 }
