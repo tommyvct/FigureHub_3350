@@ -34,21 +34,22 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_update_budget_category);
+		setContentView(R.layout.activity_add_budget_category);
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Budget Category");
 		oldBudgetCategory =
 				Objects.requireNonNull((BudgetCategory) getIntent().getSerializableExtra("toModify"));
 
 
 		accessBudgetCategory = new AccessBudgetCategory();
-		BudgetNameET = findViewById(R.id.updateBudgetName);
-		BudgetLimitET = findViewById(R.id.updateBudgetLimit);
+		BudgetNameET = findViewById(R.id.editBudgetName);
+		BudgetLimitET = findViewById(R.id.editBudgetLimit);
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
 		BudgetLimitET.setText(Double.toString(oldBudgetCategory.getBudgetLimit()));
 
+		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
-		findViewById(R.id.updateBudgetSubmit2).setOnClickListener(view -> {
+		findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
 			boolean valid = true;
 			if (BudgetNameET.getText().toString().isEmpty()) {
 				BudgetNameET.setError("Name required.");

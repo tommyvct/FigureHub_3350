@@ -107,13 +107,13 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/deleteCardSubmit"
+                android:id="@+id/markCardInactive"
                 android:layout_width="0dp"
                 android:layout_marginStart="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/biometric_error_color"
-                android:text="@string/delete"
+                android:text="@string/mark_inactive"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
 

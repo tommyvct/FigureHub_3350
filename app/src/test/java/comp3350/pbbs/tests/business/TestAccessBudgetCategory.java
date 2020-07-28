@@ -40,7 +40,6 @@ public class TestAccessBudgetCategory extends TestCase {
 
         newBudgetCategories.add(bc1);
         newBudgetCategories.add(bc2);
-        testAccess.addBudgetCategories(newBudgetCategories);
     }
 
     /**
@@ -192,7 +191,6 @@ public class TestAccessBudgetCategory extends TestCase {
      * testing adding a list of BudgetCategory to the stub, as well as adding individually
      */
     public void testAdding(){
-        assertTrue(testAccess.addBudgetCategories(newBudgetCategories));
         //Test that addition was success and that the findBudgetCategory method works
         assertEquals(bc1, testAccess.findBudgetCategory(bc1));
         assertEquals(bc2, testAccess.findBudgetCategory(bc2));

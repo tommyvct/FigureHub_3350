@@ -19,6 +19,7 @@ public class Card implements Serializable {
     private int expireMonth;    // the month a credit card is expired, 2-digits (MM)
     private int expireYear;     // the year a credit card is expired, 4-digits (YYYY)
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
+    private boolean active;
 
     /**
      * constants: constraints to a credit card
@@ -43,6 +44,7 @@ public class Card implements Serializable {
         expireMonth = expM;
         expireYear = expY;
         payDate = pay;
+        this.active = true;
     }
 
     /**
@@ -213,5 +215,15 @@ public class Card implements Serializable {
 
     public String getHolderName() {
         return holderName;
+    }
+
+    public boolean isActive()
+    {
+        return this.active;
+    }
+
+    public void setActive(boolean b)
+    {
+        this.active = b;
     }
 }
