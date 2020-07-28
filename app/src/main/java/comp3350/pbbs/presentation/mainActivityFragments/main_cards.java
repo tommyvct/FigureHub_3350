@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
-import comp3350.pbbs.presentation.ViewCard;
 
 /**
  * main_cards
