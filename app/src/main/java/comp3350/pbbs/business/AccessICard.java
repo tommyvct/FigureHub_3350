@@ -1,14 +1,12 @@
 package comp3350.pbbs.business;
 
 import java.util.ArrayList;
-
-import comp3350.pbbs.objects.Cards.*;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.persistence.StubDatabase;
 
 /**
- * AccessDebitCard
+ * AccessICard
  * Group4
  * PBBS
  *
@@ -21,8 +19,7 @@ public class AccessICard
     /**
      * constructor: enabling access to the database
      */
-    public AccessICard()
-    {
+    public AccessICard() {
         db = Services.getDataAccess(Main.dbName);
     }
 
@@ -43,15 +40,8 @@ public class AccessICard
      * @param newCard a card needs to be added into the database
      * @return true if this card does not exist in the database
      */
-    public boolean insertCard(Card newCard)
-    {
-        if (!findCard(newCard))
-        {
-            db.insertCard(newCard);
-            return true;
-        }
-
-        return false;
+    public boolean insertCard(ICard newCard) {
+        return db.insertCard(newCard);
     }
 
     /**
@@ -62,13 +52,8 @@ public class AccessICard
      * @param toDelete a debit card needs to be deleted from the database
      * @return true if this debit card does exist in the database
      */
-    public boolean deleteCard(Card toDelete) {
-        if (findCard(toDelete)) {
-            db.deleteCard(toDelete);
-            return true;
-        }
-
-        return false;
+    public boolean deleteCard(ICard toDelete) {
+        return db.deleteCard(toDelete);
     }
 
     /**
@@ -84,9 +69,7 @@ public class AccessICard
         if (toUpdate.getClass().equals(newCard.getClass()))
         {
             return db.updateCard(toUpdate, newCard);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

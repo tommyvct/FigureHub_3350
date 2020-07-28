@@ -154,6 +154,90 @@ public class StubDatabase {
     }
 
     /**
+     * This method will add all the bank accounts to the given card list.
+     *
+     * @param accountList all bank accounts in the stub DB will be added to here.
+     * @return true if added successfully.
+     */
+    public boolean addAllBankAccounts(List<BankAccount> accountList) {
+        return accountList.addAll(accounts);
+    }
+
+    /**
+     * method: find a bank account exist or not in the database
+     *
+     * @param toFind a bank account needs to be found from the database
+     * @return true if this bank account has been added into the database
+     */
+    public boolean findBankAccount(BankAccount toFind) {
+        return accounts.indexOf(toFind) >= 0;
+    }
+
+    /**
+     * method: add a bank account into the database
+     *
+     * @param newAccount a bank account needs to be added into the database
+     * @return true if this bank account does not exist in the database
+     */
+    public boolean insertBankAccount(BankAccount newAccount) {
+        if (!findBankAccount(newAccount)) {
+            accounts.add(newAccount);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * method: delete a bank account from the database
+     *
+     * @param toDelete a bank account needs to be deleted from the database
+     * @return true if this bank account card does exist in the database
+     */
+    public boolean deleteBankAccount(BankAccount toDelete) {
+        if (findBankAccount(toDelete)) {
+            accounts.remove(toDelete);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * method: update a bank account existed in the database
+     *
+     * @param toUpdate an old bank account needs to be replaced
+     * @param newAccount  a new bank account will replace the other one
+     * @return true if the old bank account does exist in the database
+     */
+    public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
+        int index = accounts.indexOf(toUpdate);
+        if (index >= 0) {
+            accounts.set(index, newAccount);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<BankAccount> getAllBankAccounts() {
+        return accounts;
+    }
+
+    /**
+     * method: get the bank account from a debit card
+     *
+     * @param from the debit card
+     * @return BankAccount ArrayList links this debit card
+     */
+    public ArrayList<BankAccount> getAccountsFromDebitCard(DebitCard from)
+    {
+        ArrayList<BankAccount> ret = new ArrayList<>();
+        for (BankAccount account : accounts) {
+            if (account.getLinkedCard().equals(from)) {
+                ret.add(account);
+            }
+        }
+        return ret;
+    }
+
+    /**
      * This method will add all the credit cards to the given card list.
      *
      * @param cardList all credit cards in the stub SB will be added to here.
@@ -196,7 +280,7 @@ public class StubDatabase {
     /**
      * This method will add all the cards to the given card list.
      *
-     * @param cardList all cards in the stub SB will be added to here.
+     * @param cardList all cards in the stub DB will be added to here.
      * @return true if added successfully.
      */
     @SuppressWarnings("unused")
@@ -217,11 +301,42 @@ public class StubDatabase {
     }
 
     /**
-     * This method will insert a new card with the ArrayList.
+     * This method inserts a new card with the ArrayList.
      */
-    public void insertCard(Card newCard)
-    {
-        cards.add(newCard);
+
+    public boolean insertCard(Card newCard) {
+        if (!findCard(newCard)) {
+            cards.add(newCard);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method removes a given card
+     */
+    public boolean deleteCard(Card toDelete) {
+        if (findCard(toDelete)) {
+            cards.remove(toDelete);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method updates a card existed in the database
+     *
+     * @param toUpdate an old card needs to be replaced
+     * @param newCard  a new card will replace the other one
+     * @return true if the old card does exist in the database
+     */
+    public boolean updateCard(Card toUpdate, Card newCard) {
+        int index = cards.indexOf(toUpdate);
+        if (index >= 0) {
+            cards.set(index, newCard);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -235,7 +350,7 @@ public class StubDatabase {
     }
 
     /**
-     * Getter method to get the credit cards.
+     * Getter method to get all the credit cards.
      *
      * @return creditCards ArrayList.
      */
@@ -249,12 +364,11 @@ public class StubDatabase {
                 ret.add((Card) c);
             }
         }
-
         return ret;
     }
 
     /**
-     * Getter method to get the debit cards.
+     * Getter method to get all the debit cards.
      *
      * @return debitCards ArrayList.
      */  // TODO: Test pending
@@ -268,35 +382,9 @@ public class StubDatabase {
                 ret.add((Card) c);
             }
         }
-
         return ret;
     }
 
-    public boolean updateCard(Card currCard, Card newCard)
-    {
-        int index = cards.indexOf(currCard);
-
-        if (index >= 0)
-        {
-            cards.set(index, newCard);
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * This method will remove given card.
-     */
-    public boolean deleteCard(Card currCard)
-    {
-        return cards.remove(currCard);
-    }
-
-    public ArrayList<BankAccount> getAllBankAccounts()
-    {
-        return accounts;
-    }
 
     /**
      * Get all accounts from given debit card
@@ -317,6 +405,7 @@ public class StubDatabase {
 
         return ret;
     }
+
 
     /**
      * This method will add all the transactions to a transaction list.
@@ -409,4 +498,7 @@ public class StubDatabase {
     public void setUsername(String newUsername) {
         this.username = newUsername;
     }
+
+
+
 }

@@ -28,6 +28,7 @@ public class Card {
     /**
      * constructor: includes full info of a credit card
      *
+     * @param card name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
@@ -36,7 +37,7 @@ public class Card {
      */
     public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        cardName = (card == null || card.isEmpty()) ? "No Name" : card;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
@@ -134,7 +135,6 @@ public class Card {
      * @return true if both credit cards have the same card number
      */
     public boolean equals(Object cardObject) {
-
         boolean equal = false;
         Card b;
 
@@ -160,15 +160,11 @@ public class Card {
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" +
-
-                "Expected payment on " + getPayDate() + " next month";
+                + "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 
