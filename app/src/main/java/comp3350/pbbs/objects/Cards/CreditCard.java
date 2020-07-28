@@ -2,7 +2,7 @@ package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
@@ -12,7 +12,8 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard implements ICard {
+public class CreditCard implements ICard, Serializable
+{
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card

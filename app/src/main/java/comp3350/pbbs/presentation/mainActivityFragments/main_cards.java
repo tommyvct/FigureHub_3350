@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.ICard;
 
 /**
  * main_cards
@@ -26,8 +27,8 @@ import comp3350.pbbs.objects.Cards.CreditCard;
 public class main_cards extends Fragment
 {
     private AccessICard accessICard;
-    private ArrayList<CreditCard> creditCardsList;
-    private ArrayAdapter<CreditCard> listViewAdapter;
+    private ArrayList<ICard> creditCardsList;
+    private ArrayAdapter<ICard> listViewAdapter;
     private ListView listView;
 
 

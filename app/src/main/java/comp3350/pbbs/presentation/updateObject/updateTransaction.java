@@ -11,11 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,10 +25,12 @@ import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
-import comp3350.pbbs.business.AccessCreditCard;
+import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.ICard;
+import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.presentation.addObject.addTransaction;
 
 public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
@@ -37,24 +41,31 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
     EditText timeText;                              //EditText variable for time
     final Calendar c = Calendar.getInstance();      //Calendar variable to get the relevant date
     AccessTransaction accessTransaction;            //AccessTransaction variable
-    AccessCreditCard accessCreditCard;              //AccessCreditCard variable
+    AccessICard accessCreditCard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
+    Transaction oldTransaction;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_transaction);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Update Transaction");
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Transaction");
+        oldTransaction = Objects.requireNonNull((Transaction) getIntent().getSerializableExtra("toUpdate"));
 
+        ((EditText) findViewById(R.id.updateAddTransAmount)).setText(new DecimalFormat("0.00").format(oldTransaction.getAmount()));
+        ((EditText) findViewById(R.id.updateAddTransDescription)).setText(oldTransaction.getDescription());
+
+        String[] reversedDateTime = AccessTransaction.reverseParseDateTime(oldTransaction.getTime());
         ///////// Date Input //////////
         accessTransaction = new AccessTransaction();
         dateText = findViewById(R.id.updateDateInput);
+        dateText.setText(reversedDateTime[0]);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
         {
             //noinspection CodeBlock2Expr
-            datePickerDialog = new DatePickerDialog(addTransaction.this,
+            datePickerDialog = new DatePickerDialog(this,
                     (view, year1, monthOfYear, dayOfMonth) ->
                     {
                         dateText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
@@ -64,10 +75,11 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
 
         ///////// Time Input //////////
         timeText = findViewById(R.id.updateTimeInput);
+        timeText.setText(reversedDateTime[1]);
         timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
         {
             //noinspection CodeBlock2Expr
-            timePickerDialog = new TimePickerDialog(addTransaction.this,
+            timePickerDialog = new TimePickerDialog(this,
                     (timePicker, hourOfDay, minute) ->
                     {
                         timeText.setText(hourOfDay + ":" + minute);
@@ -75,17 +87,18 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector //////////
-        accessCreditCard = new AccessCreditCard();
-        List<String> cardList = new ArrayList<>();
-        ArrayList<CreditCard> cardArrayList = accessCreditCard.getCreditCards();
-        cardList.add("Select card");
-        for (CreditCard c : cardArrayList) {
-            cardList.add(c.getCardName() + "\n" + c.getCardNum());
+        ///////// Card Selector //////////TODO: DEBIT
+        accessCreditCard = new AccessICard();
+        ArrayList<String> cardDisplayList = new ArrayList<>();
+        ArrayList<ICard> cardArrayList = accessCreditCard.getCreditCards();
+        cardDisplayList.add("Select card");
+        for (ICard c : cardArrayList) {
+            cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
         }
         Spinner cardSelector = findViewById(R.id.updateCardSelector);
         cardSelector.setOnItemSelectedListener(this);
-        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardList));
+        cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardDisplayList));
+        cardSelector.setSelection(cardArrayList.indexOf(oldTransaction.getCard()) + 1);
 
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
@@ -98,25 +111,25 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         Spinner BudgetSelector = findViewById(R.id.updateBudgetSelector);
         BudgetSelector.setOnItemSelectedListener(this);
         BudgetSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
+        BudgetSelector.setSelection(budgetArrayList.indexOf(oldTransaction.getBudgetCategory()) + 1);
 
-
-        ///////// Add Transaction Button //////////
+        ///////// Update Transaction Button //////////
         findViewById(R.id.updateAddTransSubmit).setOnClickListener(view ->
         {
             //checking if the newly created transaction is valid or not
             boolean valid = true;
 
             // validate fields, use methods from business class
-            if (!accessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
+            if (!AccessTransaction.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
                 timeText.setError("Invalid time.");
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!accessTransaction.isValidAmount(((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString())) {
+            if (!AccessTransaction.isValidAmount(((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString())) {
                 ((EditText) findViewById(R.id.updateAddTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!accessTransaction.isValidDescription(((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString())) {
+            if (!AccessTransaction.isValidDescription(((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString())) {
                 ((EditText) findViewById(R.id.updateAddTransDescription)).setError("Invalid description.");
                 valid = false;
             }
@@ -129,22 +142,24 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                 valid = false;
             }
             //if everything is valid then checks if the transaction can be inserted or not
-            if (valid && accessTransaction.addTransaction
+            if (valid &&
+                    accessTransaction.updateTransaction
                     (
+                            oldTransaction,
                             ((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString(),
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString(),
-                            cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            (CreditCard) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                    )) {
-                setResult(1);
+                    ))
+            {
                 finish();
+                Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
-                Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Failed to update Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override

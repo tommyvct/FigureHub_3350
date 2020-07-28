@@ -2,6 +2,8 @@ package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * DebitCard
  * Group4
@@ -9,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * This class defines a debit card with information it includes
  */
-public class DebitCard implements ICard {
+public class DebitCard implements ICard, Serializable
+{
     private String cardName;    // name of a debit card
     private String cardNum;     // number of a debit card
     private String holderName;  // user full name of a debit card

@@ -85,7 +85,7 @@ public class StubDatabase {
         t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", creditCard2, phoneBill);
         transactions.add(t4);
 
-        username = null;    //initializing the username with Null, it is going to call the mane from user input
+        username = "Tommy";    //initializing the username with Null, it is going to call the mane from user input
     }
 
     /**
@@ -241,14 +241,14 @@ public class StubDatabase {
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<CreditCard> getCreditCards() {
-        ArrayList<CreditCard> ret = new ArrayList<>();
+    public ArrayList<ICard> getCreditCards() {
+        ArrayList<ICard> ret = new ArrayList<>();
 
         for (ICard c : cards)
         {
             if (c instanceof CreditCard)
             {
-                ret.add((CreditCard) c);
+                ret.add(c);
             }
         }
 

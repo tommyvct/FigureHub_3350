@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,6 +75,19 @@ public class AccessTransaction {
             }
         }
         return toReturn;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String[] reverseParseDateTime(Date toReverse)
+    {
+        String[] ret = new String[2];
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("d/M/yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("H:m");
+        ret[0] = dateFormatter.format(toReverse);
+        ret[1] = timeFormatter.format(toReverse);
+
+        return ret;
     }
 
     /**

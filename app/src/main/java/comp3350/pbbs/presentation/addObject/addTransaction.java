@@ -27,6 +27,7 @@ import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.ICard;
 
 /**
  * addTransaction
@@ -88,9 +89,9 @@ public class addTransaction extends AppCompatActivity
         ///////// Card Selector //////////
         accessICard = new AccessICard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<CreditCard> cardArrayList = accessICard.getCreditCards();
+        ArrayList<ICard> cardArrayList = accessICard.getCreditCards();
         cardList.add("Select card");
-        for (CreditCard c : cardArrayList) {
+        for (ICard c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
         }
         Spinner cardSelector = findViewById(R.id.cardSelector);
@@ -145,7 +146,7 @@ public class addTransaction extends AppCompatActivity
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                            cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            (CreditCard) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     )) {
                         setResult(1);

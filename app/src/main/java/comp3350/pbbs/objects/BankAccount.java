@@ -1,8 +1,10 @@
 package comp3350.pbbs.objects;
 
+import java.io.Serializable;
+
 import comp3350.pbbs.objects.Cards.DebitCard;
 
-public class BankAccount  // TODO: implementation pending
+public class BankAccount  implements Serializable
 {
     private String accountName;
     private String accountNumber;

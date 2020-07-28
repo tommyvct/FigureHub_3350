@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,8 @@ import comp3350.pbbs.objects.Cards.ICard;
  * This class defines a transaction for some amount paid for using a card under some budget
  * category.
  */
-public class Transaction {
+public class Transaction implements Serializable
+{
     private Date time;                      // The time that the transaction took place
     private float amount;                   // The amount that this transaction totalled
     private String description;             // Description of this transaction
@@ -154,7 +156,7 @@ public class Transaction {
 
     /**
      * Gets a string representation of this object.
-     *
+     *a
      * @return A string representing this object and its fields.
      */
     @NotNull
