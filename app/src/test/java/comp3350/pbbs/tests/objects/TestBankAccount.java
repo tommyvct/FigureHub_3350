@@ -67,7 +67,7 @@ public class TestBankAccount extends TestCase
         acc1 = new BankAccount(accountName, accountNumber, linkedCard);
         acc2 = new BankAccount(accountName, accountNumber, linkedCard);
         assertEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
-        newCard = new DebitCard("TD Access Debit", "5135794680086666", "Cathy", 5, 2022);
+        newCard = new DebitCard("TD Access Debit", "5135794680086666", "John", 5, 2022);
         acc2 = new BankAccount(accountName, accountNumber, newCard);
         assertNotEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
 
@@ -76,13 +76,4 @@ public class TestBankAccount extends TestCase
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {}
     }
-
-    /**
-     * test constructor method
-     * case: null params on constructor
-     * account name if null or empty, should have a default name of "No Name"
-     * account number could not be null
-     * An account must be linked to a non null debit card
-     */
-
 }

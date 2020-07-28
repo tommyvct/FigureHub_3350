@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
+import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.CreditCard;
@@ -19,33 +20,26 @@ import comp3350.pbbs.objects.Cards.DebitCard;
  * This class tests the methods in the AccessCreditCard class
  */
 public class TestAccessCreditCard extends TestCase {
-    private CreditCard card;        // a CreditCard object
-    private AccessICard acc;    // a AccessCreditCard object
+    private CreditCard creditCard;      // a CreditCard object
+    private AccessICard accessICard;    // a AccessCreditCard object
 
     /**
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
-        Main.startup();
-        card = new CreditCard("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
-        acc = new AccessICard();
-        acc.insertCard(card);
-    }
-
-    /**
-     * This teardown method disconnects from the database
-     */
-    public void tearDown() {
-        Main.shutDown();
+        Services.createDataAccess("TBCU");
+        creditCard = new CreditCard("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+        accessICard = new AccessICard();
+        accessICard.insertCard(creditCard);
     }
 
     /**
      * This method tests finding credit cards in the database
      */
     public void testFindCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(acc.findCard(card));
-        assertFalse(acc.findCard(card1));
+        CreditCard creditCard1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        assertTrue(accessICard.findCard(creditCard));
+        assertFalse(accessICard.findCard(creditCard1));
     }
 
 
@@ -53,23 +47,23 @@ public class TestAccessCreditCard extends TestCase {
      * This method tests deleting credit cards
      */
     public void testDeleteCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(acc.deleteCard(card));
-        assertFalse(acc.deleteCard(card));
-        assertFalse(acc.deleteCard(card1));
+        CreditCard creditCard1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        assertTrue(accessICard.deleteCard(creditCard));
+        assertFalse(accessICard.deleteCard(creditCard));
+        assertFalse(accessICard.deleteCard(creditCard1));
     }
 
     /**
      * This method tests updating credit cards
      */
     public void testUpdateCreditCard() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        CreditCard creditCard1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         DebitCard debitCard = new DebitCard("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
-        assertFalse(acc.updateCard(card1, debitCard));
-        assertTrue(acc.updateCard(card, card1));
-        assertFalse(acc.updateCard(card, card1));
-        assertTrue(acc.findCard(card1));
-        assertFalse(acc.findCard(card));
+        assertFalse(accessICard.updateCard(creditCard1, debitCard));
+        assertTrue(accessICard.updateCard(creditCard, creditCard1));
+        assertFalse(accessICard.updateCard(creditCard, creditCard1));
+        assertTrue(accessICard.findCard(creditCard1));
+        assertFalse(accessICard.findCard(creditCard));
     }
 
     /**
@@ -123,14 +117,14 @@ public class TestAccessCreditCard extends TestCase {
      * Test retrieving a list of credit cards
      */
     public void testCardList() {
-        CreditCard card1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        List<CreditCard> list = acc.getCreditCards();
-        assertTrue(list.contains(card));
-        assertFalse(list.contains(card1));
-        acc.insertCard(card1);
-        list = acc.getCreditCards();
-        assertTrue(list.contains(card));
-        assertTrue(list.contains(card1));
+        CreditCard creditCard1 = new CreditCard("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+        List<CreditCard> list = accessICard.getCreditCards();
+        assertTrue(list.contains(creditCard));
+        assertFalse(list.contains(creditCard1));
+        accessICard.insertCard(creditCard1);
+        list = accessICard.getCreditCards();
+        assertTrue(list.contains(creditCard));
+        assertTrue(list.contains(creditCard1));
     }
 
     /**

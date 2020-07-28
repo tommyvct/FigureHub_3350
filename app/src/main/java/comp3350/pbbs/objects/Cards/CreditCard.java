@@ -31,7 +31,7 @@ public class CreditCard implements ICard
      */
     public CreditCard(String card, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        cardName = card.isEmpty() ? "No Name" : card;
+        cardName = (card == null || card.isEmpty()) ? "No Name" : card;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
