@@ -1,22 +1,19 @@
 package comp3350.pbbs.tests.objects;
 
-import android.renderscript.Int2;
-
-import comp3350.pbbs.application.Main;
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 import junit.framework.TestCase;
 
 public class TestBankAccount extends TestCase
 {
-    DebitCard debitCard1;
-    DebitCard debitCard2;
+    Card debitCard1;
+    Card debitCard2;
 
     public void setUp()
     {
-        debitCard1 = new DebitCard("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-        debitCard2 = new DebitCard("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+        debitCard1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        debitCard2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
     }
 
     /**

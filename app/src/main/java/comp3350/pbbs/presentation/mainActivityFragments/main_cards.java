@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessICard;
-import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 /**
  * main_cards
@@ -26,8 +26,8 @@ import comp3350.pbbs.objects.Cards.CreditCard;
 public class main_cards extends Fragment
 {
     private AccessICard accessICard;
-    private ArrayList<CreditCard> creditCardsList;
-    private ArrayAdapter<CreditCard> listViewAdapter;
+    private ArrayList<Card> cardsList;
+    private ArrayAdapter<Card> listViewAdapter;
     private ListView listView;
 
 
@@ -50,11 +50,11 @@ public class main_cards extends Fragment
         // list all the credit cards
         listView = view.findViewById(R.id.listCards);
         accessICard = new AccessICard();    // gain access to credit cards
-        creditCardsList = accessICard.getCreditCards();
+        cardsList = accessICard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                creditCardsList
+                cardsList
         );
         listView.setAdapter(listViewAdapter);
 
@@ -65,11 +65,11 @@ public class main_cards extends Fragment
      * This method updates the list after adding.
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        creditCardsList = accessICard.getCreditCards();
+        cardsList = accessICard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                creditCardsList
+                cardsList
         );
 
         listView.setAdapter(listViewAdapter);

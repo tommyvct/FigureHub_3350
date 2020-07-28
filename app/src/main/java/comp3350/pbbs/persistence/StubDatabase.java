@@ -7,9 +7,7 @@ import java.util.List;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.CreditCard;
-import comp3350.pbbs.objects.Cards.DebitCard;
-import comp3350.pbbs.objects.Cards.ICard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 
 /**
@@ -25,7 +23,7 @@ public class StubDatabase {
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
 //    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
 //    private ArrayList<DebitCard> debitCards;      //ArrayList for credit cards
-    private ArrayList<ICard> cards;
+    private ArrayList<Card> cards;
     private ArrayList<BankAccount> accounts;        // ArrayList for bank accounts
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
     private String username;                        //"Hi, {username}!"
@@ -50,7 +48,7 @@ public class StubDatabase {
      */
     public void populateData() {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        CreditCard creditCard1, creditCard2;                    //variables for multiple credit cards
+        Card card1, card2;                    //variables for multiple credit cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
 
         budgets = new ArrayList<>();
@@ -64,25 +62,25 @@ public class StubDatabase {
         budgets.add(phoneBill);
 
 //        creditCards = new ArrayList<>();
-        creditCard1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
-        cards.add(creditCard1);
-        creditCard2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
-        cards.add(creditCard2);
+        card1 = new Card("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
+        cards.add(card1);
+        card2 = new Card("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
+        cards.add(card2);
 
 //        debitCards = new ArrayList<>();
-        cards.add(new DebitCard("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
-        cards.add(new DebitCard("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
+        cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
+        cards.add(new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
 
         //local date variable
         Date date = new Date();
         transactions = new ArrayList<>();
-        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", creditCard1, groceries);
+        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
-        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", creditCard2, rent);
+        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", creditCard2, utilities);
+        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
         transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", creditCard2, phoneBill);
+        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
         username = null;    //initializing the username with Null, it is going to call the mane from user input
@@ -162,14 +160,14 @@ public class StubDatabase {
      * @return true if added successfully.
      */
     @SuppressWarnings("unused")  // will be used at some point in the future
-    public boolean addAllCreditCards(List<CreditCard> cardList) {
-        ArrayList<CreditCard> toAdd = new ArrayList<>();
+    public boolean addAllCreditCards(List<Card> cardList) {
+        ArrayList<Card> toAdd = new ArrayList<>();
 
-        for (ICard c : cards)
+        for (Card c : cards)
         {
-            if (c instanceof CreditCard)
+            if (c instanceof Card)// TODO: change to isCredit()
             {
-                toAdd.add((CreditCard) c);
+                toAdd.add((Card) c);
             }
         }
         return cardList.addAll(toAdd);
@@ -182,14 +180,14 @@ public class StubDatabase {
      * @return true if added successfully.
      */  // TODO: Test pending
     @SuppressWarnings("unused")  // will be used at some point in the future
-    public boolean addAllDebitCards(List<DebitCard> cardList) {
-        ArrayList<DebitCard> toAdd = new ArrayList<>();
+    public boolean addAllDebitCards(List<Card> cardList) {
+        ArrayList<Card> toAdd = new ArrayList<>();
 
-        for (ICard c : cards)
+        for (Card c : cards)// TODO: change to !isCredit()
         {
-            if (c instanceof DebitCard)
+            if (c instanceof Card)
             {
-                toAdd.add((DebitCard) c);
+                toAdd.add((Card) c);
             }
         }
         return cardList.addAll(toAdd);
@@ -202,7 +200,7 @@ public class StubDatabase {
      * @return true if added successfully.
      */
     @SuppressWarnings("unused")
-    public boolean addAllCards(List<ICard> cardList)
+    public boolean addAllCards(List<Card> cardList)
     {
         return cardList.addAll(cards);
     }
@@ -213,7 +211,7 @@ public class StubDatabase {
      * @param toFind card to find
      * @return the card object.
      */
-    public boolean findCard(ICard toFind)
+    public boolean findCard(Card toFind)
     {
         return cards.indexOf(toFind) >= 0;
     }
@@ -221,7 +219,7 @@ public class StubDatabase {
     /**
      * This method will insert a new card with the ArrayList.
      */
-    public void insertCard(ICard newCard)
+    public void insertCard(Card newCard)
     {
         cards.add(newCard);
     }
@@ -231,7 +229,7 @@ public class StubDatabase {
      *
      * @return all the cards.
      */
-    public ArrayList<ICard> getCards()
+    public ArrayList<Card> getCards()
     {
         return cards;
     }
@@ -241,14 +239,14 @@ public class StubDatabase {
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<CreditCard> getCreditCards() {
-        ArrayList<CreditCard> ret = new ArrayList<>();
+    public ArrayList<Card> getCreditCards() {
+        ArrayList<Card> ret = new ArrayList<>();
 
-        for (ICard c : cards)
+        for (Card c : cards)
         {
-            if (c instanceof CreditCard)
+            if (c instanceof Card)
             {
-                ret.add((CreditCard) c);
+                ret.add((Card) c);
             }
         }
 
@@ -260,21 +258,21 @@ public class StubDatabase {
      *
      * @return debitCards ArrayList.
      */  // TODO: Test pending
-    public ArrayList<DebitCard> getDebitCards() {
-        ArrayList<DebitCard> ret = new ArrayList<>();
+    public ArrayList<Card> getDebitCards() {
+        ArrayList<Card> ret = new ArrayList<>();
 
-        for (ICard c : cards)
+        for (Card c : cards)
         {
-            if (c instanceof DebitCard)
+            if (c instanceof Card)
             {
-                ret.add((DebitCard) c);
+                ret.add((Card) c);
             }
         }
 
         return ret;
     }
 
-    public boolean updateCard(ICard currCard, ICard newCard)
+    public boolean updateCard(Card currCard, Card newCard)
     {
         int index = cards.indexOf(currCard);
 
@@ -290,7 +288,7 @@ public class StubDatabase {
     /**
      * This method will remove given card.
      */
-    public boolean deleteCard(ICard currCard)
+    public boolean deleteCard(Card currCard)
     {
         return cards.remove(currCard);
     }
@@ -305,7 +303,7 @@ public class StubDatabase {
      * @param from the card
      * @return ArrayList contains accounts
      */
-    public ArrayList<BankAccount> getAccountsFromDebitCard(DebitCard from)
+    public ArrayList<BankAccount> getAccountsFromDebitCard(Card from)
     {
         ArrayList<BankAccount> ret = new ArrayList<>();
 

@@ -11,7 +11,7 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessICard;
 import comp3350.pbbs.business.AccessValidation;
-import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 /**
  * addCard
@@ -122,7 +122,7 @@ public class addCard extends AppCompatActivity {
 
             //if everything is valid then checks if the card can be inserted or not
             if (valid && accessICard.insertCard(
-                            new CreditCard
+                            new Card
                                     (
                                             cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
                                             cardNumber.getText().toString(),

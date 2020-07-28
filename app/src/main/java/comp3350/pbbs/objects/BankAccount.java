@@ -1,14 +1,14 @@
 package comp3350.pbbs.objects;
 
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 public class BankAccount  // TODO: implementation pending
 {
     private String accountName;
     private String accountNumber;
-    private DebitCard linkedCard;
+    private Card linkedCard;
 
-    public BankAccount(String accountName, String accountNumber, DebitCard linkedCard)
+    public BankAccount(String accountName, String accountNumber, Card linkedCard)
     {
         if (accountNumber == null)
         {
@@ -34,7 +34,7 @@ public class BankAccount  // TODO: implementation pending
         return accountNumber;
     }
 
-    public DebitCard getLinkedCard()
+    public Card getLinkedCard()
     {
         return linkedCard;
     }

@@ -1,7 +1,6 @@
 package comp3350.pbbs.business;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import comp3350.pbbs.objects.Cards.*;
 import comp3350.pbbs.application.Main;
@@ -33,7 +32,7 @@ public class AccessICard
      * @param toFind a card needs to be found from the database
      * @return true if this card has been added into the database
      */
-    public boolean findCard(ICard toFind)
+    public boolean findCard(Card toFind)
     {
         return db.findCard(toFind);
     }
@@ -44,7 +43,7 @@ public class AccessICard
      * @param newCard a card needs to be added into the database
      * @return true if this card does not exist in the database
      */
-    public boolean insertCard(ICard newCard)
+    public boolean insertCard(Card newCard)
     {
         if (!findCard(newCard))
         {
@@ -63,7 +62,7 @@ public class AccessICard
      * @param toDelete a debit card needs to be deleted from the database
      * @return true if this debit card does exist in the database
      */
-    public boolean deleteCard(ICard toDelete) {
+    public boolean deleteCard(Card toDelete) {
         if (findCard(toDelete)) {
             db.deleteCard(toDelete);
             return true;
@@ -81,7 +80,7 @@ public class AccessICard
      * @param newCard  a new card will replace the other one
      * @return true if the old card does exist in the database
      */
-    public boolean updateCard(ICard toUpdate, ICard newCard) {
+    public boolean updateCard(Card toUpdate, Card newCard) {
         if (toUpdate.getClass().equals(newCard.getClass()))
         {
             return db.updateCard(toUpdate, newCard);
@@ -97,7 +96,7 @@ public class AccessICard
      *
      * @return debitCards ArrayList.
      */
-    public ArrayList<DebitCard> getDebitCards() {
+    public ArrayList<Card> getDebitCards() {
         return db.getDebitCards();
     }
 
@@ -106,11 +105,11 @@ public class AccessICard
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<CreditCard> getCreditCards() {
+    public ArrayList<Card> getCreditCards() {
         return db.getCreditCards();
     }
 
-    public ArrayList<ICard> getCards()
+    public ArrayList<Card> getCards()
     {
         return db.getCards();
     }

@@ -2,7 +2,6 @@ package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -12,13 +11,18 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard implements ICard {
+public class Card {
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
     private int expireMonth;    // the month a credit card is expired, 2-digits (MM)
     private int expireYear;     // the year a credit card is expired, 4-digits (YYYY)
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
+
+    /**
+     * constants: constraints to a credit card
+     */
+    private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
      * constructor: includes full info of a credit card
@@ -29,7 +33,7 @@ public class CreditCard implements ICard {
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public CreditCard(String cardName, String num, String usr, int expM, int expY, int pay) {
+    public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
         this.cardName = cardName.isEmpty() ? "No Name" : cardName;
         cardNum = num;
@@ -37,6 +41,23 @@ public class CreditCard implements ICard {
         expireMonth = expM;
         expireYear = expY;
         payDate = pay;
+    }
+
+    public Card(String cardName, String cardNum, String holderName, int expireMonth, int expireYear)
+    {
+        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        if (cardNum == null || cardNum.isEmpty())
+            throw new IllegalArgumentException("A Credit Card requires a valid number.");
+        if (!isValidName(holderName))
+            throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+        if (expireMonth != 0 && expireYear != 0 && !isValidExpiration(expireMonth, expireYear))
+            throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
+        else
+        {
+            this.expireMonth = 0;
+            this.expireYear = 0;
+        }
+        this.payDate = 0;
     }
 
     /**
@@ -114,10 +135,10 @@ public class CreditCard implements ICard {
     public boolean equals(Object cardObject) {
 
         boolean equal = false;
-        CreditCard b;
+        Card b;
 
-        if (cardObject instanceof CreditCard) {
-            b = (CreditCard) cardObject;
+        if (cardObject instanceof Card) {
+            b = (Card) cardObject;
             if (getCardNum().equals(b.getCardNum())) {
                 equal = true;
             }
