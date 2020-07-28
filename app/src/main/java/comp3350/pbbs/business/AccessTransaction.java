@@ -17,9 +17,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.CreditCard;
-import comp3350.pbbs.objects.Cards.DebitCard;
-import comp3350.pbbs.objects.Cards.ICard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -164,12 +162,12 @@ public class AccessTransaction {
      * @param dateStr        The date of the transaction
      * @param timeStr        The time of the transaction
      * @param amountStr      The amount of the transaction
-     * @param creditCard     The card the transaction was paid with
+     * @param card     The card the transaction was paid with
      * @param budgetCategory The category of the transaction
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
      */
-    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard creditCard, BudgetCategory budgetCategory) {
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
         Date transactionTime = parseDatetime(dateStr, timeStr);
@@ -177,7 +175,7 @@ public class AccessTransaction {
         float amount = parseAmount(amountStr);
         // Create the transaction
         try {
-            transaction = new Transaction(transactionTime, amount, desc, creditCard, budgetCategory);
+            transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
         } catch (IllegalArgumentException ignored) {
         }
 
@@ -197,7 +195,7 @@ public class AccessTransaction {
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
      */ // TODO: Test pending
-    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
         Date transactionTime = parseDatetime(dateStr, timeStr);
@@ -225,7 +223,7 @@ public class AccessTransaction {
      * @return True if the transaction was added successfully, or false if it was
      * not added successfully
      */
-    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
@@ -251,7 +249,7 @@ public class AccessTransaction {
      * @return True if the transaction was added successfully, or false if it was
      * not added successfully
      */   // TODO: test pending
-    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
@@ -280,7 +278,7 @@ public class AccessTransaction {
      * @return True if the transaction was replaced successfully, or false if it
      * was not replaced successfully
      */
-    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, CreditCard card, BudgetCategory budgetCategory) {
+    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {
@@ -309,7 +307,7 @@ public class AccessTransaction {
      * @return True if the transaction was replaced successfully, or false if it
      * was not replaced successfully
      */   // TODO:  test pending
-    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, DebitCard debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (isValidAmount(amountStr) && isValidDateTime(dateStr, timeStr) && isValidDescription(desc)) {

@@ -2,15 +2,15 @@ package comp3350.pbbs.objects;
 
 import java.io.Serializable;
 
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 public class BankAccount  implements Serializable
 {
     private String accountName;
     private String accountNumber;
-    private DebitCard linkedCard;
+    private Card linkedCard;
 
-    public BankAccount(String accountName, String accountNumber, DebitCard linkedCard)
+    public BankAccount(String accountName, String accountNumber, Card linkedCard)
     {
         if (accountNumber == null)
         {
@@ -36,7 +36,7 @@ public class BankAccount  implements Serializable
         return accountNumber;
     }
 
-    public DebitCard getLinkedCard()
+    public Card getLinkedCard()
     {
         return linkedCard;
     }

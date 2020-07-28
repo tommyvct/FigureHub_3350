@@ -2,7 +2,7 @@ package comp3350.pbbs.business;
 
 import java.util.Calendar;
 
-import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 
 public class AccessValidation
 {
@@ -13,7 +13,7 @@ public class AccessValidation
      * @return true if the holder name meet the requirement of the format
      */
     public static boolean isValidName(String str) {
-        return CreditCard.isValidName(str);
+        return Card.isValidName(str);
     }
 
     /**
@@ -65,7 +65,7 @@ public class AccessValidation
      * @return true if the day is real-world existed
      */
     public static boolean isValidPayDate(int n) {
-        return CreditCard.isValidPayDate(n);
+        return Card.isValidPayDate(n);
     }
 
     /**

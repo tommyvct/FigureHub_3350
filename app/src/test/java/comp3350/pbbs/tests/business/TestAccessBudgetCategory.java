@@ -9,7 +9,7 @@ import java.util.Date;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -246,7 +246,7 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for a single transaction
      */
     public void testCalculateOneTransactionTotal() {
-        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Card testCard = new Card("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Played at the arcade", testCard, bc1);
         StubDatabase db = Services.getDataAccess("TBCU");
         Calendar currMonth = Calendar.getInstance();
@@ -262,7 +262,7 @@ public class TestAccessBudgetCategory extends TestCase {
      * Test calculating budget total for multiple transactions
      */
     public void testCalculateMultipleTransactionsTotal() {
-        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Card testCard = new Card("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
         StubDatabase db = Services.getDataAccess("TBCU");
@@ -279,7 +279,7 @@ public class TestAccessBudgetCategory extends TestCase {
     }
 
     public void testCalculateTransactionDifferentMonths() {
-        CreditCard testCard = new CreditCard("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Card testCard = new Card("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         Transaction t1 = new Transaction(new Date(), 20, "Watched a movie", testCard, bc1);
         Calendar currMonth = Calendar.getInstance();
         currMonth.setTime(new Date());
