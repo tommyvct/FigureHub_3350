@@ -1,8 +1,6 @@
 package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -12,7 +10,8 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard implements ICard {
+public class CreditCard implements ICard
+{
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
@@ -23,15 +22,16 @@ public class CreditCard implements ICard {
     /**
      * constructor: includes full info of a credit card
      *
+     * @param card name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public CreditCard(String cardName, String num, String usr, int expM, int expY, int pay) {
+    public CreditCard(String card, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        cardName = card.isEmpty() ? "No Name" : card;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
@@ -112,13 +112,11 @@ public class CreditCard implements ICard {
      * @return true if both credit cards have the same card number
      */
     public boolean equals(Object cardObject) {
-
         boolean equal = false;
-        CreditCard b;
-
+        CreditCard card;
         if (cardObject instanceof CreditCard) {
-            b = (CreditCard) cardObject;
-            if (getCardNum().equals(b.getCardNum())) {
+            card = (CreditCard) cardObject;
+            if (getCardNum().equals(card.getCardNum())) {
                 equal = true;
             }
         }
@@ -138,15 +136,11 @@ public class CreditCard implements ICard {
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" +
-
-                "Expected payment on " + getPayDate() + " next month";
+                + "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 

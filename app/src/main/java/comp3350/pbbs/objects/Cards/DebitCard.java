@@ -2,6 +2,8 @@ package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
+import comp3350.pbbs.objects.BankAccount;
+
 /**
  * DebitCard
  * Group4
@@ -9,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * This class defines a debit card with information it includes
  */
-public class DebitCard implements ICard {
+public class DebitCard implements ICard
+{
     private String cardName;    // name of a debit card
     private String cardNum;     // number of a debit card
     private String holderName;  // user full name of a debit card
@@ -19,14 +22,15 @@ public class DebitCard implements ICard {
     /**
      * constructor: includes full info of a debit card
      *
+     * @param card name of a credit card
      * @param num  number of a debit card
      * @param usr  user full name of a debit card
      * @param expM the month a debit card is expired, 2-digits (MM)
      * @param expY the year a debit card is expired, 4-digits (YYYY)
      */
-    public DebitCard(String cardName, String num, String usr, int expM, int expY) {
+    public DebitCard(String card, String num, String usr, int expM, int expY) {
         errorMsg(num, usr, expM, expY);
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        cardName = card.isEmpty() ? "No Name" : card;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
@@ -96,13 +100,11 @@ public class DebitCard implements ICard {
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" ;
+                + "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n";
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 

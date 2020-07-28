@@ -16,9 +16,9 @@ import static org.junit.Assert.assertNotEquals;
  * This class tests the methods in the DebitCard class
  */
 public class TestDebitCard extends TestCase {
-    private String num;    // 16-digits number of a debit card
+    private String num;     // serial number of a debit card
     private String name;    // user full name of a debit card
-    private int expMon;        // the month a debit card is expired, 2-digits (MM)
+    private int expMon;     // the month a debit card is expired, 2-digits (MM)
     private int expYear;    // the year a debit card is expired, 4-digits (YYYY)
 
     /**

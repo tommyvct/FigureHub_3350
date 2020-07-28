@@ -1,11 +1,8 @@
 package comp3350.pbbs.tests.objects;
 
 import java.util.Calendar;
-
 import junit.framework.TestCase;
-
 import comp3350.pbbs.objects.Cards.CreditCard;
-
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -16,16 +13,18 @@ import static org.junit.Assert.assertNotEquals;
  * This class tests the methods in the CreditCard class
  */
 public class TestCreditCard extends TestCase {
-    private String num;    // 16-digits number of a credit card
-    private String name;    // user full name of a credit card
-    private int expMon;        // the month a credit card is expired, 2-digits (MM)
-    private int expYear;    // the year a credit card is expired, 4-digits (YYYY)
-    private int payDay;        // the day user needs to ready for payment, 2-digits (DD)
+    private String card;    // name of a card
+    private String num;     // serial number of a card
+    private String name;    // user full name of a card
+    private int expMon;     // the month a card is expired, 2-digits (MM)
+    private int expYear;    // the year a card is expired, 4-digits (YYYY)
+    private int payDay;     // the payment day of a credit card, 2-digits (DD)
 
     /**
      * setup: instantiate a default credit card
      */
     public void setUp() {
+        card = "mastercard";
         num = "1000100010001000";
         name = "Alan Alfred";
         expMon = 12;
