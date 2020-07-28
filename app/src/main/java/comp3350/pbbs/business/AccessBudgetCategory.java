@@ -81,16 +81,6 @@ public class AccessBudgetCategory {
     }
 
     /**
-     * Adds a list of budget categories to the DB
-     *
-     * @param currentBudgetCategories a list of new categories to add to the DB
-     * @return success boolean
-     */
-    public boolean addBudgetCategories(List<BudgetCategory> currentBudgetCategories) {
-        return dataAccess.addBudgetCategories(currentBudgetCategories);
-    }
-
-    /**
      * parse the input from a String passed from Presentation layer, to a Float
      *
      * @param limitStr the string to be parsed into a float
@@ -123,8 +113,11 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0)
-            result = insertBudgetCategoryParsed(new BudgetCategory(label, limitFlt));
+        if ((limitFlt = parseLimit(limit)) != null && limitFlt > 0 && label.length() > 0){
+            BudgetCategory newBC = new BudgetCategory(label, limitFlt);
+            if(findBudgetCategory(newBC) == null)
+                result = insertBudgetCategoryParsed(newBC);
+        }
 
         return result;
     }
