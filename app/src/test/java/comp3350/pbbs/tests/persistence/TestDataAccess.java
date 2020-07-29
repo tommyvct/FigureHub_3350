@@ -30,13 +30,14 @@ public class TestDataAccess extends TestCase {
         dataAccess = new StubDatabase("test");
         DataAccess.populateData(dataAccess);
         //switching to HSQL database can also be done by following these 2 lines:
-        //dataAccess = new DataAccessObject(Main.dbName);
-        //dataAccess.open(Main.getDBPathName());
+//        dataAccess = new DataAccessObject(Main.dbName);
+//        dataAccess.open(Main.getDBPathName());
         // If you're testing the data access object, the testValidValues will fail, but If you run
         // It individually itll be fine (darn persistent storage)
     }
 
     public void tearDown() {
+        Services.closeDataAccess();
     }
 
     public void testBudgetCategories() {
@@ -82,7 +83,39 @@ public class TestDataAccess extends TestCase {
         returnedBudget = dataAccess.updateBudgetCategory(b2, newBudget);
         assertTrue(returnedBudget);
         assertFalse(dataAccess.getBudgets().containsAll(budgets));// dataAccess is updated
+
     }
+
+    public void testBankAccount(){
+        ArrayList<BankAccount> bankAccounts;
+        boolean result;
+
+        //bankAccounts arrayList is created with zero objects
+        bankAccounts = new ArrayList<BankAccount>();
+        assertNotNull(bankAccounts);
+        assertEquals(0, bankAccounts.size());
+
+        //testing findBankAccount
+        BankAccount newAccount1;
+        newAccount1 = dataAccess.getAllBankAccounts().get(1);
+        result = dataAccess.findBankAccount(newAccount1);
+        assertTrue(result);
+        BankAccount newAccount2 = new BankAccount("Scotia", "12345678", dataAccess.getCards().get(0));
+        result = dataAccess.findBankAccount(newAccount2);
+        assertFalse(result);
+
+        //testing insertBankAccount
+        result = dataAccess.insertBankAccount(newAccount2);
+        assertTrue(result);
+        //duplicate can't be added
+        result = dataAccess.insertBankAccount(newAccount1);
+        assertFalse(result);
+
+        //testing updateBankAccount
+        result = dataAccess.updateBankAccount(newAccount1,newAccount2);
+        assertFalse(result);//can't update an account with an existing account
+        assertEquals(3,dataAccess.getDebitCardsSize());
+   }
 
     public void testCards() {
         ArrayList<Card> cards;
@@ -90,6 +123,7 @@ public class TestDataAccess extends TestCase {
 
         //cards ArrayList created with zero objects
         cards = new ArrayList<Card>();
+        assertNotNull(cards);
         assertEquals(0, cards.size());
 
         //testing the size of the ArrayList
@@ -105,7 +139,7 @@ public class TestDataAccess extends TestCase {
         dataAccess.insertCard(card1);
         result = dataAccess.findCard(card1);
         assertTrue(result); //card added successfully
-        //assertEquals(3, dataAccess.getCardsSize());
+        //assertEquals(3, dataAccess.getCreditCardsSize());
         //duplicate card can't be added
         dataAccess.insertCard(card1);
         //assertNotEquals(4, dataAccess.getCardsSize());

@@ -181,7 +181,8 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
-        if (index >= 0) {
+        int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
+        if (index >= 0 && updateValid<=0) {
             accounts.set(index, newAccount);
             return true;
         }
@@ -304,8 +305,9 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
+        int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0) {
+        if (index >= 0 && updateValid<=0) {
             cards.set(index, newCard);
             result = true;
         }
