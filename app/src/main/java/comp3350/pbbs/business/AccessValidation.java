@@ -29,7 +29,12 @@ public class AccessValidation
         if (str == null || str.isEmpty()) {
             return false;
         } else {
-            return str.matches(REGEX);
+            str = str.trim();
+            if (str == null || str.isEmpty()) {
+                return false;
+            } else {
+                return str.matches(REGEX);
+            }
         }
     }
 
@@ -153,7 +158,16 @@ public class AccessValidation
      * @return True if the description is valid, or false if it is invalid
      */
     public static boolean isValidDescription(String desc) {
-        return desc != null && !desc.isEmpty();
+        if (desc == null || desc.isEmpty()) {
+            return false;
+        } else {
+            desc = desc.trim();
+            if (desc == null || desc.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     /**
@@ -162,10 +176,11 @@ public class AccessValidation
      * @param amountStr The string to convert
      * @return The converted float, or null if the amount is invalid
      */
-    protected static Float parseAmount(String amountStr) {
+    public static Float parseAmount(String amountStr) {
         Float toReturn = null;
 
         if (amountStr != null) {
+            amountStr = amountStr.trim();
             // If the string is decimal-like
             if (amountStr.contains(".")) {
                 // Check if the string is a decimal number with 2 decimal places
@@ -192,7 +207,7 @@ public class AccessValidation
      * @return java.text.Date object that contains the date time, or null if the strings
      * do not match any of the predefined formats
      */
-    protected static Date parseDatetime(String dateStr, String timeStr) {
+    public static Date parseDatetime(String dateStr, String timeStr) {
         Date toReturn = null;
 
         // Check the possible date formats

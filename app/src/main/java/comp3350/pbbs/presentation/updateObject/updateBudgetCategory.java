@@ -7,10 +7,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
@@ -34,23 +36,24 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_update_budget_category);
+		setContentView(R.layout.activity_add_budget_category);
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Budget Category");
 		oldBudgetCategory =
 				Objects.requireNonNull((BudgetCategory) getIntent().getSerializableExtra("toModify"));
 
 
 		accessBudgetCategory = new AccessBudgetCategory();
-		BudgetNameET = findViewById(R.id.updateBudgetName);
-		BudgetLimitET = findViewById(R.id.updateBudgetLimit);
+		BudgetNameET = findViewById(R.id.editBudgetName);
+		BudgetLimitET = findViewById(R.id.editBudgetLimit);
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
 		BudgetLimitET.setText(Double.toString(oldBudgetCategory.getBudgetLimit()));
 
+		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
-		findViewById(R.id.updateBudgetSubmit2).setOnClickListener(view -> {
+		findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
 			boolean valid = true;
-			if (BudgetNameET.getText().toString().isEmpty()) {
+			if (BudgetNameET.getText().toString().trim().isEmpty()) {
 				BudgetNameET.setError("Name required.");
 				valid = false;
 			}
@@ -61,7 +64,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 			if (!valid) {
 				return;
 			}
-			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString(), BudgetLimitET.getText().toString())) {
+			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
 				finish();
 				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
 			} else {

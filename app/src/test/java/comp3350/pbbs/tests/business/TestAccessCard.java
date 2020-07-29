@@ -2,6 +2,7 @@ package comp3350.pbbs.tests.business;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +25,10 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  * This class tests the methods in the AccessCreditCard class
  */
 public class TestAccessCard extends TestCase {
-    private Card card;        // a CreditCard object
-    private Card card2;        // a CreditCard object
+    private Card card;        // a Card object
+    private Card card2;        // a Card object
     private DataAccess testDB;
+    List<Card> stubCards;
     private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
     private Transaction t1;
     private Transaction t2;
@@ -38,7 +40,8 @@ public class TestAccessCard extends TestCase {
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
-        testDB = Services.createDataAccess(new StubDatabase("test"));
+        testDB = Services.createDataAccess(new StubDatabase("populateTest"));
+        stubCards = testDB.getCards();
         card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
         card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);
         testAccess = new AccessCard();
@@ -50,12 +53,19 @@ public class TestAccessCard extends TestCase {
         currMonth.setTime(testDate);
     }
 
+
     /**
      * This method tests finding credit cards in the database
      */
     public void testFindCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.findCard(card));
+
+        //tests finding cards already in stubDB
+        for(int i = 0; i < stubCards.size(); i++){
+            assertTrue(testAccess.findCard(stubCards.get(i)));
+        }
+
         assertFalse(testAccess.findCard(card1));
     }
 
@@ -65,8 +75,18 @@ public class TestAccessCard extends TestCase {
     public void testInsertCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.insertCard(card1));
-        assertFalse(testAccess.insertCard(card1));
+        assertFalse(testAccess.insertCard(card1));  //no duplicates
     }
+
+    /**
+     * This method tests deleting credit cards
+     */
+    // public void testDeleteCreditCard() {
+    //     Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+    //     assertTrue(testAccess.deleteCard(card));
+    //     assertFalse(testAccess.deleteCard(card));
+    //     assertFalse(testAccess.deleteCard(card1));
+    // }
 
     /**
      * This method tests updating credit cards
@@ -79,53 +99,6 @@ public class TestAccessCard extends TestCase {
         assertFalse(testAccess.updateCard(card, card1));
         assertTrue(testAccess.findCard(card1));
         assertFalse(testAccess.findCard(card));
-    }
-
-    /**
-     * Test validating pay dates
-     */
-    public void testPayDay() {
-        assertTrue(AccessValidation.isValidPayDate(1));
-        assertTrue(AccessValidation.isValidPayDate(15));
-        assertTrue(AccessValidation.isValidPayDate(31));
-        assertFalse(AccessValidation.isValidPayDate(-1));
-        assertFalse(AccessValidation.isValidPayDate(0));
-        assertFalse(AccessValidation.isValidPayDate(-15));
-        assertFalse(AccessValidation.isValidPayDate(32));
-        assertFalse(AccessValidation.isValidPayDate(64));
-    }
-
-    /**
-     * Test validating expiration dates
-     */
-    public void testExpirationDate() {
-        Calendar calender = Calendar.getInstance();
-        // int currMonth = calender.get(Calendar.MONTH) + 1;  // never used
-        int currYear = calender.get(Calendar.YEAR);
-        assertEquals(0, AccessValidation.isValidExpirationDate("1", "2068"));
-        assertEquals(0, AccessValidation.isValidExpirationDate("12", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("-1", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("-20", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("13", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("24", "2068"));
-        assertEquals(2, AccessValidation.isValidExpirationDate("1", "2100"));
-        assertEquals(2, AccessValidation.isValidExpirationDate("1", "3000"));
-        assertEquals(3, AccessValidation.isValidExpirationDate("13", "2100"));
-        assertEquals(3, AccessValidation.isValidExpirationDate("24", "3000"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "-20"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("-1", "-20"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "900"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "90"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "9"));
-        assertEquals(5, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear)));
-        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear-1)));
-        assertEquals(7, AccessValidation.isValidExpirationDate("string", "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", "string"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("string", "string 2"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("", "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate(null, "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", ""));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", null));
     }
 
     /**
@@ -143,16 +116,6 @@ public class TestAccessCard extends TestCase {
     }
 
     /**
-     * Test validating cardholder names
-     */
-    public void testName() {
-        assertTrue( AccessValidation.isValidName("cool name"));
-        assertFalse(AccessValidation.isValidName(""));
-        assertFalse(AccessValidation.isValidName(null));
-        assertFalse(AccessValidation.isValidName("X AE A-12"));
-    }
-
-    /**
      * Test calculating budget total for invalid inputs
      */
     public void testCalculateInvalidCard() {
@@ -162,16 +125,16 @@ public class TestAccessCard extends TestCase {
     }
 
     /**
-     * Test calculating budget total for no transactions
+     * Test calculating card total for no transactions
      */
     public void testCalculateNoTransactionsTotal() {
-        //The two budget categories should not have any associated transactions
+        //The two cards should not have any associated transactions
         assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
         assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
     }
 
     /**
-     * Test calculating budget total for a single transaction
+     * Test calculating card total for a single transaction
      */
     public void testCalculateOneTransactionTotal() {
         testDB.insertTransaction(t1);
@@ -179,10 +142,14 @@ public class TestAccessCard extends TestCase {
         assertEquals(0.0f, testAccess.calculateCardTotal(card2, currMonth));
         currMonth.add(Calendar.MONTH, 1);
         assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
+
+        //From Stub Database
+        currMonth.set(2019, 11, 1);
+        assertEquals(50f, testAccess.calculateCardTotal(stubCards.get(0), currMonth));    // Stub rent budget Category
     }
 
     /**
-     * Test calculating budget total for multiple transactions
+     * Test calculating card total for multiple transactions
      */
     public void testCalculateMultipleTransactionsTotal() {
         testDB.insertTransaction(t1);
@@ -193,8 +160,15 @@ public class TestAccessCard extends TestCase {
         testDB.insertTransaction(t3);
         assertEquals(60.45f, testAccess.calculateCardTotal(card, currMonth));
         assertEquals(50.53f, testAccess.calculateCardTotal(card2, currMonth));
+
+        //From Stub Database
+        currMonth.set(2019, 11, 1);
+        assertEquals(565f, testAccess.calculateCardTotal(stubCards.get(1), currMonth));    // Stub rent budget Category
     }
 
+    /**
+     * Test calculating card total for different transaction months
+     */
     public void testCalculateTransactionDifferentMonths() {
         currMonth.add(Calendar.MONTH, 1);
         Transaction t4 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card, testBudgetCategory);
@@ -212,7 +186,6 @@ public class TestAccessCard extends TestCase {
     public void testEmptyActiveMonths() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
-        BudgetCategory bc1 = new BudgetCategory("test", 20);
         List<Calendar> result = testAccess.getActiveMonths(card);
         assertTrue(result.isEmpty());
     }
@@ -284,7 +257,7 @@ public class TestAccessCard extends TestCase {
      * This teardown method disconnects from the database
      */
     public void tearDown() {
-        Main.shutDown();
+        Services.closeDataAccess();
     }
 
 }

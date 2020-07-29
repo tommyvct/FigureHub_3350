@@ -496,6 +496,36 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	@Override
+	public List<Card> getActiveCards() {
+		List<Card> cards = new ArrayList<Card>();
+		try {
+			String cmdString = "SELECT * FROM CARD WHERE ACTIVE <> 0";
+			stmt = con.createStatement();
+			ResultSet results = stmt.executeQuery(cmdString);
+			while(results.next()) {
+				String cardName = results.getString("CARDNAME");
+				String cardNum = results.getString("CARDNUM");
+				String name = results.getString("HOLDERNAME");
+				int expireMonth = results.getInt("EXPIREMONTH");
+				int expireYear = results.getInt("EXPIREYEAR");
+				int payDate = results.getInt("PAYDATE");
+				Card card;
+				if(payDate == 0) {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
+				}
+				else {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				}
+				cards.add(card);
+			}
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return cards;
+	}
+
+	@Override
 	public boolean updateCard(Card currCard, Card newCard) {
 		boolean result = false;
 		String values, where;
@@ -513,6 +543,35 @@ public class DataAccessObject implements DataAccess {
 					+ " AND EXPIREYEAR=" + currCard.getExpireYear()
 					+ " AND PAYDATE=" + currCard.getPayDate();
 			String cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
+			checkWarning(stmt, updateCount);
+			result = true;
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public boolean markInactive(Card toMark) {
+		boolean result = false;
+		String values, where;
+		try {
+			String cmdString = "SELECT ID FROM CARD WHERE" +
+					" CARDNAME='" + toMark.getCardName() +
+					"' AND CARDNUM='" +	toMark.getCardNum() +
+					"' AND HOLDERNAME='" + toMark.getHolderName() +
+					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
+					" AND EXPIREYEAR=" + toMark.getExpireYear() +
+					" AND PAYDATE=" + toMark.getPayDate();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			values = "ACTIVE=0";
+			where = "ID=" + cardID;
+			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
@@ -723,44 +782,44 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-//	public boolean deleteTransaction(Transaction currentTransaction) {
-//		boolean result = false;
-//		try {
-//			// Get budget category
-//			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-//					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
-//					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
-//			ResultSet results = stmt.executeQuery(cmdString);
-//			results.next();
-//			int budgetID = results.getInt("ID");
-//			results.close();
-//			// Get credit card
-//			cmdString = "SELECT ID FROM CREDITCARD WHERE" +
-//					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-//					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
-//					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
-//					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
-//					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
-//					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
-//			results = stmt.executeQuery(cmdString);
-//			results.next();
-//			int cardID = results.getInt("ID");
-//			results.close();
-//			cmdString = "DELETE FROM TRANSACTION WHERE" +
-//					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
-//					"' AND AMOUNT=" + currentTransaction.getAmount() +
-//					" AND DESCRIPTION='" + currentTransaction.getDescription() +
-//					"' AND CREDITCARDID=" + cardID +
-//					" AND BUDGETCATEGORYID=" + budgetID;
-//			stmt = con.createStatement();
-//			int updateCount = stmt.executeUpdate(cmdString);
-//			checkWarning(stmt, updateCount);
-//			result = true;
-//		} catch (SQLException e) {
-//			System.out.println(e.toString());
-//		}
-//		return result;
-//	}
+	public boolean deleteTransaction(Transaction currentTransaction) {
+		boolean result = false;
+		try {
+			// Get budget category
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
+					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int budgetID = results.getInt("ID");
+			results.close();
+			// Get credit card
+			cmdString = "SELECT ID FROM CARD WHERE" +
+					" CARDNAME='" + currentTransaction.getCard().getCardName() +
+					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
+					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
+					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
+					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
+			results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			cmdString = "DELETE FROM TRANSACTION WHERE" +
+					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
+					"' AND AMOUNT=" + currentTransaction.getAmount() +
+					" AND DESCRIPTION='" + currentTransaction.getDescription() +
+					"' AND CARDID=" + cardID +
+					" AND BUDGETCATEGORYID=" + budgetID;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
+			checkWarning(stmt, updateCount);
+			result = true;
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
 
 	public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
 		boolean result = false;

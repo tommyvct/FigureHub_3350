@@ -1,5 +1,7 @@
 package comp3350.pbbs.persistence;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +57,11 @@ public interface DataAccess {
 
     List<Card> getCards();
 
+    List<Card> getActiveCards();
+
     boolean updateCard(Card currCard, Card newCard);
+
+    boolean markInactive(Card toMark);
 
     //boolean deleteCard(Card currCard);
 
@@ -73,7 +79,7 @@ public interface DataAccess {
 
     boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
 
-    //boolean deleteTransaction(Transaction currentTransaction);
+    boolean deleteTransaction(Transaction currentTransaction);
 
     int getTransactionsSize();
 
@@ -107,7 +113,12 @@ public interface DataAccess {
         cards.add(card2);
 
         //local date variable
-        Date date = new Date();
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("YYYY-mm-dd").parse("2020-07-25");
+        } catch (ParseException e) {
+            date = new Date();
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.SECOND, 0);
@@ -117,9 +128,9 @@ public interface DataAccess {
         transactions.add(t1);
         t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
+        t3 = new Transaction(Services.calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
         transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
+        t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
         cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));

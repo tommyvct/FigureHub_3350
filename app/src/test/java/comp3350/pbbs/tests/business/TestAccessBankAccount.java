@@ -5,17 +5,18 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 public class TestAccessBankAccount extends TestCase
 {
-	private Card Card;
+	private Card card;
 	private BankAccount bankAccount;
 	private AccessBankAccount accessBankAccount;
 
 	public void setUp() {
-		Services.createDataAccess("TBCU");
-		Card = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
-		bankAccount = new BankAccount("My TD", "1357964", Card);
+		Services.createDataAccess(new StubDatabase("PopulateTest"));
+		card = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
+		bankAccount = new BankAccount("My TD", "1357964", card);
 		accessBankAccount = new AccessBankAccount();
 		accessBankAccount.insertBankAccount(bankAccount);	// add "bankAccount" into DB
 	}

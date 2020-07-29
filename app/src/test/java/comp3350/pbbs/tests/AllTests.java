@@ -48,6 +48,7 @@ public class AllTests {
         //suite.addTestSuite(TestAccessTransactionDelete.class);
         suite.addTestSuite(TestAccessUser.class);
         suite.addTestSuite(TestAccessBudgetCategory.class);
+        suite.addTestSuite(TestAccessBankAccount.class);
         suite.addTestSuite(TestAccessCard.class);
         suite.addTestSuite(TestDataAccess.class);
     }
