@@ -80,6 +80,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add" />
+
+        <LinearLayout
+            android:id="@+id/updateDeleteTrans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+            <Button
+                android:id="@+id/updateTrans"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/update"
+                tools:ignore="ButtonStyle"
+                />
+
+            <Button
+                android:id="@+id/deleteTrans"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/delete"
+                tools:ignore="ButtonStyle"
+                android:textColor="@color/biometric_error_color"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 </ScrollView>

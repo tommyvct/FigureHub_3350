@@ -21,28 +21,24 @@ import comp3350.pbbs.objects.Transaction;
  */
 public class StubDatabase {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
-    private String databaseName;                    //name of the database, not used in iteration 1
-    private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
-//    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
-//    private ArrayList<DebitCard> debitCards;      //ArrayList for credit cards
-    private ArrayList<Card> cards;
+    private String databaseName;                    // name of the database, not used in iteration 1
+    private ArrayList<Transaction> transactions;    // ArrayList for transactions
+    private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
     private ArrayList<BankAccount> accounts;        // ArrayList for bank accounts
-    private ArrayList<Transaction> transactions;    //ArrayList for transactions
-    private String username;                        //"Hi, {username}!"
+    private ArrayList<Card> cards;                  // ArrayList for cards
+    private String username;                        // "Hi, {username}!"
 
     /**
-	 * This method is the constructor of the database stub
-	 *
+     * This method is the constructor of the database stub
+     *
      * @param name name of the database
      */
     public StubDatabase(String name) {
         this.databaseName = name;
-        budgets = new ArrayList<>();
-//        creditCards = new ArrayList<>();
-//        debitCards = new ArrayList<>();
-        cards = new ArrayList<>();
         transactions = new ArrayList<>();
+        budgets = new ArrayList<>();
         accounts = new ArrayList<>();
+        cards = new ArrayList<>();
     }
 
     /**
@@ -50,7 +46,7 @@ public class StubDatabase {
      */
     public void populateData() {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        Card card1, card2;                    //variables for multiple credit cards
+        Card card1, card2, card3;                               //variables for multiple credit cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
 
         budgets = new ArrayList<>();
@@ -63,7 +59,6 @@ public class StubDatabase {
         phoneBill = new BudgetCategory("Phone Bill", 75);
         budgets.add(phoneBill);
 
-//        creditCards = new ArrayList<>();
         card1 = new Card("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
         cards.add(card1);
         card2 = new Card("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
@@ -87,6 +82,7 @@ public class StubDatabase {
         transactions.add(t1);
         t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
+
         t3 = new Transaction(Services.calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
         transactions.add(t3);
         t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
@@ -312,7 +308,6 @@ public class StubDatabase {
     /**
      * This method inserts a new card with the ArrayList.
      */
-
     public boolean insertCard(Card newCard) {
         if (!findCard(newCard)) {
             cards.add(newCard);
@@ -349,6 +344,22 @@ public class StubDatabase {
     }
 
     /**
+     * Mark given card as inactive.
+     * @param toMark card to mark as inactive
+     */
+    public boolean markInactive(Card toMark)
+    {
+        int index = cards.indexOf(toMark);
+        if (index >= 0)
+        {
+            cards.get(index).setActive(false);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
      * Getter method to get all the cards.
      *
      * @return all the cards.
@@ -365,12 +376,9 @@ public class StubDatabase {
      */
     public ArrayList<Card> getCreditCards() {
         ArrayList<Card> ret = new ArrayList<>();
-
-        for (Card c : cards)
-        {
-            if (c instanceof Card)
-            {
-                ret.add((Card) c);
+        for (Card c : cards) {
+            if (c.getPayDate() != 0) {
+                ret.add(c);
             }
         }
         return ret;
@@ -383,14 +391,30 @@ public class StubDatabase {
      */  // TODO: Test pending
     public ArrayList<Card> getDebitCards() {
         ArrayList<Card> ret = new ArrayList<>();
-
-        for (Card c : cards)
-        {
-            if (c instanceof Card)
-            {
-                ret.add((Card) c);
+        for (Card c : cards) {
+            if (c.getPayDate() == 0) {
+                ret.add(c);
             }
         }
+        return ret;
+    }
+
+    /**
+     * Getter method for only active cards
+     * @return active cards
+     */
+    public ArrayList<Card> getActiveCards()
+    {
+        ArrayList<Card> ret = new ArrayList<>();
+
+        for (Card card : cards)
+        {
+            if (card.isActive())
+            {
+                ret.add(card);
+            }
+        }
+
         return ret;
     }
 
@@ -486,7 +510,6 @@ public class StubDatabase {
     public void setUsername(String newUsername) {
         this.username = newUsername;
     }
-
 
 
 }

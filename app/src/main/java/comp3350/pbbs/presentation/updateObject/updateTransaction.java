@@ -48,18 +48,21 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_transaction);
+        setContentView(R.layout.activity_add_transaction);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Update Transaction");
+
+        findViewById(R.id.updateDeleteTrans).setVisibility(View.VISIBLE);
+        findViewById(R.id.addTransSubmit).setVisibility(View.GONE);
 
         oldTransaction = Objects.requireNonNull((Transaction) getIntent().getSerializableExtra("toUpdate"));
 
-        ((EditText) findViewById(R.id.updateAddTransAmount)).setText(new DecimalFormat("0.00").format(oldTransaction.getAmount()));
-        ((EditText) findViewById(R.id.updateAddTransDescription)).setText(oldTransaction.getDescription());
+        ((EditText) findViewById(R.id.addTransAmount)).setText(new DecimalFormat("0.00").format(oldTransaction.getAmount()));
+        ((EditText) findViewById(R.id.addTransDescription)).setText(oldTransaction.getDescription());
 
         String[] reversedDateTime = AccessTransaction.reverseParseDateTime(oldTransaction.getTime());
         ///////// Date Input //////////
         accessTransaction = new AccessTransaction();
-        dateText = findViewById(R.id.updateDateInput);
+        dateText = findViewById(R.id.dateInput);
         dateText.setText(reversedDateTime[0]);
         dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
         {
@@ -73,7 +76,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         }));
 
         ///////// Time Input //////////
-        timeText = findViewById(R.id.updateTimeInput);
+        timeText = findViewById(R.id.timeInput);
         timeText.setText(reversedDateTime[1]);
         timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
         {
@@ -89,12 +92,12 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Card Selector //////////TODO: DEBIT
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCreditCard.getCreditCards();
+        ArrayList<Card> cardArrayList = accessCreditCard.getActiveCards();
         cardDisplayList.add("Select card");
         for (Card c : cardArrayList) {
             cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
         }
-        Spinner cardSelector = findViewById(R.id.updateCardSelector);
+        Spinner cardSelector = findViewById(R.id.cardSelector);
         cardSelector.setOnItemSelectedListener(this);
         cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardDisplayList));
         cardSelector.setSelection(cardArrayList.indexOf(oldTransaction.getCard()) + 1);
@@ -107,13 +110,13 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());
         }
-        Spinner BudgetSelector = findViewById(R.id.updateBudgetSelector);
+        Spinner BudgetSelector = findViewById(R.id.budgetSelector);
         BudgetSelector.setOnItemSelectedListener(this);
         BudgetSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, budgetList));
         BudgetSelector.setSelection(budgetArrayList.indexOf(oldTransaction.getBudgetCategory()) + 1);
 
         ///////// Update Transaction Button //////////
-        findViewById(R.id.updateAddTransSubmit).setOnClickListener(view ->
+        findViewById(R.id.updateTrans).setOnClickListener(view ->
         {
             //checking if the newly created transaction is valid or not
             boolean valid = true;
@@ -124,12 +127,12 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString())) {
-                ((EditText) findViewById(R.id.updateAddTransAmount)).setError("Invalid amount.");
+            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
+                ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString())) {
-                ((EditText) findViewById(R.id.updateAddTransDescription)).setError("Invalid description.");
+            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
+                ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }
             if (BudgetSelector.getSelectedItemPosition() - 1 == -1) {
@@ -145,10 +148,10 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                     accessTransaction.updateTransaction
                     (
                             oldTransaction,
-                            ((EditText) findViewById(R.id.updateAddTransDescription)).getText().toString(),
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
                             dateText.getText().toString(),
                             timeText.getText().toString(),
-                            ((EditText) findViewById(R.id.updateAddTransAmount)).getText().toString(),
+                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
                             (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     ))
@@ -157,6 +160,19 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                 Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(view, "Failed to update Transaction.", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.deleteTrans).setOnClickListener(view ->
+        {
+            if (accessTransaction.deleteTransaction(oldTransaction))
+            {
+                finish();
+                Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Snackbar.make(view, "Failed to delete Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
     }
