@@ -50,7 +50,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		validThruYear = findViewById(R.id.updateValidThruYear);
 		payday = findViewById(R.id.updatePayDay);
 		cardholderName = findViewById(R.id.updateCardHolderName);
-		validThruYear.setText("20");
+		//validThruYear.setText("20");
 
 
 		cardName.setText(oldCard.getCardName());
@@ -83,54 +83,61 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		{
 			//checking if the newly created creditCard is valid or not
 			boolean valid = true;
+			boolean validDebit = true;
 
 			if (cardNumber.getText().toString().isEmpty()) {
 				cardNumber.setError("Provide a card number.");
 				valid = false;
+				validDebit = false;
 			}
 
-			if(oldCard.getPayDate() != 0) {
 				switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
 					case 1:  // invalid month
 						validThruMonth.setError("There is no such month!");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 2:  // invalid year, like year 3077
 						validThruYear.setError("Year should be less than 2099.");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 3: // both 1 and 2
 						validThruMonth.setError("There is no such month!");
 						validThruYear.setError("Year should be less than 2099.");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 4: // year less than 4 digit
 						validThruYear.setError("Provide year in 4 digits, e.g. 2020.");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 5: // expired month
 						validThruMonth.setError("Card already expired.");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 6: // expired Year
 						validThruYear.setError("Card already expired.");
 						valid = false;
+						validDebit = false;
 						break;
 
 					case 7:
-
-						validThruMonth.setError("Expire month is required.");
-						validThruYear.setError("Expire year is required.");
-						valid = false;
+							validThruMonth.setError("Expire month is required.");
+							validThruYear.setError("Expire year is required.");
+							valid = false;
+							validDebit = false;
 
 						break;
 				}
-			}
+
 
 			if (payday.getText().toString().isEmpty()) {
 				payday.setError("Which day of month do you need to pay this card?");
@@ -144,10 +151,12 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 			if (cardholderName.getText().toString().isEmpty()) {
 				cardholderName.setError("Provide a cardholder name.");
 				valid = false;
+				validDebit = false;
 			} else if (!AccessValidation.isValidName(cardholderName.getText().toString()))   // validate fields, use methods from business class
 			{
 				cardholderName.setError("Cardholder name can only contain letters, period and dash.");
 				valid = false;
+				validDebit = false;
 			}
 
 			//if everything is valid then checks if the card can be inserted or not
@@ -161,13 +170,10 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 							Integer.parseInt(payday.getText().toString())))
 					)
 			{
-				//setResult(1);
 				finish();
 				Toast.makeText(view.getContext(), "Credit Card updated!", Toast.LENGTH_SHORT).show();
 			}
-			else if(validThruYear.getText().toString().isEmpty() || validThruMonth.getText().toString().isEmpty() &&
-					AccessValidation.isValidName(cardholderName.getText().toString()) && !cardholderName.getText().toString().isEmpty()
-					&& accessCreditCard.updateCard(oldCard,
+			else if((validDebit) && accessCreditCard.updateCard(oldCard,
 					new Card(
 							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
 							cardNumber.getText().toString(),
@@ -180,28 +186,6 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 				Snackbar.make(view,"Failed to update Card",Snackbar.LENGTH_SHORT).show();
 			}
 		});
-
-//		findViewById(R.id.inactiveCardSubmit).setOnClickListener(view ->
-//		{
-//			oldCard.setStatus(false);
-//			if (accessCreditCard.inactivateCard(oldCard))
-//			{
-////				Toast.makeText(view.getContext(), "Failed to inactivate card.", Toast.LENGTH_SHORT).show();
-////			}
-////			else
-////			{
-//
-//				cardName.setEnabled(false);
-//				cardholderName.setEnabled(false);
-//				validThruYear.setEnabled(false);
-//				validThruMonth.setEnabled(false);
-//				payday.setEnabled(false);
-//				finish();
-//
-//				Toast.makeText(view.getContext(), "card inactivated!", Toast.LENGTH_SHORT).show();
-//
-//			}
-//		});
 
 	}
 
