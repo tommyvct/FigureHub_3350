@@ -11,16 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCard;
@@ -88,7 +84,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         ///////// Card Selector //////////
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCard.getActiveCards();
+        List<Card> cardArrayList = accessCard.getCreditCards();
         cardList.add("Select card");
         for (Card c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -100,7 +96,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
         List<String> budgetList = new ArrayList<>();
-        ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
+        List<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
         budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());

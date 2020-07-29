@@ -2,7 +2,6 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
@@ -10,7 +9,7 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * AccessBudgetCategory
@@ -20,7 +19,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  * This class provides safe access to the stub DB to access and modify the DB
  */
 public class AccessBudgetCategory {
-    private StubDatabase dataAccess;                    //variable for the database
+    private DataAccess dataAccess;                    //variable for the database
     private List<BudgetCategory> budgetCategories;      //budgetCategories list
     private BudgetCategory budgetCat;                   //a BudgetCategory object
     private int currentBudgetCat;                       //number of budgetCategories
@@ -43,31 +42,30 @@ public class AccessBudgetCategory {
      *
      * @return the budgetCategory at position currentBudgetCat in the ArrayList
      */
-    @SuppressWarnings("unused")
-    public BudgetCategory getBudgetCategory() {
-        if (budgetCategories == null) {
-            budgetCategories = new ArrayList<>();
-            dataAccess.addBudgetCategories(budgetCategories);
-            currentBudgetCat = 0;
-        }
-        if (currentBudgetCat < budgetCategories.size())
-        {
-            budgetCat = budgetCategories.get(currentBudgetCat);
-            currentBudgetCat++;
-        } else {
-            budgetCategories = null;
-            budgetCat = null;
-            currentBudgetCat = 0;
-        }
-        return budgetCat;
-    }
+//    public BudgetCategory getBudgetCategory() {
+//        if (budgetCategories == null) {
+//            budgetCategories = new ArrayList<>();
+//            dataAccess.addBudgetCategories(budgetCategories);
+//            currentBudgetCat = 0;
+//        }
+//        if (currentBudgetCat < budgetCategories.size())
+//        {
+//            budgetCat = budgetCategories.get(currentBudgetCat);
+//            currentBudgetCat++;
+//        } else {
+//            budgetCategories = null;
+//            budgetCat = null;
+//            currentBudgetCat = 0;
+//        }
+//        return budgetCat;
+//    }
 
     /**
      * To get all the current budget categories in the DB
      *
      * @return the list of categories
      */
-    public ArrayList<BudgetCategory> getAllBudgetCategories() {
+    public List<BudgetCategory> getAllBudgetCategories() {
         return dataAccess.getBudgets();
     }
 
@@ -75,9 +73,9 @@ public class AccessBudgetCategory {
      * For finding if a budget category is in the DB
      *
      * @param currentBudgetCategory the category we are looking for
-     * @return null if it can't be found, or the category found.
+     * @return False if it can't be found, or true if the category found.
      */
-    public BudgetCategory findBudgetCategory(BudgetCategory currentBudgetCategory) {
+    public boolean findBudgetCategory(BudgetCategory currentBudgetCategory) {
         return dataAccess.findBudgetCategory(currentBudgetCategory);
     }
 
@@ -94,7 +92,7 @@ public class AccessBudgetCategory {
         boolean result = false;
         if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0){
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
-            if(findBudgetCategory(newBC) == null)
+            if(!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
         }
         return result;
@@ -122,9 +120,9 @@ public class AccessBudgetCategory {
      * @return success
      * deleting a BudgetCategory.@return update budgetCategory
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
+    public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
-        BudgetCategory result = null;
+        boolean result = false;
         if((newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
@@ -137,9 +135,9 @@ public class AccessBudgetCategory {
      *
      * @param currentBudget the budget category currently in the DB
      * @param newBudget     the budget category to replace currentBudget
-     * @return updated budgetCategory
+     * @return True if updated, of false if not updated
      */
-    public BudgetCategory updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
+    public boolean updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
 
@@ -150,12 +148,12 @@ public class AccessBudgetCategory {
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param currentBudgetCat the category to be removed
-     * @return deleted budgetCategory
+     * @return True if deleted, false if not deleted
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
-    {
-        return dataAccess.deleteBudgetCategory(currentBudgetCat);
-    }
+//    public boolean deleteBudgetCategory(BudgetCategory currentBudgetCat)
+//    {
+//        return dataAccess.deleteBudgetCategory(currentBudgetCat);
+//    }
 
     /**
      * Calculates the total amount spent for a given BudgetCategory from the transactions in that category

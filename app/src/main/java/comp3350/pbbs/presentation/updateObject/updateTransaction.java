@@ -92,7 +92,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Card Selector //////////TODO: DEBIT
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCreditCard.getActiveCards();
+        List<Card> cardArrayList = accessCreditCard.getCreditCards();
         cardDisplayList.add("Select card");
         for (Card c : cardArrayList) {
             cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -105,7 +105,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
         List<String> budgetList = new ArrayList<>();
-        ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
+        List<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
         budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());

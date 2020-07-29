@@ -131,7 +131,7 @@ public class ViewBudgetCategory extends Activity {
 
         findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
         {
-            if (accessBudgetCategory.deleteBudgetCategory(budgetCategory) == null)
+            if (false/*accessBudgetCategory.deleteBudgetCategory(budgetCategory)*/)
             {
                 Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
             }
