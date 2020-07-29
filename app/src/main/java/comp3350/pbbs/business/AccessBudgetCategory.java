@@ -8,6 +8,7 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -142,10 +143,19 @@ public class AccessBudgetCategory {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
 
-    public BudgetCategory deleteBudgetCategory(BudgetCategory budgetCat){
-        return dataAccess.deleteBudgetCategory(budgetCat);
+    /**
+     * Takes in params directly from Presentation layer, and converts them to proper format for
+     * deleting a BudgetCategory
+     *
+     * NOT IMPLEMENTED in presentation for iteration1.
+     *
+     * @param currentBudgetCat the category to be removed
+     * @return deleted budgetCategory
+     */
+    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudgetCat)
+    {
+        return dataAccess.deleteBudgetCategory(currentBudgetCat);
     }
-
 
     /**
      * Calculates the total amount spent for a given BudgetCategory from the transactions in that category
@@ -174,7 +184,6 @@ public class AccessBudgetCategory {
 
         return sum;
     }
-
 
     /**
      * Retrieves a list of months that have transactions for a certain budget category.

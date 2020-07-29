@@ -79,7 +79,7 @@ public class StubDatabase {
         t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card1, phoneBill);
         transactions.add(t4);
 
-        username = "Tommy";    //initializing the username with Null, it is going to call the mane from user input
+        username = null;    //initializing the username with Null, it is going to call the mane from user input
     }
 
     /**
