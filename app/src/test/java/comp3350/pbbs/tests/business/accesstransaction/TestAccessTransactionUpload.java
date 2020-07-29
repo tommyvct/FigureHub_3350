@@ -7,6 +7,7 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 import comp3350.pbbs.objects.Cards.Card;
 
 /**
@@ -31,7 +32,7 @@ public class TestAccessTransactionUpload extends TestCase {
      * Sets the test variables before each test
      */
     public void setUp() {
-        Services.createDataAccess("test");
+        Services.createDataAccess(new StubDatabase("test"));
         accessTransaction = new AccessTransaction(true);
         testDesc = "Bought groceries.";
         testDate = "30/3/2020";
@@ -65,32 +66,10 @@ public class TestAccessTransactionUpload extends TestCase {
     }
 
     /**
-     * Test checking valid dates and adding transactions using the hyphen format rather than slashes
+     * Test adding transactions using the hyphen format rather than slashes
      */
     public void testValidDates() {
-        assertTrue(AccessValidation.isValidDateTime(testDate, testTime));
-        assertTrue(AccessValidation.isValidDateTime("30-3-2020", "23:59"));
         assertTrue(accessTransaction.addTransaction(testDesc, "30-3-2020", "23:59", testAmount, testCard, testBudgetCategory));
-    }
-
-    /**
-     * Test checking invalid time strings
-     */
-    public void testInvalidTimes() {
-        assertFalse(AccessValidation.isValidDateTime(testDate, "24:00"));
-        assertFalse(AccessValidation.isValidDateTime(testDate, null));
-        assertFalse(AccessValidation.isValidDateTime(testDate, ""));
-        assertFalse(AccessValidation.isValidDateTime(testDate, "time"));
-    }
-
-    /**
-     * Test checking invalid date strings
-     */
-    public void testInvalidDates() {
-        assertFalse(AccessValidation.isValidDateTime("30/22/2020", "0:00"));
-        assertFalse(AccessValidation.isValidDateTime(null, testTime));
-        assertFalse(AccessValidation.isValidDateTime("", testTime));
-        assertFalse(AccessValidation.isValidDateTime("date", testTime));
     }
 
     /**
@@ -114,23 +93,10 @@ public class TestAccessTransactionUpload extends TestCase {
     }
 
     /**
-     * Test checking valid amount strings and inserting the non tested amount string format (no decimals)
+     * Test inserting the non tested amount string format (no decimals)
      */
     public void testValidAmounts() {
-        assertTrue(AccessValidation.isValidAmount(testAmount));
-        assertTrue(AccessValidation.isValidAmount("20"));
         assertTrue(accessTransaction.addTransaction(testDesc, testDate, testTime, "20", testCard, testBudgetCategory));
-    }
-
-    /**
-     * Test checking invalid amount strings
-     */
-    public void testInvalidAmounts() {
-        assertFalse(AccessValidation.isValidAmount("20.205"));
-        assertFalse(AccessValidation.isValidAmount("-20"));
-        assertFalse(AccessValidation.isValidAmount("number"));
-        assertFalse(AccessValidation.isValidAmount(""));
-        assertFalse(AccessValidation.isValidAmount(null));
     }
 
     /**
@@ -145,19 +111,9 @@ public class TestAccessTransactionUpload extends TestCase {
     }
 
     /**
-     * Test checking and inserting a valid description
-     */
-    public void testValidDescription() {
-        assertTrue(AccessValidation.isValidDescription(testDesc));
-    }
-
-    /**
-     * Test checking and inserting invalid descriptions
+     * Test inserting invalid descriptions
      */
     public void testInvalidDescriptions() {
-        assertFalse(AccessValidation.isValidDescription(null));
-        assertFalse(AccessValidation.isValidDescription(""));
-
         assertFalse(accessTransaction.addTransaction(null, testDate, testTime, testAmount, testCard, testBudgetCategory));
         assertFalse(accessTransaction.addTransaction("", testDate, testTime, testAmount, testCard, testBudgetCategory));
     }

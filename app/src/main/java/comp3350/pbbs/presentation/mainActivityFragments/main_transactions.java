@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessTransaction;
@@ -28,7 +29,7 @@ import comp3350.pbbs.presentation.updateObject.updateTransaction;
 public class main_transactions extends Fragment {
     private AccessTransaction accessTransaction;
     private ListView transactionListView;
-    private ArrayList<Transaction> transactionArrayList;
+    private List<Transaction> transactionArrayList;
     private ArrayAdapter<Transaction> listAdapter;
 
     // Required empty public constructor

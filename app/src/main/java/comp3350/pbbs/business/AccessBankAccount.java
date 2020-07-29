@@ -7,7 +7,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Cards.Card;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * AccessBankAccount
@@ -18,7 +18,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  */
 public class AccessBankAccount
 {
-	private StubDatabase db;    // create an object of the database
+	private DataAccess db;    // create an object of the database
 
 	/**
 	 * constructor: enabling access to the database
@@ -33,9 +33,9 @@ public class AccessBankAccount
 	 * @param accountList all bank accounts in the stub DB will be added to here.
 	 * @return true if added successfully.
 	 */
-	public boolean addAllBankAccounts(List<BankAccount> accountList) {
-		return db.addAllBankAccounts(accountList);
-	}
+//	public boolean addAllBankAccounts(List<BankAccount> accountList) {
+//		return db.addAllBankAccounts(accountList);
+//	}
 
 	/**
 	 * method: find a bank account exist or not in the database
@@ -63,9 +63,9 @@ public class AccessBankAccount
 	 * @param toDelete a bank account needs to be deleted from the database
 	 * @return true if this bank account card does exist in the database
 	 */
-	public boolean deleteBankAccount(BankAccount toDelete) {
-		return db.deleteBankAccount(toDelete);
-	}
+//	public boolean deleteBankAccount(BankAccount toDelete) {
+//		return db.deleteBankAccount(toDelete);
+//	}
 
 	/**
 	 * method: update a bank account existed in the database
@@ -88,7 +88,7 @@ public class AccessBankAccount
 	 * @param from the debit card
 	 * @return BankAccount ArrayList links this debit card
 	 */
-	public ArrayList<BankAccount> getAccountsFromDebitCard(Card from) {
+	public List<BankAccount> getAccountsFromDebitCard(Card from) {
 		return db.getAccountsFromDebitCard(from);
 	}
 
@@ -97,7 +97,7 @@ public class AccessBankAccount
 	 *
 	 * @return BankAccount ArrayList
 	 */
-	public ArrayList<BankAccount> getAllBankAccounts() {
+	public List<BankAccount> getAllBankAccounts() {
 		return db.getAllBankAccounts();
 	}
 }

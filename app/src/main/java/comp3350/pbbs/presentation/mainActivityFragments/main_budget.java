@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
@@ -26,7 +27,7 @@ import comp3350.pbbs.presentation.viewObject.ViewBudgetCategory;
  */
 public class main_budget extends Fragment {
     private AccessBudgetCategory accessBudgetCategory;
-    private ArrayList<BudgetCategory> budgetCategoryList;
+    private List<BudgetCategory> budgetCategoryList;
     private ArrayAdapter<BudgetCategory> listViewAdaptor;
     private ListView listView;
 

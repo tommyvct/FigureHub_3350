@@ -1,6 +1,7 @@
 package comp3350.pbbs.tests.objects;
 
 import java.util.Calendar;
+
 import junit.framework.TestCase;
 
 import comp3350.pbbs.objects.Cards.Card;
@@ -26,7 +27,7 @@ public class TestCard extends TestCase {
      * setup: instantiate a default credit card
      */
     public void setUp() {
-        card = "Mastercard";
+        card = "fikajsdhfj";
         num = "1000100010001000";
         name = "Alan Alfred";
         expMon = 12;
@@ -60,7 +61,7 @@ public class TestCard extends TestCase {
 
     /**
      * method: test isValidLength(str)
-     * case: a credit card number cannot be null
+     * case: a credit card number cannot be null or non-16-digits long
      */
     public void testCardNum() {
         Card card1 = new Card("mastercard", num, name, expMon, expYear, payDay);

@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/delete"
-            android:textColor="@color/biometric_error_color"
-            tools:ignore="ButtonStyle" />
+            tools:ignore="ButtonStyle"
+            android:enabled="false"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

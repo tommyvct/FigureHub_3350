@@ -31,5 +31,7 @@
     <string name="debit">Debit</string>
     <string name="bank_account_name">Bank Account Name</string>
     <string name="bank_account_number">Bank Account Number</string>
+    <string name="mark_inactive">Mark Inactive</string>
+    <string name="update_card_information">Update Card Information</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>

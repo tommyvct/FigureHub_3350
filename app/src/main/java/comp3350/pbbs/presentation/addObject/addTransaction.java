@@ -11,16 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCard;
@@ -36,8 +32,7 @@ import comp3350.pbbs.objects.Cards.Card;
  *
  * This class adds a new transaction with the existing list.
  */
-public class addTransaction extends AppCompatActivity
-        implements OnItemSelectedListener {
+public class addTransaction extends AppCompatActivity implements OnItemSelectedListener {
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
     EditText dateText;                              //EditText variable for date
     TimePickerDialog timePickerDialog;              //variable for TimePickerDialog
@@ -89,7 +84,7 @@ public class addTransaction extends AppCompatActivity
         ///////// Card Selector //////////
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCard.getCreditCards();
+        List<Card> cardArrayList = accessCard.getCreditCards();
         cardList.add("Select card");
         for (Card c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -101,7 +96,7 @@ public class addTransaction extends AppCompatActivity
         ///////// Budget Selector //////////
         accessBudget = new AccessBudgetCategory();
         List<String> budgetList = new ArrayList<>();
-        ArrayList<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
+        List<BudgetCategory> budgetArrayList = accessBudget.getAllBudgetCategories();
         budgetList.add("Select budget category");
         for (BudgetCategory b : budgetArrayList) {
             budgetList.add(b.getBudgetName());
@@ -127,7 +122,7 @@ public class addTransaction extends AppCompatActivity
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString())) {
+            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }
@@ -142,7 +137,7 @@ public class addTransaction extends AppCompatActivity
             //if everything is valid then checks if the transaction can be inserted or not
             if (valid && accessTransaction.addTransaction
                     (
-                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString(),
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
