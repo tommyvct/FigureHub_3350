@@ -245,7 +245,7 @@ public class StubDatabase {
 
         for (Card c : cards)
         {
-            if (c instanceof Card)// TODO: change to isCredit()
+            if (!c.isDebit())
             {
                 toAdd.add((Card) c);
             }
@@ -263,9 +263,9 @@ public class StubDatabase {
     public boolean addAllDebitCards(List<Card> cardList) {
         ArrayList<Card> toAdd = new ArrayList<>();
 
-        for (Card c : cards)// TODO: change to !isCredit()
+        for (Card c : cards)
         {
-            if (c instanceof Card)
+            if (c.isDebit())
             {
                 toAdd.add((Card) c);
             }

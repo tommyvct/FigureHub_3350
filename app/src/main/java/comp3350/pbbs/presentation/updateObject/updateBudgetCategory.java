@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
@@ -47,7 +48,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 		BudgetLimitET = findViewById(R.id.editBudgetLimit);
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
-		BudgetLimitET.setText(Double.toString(oldBudgetCategory.getBudgetLimit()));
+		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
 
 		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
