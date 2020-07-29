@@ -12,8 +12,7 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.CreditCard;
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.StubDatabase;
 
@@ -35,8 +34,8 @@ public class TestAccessTransactionUpdate extends TestCase {
     private String testAmountStr;
     private String testDesc;
     private float testAmount;
-    private CreditCard testCard;
-    private DebitCard testDebitCard;
+    private Card testCard;
+    private Card testDebitCard;
     private BankAccount testBankAccount;
     private BudgetCategory testBudgetCategory;
     private StubDatabase db;
@@ -52,7 +51,7 @@ public class TestAccessTransactionUpdate extends TestCase {
         testAmount = 19.99f;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
-        testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        testCard = new Card("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
@@ -64,7 +63,7 @@ public class TestAccessTransactionUpdate extends TestCase {
         testTimeStr = df.format(testTransaction3.getTime());
         testAmountStr = "" + testTransaction3.getAmount();
 
-        testDebitCard = new DebitCard("Mastercard debit", "94564654684", "Tommy", 03, 2024);
+        testDebitCard = new Card("Mastercard debit", "94564654684", "Tommy", 03, 2024);
         testBankAccount = new BankAccount("cheque", "965214", testDebitCard);
 
         assertTrue(db.insertTransaction(testTransaction1));

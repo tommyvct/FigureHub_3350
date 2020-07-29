@@ -1,6 +1,7 @@
 package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 
 /**
@@ -10,8 +11,7 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard implements ICard
-{
+public class Card {
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
@@ -20,23 +20,44 @@ public class CreditCard implements ICard
     private int payDate;        // the day user needs to ready for payment, 2-digits (DD)
 
     /**
+     * constants: constraints to a credit card
+     */
+    private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
+
+    /**
      * constructor: includes full info of a credit card
      *
-     * @param card name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public CreditCard(String card, String num, String usr, int expM, int expY, int pay) {
+    public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        cardName = (card == null || card.isEmpty()) ? "No Name" : card;
+        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
         expireYear = expY;
         payDate = pay;
+    }
+
+    public Card(String cardName, String cardNum, String holderName, int expireMonth, int expireYear)
+    {
+        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        if (cardNum == null || cardNum.isEmpty())
+            throw new IllegalArgumentException("A Credit Card requires a valid number.");
+        if (!isValidName(holderName))
+            throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+        if (expireMonth != 0 && expireYear != 0 && !isValidExpiration(expireMonth, expireYear))
+            throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
+        else
+        {
+            this.expireMonth = 0;
+            this.expireYear = 0;
+        }
+        this.payDate = 0;
     }
 
     /**
@@ -112,11 +133,13 @@ public class CreditCard implements ICard
      * @return true if both credit cards have the same card number
      */
     public boolean equals(Object cardObject) {
+
         boolean equal = false;
-        CreditCard card;
-        if (cardObject instanceof CreditCard) {
-            card = (CreditCard) cardObject;
-            if (getCardNum().equals(card.getCardNum())) {
+        Card b;
+
+        if (cardObject instanceof Card) {
+            b = (Card) cardObject;
+            if (getCardNum().equals(b.getCardNum())) {
                 equal = true;
             }
         }
@@ -136,11 +159,15 @@ public class CreditCard implements ICard
         //the string "next month" needs to be replaced to real month later
         return  getCardName() + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" + "Expected payment on " + getPayDate() + " next month";
+                + "\n" +
+                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
+                getHolderName() + "\n" +
+
+                "Expected payment on " + getPayDate() + " next month";
     }
 
-    public String toStringShort() {
+    public String toStringShort()
+    {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 

@@ -10,9 +10,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import comp3350.pbbs.objects.Cards.CreditCard;
-import comp3350.pbbs.objects.Cards.DebitCard;
-import comp3350.pbbs.objects.Cards.ICard;
+import comp3350.pbbs.objects.Cards.Card;
 
 /**
  * Transaction
@@ -26,7 +24,7 @@ public class Transaction {
     private Date time;                      // The time that the transaction took place
     private float amount;                   // The amount that this transaction totalled
     private String description;             // Description of this transaction
-    private ICard card;                // The card that this transaction was paid on
+    private Card card;                // The card that this transaction was paid on
     private BudgetCategory budgetCategory;  // The budget category this transaction fell under
     private BankAccount bankAccount;
 
@@ -39,7 +37,7 @@ public class Transaction {
      * @param card            The card this transaction used
      * @param budgetCategory  The category this transaction fell under.
      */
-    public Transaction(Date transactionTime, float amount, String description, CreditCard card, BudgetCategory budgetCategory)
+    public Transaction(Date transactionTime, float amount, String description, Card card, BudgetCategory budgetCategory)
     {
         initTransaction(transactionTime, amount, description, budgetCategory);
 
@@ -59,7 +57,7 @@ public class Transaction {
      * @param bankAccount     The bank account used
      * @param budgetCategory  The category this transaction fell under.
      */
-    public Transaction(Date transactionTime, float amount, String description, DebitCard card, BankAccount bankAccount, BudgetCategory budgetCategory)
+    public Transaction(Date transactionTime, float amount, String description, Card card, BankAccount bankAccount, BudgetCategory budgetCategory)
     {
         initTransaction(transactionTime, amount, description, budgetCategory);
 
@@ -112,7 +110,7 @@ public class Transaction {
         return amount;
     }
 
-    public ICard getCard() {
+    public Card getCard() {
         return card;
     }
 
