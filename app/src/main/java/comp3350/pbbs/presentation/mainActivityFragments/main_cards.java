@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.presentation.updateObject.updateTransaction;
 
 /**
  * main_cards
@@ -57,6 +58,12 @@ public class main_cards extends Fragment
                 cardsList
         );
         listView.setAdapter(listViewAdapter);
+        listView.setOnItemClickListener((adapterView, view1, i, l) ->
+        {
+            Intent updateCard = new Intent(view1.getContext(), comp3350.pbbs.presentation.updateObject.updateCard.class);
+            updateCard.putExtra("toUpdate", cardsList.get(i));
+            startActivityForResult(updateCard, 0);
+        });
 
         return view;
     }

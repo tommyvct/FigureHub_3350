@@ -106,15 +106,15 @@
                 android:text="@string/update"
                 tools:ignore="ButtonStyle" />
 
-            <Button
-                android:id="@+id/deleteCardSubmit"
-                android:layout_width="0dp"
-                android:layout_marginStart="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/biometric_error_color"
-                android:text="@string/delete"
-                tools:ignore="ButtonStyle" />
+<!--            <Button-->
+<!--                android:id="@+id/inactiveCardSubmit"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_marginStart="150dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/biometric_error_color"-->
+<!--                android:text="@string/inactive"-->
+<!--                tools:ignore="ButtonStyle" />-->
         </LinearLayout>
 
     </LinearLayout>

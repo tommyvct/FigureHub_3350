@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.updateObject.updateTransaction"></activity>
-        <activity android:name=".presentation.updateObject.updateCard" />
+        <activity android:name=".presentation.updateObject.updateCard"></activity>
         <activity android:name=".presentation.updateObject.updateBudgetCategory" />
         <activity android:name=".presentation.addObject.addCard" />
         <activity android:name=".presentation.addObject.addBudgetCategory" />
