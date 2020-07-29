@@ -7,6 +7,7 @@ import java.util.List;
 
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.*;
+import comp3350.pbbs.objects.Cards.Card;
 
 public interface DataAccess {
 
@@ -16,7 +17,7 @@ public interface DataAccess {
 
     String getDBName();
 
-    boolean addBudgetCategories(List<BudgetCategory> budgetList);
+    //boolean addBudgetCategories(List<BudgetCategory> budgetList);
 
     boolean findBudgetCategory(BudgetCategory currentBudget);
 
@@ -26,25 +27,43 @@ public interface DataAccess {
 
     boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
 
-    boolean deleteBudgetCategory(BudgetCategory currentBudget);
+    //boolean deleteBudgetCategory(BudgetCategory currentBudget);
 
     int getBudgetsSize();
 
-    boolean addAllCreditCards(List<CreditCard> cardList);
+    boolean findBankAccount(BankAccount toFind);
 
-    boolean findCreditCard(CreditCard currCard);
+    boolean insertBankAccount(BankAccount newAccount);
 
-    boolean insertCreditCard(CreditCard newCard);
+    //boolean deleteBankAccount(BankAccount toDelete);
 
-    List<CreditCard> getCreditCards();
+    boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount);
 
-    boolean updateCreditCard(CreditCard currCard, CreditCard newCard);
+    List<BankAccount> getAllBankAccounts();
 
-    boolean deleteCreditCard(CreditCard currCard);
+    List<BankAccount> getAccountsFromDebitCard(Card from);
 
-    int getCardsSize();
+    //boolean addAllCards(List<Card> cardList);
 
-    boolean addTransactions(List<Transaction> transactionsList);
+    boolean findCard(Card currCard);
+
+    boolean insertCard(Card newCard);
+
+    List<Card> getCreditCards();
+
+    List<Card> getDebitCards();
+
+    List<Card> getCards();
+
+    boolean updateCard(Card currCard, Card newCard);
+
+    //boolean deleteCard(Card currCard);
+
+    int getCreditCardsSize();
+
+    int getDebitCardsSize();
+
+    //boolean addTransactions(List<Transaction> transactionsList);
 
     boolean findTransaction(Transaction currentTransaction);
 
@@ -54,7 +73,7 @@ public interface DataAccess {
 
     boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
 
-    boolean deleteTransaction(Transaction currentTransaction);
+    //boolean deleteTransaction(Transaction currentTransaction);
 
     int getTransactionsSize();
 
@@ -67,10 +86,10 @@ public interface DataAccess {
      */
     static void populateData(DataAccess dataAccess) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        CreditCard card1, card2;                                //variables for multiple cards
+        Card card1, card2;                                      //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
         List<BudgetCategory> budgets = new ArrayList<BudgetCategory>();
-        List<CreditCard> creditCards = new ArrayList<CreditCard>();
+        List<Card> cards = new ArrayList<Card>();
         List<Transaction> transactions = new ArrayList<Transaction>();
 
         rent = new BudgetCategory("Rent/Mortgage", 500);
@@ -82,10 +101,10 @@ public interface DataAccess {
         phoneBill = new BudgetCategory("Phone Bill", 75);
         budgets.add(phoneBill);
 
-        card1 = new CreditCard("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
-        creditCards.add(card1);
-        card2 = new CreditCard("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
-        creditCards.add(card2);
+        card1 = new Card("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
+        cards.add(card1);
+        card2 = new Card("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
+        cards.add(card2);
 
         //local date variable
         Date date = new Date();
@@ -108,9 +127,15 @@ public interface DataAccess {
         cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
 
 
-        dataAccess.addBudgetCategories(budgets);
-        dataAccess.addAllCreditCards(creditCards);
-        dataAccess.addTransactions(transactions);
+        for(BudgetCategory b : budgets) {
+            dataAccess.insertBudgetCategory(b);
+        }
+        for(Card c : cards) {
+            dataAccess.insertCard(c);
+        }
+        for(Transaction t : transactions) {
+            dataAccess.insertTransaction(t);
+        }
     }
 }
 

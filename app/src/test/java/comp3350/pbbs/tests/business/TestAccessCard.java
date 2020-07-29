@@ -13,7 +13,8 @@ import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessCreditCard
@@ -25,7 +26,7 @@ import comp3350.pbbs.persistence.StubDatabase;
 public class TestAccessCard extends TestCase {
     private Card card;        // a CreditCard object
     private Card card2;        // a CreditCard object
-    private StubDatabase testDB;
+    private DataAccess testDB;
     private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
     private Transaction t1;
     private Transaction t2;
@@ -37,8 +38,7 @@ public class TestAccessCard extends TestCase {
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
-        Main.startup();
-        testDB = Services.createDataAccess("TBCU");
+        testDB = Services.createDataAccess(new StubDatabase("test"));
         card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
         card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);
         testAccess = new AccessCard();
@@ -66,17 +66,6 @@ public class TestAccessCard extends TestCase {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.insertCard(card1));
         assertFalse(testAccess.insertCard(card1));
-    }
-
-
-    /**
-     * This method tests deleting credit cards
-     */
-    public void testDeleteCreditCard() {
-        Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(testAccess.deleteCard(card));
-        assertFalse(testAccess.deleteCard(card));
-        assertFalse(testAccess.deleteCard(card1));
     }
 
     /**

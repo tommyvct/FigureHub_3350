@@ -192,6 +192,7 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
+                System.out.println(accessValidation.isValidAmount(amountStr)+ "&&"+ accessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ accessValidation.isValidDescription(desc));
         if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
@@ -276,14 +277,14 @@ public class AccessTransaction {
      * @param toDelete The transaction to delete
      * @return True if the transaction was deleted successfully, false if not
      */
-    public boolean deleteTransaction(Transaction toDelete) {
-        boolean toReturn = false;
-
-        if (toDelete != null) {
-            toReturn = db.deleteTransaction(toDelete);
-        }
-        return toReturn;
-    }
+//    public boolean deleteTransaction(Transaction toDelete) {
+//        boolean toReturn = false;
+//
+//        if (toDelete != null) {
+//            toReturn = db.deleteTransaction(toDelete);
+//        }
+//        return toReturn;
+//    }
 
     /**
      * This method implements a format which is used to present the transactions

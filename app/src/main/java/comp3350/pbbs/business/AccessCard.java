@@ -8,7 +8,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * AccessICard
@@ -19,7 +19,7 @@ import comp3350.pbbs.persistence.StubDatabase;
  */
 public class AccessCard
 {
-    private StubDatabase db;    // create an object of the database
+    private DataAccess db;    // create an object of the database
 
     /**
      * constructor: enabling access to the database
@@ -57,9 +57,9 @@ public class AccessCard
      * @param toDelete a debit card needs to be deleted from the database
      * @return true if this debit card does exist in the database
      */
-    public boolean deleteCard(Card toDelete) {
-        return db.deleteCard(toDelete);
-    }
+//    public boolean deleteCard(Card toDelete) {
+//        return db.deleteCard(toDelete);
+//    }
 
     /**
      * method: update a card existed in the database
@@ -84,7 +84,7 @@ public class AccessCard
      *
      * @return debitCards ArrayList.
      */
-    public ArrayList<Card> getDebitCards() {
+    public List<Card> getDebitCards() {
         return db.getDebitCards();
     }
 
@@ -93,11 +93,11 @@ public class AccessCard
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<Card> getCreditCards() {
+    public List<Card> getCreditCards() {
         return db.getCreditCards();
     }
 
-    public ArrayList<Card> getCards()
+    public List<Card> getCards()
     {
         return db.getCards();
     }
@@ -137,6 +137,9 @@ public class AccessCard
      * @return              A list of Calendar instances with the year and month specified.
      */
     public List<Calendar> getActiveMonths(Card card) {
+        if(card == null) {
+            throw new NullPointerException("Expected a non null card");
+        }
         List<Calendar> activeMonths = new ArrayList<Calendar>();
 
         // Loop through all transactions

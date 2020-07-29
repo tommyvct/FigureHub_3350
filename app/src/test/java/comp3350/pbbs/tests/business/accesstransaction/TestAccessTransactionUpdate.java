@@ -48,7 +48,7 @@ public class TestAccessTransactionUpdate extends TestCase {
     public void setUp() throws ParseException {
         db = Services.createDataAccess(new StubDatabase("test"));
 
-        DateFormat df = new SimpleDateFormat("d/M/yyyy k:m");
+        DateFormat df = new SimpleDateFormat("d/M/yyyy H:m");
         testDate = df.parse(df.format(new Date()));
         testAmount = 19.99f;
         testDesc = "Bought groceries.";

@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import comp3350.pbbs.objects.*;
 import comp3350.pbbs.application.*;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.persistence.DataAccessObject;
 import comp3350.pbbs.tests.persistence.StubDatabase;
@@ -50,10 +51,6 @@ public class TestDataAccess extends TestCase {
         budgets = new ArrayList<BudgetCategory>();
         assertEquals(0, budgets.size());
 
-        //addBudgetCategories test
-        result = dataAccess.addBudgetCategories(budgets);
-        assertFalse(result); //nothing in the budget list
-
         //testing the size of the ArrayList
         assertEquals(4, dataAccess.getBudgetsSize());
 
@@ -85,67 +82,52 @@ public class TestDataAccess extends TestCase {
         returnedBudget = dataAccess.updateBudgetCategory(b2, newBudget);
         assertTrue(returnedBudget);
         assertFalse(dataAccess.getBudgets().containsAll(budgets));// dataAccess is updated
-
-        //testing deleteBudgetCategory
-        returnedBudget = dataAccess.deleteBudgetCategory(newBudget);
-        assertTrue(returnedBudget);
-        assertFalse(dataAccess.findBudgetCategory(newBudget));
-        assertEquals(5, dataAccess.getBudgetsSize());
     }
 
-    public void testCreditCards() {
-        ArrayList<CreditCard> cards;
+    public void testCards() {
+        ArrayList<Card> cards;
         boolean result;
 
         //cards ArrayList created with zero objects
-        cards = new ArrayList<CreditCard>();
+        cards = new ArrayList<Card>();
         assertEquals(0, cards.size());
 
-        //addAllCreditCards test
-        result = dataAccess.addAllCreditCards(cards);
-        assertFalse(result); //nothing in the cards list
-
         //testing the size of the ArrayList
-        //System.out.println(dataAccess.getCreditCards());
-        assertEquals(2, dataAccess.getCardsSize());
+        //System.out.println(dataAccess.getCards());
+        //assertEquals(2, dataAccess.getCardsSize());
 
-        //testing findCreditCard
-        CreditCard card1 = new CreditCard("Card1", "2334222333", "Aziz", 12, 2023, 14);
-        result = dataAccess.findCreditCard(card1);
+        //testing findCard
+        Card card1 = new Card("Card1", "2334222333", "Aziz", 12, 2023, 14);
+        result = dataAccess.findCard(card1);
         assertFalse(result);
 
-        //insertCreditCard test
-        dataAccess.insertCreditCard(card1);
-        result = dataAccess.findCreditCard(card1);
+        //insertCard test
+        dataAccess.insertCard(card1);
+        result = dataAccess.findCard(card1);
         assertTrue(result); //card added successfully
-        assertEquals(3, dataAccess.getCardsSize());
+        //assertEquals(3, dataAccess.getCardsSize());
         //duplicate card can't be added
-        dataAccess.insertCreditCard(card1);
-        assertNotEquals(4, dataAccess.getCardsSize());
+        dataAccess.insertCard(card1);
+        //assertNotEquals(4, dataAccess.getCardsSize());
 
-        //testing the getCreditCards
-        assertNotEquals(cards, dataAccess.getCreditCards());
+        //testing the getCards
+        assertNotEquals(cards, dataAccess.getCards());
         cards.add(card1);
-        assertTrue(dataAccess.getCreditCards().containsAll(cards));
+        assertTrue(dataAccess.getCards().containsAll(cards));
 
-        //testing updateCreditCard
-        CreditCard newCard = new CreditCard("newCard", "11112222", "Aziz", 12, 2022, 18);
-        result = dataAccess.updateCreditCard(card1, newCard);
+        //testing updateCard
+        Card newCard = new Card("newCard", "11112222", "Aziz", 12, 2022, 18);
+        result = dataAccess.updateCard(card1, newCard);
         assertTrue(result);
-        assertNotEquals(cards, dataAccess.getCreditCards());// dataAccess is updated
-        assertTrue(dataAccess.findCreditCard(newCard));//newCard has been updated successfully
-
-        //testing deleteCreditCard
-        dataAccess.deleteCreditCard(newCard);
-        assertFalse(dataAccess.findCreditCard(newCard));//newCard has been deleted
-        assertEquals(2, dataAccess.getCardsSize());
+        assertNotEquals(cards, dataAccess.getCards());// dataAccess is updated
+        assertTrue(dataAccess.findCard(newCard));//newCard has been updated successfully
     }
 
     public void testTransaction() {
         ArrayList<Transaction> transactions;
         boolean result;
         boolean returnedTransaction;
-        CreditCard card1 = dataAccess.getCreditCards().get(0);
+        Card card1 = dataAccess.getCards().get(0);
         BudgetCategory b1 = dataAccess.getBudgets().get(0);
 
         Date date = new Date();
@@ -160,10 +142,6 @@ public class TestDataAccess extends TestCase {
         //transactions ArrayList created with zero objects
         transactions = new ArrayList<Transaction>();
         assertEquals(0, transactions.size());
-
-        //addTransaction test
-        result = dataAccess.addTransactions(transactions);
-        assertFalse(result); //nothing in the transaction list
 
         //testing the size of the ArrayList
         assertEquals(4, dataAccess.getTransactionsSize());
@@ -193,11 +171,6 @@ public class TestDataAccess extends TestCase {
         result = dataAccess.updateTransaction(t1, newTransaction);
         assertTrue(result);
         assertNotEquals(transactions, dataAccess.getTransactions());// dataAccess is updated
-
-        //testing deleteTransaction
-        result = dataAccess.deleteTransaction(newTransaction);
-        assertTrue(result);//deleted successfully
-        assertEquals(4, dataAccess.getTransactionsSize());
     }
 
     public void testUser() {
@@ -213,10 +186,10 @@ public class TestDataAccess extends TestCase {
 
     public void testValidValues() {
         List<BudgetCategory> budgets;
-        List<CreditCard> cards;
+        List<Card> cards;
         List<Transaction> transactions;
         BudgetCategory budgetCategory;
-        CreditCard creditCard;
+        Card Card;
         Transaction transaction;
 
         budgets = dataAccess.getBudgets();
@@ -225,21 +198,19 @@ public class TestDataAccess extends TestCase {
         assertEquals(500.0, budgetCategory.getBudgetLimit());
         assertEquals(4, budgets.size());
 
-        cards = dataAccess.getCreditCards();
-        creditCard = cards.get(0);
-        assertEquals("Visa", creditCard.getCardName());
-        assertEquals("1000100010001000", creditCard.getCardNum());
-        assertEquals("Jimmy", creditCard.getHolderName());
-        assertEquals(12, creditCard.getExpireMonth());
-        assertEquals(2021, creditCard.getExpireYear());
-        assertEquals(18, creditCard.getPayDate());
-        assertEquals(2, cards.size());
+        cards = dataAccess.getCards();
+        Card = cards.get(0);
+        assertEquals("Visa", Card.getCardName());
+        assertEquals("1000100010001000", Card.getCardNum());
+        assertEquals("Jimmy", Card.getHolderName());
+        assertEquals(12, Card.getExpireMonth());
+        assertEquals(2021, Card.getExpireYear());
+        assertEquals(18, Card.getPayDate());
+        assertEquals(5, cards.size());
 
         transactions = dataAccess.getTransactions();
         transaction = transactions.get(0);
         Date date = new Date();
-        //TODO: this test fails sometimes depending on the time change during the test, have to fix it!
-        // assertEquals(Services.calcDate(date, -5), transaction.getTime());
 
         assertEquals(50.0f, transaction.getAmount());
         assertEquals("Bought Chickens", transaction.getDescription());

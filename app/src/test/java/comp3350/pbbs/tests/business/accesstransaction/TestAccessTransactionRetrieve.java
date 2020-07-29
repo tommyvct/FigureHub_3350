@@ -50,8 +50,10 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction3 = new Transaction(Services.calcDate(testDate, -2), testAmount, testDesc, testCard, testBudgetCategory);
 
-        assertTrue(db.addTransactions(Arrays.asList(testTransaction1, testTransaction2, testTransaction3)));
-    }
+        assertTrue(db.insertTransaction(testTransaction1));
+        assertTrue(db.insertTransaction(testTransaction2));
+        assertTrue(db.insertTransaction(testTransaction3));
+     }
 
     /**
      * Closes the server connection

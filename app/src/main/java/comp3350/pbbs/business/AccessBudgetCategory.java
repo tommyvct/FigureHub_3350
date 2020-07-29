@@ -42,24 +42,23 @@ public class AccessBudgetCategory {
      *
      * @return the budgetCategory at position currentBudgetCat in the ArrayList
      */
-    @SuppressWarnings("unused")
-    public BudgetCategory getBudgetCategory() {
-        if (budgetCategories == null) {
-            budgetCategories = new ArrayList<>();
-            dataAccess.addBudgetCategories(budgetCategories);
-            currentBudgetCat = 0;
-        }
-        if (currentBudgetCat < budgetCategories.size())
-        {
-            budgetCat = budgetCategories.get(currentBudgetCat);
-            currentBudgetCat++;
-        } else {
-            budgetCategories = null;
-            budgetCat = null;
-            currentBudgetCat = 0;
-        }
-        return budgetCat;
-    }
+//    public BudgetCategory getBudgetCategory() {
+//        if (budgetCategories == null) {
+//            budgetCategories = new ArrayList<>();
+//            dataAccess.addBudgetCategories(budgetCategories);
+//            currentBudgetCat = 0;
+//        }
+//        if (currentBudgetCat < budgetCategories.size())
+//        {
+//            budgetCat = budgetCategories.get(currentBudgetCat);
+//            currentBudgetCat++;
+//        } else {
+//            budgetCategories = null;
+//            budgetCat = null;
+//            currentBudgetCat = 0;
+//        }
+//        return budgetCat;
+//    }
 
     /**
      * To get all the current budget categories in the DB
@@ -93,7 +92,7 @@ public class AccessBudgetCategory {
         boolean result = false;
         if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0){
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
-            if(findBudgetCategory(newBC) == null)
+            if(!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
         }
         return result;
@@ -151,10 +150,10 @@ public class AccessBudgetCategory {
      * @param currentBudgetCat the category to be removed
      * @return True if deleted, false if not deleted
      */
-    public boolean deleteBudgetCategory(BudgetCategory currentBudgetCat)
-    {
-        return dataAccess.deleteBudgetCategory(currentBudgetCat);
-    }
+//    public boolean deleteBudgetCategory(BudgetCategory currentBudgetCat)
+//    {
+//        return dataAccess.deleteBudgetCategory(currentBudgetCat);
+//    }
 
     /**
      * Calculates the total amount spent for a given BudgetCategory from the transactions in that category

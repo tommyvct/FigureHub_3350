@@ -34,13 +34,13 @@ public class TestAccessBankAccount extends TestCase
 		assertFalse(accessBankAccount.insertBankAccount(bA));
 	}
 
-	public void testDeleteBankAccount() {
-		Card dC = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-		BankAccount bA = new BankAccount("My RBC", "4682579", dC);
-		assertTrue(accessBankAccount.deleteBankAccount(bankAccount));
-		assertFalse(accessBankAccount.deleteBankAccount(bankAccount));
-		assertFalse(accessBankAccount.deleteBankAccount(bA));
-	}
+//	public void testDeleteBankAccount() {
+//		Card dC = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+//		BankAccount bA = new BankAccount("My RBC", "4682579", dC);
+//		assertTrue(accessBankAccount.deleteBankAccount(bankAccount));
+//		assertFalse(accessBankAccount.deleteBankAccount(bankAccount));
+//		assertFalse(accessBankAccount.deleteBankAccount(bA));
+//	}
 
 	public void testUpdateBankAccount() {
 		Card dC = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
