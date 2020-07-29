@@ -74,7 +74,7 @@ public class StubDatabase {
         transactions.add(t1);
         t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card3, utilities);
+        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card1, utilities);
         transactions.add(t3);
         t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card1, phoneBill);
         transactions.add(t4);

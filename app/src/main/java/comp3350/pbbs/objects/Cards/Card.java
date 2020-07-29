@@ -72,11 +72,9 @@ public class Card implements Serializable {
             this.expireMonth = expireMonth;
             this.expireYear = expireYear;
         }
-        cardName = card.isEmpty() ? "No Name" : card;
-        cardNum = num;
-        holderName = usr;
-        expireMonth = expM;
-        expireYear = expY;
+        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        this.cardNum = cardNum;
+        this.holderName = holderName;
         payDate = 0;
     }
 
