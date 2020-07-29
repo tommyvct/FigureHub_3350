@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessUser;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessUser
@@ -20,7 +21,7 @@ public class TestAccessUser extends TestCase {
      * This method creates StubDatabase and AccessUser
      */
     public void setUp() {
-        Services.createDataAccess(Main.dbName);
+        Services.createDataAccess(new StubDatabase(Main.dbName));
         testAccess = new AccessUser();
     }
 
@@ -38,7 +39,11 @@ public class TestAccessUser extends TestCase {
      * change the username to a new one using setUsername, getUsername should be get it too.
      */
     public void testGetUser() {
-        assertNull(testAccess.getUsername());
+        try {
+            testAccess.getUsername();
+            fail("Expected NullPointerException");
+        } catch (NullPointerException ignored) {
+        }
 
         testAccess.setUsername("Tommy");
         assertEquals("Tommy", testAccess.getUsername());

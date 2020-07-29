@@ -1,4 +1,4 @@
-package comp3350.pbbs.persistence;
+package comp3350.pbbs.tests.persistence;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,20 +6,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * StubDatabase
  * Group4
  * PBBS
- *
+ * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase {
+public class StubDatabase implements DataAccess {
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
@@ -42,53 +44,22 @@ public class StubDatabase {
     }
 
     /**
-     * This method is used for populating fake data into the stub database
+     * Opens the database by populating with fake data.
+     *
+     * @param dbPath    Database path
      */
-    public void populateData() {
-        BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        Card card1, card2, card3;                               //variables for multiple credit cards
-        Transaction t1, t2, t3, t4;                             //variables for multiple transactions
+    public void open(String dbPath) {
+        if(dbPath.contains("populate"))
+            DataAccess.populateData(this);
+        System.out.println("Opened stub database");
+    }
 
-        budgets = new ArrayList<>();
-        rent = new BudgetCategory("Rent/Mortgage", 500);
-        budgets.add(rent);
-        groceries = new BudgetCategory("Groceries", 100);
-        budgets.add(groceries);
-        utilities = new BudgetCategory("Utilities", 80);
-        budgets.add(utilities);
-        phoneBill = new BudgetCategory("Phone Bill", 75);
-        budgets.add(phoneBill);
+    public String getDBName() {
+        return databaseName;
+    }
 
-        card1 = new Card("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
-        cards.add(card1);
-        card2 = new Card("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
-        cards.add(card2);
-
-//        debitCards = new ArrayList<>();
-        cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
-        cards.add(new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
-        cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
-
-        //local date variable
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("YYYY-mm-dd").parse("2020-07-25");
-        } catch (ParseException e) {
-            System.out.println("serglhikuj");
-            date = new Date();
-        }
-        transactions = new ArrayList<>();
-        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
-        transactions.add(t1);
-        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
-        transactions.add(t2);
-
-        t3 = new Transaction(Services.calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
-        transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
-        transactions.add(t4);
-
-        username = null;    //initializing the username with Null, it is going to call the mane from user input
+    public void close() {
+        System.out.println("Closed stub database");
     }
 
     /**
@@ -96,22 +67,17 @@ public class StubDatabase {
      *
      * @return true if added successfully.
      */
-    public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-        return budgets.addAll(budgetList);
-    }
+//    public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
+//        return budgets.addAll(budgetList);
+//    }
 
     /**
      * This method will find if a budget exist or not
      *
-     * @return the BudgetCategory object
+     * @return True if found, false if not found
      */
-    public BudgetCategory findBudgetCategory(BudgetCategory currentBudget) {
-        BudgetCategory budgetCategory = null;
-        int index = budgets.indexOf(currentBudget);
-        if (index >= 0) {
-            budgetCategory = budgets.get(index);
-        }
-        return budgetCategory;
+    public boolean findBudgetCategory(BudgetCategory currentBudget) {
+        return budgets.contains(currentBudget);
     }
 
     /**
@@ -133,29 +99,30 @@ public class StubDatabase {
     /**
      * This method will be used to update a Budget.
      *
-     * @return updated budgetCategory
+     * @return True if the budget category was updated successfully, or false if not
      */
-    public BudgetCategory updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+    public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
         int index = budgets.indexOf(currentBudget);
-        BudgetCategory result = null;
+        boolean changed = false;
         if (index >= 0) {
-            result = budgets.set(index, newBudget);
+            BudgetCategory result = budgets.set(index, newBudget);
+            changed = result != null;
         }
-        return result;
+        return changed;
     }
 
     /**
      * This method will remove a budget category.
      *
-     * @return newly deleted budgetCategory
+     * @return True if the budget category was deleted, or false if not
      */
-    public BudgetCategory deleteBudgetCategory(BudgetCategory currentBudget) {
-        int index = budgets.indexOf(currentBudget);
-        BudgetCategory result = null;
-        if (index >= 0) {
-            result = budgets.remove(index);
-        }
-        return result;
+    public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
+        return budgets.remove(currentBudget);
+    }
+
+    @Override
+    public int getBudgetsSize() {
+        return budgets.size();
     }
 
     /**
@@ -164,9 +131,9 @@ public class StubDatabase {
      * @param accountList all bank accounts in the stub DB will be added to here.
      * @return true if added successfully.
      */
-    public boolean addAllBankAccounts(List<BankAccount> accountList) {
-        return accountList.addAll(accounts);
-    }
+//    public boolean addAllBankAccounts(List<BankAccount> accountList) {
+//        return accountList.addAll(accounts);
+//    }
 
     /**
      * method: find a bank account exist or not in the database
@@ -198,13 +165,13 @@ public class StubDatabase {
      * @param toDelete a bank account needs to be deleted from the database
      * @return true if this bank account card does exist in the database
      */
-    public boolean deleteBankAccount(BankAccount toDelete) {
-        if (findBankAccount(toDelete)) {
-            accounts.remove(toDelete);
-            return true;
-        }
-        return false;
-    }
+    //public boolean deleteBankAccount(BankAccount toDelete) {
+    //    if (findBankAccount(toDelete)) {
+    //        accounts.remove(toDelete);
+    //        return true;
+    //    }
+    //    return false;
+    //}
     /**
      * method: update a bank account existed in the database
      *
@@ -231,9 +198,9 @@ public class StubDatabase {
      * @param from the debit card
      * @return BankAccount ArrayList links this debit card
      */
-    public ArrayList<BankAccount> getAccountsFromDebitCard(Card from)
+    public List<BankAccount> getAccountsFromDebitCard(Card from)
     {
-        ArrayList<BankAccount> ret = new ArrayList<>();
+        List<BankAccount> ret = new ArrayList<>();
         for (BankAccount account : accounts) {
             if (account.getLinkedCard().equals(from)) {
                 ret.add(account);
@@ -288,11 +255,11 @@ public class StubDatabase {
      * @param cardList all cards in the stub DB will be added to here.
      * @return true if added successfully.
      */
-    @SuppressWarnings("unused")
-    public boolean addAllCards(List<Card> cardList)
-    {
-        return cardList.addAll(cards);
-    }
+//    @SuppressWarnings("unused")
+//    public boolean addAllCards(List<Card> cardList)
+//    {
+//        return cardList.addAll(cards);
+//    }
 
     /**
      * This method will find if a card exist or not.
@@ -302,30 +269,31 @@ public class StubDatabase {
      */
     public boolean findCard(Card toFind)
     {
-        return cards.indexOf(toFind) >= 0;
+        return cards.contains(toFind);
     }
 
     /**
      * This method inserts a new card with the ArrayList.
      */
     public boolean insertCard(Card newCard) {
+        boolean result = false;
         if (!findCard(newCard)) {
             cards.add(newCard);
-            return true;
+            result = true;
         }
-        return false;
+        return result;
     }
 
     /**
      * This method removes a given card
      */
-    public boolean deleteCard(Card toDelete) {
-        if (findCard(toDelete)) {
-            cards.remove(toDelete);
-            return true;
-        }
-        return false;
-    }
+    //public boolean deleteCard(Card toDelete) {
+    //    if (findCard(toDelete)) {
+    //        cards.remove(toDelete);
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     /**
      * This method updates a card existed in the database
@@ -336,11 +304,22 @@ public class StubDatabase {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
+        boolean result = false;
         if (index >= 0) {
             cards.set(index, newCard);
-            return true;
+            result = true;
         }
-        return false;
+        return result;
+    }
+
+    @Override
+    public int getCreditCardsSize() {
+        return getCreditCards().size();
+    }
+
+    @Override
+    public int getDebitCardsSize() {
+        return getDebitCards().size();
     }
 
     /**
@@ -364,7 +343,7 @@ public class StubDatabase {
      *
      * @return all the cards.
      */
-    public ArrayList<Card> getCards()
+    public List<Card> getCards()
     {
         return cards;
     }
@@ -374,7 +353,7 @@ public class StubDatabase {
      *
      * @return creditCards ArrayList.
      */
-    public ArrayList<Card> getCreditCards() {
+    public List<Card> getCreditCards() {
         ArrayList<Card> ret = new ArrayList<>();
         for (Card c : cards) {
             if (c.getPayDate() != 0) {
@@ -424,23 +403,18 @@ public class StubDatabase {
      *
      * @return true if added successfully.
      */
-    public boolean addTransactions(List<Transaction> transactionsList) {
-        return transactions.addAll(transactionsList);
-    }
+    //public boolean addTransactions(List<Transaction> transactionsList) {
+    //    return transactions.addAll(transactionsList);
+    //}
 
     /**
      * This method will find if a transaction exist or not.
      *
-     * @return the transaction object.
+     * @return True if found, or false if not found
      */
     @SuppressWarnings("unused")  // will be used at some point in the future
-    public Transaction findTransaction(Transaction currentTransaction) {
-        Transaction transaction = null;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            transaction = transactions.get(index);
-        }
-        return transaction;
+    public boolean findTransaction(Transaction currentTransaction) {
+        return transactions.contains(currentTransaction);
     }
 
     /**
@@ -468,9 +442,11 @@ public class StubDatabase {
      */
     public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
         boolean toReturn = false;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            toReturn = transactions.set(index, newTransaction) != null;
+        while(transactions.contains(currentTransaction)) {
+            int index = transactions.indexOf(currentTransaction);
+            if (index >= 0) {
+                toReturn = transactions.set(index, newTransaction) != null;
+            }
         }
         return toReturn;
     }
@@ -482,11 +458,15 @@ public class StubDatabase {
      */
     public boolean deleteTransaction(Transaction currentTransaction) {
         boolean toReturn = false;
-        int index = transactions.indexOf(currentTransaction);
-        if (index >= 0) {
-            toReturn = transactions.remove(index) != null;
+        while(transactions.contains(currentTransaction)) {
+            toReturn = transactions.remove(currentTransaction);
         }
         return toReturn;
+    }
+
+    @Override
+    public int getTransactionsSize() {
+        return transactions.size();
     }
 
     /**
@@ -495,6 +475,8 @@ public class StubDatabase {
      * @return username
      */
     public String getUsername() {
+        if(username == null)
+            throw new NullPointerException("No username is set");
         return username;
     }
 
@@ -503,12 +485,15 @@ public class StubDatabase {
      * the username could be anything single line.
      * this is ensured on presentation side
      *
-
      * @param newUsername String representation of the user's name
-
+     * @return True if the username was set successfully
      */
-    public void setUsername(String newUsername) {
+    public boolean setUsername(String newUsername) {
+        if (newUsername == null) {
+            throw new NullPointerException("Expecting a String!");
+        }
         this.username = newUsername;
+        return true;
     }
 
 

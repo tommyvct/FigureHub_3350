@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
@@ -28,7 +29,7 @@ import comp3350.pbbs.presentation.updateObject.updateTransaction;
 public class main_cards extends Fragment
 {
     private AccessCard accessCard;
-    private ArrayList<Card> cardsList;
+    private List<Card> cardsList;
     private ArrayAdapter<Card> listViewAdapter;
     private ListView listView;
 

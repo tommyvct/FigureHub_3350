@@ -17,7 +17,7 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * TransactionAccess
@@ -187,7 +187,8 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
+                System.out.println(accessValidation.isValidAmount(amountStr)+ "&&"+ accessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ accessValidation.isValidDescription(desc));
+        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
@@ -232,7 +233,7 @@ public class AccessTransaction {
      *
      * @return List of all transactions in the database
      */
-    public ArrayList<Transaction> retrieveTransactions() {
+    public List<Transaction> retrieveTransactions() {
         return db.getTransactions();
     }
 

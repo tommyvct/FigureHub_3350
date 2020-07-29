@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 import comp3350.pbbs.tests.business.*;
 import comp3350.pbbs.tests.business.accesstransaction.*;
 import comp3350.pbbs.tests.objects.*;
+import comp3350.pbbs.tests.persistence.TestDataAccess;
 
 /**
  * AllTests
@@ -44,10 +45,11 @@ public class AllTests {
         suite.addTestSuite(TestAccessTransactionUpload.class);
         suite.addTestSuite(TestAccessTransactionRetrieve.class);
         suite.addTestSuite(TestAccessTransactionUpdate.class);
-        suite.addTestSuite(TestAccessTransactionDelete.class);
+        //suite.addTestSuite(TestAccessTransactionDelete.class);
+        suite.addTestSuite(TestAccessUser.class);
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessBankAccount.class);
         suite.addTestSuite(TestAccessCard.class);
-        suite.addTestSuite(TestAccessUser.class);
+        suite.addTestSuite(TestDataAccess.class);
     }
 }
