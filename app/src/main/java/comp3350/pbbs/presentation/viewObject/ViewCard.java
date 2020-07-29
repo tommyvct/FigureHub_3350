@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -186,7 +185,7 @@ public class ViewCard extends Activity {
         // TODO fill listTransactions
 
 
-        ((Button) findViewById(R.id.updateCard)).setOnClickListener(view ->
+        findViewById(R.id.updateCard).setOnClickListener(view ->
         {
             Intent intent = new Intent(view.getContext(), updateCard.class);
             intent.putExtra("toUpdate", card);
