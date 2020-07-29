@@ -3,10 +3,15 @@ package comp3350.pbbs.presentation.updateObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,7 +22,7 @@ import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.presentation.addObject.addCard;
 
 
-public class updateCard extends AppCompatActivity implements Serializable {
+public class updateCard extends AppCompatActivity implements OnItemSelectedListener {
 
 	AccessCard accessCreditCard;	// AccessCreditCard variable
 	EditText cardName;					// EditText variable for cardName
@@ -26,7 +31,8 @@ public class updateCard extends AppCompatActivity implements Serializable {
 	EditText validThruYear;				// EditText variable for valid year
 	EditText payday;					// EditText variable for payday
 	EditText cardholderName;			// EditText variable for holder name
-
+	Card oldCard;						//old card to update
+	boolean isDebit;
 
 	@SuppressLint("SetTextI18n")
 	@Override
@@ -34,15 +40,31 @@ public class updateCard extends AppCompatActivity implements Serializable {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_update_card);
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Card");
+		oldCard = Objects.requireNonNull((Card)getIntent().getSerializableExtra("toUpdate"));
 
 		accessCreditCard = new AccessCard();
 		cardName = findViewById(R.id.updateCardName);
 		cardNumber = findViewById(R.id.updateCardNumber);
+		cardNumber.setEnabled(false);
 		validThruMonth = findViewById(R.id.updateValidThruMonth);
 		validThruYear = findViewById(R.id.updateValidThruYear);
 		payday = findViewById(R.id.updatePayDay);
 		cardholderName = findViewById(R.id.updateCardHolderName);
 		validThruYear.setText("20");
+
+
+		cardName.setText(oldCard.getCardName());
+		cardNumber.setText(oldCard.getCardNum());
+		validThruMonth.setText(String.valueOf(oldCard.getExpireMonth()));
+		validThruYear.setText(String.valueOf(oldCard.getExpireYear()));
+		if(oldCard.getPayDate() != 0) {
+			payday.setText(String.valueOf(oldCard.getPayDate()));
+			isDebit = false;
+		}else{
+			payday.setVisibility(View.GONE);
+			isDebit = true;
+		}
+		cardholderName.setText(oldCard.getHolderName());
 
 		final Button button = findViewById(R.id.updateCardSubmit);
 		button.setOnClickListener(view ->
@@ -65,43 +87,47 @@ public class updateCard extends AppCompatActivity implements Serializable {
 				valid = false;
 			}
 
-			switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
-				case 1:  // invalid month
-					validThruMonth.setError("There is no such month!");
-					valid = false;
-					break;
+			if(oldCard.getPayDate() != 0) {
+				switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
+					case 1:  // invalid month
+						validThruMonth.setError("There is no such month!");
+						valid = false;
+						break;
 
-				case 2:  // invalid year, like year 3077
-					validThruYear.setError("Year should be less than 2099.");
-					valid = false;
-					break;
+					case 2:  // invalid year, like year 3077
+						validThruYear.setError("Year should be less than 2099.");
+						valid = false;
+						break;
 
-				case 3: // both 1 and 2
-					validThruMonth.setError("There is no such month!");
-					validThruYear.setError("Year should be less than 2099.");
-					valid = false;
-					break;
+					case 3: // both 1 and 2
+						validThruMonth.setError("There is no such month!");
+						validThruYear.setError("Year should be less than 2099.");
+						valid = false;
+						break;
 
-				case 4: // year less than 4 digit
-					validThruYear.setError("Provide year in 4 digits, e.g. 2020.");
-					valid = false;
-					break;
+					case 4: // year less than 4 digit
+						validThruYear.setError("Provide year in 4 digits, e.g. 2020.");
+						valid = false;
+						break;
 
-				case 5: // expired month
-					validThruMonth.setError("Card already expired.");
-					valid = false;
-					break;
+					case 5: // expired month
+						validThruMonth.setError("Card already expired.");
+						valid = false;
+						break;
 
-				case 6: // expired Year
-					validThruYear.setError("Card already expired.");
-					valid = false;
-					break;
+					case 6: // expired Year
+						validThruYear.setError("Card already expired.");
+						valid = false;
+						break;
 
-				case 7:
-					validThruMonth.setError("Expire month is required.");
-					validThruYear.setError("Expire year is required.");
-					valid = false;
-					break;
+					case 7:
+
+						validThruMonth.setError("Expire month is required.");
+						validThruYear.setError("Expire year is required.");
+						valid = false;
+
+						break;
+				}
 			}
 
 			if (payday.getText().toString().isEmpty()) {
@@ -123,7 +149,7 @@ public class updateCard extends AppCompatActivity implements Serializable {
 			}
 
 			//if everything is valid then checks if the card can be inserted or not
-			if (valid && accessCreditCard.insertCard(
+			if (valid && accessCreditCard.updateCard(oldCard,
 					new Card(
 							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
 							cardNumber.getText().toString(),
@@ -133,9 +159,57 @@ public class updateCard extends AppCompatActivity implements Serializable {
 							Integer.parseInt(payday.getText().toString())))
 					)
 			{
-				setResult(1);
+				//setResult(1);
 				finish();
+				Toast.makeText(view.getContext(), "Credit Card updated!", Toast.LENGTH_SHORT).show();
+			}
+			else if(validThruYear.getText().toString().isEmpty() || validThruMonth.getText().toString().isEmpty() &&
+					AccessValidation.isValidName(cardholderName.getText().toString()) && !cardholderName.getText().toString().isEmpty()
+					&& accessCreditCard.updateCard(oldCard,
+					new Card(
+							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+							cardNumber.getText().toString(),
+							cardholderName.getText().toString(),
+							Integer.parseInt(validThruMonth.getText().toString()),
+							Integer.parseInt(validThruYear.getText().toString())))){
+				finish();
+				Toast.makeText(view.getContext(), "Debit Card updated!", Toast.LENGTH_SHORT).show();
+			} else {
+				Snackbar.make(view,"Failed to update Card",Snackbar.LENGTH_SHORT).show();
 			}
 		});
+
+//		findViewById(R.id.inactiveCardSubmit).setOnClickListener(view ->
+//		{
+//			oldCard.setStatus(false);
+//			if (accessCreditCard.inactivateCard(oldCard))
+//			{
+////				Toast.makeText(view.getContext(), "Failed to inactivate card.", Toast.LENGTH_SHORT).show();
+////			}
+////			else
+////			{
+//
+//				cardName.setEnabled(false);
+//				cardholderName.setEnabled(false);
+//				validThruYear.setEnabled(false);
+//				validThruMonth.setEnabled(false);
+//				payday.setEnabled(false);
+//				finish();
+//
+//				Toast.makeText(view.getContext(), "card inactivated!", Toast.LENGTH_SHORT).show();
+//
+//			}
+//		});
+
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> adapterView) {
+
 	}
 }
