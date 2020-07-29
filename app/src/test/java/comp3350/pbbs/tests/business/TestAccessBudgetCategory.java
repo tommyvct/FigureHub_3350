@@ -161,13 +161,16 @@ public class TestAccessBudgetCategory extends TestCase {
     public void testInvalidEmptyInputBudgetName(){
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("", "50"));
-        //TODO: string validation for budget category name
+        assertFalse(testAccess.insertBudgetCategory(" ", "50"));
+        assertFalse(testAccess.insertBudgetCategory("\n", "50"));
 
         //test that there are still only 6 budget categories in DB
         assertEquals(6, categories.size());
 
         //invalid input for limit (must be integer) while updating
         assertNull(testAccess.updateBudgetCategory(bc2, "", "100"));
+        assertNull(testAccess.updateBudgetCategory(bc2, " ", "100"));
+        assertNull(testAccess.updateBudgetCategory(bc2, "\n", "100"));
         assertEquals(bc2, testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
 
         //test that there are still 6 budget categories in DB
@@ -271,6 +274,9 @@ public class TestAccessBudgetCategory extends TestCase {
         assertEquals(75.0f + 123.45f, testAccess.calculateBudgetCategoryTotal(categories.get(3), currMonth));     //phone bill budget category
     }
 
+    /**
+     * Test calculating budget category totals for different transaction months
+     */
     public void testCalculateTransactionDifferentMonths() {
         Calendar currMonth = Calendar.getInstance();
         currMonth.setTime(new Date());
