@@ -2,7 +2,7 @@ package comp3350.pbbs.business;
 
 import java.util.ArrayList;
 
-import comp3350.pbbs.objects.Cards.*;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.persistence.StubDatabase;
@@ -14,15 +14,14 @@ import comp3350.pbbs.persistence.StubDatabase;
  *
  * This class defines the access layer where deliver cards info to the database
  */
-public class AccessICard
+public class AccessCard
 {
     private StubDatabase db;    // create an object of the database
 
     /**
      * constructor: enabling access to the database
      */
-    public AccessICard()
-    {
+    public AccessCard() {
         db = Services.getDataAccess(Main.dbName);
     }
 
@@ -32,8 +31,7 @@ public class AccessICard
      * @param toFind a card needs to be found from the database
      * @return true if this card has been added into the database
      */
-    public boolean findCard(Card toFind)
-    {
+    public boolean findCard(Card toFind) {
         return db.findCard(toFind);
     }
 
@@ -43,15 +41,8 @@ public class AccessICard
      * @param newCard a card needs to be added into the database
      * @return true if this card does not exist in the database
      */
-    public boolean insertCard(Card newCard)
-    {
-        if (!findCard(newCard))
-        {
-            db.insertCard(newCard);
-            return true;
-        }
-
-        return false;
+    public boolean insertCard(Card newCard) {
+        return db.insertCard(newCard);
     }
 
     /**
@@ -63,12 +54,7 @@ public class AccessICard
      * @return true if this debit card does exist in the database
      */
     public boolean deleteCard(Card toDelete) {
-        if (findCard(toDelete)) {
-            db.deleteCard(toDelete);
-            return true;
-        }
-
-        return false;
+        return db.deleteCard(toDelete);
     }
 
     /**
@@ -81,12 +67,9 @@ public class AccessICard
      * @return true if the old card does exist in the database
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
-        if (toUpdate.getClass().equals(newCard.getClass()))
-        {
+        if (toUpdate.getClass().equals(newCard.getClass())) {
             return db.updateCard(toUpdate, newCard);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -94,23 +77,9 @@ public class AccessICard
     /**
      * Getter method to get the debit cards.
      *
-     * @return debitCards ArrayList.
+     * @return Cards ArrayList.
      */
-    public ArrayList<Card> getDebitCards() {
-        return db.getDebitCards();
-    }
-
-    /**
-     * Getter method to get the credit cards.
-     *
-     * @return creditCards ArrayList.
-     */
-    public ArrayList<Card> getCreditCards() {
-        return db.getCreditCards();
-    }
-
-    public ArrayList<Card> getCards()
-    {
+    public ArrayList<Card> getCards() {
         return db.getCards();
     }
 }

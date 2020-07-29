@@ -6,7 +6,7 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.DebitCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.persistence.StubDatabase;
 
 /**
@@ -88,8 +88,8 @@ public class AccessBankAccount
 	 * @param from the debit card
 	 * @return BankAccount ArrayList links this debit card
 	 */
-	public ArrayList<BankAccount> getAccountsFromDebitCard(DebitCard from) {
-		return db.getAccountsFromDebitCard(from);
+	public ArrayList<BankAccount> getAccountsFromCard(Card from) {
+		return db.getAccountsFromCard(from);
 	}
 
 	/**

@@ -6,7 +6,7 @@ public class BankAccount  // TODO: implementation pending
 {
     private String accountName;
     private String accountNumber;
-    private Card linkedCard;
+    private Card linkedCard;    // the card this account links to
 
     public BankAccount(String accountName, String accountNumber, Card linkedCard)
     {

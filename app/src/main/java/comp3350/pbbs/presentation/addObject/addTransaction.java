@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
@@ -43,7 +43,7 @@ public class addTransaction extends AppCompatActivity
     EditText timeText;                              //EditText variable for time
     final Calendar c = Calendar.getInstance();      //Calendar variable to get the relevant date
     AccessTransaction accessTransaction;            //AccessTransaction variable
-    AccessICard accessICard;              //AccessCreditCard variable
+    AccessCard accessCard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
 
     /**
@@ -86,9 +86,9 @@ public class addTransaction extends AppCompatActivity
         }));
 
         ///////// Card Selector //////////
-        accessICard = new AccessICard();
+        accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessICard.getCreditCards();
+        ArrayList<Card> cardArrayList = accessCard.getCards();
         cardList.add("Select card");
         for (Card c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());

@@ -27,15 +27,16 @@ public class Card {
     /**
      * constructor: includes full info of a credit card
      *
+     * @param card name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
+    public Card(String card, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        cardName = card.isEmpty() ? "No Name" : card;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
@@ -43,21 +44,23 @@ public class Card {
         payDate = pay;
     }
 
-    public Card(String cardName, String cardNum, String holderName, int expireMonth, int expireYear)
-    {
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
-        if (cardNum == null || cardNum.isEmpty())
+    public Card(String card, String num, String usr, int expM, int expY) {
+        if (num == null || num.isEmpty())
             throw new IllegalArgumentException("A Credit Card requires a valid number.");
-        if (!isValidName(holderName))
+        if (!isValidName(usr))
             throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
-        if (expireMonth != 0 && expireYear != 0 && !isValidExpiration(expireMonth, expireYear))
+        if (expM != 0 && expY != 0 && !isValidExpiration(expM, expY)) {
             throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
-        else
-        {
-            this.expireMonth = 0;
-            this.expireYear = 0;
+        } else {
+            expireMonth = 0;
+            expireYear = 0;
         }
-        this.payDate = 0;
+        cardName = card.isEmpty() ? "No Name" : card;
+        cardNum = num;
+        holderName = usr;
+        expireMonth = expM;
+        expireYear = expY;
+        payDate = 0;
     }
 
     /**
@@ -129,21 +132,11 @@ public class Card {
     /**
      * method: compare if two credit cards are same
      *
-     * @param cardObject another credit card
+     * @param other another credit card
      * @return true if both credit cards have the same card number
      */
-    public boolean equals(Object cardObject) {
-
-        boolean equal = false;
-        Card b;
-
-        if (cardObject instanceof Card) {
-            b = (Card) cardObject;
-            if (getCardNum().equals(b.getCardNum())) {
-                equal = true;
-            }
-        }
-        return equal;
+    public boolean equals(Card other) {
+        return getCardNum().equals(other.getCardNum());
     }
 
     /**
@@ -156,18 +149,19 @@ public class Card {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-        //the string "next month" needs to be replaced to real month later
-        return  getCardName() + (getCardNum().length() > 4 ?
-                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" +
-
-                "Expected payment on " + getPayDate() + " next month";
+        // the string "next month" needs to be replaced to real month later
+        String credit = "\n" + "Expected payment on " + getPayDate() + " next month";
+        String result = getCardName() + (getCardNum().length() > 4 ?
+                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " "
+                + getCardNum()) + "\nValid until " + month[getExpireMonth() - 1] + " "
+                + getExpireYear() + "\n" + getHolderName();
+        if (payDate != 0) {
+            result += credit;
+        }
+        return result;
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 

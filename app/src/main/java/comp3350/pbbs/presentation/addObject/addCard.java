@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessICard;
+import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.Card;
 
@@ -27,7 +27,7 @@ public class addCard extends AppCompatActivity {
     EditText validThruYear;                 //EditText variable for valid year
     EditText payday;                        //EditText variable for payday
     EditText cardholderName;                //EditText variable for holder name
-    AccessICard accessICard;      //AccessCreditCard variable
+    AccessCard accessCard;      //AccessCreditCard variable
     // TODO: add Debit card
 
     /**
@@ -50,7 +50,7 @@ public class addCard extends AppCompatActivity {
         payday = findViewById(R.id.payDay);
         cardholderName = findViewById(R.id.cardholderName);
 
-        accessICard = new AccessICard();
+        accessCard = new AccessCard();
         validThruYear.setText("20");       //For year, the first 2 digits will always be 20
 
         findViewById(R.id.addCardSubmit).setOnClickListener(view ->
@@ -121,7 +121,7 @@ public class addCard extends AppCompatActivity {
             }
 
             //if everything is valid then checks if the card can be inserted or not
-            if (valid && accessICard.insertCard(
+            if (valid && accessCard.insertCard(
                             new Card
                                     (
                                             cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),

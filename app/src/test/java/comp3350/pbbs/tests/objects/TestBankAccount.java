@@ -1,72 +1,76 @@
 package comp3350.pbbs.tests.objects;
 
+import junit.framework.TestCase;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Cards.Card;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestBankAccount extends TestCase
 {
-    Card debitCard1;
-    Card debitCard2;
+    private String accountName;
+    private String accountNumber;
+    private Card linkedCard;
 
-    public void setUp()
-    {
-        debitCard1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-        debitCard2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+    public void setUp() {
+        accountName = "My CIBC";
+        accountNumber = "7139820";
+        linkedCard = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
     }
 
     /**
-     * test constructor method
-     * case: null params on constructor
-     * account name if null or empty, should have a default name of "No Name"
-     * account number could not be null
-     * An account must be linked to a non null debit card
+     * method: test the field accountName
      */
-    public void testBankAccount()
-    {
-        BankAccount nametest1 = new BankAccount(null, "777", debitCard1);
-        BankAccount nametest2 = new BankAccount("", "777", debitCard1);
-        BankAccount nametest3 = new BankAccount("fjksdhf", "56131", debitCard2);
-        assertEquals("No Name", nametest1.getAccountName());
-        assertEquals("No Name", nametest2.getAccountName());
-        assertEquals(nametest1.getAccountName(), nametest2.getAccountName());
+    public void testAccountName() {
+        BankAccount acc1, acc2;
 
-        assertEquals("777", nametest1.getAccountNumber());
-        assertEquals("777", nametest2.getAccountNumber());
-        assertEquals(nametest1.getAccountNumber(), nametest2.getAccountNumber());
+        // case 1: with regular account name
+        acc1 = new BankAccount(accountName, accountNumber, linkedCard);
+        acc2 = new BankAccount(accountName, accountNumber, linkedCard);
+        assertEquals(acc1.getAccountName(), acc2.getAccountName());
+        acc2 = new BankAccount("My TD", accountNumber, linkedCard);
+        assertNotEquals(acc1.getAccountName(), acc2.getAccountName());
 
-        assertTrue(nametest1.equals(nametest1));
-        assertTrue(nametest2.equals(nametest2));
-        assertTrue(nametest1.equals(nametest2));
+        // case 2: with null account name
+        acc1 = new BankAccount(null, accountNumber, linkedCard);
+        acc2 = new BankAccount(null, accountNumber, linkedCard);
+        assertEquals(acc1.getAccountName(), acc2.getAccountName());
+        acc2 = new BankAccount("My TD", accountNumber, linkedCard);
+        assertNotEquals(acc1.getAccountName(), acc2.getAccountName());
+    }
 
-        assertEquals(nametest1.getLinkedCard(), debitCard1);
-        assertEquals(nametest2.getLinkedCard(), debitCard1);
-        assertSame(nametest1.getLinkedCard(), debitCard1);
-        assertSame(nametest2.getLinkedCard(), debitCard1);
-        assertSame(nametest1.getLinkedCard(), nametest2.getLinkedCard());
-        assertEquals(nametest1.getLinkedCard(), nametest2.getLinkedCard());
+    /**
+     * method: test the field accountNumber
+     */
+    public void testAccountNumber() {
+        BankAccount acc1, acc2;
+        acc1 = new BankAccount(accountName, accountNumber, linkedCard);
+        acc2 = new BankAccount(accountName, accountNumber, linkedCard);
+        assertEquals(acc1.getAccountNumber(), acc2.getAccountNumber());
+        acc2 = new BankAccount(accountName, "1357964", linkedCard);
+        assertNotEquals(acc1.getAccountNumber(), acc2.getAccountNumber());
 
-        try
-        {
-            new BankAccount(null, null, debitCard2);
+        try {
+            new BankAccount(accountName, null, linkedCard);
             fail("Expected IllegalArgumentException");
-        }
-        catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {}
+    }
 
-        try
-        {
-            new BankAccount(null, "894", null);
+    /**
+     * method: test the field linkedCard
+     */
+    public void testLinkedCard() {
+        Card newCard;
+        BankAccount acc1, acc2;
+        acc1 = new BankAccount(accountName, accountNumber, linkedCard);
+        acc2 = new BankAccount(accountName, accountNumber, linkedCard);
+        assertEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
+        newCard = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
+        acc2 = new BankAccount(accountName, accountNumber, newCard);
+        assertNotEquals(acc1.getLinkedCard(), acc2.getLinkedCard());
+
+        try {
+            new BankAccount(accountName, accountNumber, null);
             fail("Expected IllegalArgumentException");
-        }
-        catch (IllegalArgumentException ignored) {}
-
-        try
-        {
-            new BankAccount(null, null, null);
-            fail("Expected IllegalArgumentException");
-        }
-        catch (IllegalArgumentException ignored) {}
-
+        } catch (IllegalArgumentException ignored) {}
     }
 }
