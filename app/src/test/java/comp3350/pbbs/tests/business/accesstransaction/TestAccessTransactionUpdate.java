@@ -142,7 +142,6 @@ public class TestAccessTransactionUpdate extends TestCase {
      * Test updating with invalid descriptions
      */
     public void testInvalidDescriptions() {
-        assertFalse(AccessValidation.isValidDescription(null));
         assertFalse(accessTransaction.updateTransaction(testTransaction1, "", testDateStr, testTimeStr, testAmountStr, testCard, testBudgetCategory));
         assertFalse(accessTransaction.updateTransaction(testTransaction1, null, testDateStr, testTimeStr, testAmountStr, testCard, testBudgetCategory));
     }
