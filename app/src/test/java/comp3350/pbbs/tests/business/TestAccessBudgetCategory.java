@@ -243,7 +243,7 @@ public class TestAccessBudgetCategory extends TestCase {
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
 
         //From Stub Database
-        currMonth.set(2019, 11, 1);
+        currMonth.set(2020, 0, 1);
         assertEquals(450.0f, testAccess.calculateBudgetCategoryTotal(categories.get(0), currMonth));    // Stub rent budget Category
         assertEquals(50.0f, testAccess.calculateBudgetCategoryTotal(categories.get(1), currMonth));     //groceries budget category
         assertEquals(40.0f, testAccess.calculateBudgetCategoryTotal(categories.get(2), currMonth));     //utilities budget category
@@ -269,7 +269,7 @@ public class TestAccessBudgetCategory extends TestCase {
         currMonth.setTime(testDate);
         StubBudgetCalcHelper(categories, testDate);
 
-        currMonth.set(2019, 11, 1);
+        currMonth.set(2020, 0, 1);
         assertEquals(450.0f, testAccess.calculateBudgetCategoryTotal(categories.get(0), currMonth));    // Stub rent budget Category
         assertEquals(50.0f, testAccess.calculateBudgetCategoryTotal(categories.get(1), currMonth));     //groceries budget category
         assertEquals(40.0f, testAccess.calculateBudgetCategoryTotal(categories.get(2), currMonth));     //utilities budget category
