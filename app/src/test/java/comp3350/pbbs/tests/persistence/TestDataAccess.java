@@ -27,13 +27,12 @@ public class TestDataAccess extends TestCase {
     public void setUp() {
         //initially testing will be done on stub database
         dataAccess = new StubDatabase("test");
+        DataAccess.populateData(dataAccess);
         //switching to HSQL database can also be done by following these 2 lines:
         //dataAccess = new DataAccessObject(Main.dbName);
         //dataAccess.open(Main.getDBPathName());
-        // If running tests with the data access object, you have to run each test individually,
-        // The populate data method repopulates the database every test, which causes some tests to fail
-        // due to specific count constraints
-        DataAccess.populateData(dataAccess);
+        // If you're testing the data access object, the testValidValues will fail, but If you run
+        // It individually itll be fine (darn persistent storage)
     }
 
     public void tearDown() {

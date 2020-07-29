@@ -41,6 +41,8 @@ public class DataAccessObject implements DataAccess {
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 			con = DriverManager.getConnection(url, "PBBS", "");
 			System.out.println("Opened " + dbType + " database " + dbPath);
+			if(getBudgetsSize() == 0 && getCardsSize() == 0 && getTransactionsSize() == 0)
+				DataAccess.populateData(this);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
