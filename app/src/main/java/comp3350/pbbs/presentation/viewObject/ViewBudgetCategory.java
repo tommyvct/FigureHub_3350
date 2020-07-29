@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -130,18 +129,18 @@ public class ViewBudgetCategory extends Activity {
             finish();
         });
 
-        findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
-        {
-            if (accessBudgetCategory.deleteBudgetCategory(budgetCategory) == null)
-            {
-                Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                finish();
-                Toast.makeText(view.getContext(), "Budget category deleted!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
+//        {
+//            if (accessBudgetCategory.deleteBudgetCategory(budgetCategory) == null)
+//            {
+//                Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
+//            }
+//            else
+//            {
+//                finish();
+//                Toast.makeText(view.getContext(), "Budget category deleted!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     /**
