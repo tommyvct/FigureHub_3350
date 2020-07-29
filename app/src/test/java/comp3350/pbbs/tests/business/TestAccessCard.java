@@ -144,7 +144,7 @@ public class TestAccessCard extends TestCase {
         assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
 
         //From Stub Database
-        currMonth.setTime(Services.calcDate(new Date(), -8));
+        currMonth.set(2019, 11, 1);
         assertEquals(50f, testAccess.calculateCardTotal(stubCards.get(0), currMonth));    // Stub rent budget Category
     }
 
@@ -162,7 +162,7 @@ public class TestAccessCard extends TestCase {
         assertEquals(50.53f, testAccess.calculateCardTotal(card2, currMonth));
 
         //From Stub Database
-        currMonth.setTime(Services.calcDate(new Date(), -8));
+        currMonth.set(2019, 11, 1);
         assertEquals(565f, testAccess.calculateCardTotal(stubCards.get(1), currMonth));    // Stub rent budget Category
     }
 

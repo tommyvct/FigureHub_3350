@@ -1,5 +1,7 @@
 package comp3350.pbbs.persistence;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,7 +75,13 @@ public class StubDatabase {
         cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
 
         //local date variable
-        Date date = new Date(2020-07-25);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("YYYY-mm-dd").parse("2020-07-25");
+        } catch (ParseException e) {
+            System.out.println("serglhikuj");
+            date = new Date();
+        }
         transactions = new ArrayList<>();
         t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
