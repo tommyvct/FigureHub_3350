@@ -427,7 +427,13 @@ public class DataAccessObject implements DataAccess {
 				int expireMonth = results.getInt("EXPIREMONTH");
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
-				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				Card card;
+				if(payDate == 0) {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
+				}
+				else {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				}
 				if (getAccountsFromDebitCard(card).isEmpty()) {
 					creditCards.add(card);
 				}

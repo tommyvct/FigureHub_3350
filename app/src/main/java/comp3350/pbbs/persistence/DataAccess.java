@@ -115,7 +115,7 @@ public interface DataAccess {
         //local date variable
         Date date = null;
         try {
-            date = new SimpleDateFormat("YYYY-mm-dd").parse("2020-07-25");
+            date = new SimpleDateFormat("yyyy-mm-dd").parse("2020-07-25");
         } catch (ParseException e) {
             date = new Date();
         }
