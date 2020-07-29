@@ -335,6 +335,22 @@ public class StubDatabase {
     }
 
     /**
+     * Mark given card as inactive.
+     * @param toMark card to mark as inactive
+     */
+    public boolean markInactive(Card toMark)
+    {
+        int index = cards.indexOf(toMark);
+        if (index >= 0)
+        {
+            cards.get(index).setActive(false);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
      * Getter method to get all the cards.
      *
      * @return all the cards.
@@ -371,6 +387,25 @@ public class StubDatabase {
                 ret.add(c);
             }
         }
+        return ret;
+    }
+
+    /**
+     * Getter method for only active cards
+     * @return active cards
+     */
+    public ArrayList<Card> getActiveCards()
+    {
+        ArrayList<Card> ret = new ArrayList<>();
+
+        for (Card card : cards)
+        {
+            if (card.isActive())
+            {
+                ret.add(card);
+            }
+        }
+
         return ret;
     }
 
@@ -466,7 +501,6 @@ public class StubDatabase {
     public void setUsername(String newUsername) {
         this.username = newUsername;
     }
-
 
 
 }

@@ -1,11 +1,13 @@
 package comp3350.pbbs.presentation.viewObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,6 +32,7 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.presentation.updateObject.updateCard;
 
 /**
  * Group4
@@ -178,6 +181,17 @@ public class ViewCard extends Activity {
             public void onNothingSelected(AdapterView<?> adapterView) {
                 throw new NullPointerException("There should be a month selected no matter what");
             }
+        });
+
+        // TODO fill listTransactions
+
+
+        ((Button) findViewById(R.id.updateCard)).setOnClickListener(view ->
+        {
+            Intent intent = new Intent(view.getContext(), updateCard.class);
+            intent.putExtra("toUpdate", card);
+            startActivity(intent);
+            finish();
         });
     }
 

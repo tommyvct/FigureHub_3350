@@ -76,6 +76,7 @@ public class Card implements Serializable {
         this.cardNum = cardNum;
         this.holderName = holderName;
         payDate = 0;
+        this.active = true;
     }
 
     /**

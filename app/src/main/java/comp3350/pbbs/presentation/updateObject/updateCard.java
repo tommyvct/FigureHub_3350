@@ -1,25 +1,25 @@
 package comp3350.pbbs.presentation.updateObject;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.Serializable;
 import java.util.Objects;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.Cards.Card;
-import comp3350.pbbs.presentation.addObject.addCard;
 
 
 public class updateCard extends AppCompatActivity implements OnItemSelectedListener {
@@ -32,62 +32,66 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 	EditText payday;					// EditText variable for payday
 	EditText cardholderName;			// EditText variable for holder name
 	Card oldCard;						//old card to update
-	boolean isDebit;
+	RadioGroup radioGroup;
+	boolean debit;
 
 	@SuppressLint("SetTextI18n")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_update_card);
+		setContentView(R.layout.activity_add_card);
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Card");
+		// init object
 		oldCard = Objects.requireNonNull((Card)getIntent().getSerializableExtra("toUpdate"));
-
 		accessCreditCard = new AccessCard();
-		cardName = findViewById(R.id.updateCardName);
-		cardNumber = findViewById(R.id.updateCardNumber);
+
+		// init GUI elements
+		cardName = findViewById(R.id.cardName);
+		cardNumber = findViewById(R.id.cardNumber);
 		cardNumber.setEnabled(false);
-		validThruMonth = findViewById(R.id.updateValidThruMonth);
-		validThruYear = findViewById(R.id.updateValidThruYear);
-		payday = findViewById(R.id.updatePayDay);
-		cardholderName = findViewById(R.id.updateCardHolderName);
-		validThruYear.setText("20");
+		validThruMonth = findViewById(R.id.ValidThruMonth);
+		validThruYear = findViewById(R.id.validThruYear);
+		payday = findViewById(R.id.payDay);
+		cardholderName = findViewById(R.id.cardholderName);
+		findViewById(R.id.addCardSubmit).setVisibility(View.GONE);
+		findViewById(R.id.updateMarkInactive).setVisibility(View.VISIBLE);
+		findViewById(R.id.defaultBankAccountInfo).setVisibility(View.GONE);
+		radioGroup = findViewById(R.id.addCreditOrDebit);
 
-
+		// fill with old card info
 		cardName.setText(oldCard.getCardName());
 		cardNumber.setText(oldCard.getCardNum());
-		validThruMonth.setText(String.valueOf(oldCard.getExpireMonth()));
-		validThruYear.setText(String.valueOf(oldCard.getExpireYear()));
+		// in case of lacking expiry date,
+		validThruMonth.setText(String.valueOf(oldCard.getExpireMonth()).equals("0") ? "" : String.valueOf(oldCard.getExpireMonth()));
+		validThruYear.setText(String.valueOf(oldCard.getExpireYear()).equals("0") ? "" : "20" + oldCard.getExpireMonth());
+
+		// if credit card
 		if(oldCard.getPayDate() != 0) {
 			payday.setText(String.valueOf(oldCard.getPayDate()));
-			isDebit = false;
+			debit = false;
+			radioGroup.check(R.id.addCreditRadioButton);
 		}else{
 			payday.setVisibility(View.GONE);
-			isDebit = true;
+			debit = true;
+			radioGroup.check(R.id.addDebitRadioButton);
+			((TextView) findViewById(R.id.expiryDateTextHint)).setText(R.string.expire_date_optional);
 		}
 		cardholderName.setText(oldCard.getHolderName());
-
-		final Button button = findViewById(R.id.updateCardSubmit);
-		button.setOnClickListener(view ->
-		{
-			if (view.equals(button)) {
-				Toast.makeText(updateCard.this, "update this card", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(updateCard.this, addCard.class);
-				startActivity(intent);
-			}
-
-		});
+		findViewById(R.id.addCreditRadioButton).setEnabled(false);
+		findViewById(R.id.addDebitRadioButton).setEnabled(false);
 
 		findViewById(R.id.updateCardSubmit).setOnClickListener(view ->
 		{
 			//checking if the newly created creditCard is valid or not
 			boolean valid = true;
 
-			if (cardNumber.getText().toString().isEmpty()) {
+			if (cardNumber.getText().toString().trim().isEmpty()) {
 				cardNumber.setError("Provide a card number.");
 				valid = false;
 			}
 
-			if(oldCard.getPayDate() != 0) {
+			// if credit card or debit card with expiry date
+			if(!debit || !(validThruMonth.getText().toString().isEmpty() && validThruYear.getText().toString().isEmpty())) {
 				switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
 					case 1:  // invalid month
 						validThruMonth.setError("There is no such month!");
@@ -121,19 +125,17 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 						break;
 
 					case 7:
-
 						validThruMonth.setError("Expire month is required.");
 						validThruYear.setError("Expire year is required.");
 						valid = false;
-
 						break;
 				}
 			}
 
-			if (payday.getText().toString().isEmpty()) {
+			if (!debit && payday.getText().toString().isEmpty()) {
 				payday.setError("Which day of month do you need to pay this card?");
 				valid = false;
-			} else if (!AccessValidation.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
+			} else if (!debit && !AccessValidation.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
 			{
 				payday.setError("There is no such day in a month!");
 				valid = false;
@@ -149,67 +151,44 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 			}
 
 			//if everything is valid then checks if the card can be inserted or not
-			if (valid && accessCreditCard.updateCard(oldCard,
+			if (valid && accessCreditCard.updateCard(oldCard, debit ?
 					new Card(
 							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
 							cardNumber.getText().toString(),
 							cardholderName.getText().toString(),
-							Integer.parseInt(validThruMonth.getText().toString()),
-							Integer.parseInt(validThruYear.getText().toString()),
-							Integer.parseInt(payday.getText().toString())))
+							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
+							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()))
+					:
+					new Card(
+							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+							cardNumber.getText().toString(),
+							cardholderName.getText().toString(),
+							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
+							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()),
+							Integer.parseInt(debit ? "0" : payday.getText().toString())))
 					)
 			{
 				//setResult(1);
 				finish();
-				Toast.makeText(view.getContext(), "Credit Card updated!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(view.getContext(), "Card updated!", Toast.LENGTH_SHORT).show();
 			}
-			else if(validThruYear.getText().toString().isEmpty() || validThruMonth.getText().toString().isEmpty() &&
-					AccessValidation.isValidName(cardholderName.getText().toString()) && !cardholderName.getText().toString().isEmpty()
-					&& accessCreditCard.updateCard(oldCard,
-					new Card(
-							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
-							cardNumber.getText().toString(),
-							cardholderName.getText().toString(),
-							Integer.parseInt(validThruMonth.getText().toString()),
-							Integer.parseInt(validThruYear.getText().toString())))){
-				finish();
-				Toast.makeText(view.getContext(), "Debit Card updated!", Toast.LENGTH_SHORT).show();
-			} else {
+			else {
 				Snackbar.make(view,"Failed to update Card",Snackbar.LENGTH_SHORT).show();
 			}
 		});
 
-//		findViewById(R.id.inactiveCardSubmit).setOnClickListener(view ->
-//		{
-//			oldCard.setStatus(false);
-//			if (accessCreditCard.inactivateCard(oldCard))
-//			{
-////				Toast.makeText(view.getContext(), "Failed to inactivate card.", Toast.LENGTH_SHORT).show();
-////			}
-////			else
-////			{
-//
-//				cardName.setEnabled(false);
-//				cardholderName.setEnabled(false);
-//				validThruYear.setEnabled(false);
-//				validThruMonth.setEnabled(false);
-//				payday.setEnabled(false);
-//				finish();
-//
-//				Toast.makeText(view.getContext(), "card inactivated!", Toast.LENGTH_SHORT).show();
-//
-//			}
-//		});
-
+		// mark as inactive
+		findViewById(R.id.markCardInactive).setOnClickListener(view ->
+		{
+			accessCreditCard.markInactive(oldCard);
+			finish();
+			Toast.makeText(view.getContext(), "Card mark as inactive!", Toast.LENGTH_SHORT).show();
+		});
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-	}
+	public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {}
 
 	@Override
-	public void onNothingSelected(AdapterView<?> adapterView) {
-
-	}
+	public void onNothingSelected(AdapterView<?> adapterView) {}
 }
