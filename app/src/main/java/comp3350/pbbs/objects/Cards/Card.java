@@ -147,11 +147,18 @@ public class Card implements Serializable {
     /**
      * method: compare if two credit cards are same
      *
-     * @param other another credit card
+     * @param o another credit card
      * @return true if both credit cards have the same card number
      */
-    public boolean equals(Card other) {
-        return getCardNum().equals(other.getCardNum());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card state = (Card) o;
+
+        return this.cardNum.equals(state.cardNum);
     }
 
     /**

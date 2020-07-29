@@ -90,7 +90,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Card Selector //////////TODO: DEBIT
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCreditCard.getCreditCards();
+        ArrayList<Card> cardArrayList = accessCreditCard.getCards();
         cardDisplayList.add("Select card");
         for (Card c : cardArrayList) {
             cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
