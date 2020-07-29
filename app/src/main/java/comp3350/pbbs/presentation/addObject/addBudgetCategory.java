@@ -1,14 +1,10 @@
 package comp3350.pbbs.presentation.addObject;
 
+import java.util.Objects;
 import android.os.Bundle;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Objects;
-
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 
@@ -46,7 +42,7 @@ public class addBudgetCategory extends AppCompatActivity {
         {
             boolean valid = true;
 
-            if (BudgetNameET.getText().toString().isEmpty())
+            if (BudgetNameET.getText().toString().trim().isEmpty())
             {
                 BudgetNameET.setError("Name required.");
                 valid = false;
@@ -64,7 +60,7 @@ public class addBudgetCategory extends AppCompatActivity {
             }
 
             //checking if the newly created budget is valid or not
-            if (accessBudgetCategory.insertBudgetCategory(BudgetNameET.getText().toString(), BudgetLimitET.getText().toString()))   // validate fields, use methods from business class
+            if (accessBudgetCategory.insertBudgetCategory(BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString()))   // validate fields, use methods from business class
             {
                 setResult(1);
                 finish();

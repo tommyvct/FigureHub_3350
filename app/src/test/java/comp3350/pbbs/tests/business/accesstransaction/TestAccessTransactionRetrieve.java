@@ -12,7 +12,8 @@ import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessTransactionRetrieve
@@ -31,13 +32,13 @@ public class TestAccessTransactionRetrieve extends TestCase {
     private float testAmount;
     private Card testCard;
     private BudgetCategory testBudgetCategory;
-    private StubDatabase db;
+    private DataAccess db;
 
     /**
      * Sets the test values and pre-populates database
      */
     public void setUp() {
-        db = Services.createDataAccess("test");
+        db = Services.createDataAccess(new StubDatabase("test"));
 
         testDate = new Date();
         testAmount = 20;
@@ -49,8 +50,10 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction3 = new Transaction(Services.calcDate(testDate, -2), testAmount, testDesc, testCard, testBudgetCategory);
 
-        assertTrue(db.addTransactions(Arrays.asList(testTransaction1, testTransaction2, testTransaction3)));
-    }
+        assertTrue(db.insertTransaction(testTransaction1));
+        assertTrue(db.insertTransaction(testTransaction2));
+        assertTrue(db.insertTransaction(testTransaction3));
+     }
 
     /**
      * Closes the server connection

@@ -11,11 +11,13 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.presentation.viewObject.ViewCard;
+import comp3350.pbbs.presentation.updateObject.updateTransaction;
 
 /**
  * main_cards
@@ -27,7 +29,7 @@ import comp3350.pbbs.presentation.viewObject.ViewCard;
 public class main_cards extends Fragment
 {
     private AccessCard accessCard;
-    private ArrayList<Card> cardsList;
+    private List<Card> cardsList;
     private ArrayAdapter<Card> listViewAdapter;
     private ListView listView;
 
@@ -51,13 +53,19 @@ public class main_cards extends Fragment
         // list all the credit cards
         listView = view.findViewById(R.id.listCards);
         accessCard = new AccessCard();    // gain access to credit cards
-        cardsList = accessCard.getCreditCards();
+        cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
                 cardsList
         );
         listView.setAdapter(listViewAdapter);
+        listView.setOnItemClickListener((adapterView, view1, i, l) ->
+        {
+            Intent updateCard = new Intent(view1.getContext(), comp3350.pbbs.presentation.updateObject.updateCard.class);
+            updateCard.putExtra("toUpdate", cardsList.get(i));
+            startActivityForResult(updateCard, 0);
+        });
 
         // display Card detail
         listView.setOnItemClickListener((arg0, view1, position, arg3) ->
@@ -73,7 +81,7 @@ public class main_cards extends Fragment
      * This method updates the list after adding.
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        cardsList = accessCard.getCreditCards();
+        cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,

@@ -15,7 +15,8 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
  * TestAccessTransactionUpdate
@@ -39,15 +40,15 @@ public class TestAccessTransactionUpdate extends TestCase {
     private Card testDebitCard;
     private BankAccount testBankAccount;
     private BudgetCategory testBudgetCategory;
-    private StubDatabase db;
+    private DataAccess db;
 
     /**
      * Sets the test variables before each test
      */
     public void setUp() throws ParseException {
-        db = Services.createDataAccess("test");
+        db = Services.createDataAccess(new StubDatabase("test"));
 
-        DateFormat df = new SimpleDateFormat("d/M/yyyy k:m");
+        DateFormat df = new SimpleDateFormat("d/M/yyyy H:m");
         testDate = df.parse(df.format(new Date()));
         testAmount = 19.99f;
         testDesc = "Bought groceries.";

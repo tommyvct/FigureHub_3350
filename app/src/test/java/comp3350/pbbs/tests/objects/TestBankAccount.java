@@ -28,7 +28,7 @@ public class TestBankAccount extends TestCase
     }
 
     /**
-     *
+     * method: test the field accountName
      */
     public void testAccountName() {
         BankAccount acc1, acc2;
@@ -49,7 +49,7 @@ public class TestBankAccount extends TestCase
     }
 
     /**
-     *
+     * method: test the field accountNumber
      */
     public void testAccountNumber() {
         BankAccount acc1, acc2;
@@ -66,7 +66,7 @@ public class TestBankAccount extends TestCase
     }
 
     /**
-     *
+     * method: test the field linkedCard
      */
     public void testLinkedCard() {
         Card newCard;

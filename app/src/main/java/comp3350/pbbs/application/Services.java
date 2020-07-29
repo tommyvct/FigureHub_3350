@@ -8,7 +8,8 @@ import java.util.GregorianCalendar;
 
 import androidx.annotation.RequiresApi;
 
-import comp3350.pbbs.persistence.StubDatabase;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessObject;
 
 /**
  * Services
@@ -19,20 +20,33 @@ import comp3350.pbbs.persistence.StubDatabase;
  */
 public class Services {
 
-    private static StubDatabase dbAccessService = null;             //static stub DB variable
+    private static DataAccess dbAccessService = null;
+
+    /**
+     * This method creates a new database variable.
+     *
+     * @param dbName A string representing the name of the database.
+     * @return Database for other classes to use
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static DataAccess createDataAccess(String dbName) {
+        if (dbAccessService == null) {
+            dbAccessService = new DataAccessObject(dbName);
+            dbAccessService.open(Main.getDBPathName());
+        }
+        return dbAccessService;
+    }
 
     /**
      * This method creates a new initializes a stub database variable and populates data if the dbName is correct.
      *
-     * @param  dbName A string representing the name of the database.
+     * @param dataAccess A string representing the name of the database.
      * @return StubDatabase for other classes to use
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static StubDatabase createDataAccess(String dbName) {
+    public static DataAccess createDataAccess(DataAccess dataAccess) {
         if (dbAccessService == null) {
-            dbAccessService = new StubDatabase(dbName);
-            if (dbName.equals(Main.dbName))
-                dbAccessService.populateData();
+            dbAccessService = dataAccess;
+            dbAccessService.open(dbAccessService.getDBName());
         }
         return dbAccessService;
     }
@@ -40,10 +54,10 @@ public class Services {
     /**
      * This method returns the database which has been created otherwise it exits from the system.
      *
-     * @param  dbName A string representing the name of the database.
+     * @param dbName A string representing the name of the database.
      * @return StubDatabase once it has been created
      */
-    public static StubDatabase getDataAccess(String dbName) {
+    public static DataAccess getDataAccess(String dbName) {
         if (dbAccessService == null) {
             System.out.println("Connection to data access has not been established.");
             System.exit(1);
@@ -55,6 +69,9 @@ public class Services {
      * This method closes the database access.
      */
     public static void closeDataAccess() {
+        if (dbAccessService != null) {
+            dbAccessService.close();
+        }
         dbAccessService = null;
     }
 
