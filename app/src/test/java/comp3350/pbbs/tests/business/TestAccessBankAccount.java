@@ -8,14 +8,14 @@ import comp3350.pbbs.objects.Cards.Card;
 
 public class TestAccessBankAccount extends TestCase
 {
-	private Card Card;
+	private Card card;
 	private BankAccount bankAccount;
 	private AccessBankAccount accessBankAccount;
 
 	public void setUp() {
 		Services.createDataAccess("TBCU");
-		Card = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
-		bankAccount = new BankAccount("My TD", "1357964", Card);
+		card = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
+		bankAccount = new BankAccount("My TD", "1357964", card);
 		accessBankAccount = new AccessBankAccount();
 		accessBankAccount.insertBankAccount(bankAccount);	// add "bankAccount" into DB
 	}

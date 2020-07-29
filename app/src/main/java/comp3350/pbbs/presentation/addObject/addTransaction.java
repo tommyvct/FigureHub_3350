@@ -89,7 +89,7 @@ public class addTransaction extends AppCompatActivity
         ///////// Card Selector //////////
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
-        ArrayList<Card> cardArrayList = accessCard.getCreditCards();
+        ArrayList<Card> cardArrayList = accessCard.getCards();
         cardList.add("Select card");
         for (Card c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());

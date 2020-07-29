@@ -52,7 +52,7 @@ public class main_cards extends Fragment
         // list all the credit cards
         listView = view.findViewById(R.id.listCards);
         accessCard = new AccessCard();    // gain access to credit cards
-        cardsList = accessCard.getCreditCards();
+        cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
@@ -80,7 +80,7 @@ public class main_cards extends Fragment
      * This method updates the list after adding.
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        cardsList = accessCard.getCreditCards();
+        cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,

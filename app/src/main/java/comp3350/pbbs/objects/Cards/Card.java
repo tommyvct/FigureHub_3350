@@ -72,7 +72,12 @@ public class Card implements Serializable {
             this.expireMonth = expireMonth;
             this.expireYear = expireYear;
         }
-        this.payDate = 0;
+        cardName = card.isEmpty() ? "No Name" : card;
+        cardNum = num;
+        holderName = usr;
+        expireMonth = expM;
+        expireYear = expY;
+        payDate = 0;
     }
 
     /**
@@ -144,18 +149,11 @@ public class Card implements Serializable {
     /**
      * method: compare if two credit cards are same
      *
-     * @param cardObject another  card
+     * @param other another credit card
      * @return true if both credit cards have the same card number
      */
-    public boolean equals(Object cardObject) {
-        boolean equal = false;
-
-        if (cardObject instanceof Card) {
-            if (getCardNum().equals(((Card) cardObject).getCardNum())) {
-                equal = true;
-            }
-        }
-        return equal;
+    public boolean equals(Card other) {
+        return getCardNum().equals(other.getCardNum());
     }
 
     /**
@@ -168,6 +166,7 @@ public class Card implements Serializable {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
+// <<<<<<< HEAD
         //the string "next month" needs to be replaced to real month later
         String ret =  cardName + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum());
@@ -182,6 +181,18 @@ public class Card implements Serializable {
         }
 
         return ret;
+// =======
+//         // the string "next month" needs to be replaced to real month later
+//         String credit = "\n" + "Expected payment on " + getPayDate() + " next month";
+//         String result = getCardName() + (getCardNum().length() > 4 ?
+//                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " "
+//                 + getCardNum()) + "\nValid until " + month[getExpireMonth() - 1] + " "
+//                 + getExpireYear() + "\n" + getHolderName();
+//         if (payDate != 0) {
+//             result += credit;
+//         }
+//         return result;
+// >>>>>>> origin/local_hz
     }
 
     public String toStringShort() {
