@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +50,9 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Update Transaction");
+
+        findViewById(R.id.updateDeleteTrans).setVisibility(View.VISIBLE);
+        findViewById(R.id.addTransSubmit).setVisibility(View.GONE);
 
         oldTransaction = Objects.requireNonNull((Transaction) getIntent().getSerializableExtra("toUpdate"));
 
@@ -114,8 +116,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         BudgetSelector.setSelection(budgetArrayList.indexOf(oldTransaction.getBudgetCategory()) + 1);
 
         ///////// Update Transaction Button //////////
-        ((Button) findViewById(R.id.addTransSubmit)).setText(R.string.update);
-        findViewById(R.id.addTransSubmit).setOnClickListener(view ->
+        findViewById(R.id.updateTrans).setOnClickListener(view ->
         {
             //checking if the newly created transaction is valid or not
             boolean valid = true;
@@ -159,6 +160,19 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                 Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
                 Snackbar.make(view, "Failed to update Transaction.", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.deleteTrans).setOnClickListener(view ->
+        {
+            if (accessTransaction.deleteTransaction(oldTransaction))
+            {
+                finish();
+                Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Snackbar.make(view, "Failed to delete Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
     }
