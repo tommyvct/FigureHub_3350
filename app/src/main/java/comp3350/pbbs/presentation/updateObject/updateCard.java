@@ -24,7 +24,7 @@ import comp3350.pbbs.objects.Cards.Card;
 
 public class updateCard extends AppCompatActivity implements OnItemSelectedListener {
 
-	AccessCard accessCreditCard;	// AccessCreditCard variable
+	AccessCard accessCard;	// AccessCreditCard variable
 	EditText cardName;					// EditText variable for cardName
 	EditText cardNumber;				// EditText variable for cardNumber
 	EditText validThruMonth;			// EditText variable for valid month
@@ -43,7 +43,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Card");
 		// init object
 		oldCard = Objects.requireNonNull((Card)getIntent().getSerializableExtra("toUpdate"));
-		accessCreditCard = new AccessCard();
+		accessCard = new AccessCard();
 
 		// init GUI elements
 		cardName = findViewById(R.id.cardName);
@@ -141,28 +141,28 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 				valid = false;
 			}
 
-			if (cardholderName.getText().toString().isEmpty()) {
+			if (cardholderName.getText().toString().trim().isEmpty()) {
 				cardholderName.setError("Provide a cardholder name.");
 				valid = false;
-			} else if (!AccessValidation.isValidName(cardholderName.getText().toString()))   // validate fields, use methods from business class
+			} else if (!AccessValidation.isValidName(cardholderName.getText().toString().trim()))   // validate fields, use methods from business class
 			{
 				cardholderName.setError("Cardholder name can only contain letters, period and dash.");
 				valid = false;
 			}
 
 			//if everything is valid then checks if the card can be inserted or not
-			if (valid && accessCreditCard.updateCard(oldCard, debit ?
+			if (valid && accessCard.updateCard(oldCard, debit ?
 					new Card(
-							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+							cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
 							cardNumber.getText().toString(),
-							cardholderName.getText().toString(),
+							cardholderName.getText().toString().trim(),
 							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
 							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()))
 					:
 					new Card(
-							cardName.getText().toString().isEmpty() ? "No Name" : cardName.getText().toString(),
+							cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
 							cardNumber.getText().toString(),
-							cardholderName.getText().toString(),
+							cardholderName.getText().toString().trim(),
 							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
 							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()),
 							Integer.parseInt(debit ? "0" : payday.getText().toString())))
@@ -180,7 +180,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		// mark as inactive
 		findViewById(R.id.markCardInactive).setOnClickListener(view ->
 		{
-			accessCreditCard.markInactive(oldCard);
+			accessCard.markInactive(oldCard);
 			finish();
 			Toast.makeText(view.getContext(), "Card mark as inactive!", Toast.LENGTH_SHORT).show();
 		});

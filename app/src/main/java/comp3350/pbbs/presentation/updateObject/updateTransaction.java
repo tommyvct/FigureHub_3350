@@ -131,7 +131,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString())) {
+            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }
@@ -148,7 +148,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                     accessTransaction.updateTransaction
                     (
                             oldTransaction,
-                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString(),
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
                             dateText.getText().toString(),
                             timeText.getText().toString(),
                             ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),

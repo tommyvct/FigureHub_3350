@@ -7,10 +7,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
@@ -51,7 +53,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 		// validation for the new entered information
 		findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
 			boolean valid = true;
-			if (BudgetNameET.getText().toString().isEmpty()) {
+			if (BudgetNameET.getText().toString().trim().isEmpty()) {
 				BudgetNameET.setError("Name required.");
 				valid = false;
 			}
@@ -62,7 +64,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 			if (!valid) {
 				return;
 			}
-			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString(), BudgetLimitET.getText().toString()) != null) {
+			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString()) != null) {
 				finish();
 				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
 			} else {
