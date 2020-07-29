@@ -5,6 +5,7 @@
     <string name="card_name">Card Name</string>
     <string name="card_number">Card Number</string>
     <string name="expire_date">Expire Date</string>
+    <string name="expire_date_optional">Expire Date (optional)</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="pay_day">Pay Day</string>
@@ -23,5 +24,11 @@
     <string name="budget">Budget</string>
     <string name="cards">Cards</string>
     <string name="Continue">Continue</string>
+    <string name="update">update</string>
+    <string name="delete">delete</string>
+    <string name="credit">Credit</string>
+    <string name="debit">Debit</string>
+    <string name="bank_account_name">Bank Account Name</string>
+    <string name="bank_account_number">Bank Account Number</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>

@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessCreditCard;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.business.AccessCard;
+import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.presentation.viewObject.ViewCard;
 
 /**
  * main_cards
@@ -25,9 +26,9 @@ import comp3350.pbbs.objects.CreditCard;
  */
 public class main_cards extends Fragment
 {
-    private AccessCreditCard accessCreditCard;
-    private ArrayList<CreditCard> creditCardsList;
-    private ArrayAdapter<CreditCard> listViewAdapter;
+    private AccessCard accessCard;
+    private ArrayList<Card> cardsList;
+    private ArrayAdapter<Card> listViewAdapter;
     private ListView listView;
 
 
@@ -38,7 +39,7 @@ public class main_cards extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        accessCreditCard = new AccessCreditCard();
+        accessCard = new AccessCard();
     }
 
     @Override
@@ -49,15 +50,22 @@ public class main_cards extends Fragment
 
         // list all the credit cards
         listView = view.findViewById(R.id.listCards);
-        accessCreditCard = new AccessCreditCard();    // gain access to credit cards
-        creditCardsList = accessCreditCard.getCreditCards();
+        accessCard = new AccessCard();    // gain access to credit cards
+        cardsList = accessCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                creditCardsList
+                cardsList
         );
         listView.setAdapter(listViewAdapter);
 
+        // display Card detail
+        listView.setOnItemClickListener((arg0, view1, position, arg3) ->
+        {
+            Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
+            viewCard.putExtra("Card", cardsList.get(position));
+            startActivity(viewCard);
+        });
         return view;
     }
 
@@ -65,11 +73,11 @@ public class main_cards extends Fragment
      * This method updates the list after adding.
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        creditCardsList = accessCreditCard.getCreditCards();
+        cardsList = accessCard.getCreditCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                creditCardsList
+                cardsList
         );
 
         listView.setAdapter(listViewAdapter);

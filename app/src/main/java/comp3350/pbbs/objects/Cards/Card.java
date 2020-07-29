@@ -1,8 +1,8 @@
-package comp3350.pbbs.objects;
+package comp3350.pbbs.objects.Cards;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Calendar;
  *
  * This class defines a credit card with information it includes
  */
-public class CreditCard {
+public class Card implements Serializable {
     private String cardName;    // name of a credit card
     private String cardNum;     // number of a credit card
     private String holderName;  // user full name of a credit card
@@ -28,20 +28,49 @@ public class CreditCard {
     /**
      * constructor: includes full info of a credit card
      *
+     * @param cardName name of a credit card
      * @param num  number of a credit card
      * @param usr  user full name of a credit card
      * @param expM the month a credit card is expired, 2-digits (MM)
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public CreditCard(String cardName, String num, String usr, int expM, int expY, int pay) {
+    public Card(String cardName, String num, String usr, int expM, int expY, int pay) {
         errorMsg(num, usr, expM, expY, pay);
-        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        this.cardName = (cardName == null || cardName.isEmpty()) ? "No Name" : cardName;
         cardNum = num;
         holderName = usr;
         expireMonth = expM;
         expireYear = expY;
         payDate = pay;
+    }
+
+    /**
+     * Constructor: includes full info of a debit card
+     *
+     * @param cardName name of a credit card
+     * @param cardNum number of a credit card
+     * @param holderName user full name of a credit card
+     * @param expireMonth the month a credit card is expired, 2-digits (MM), can be 0 in case of the card have no expiry date
+     * @param expireYear the year a credit card is expired, 4-digits (YYYY), can be 0 in case of the card have no expiry date
+     */
+    public Card(String cardName, String cardNum, String holderName, int expireMonth, int expireYear)
+    {
+        this.cardName = cardName.isEmpty() ? "No Name" : cardName;
+        if (cardNum == null || cardNum.isEmpty())
+            throw new IllegalArgumentException("A Credit Card requires a valid number.");
+        this.cardNum = cardNum;
+        if (!isValidName(holderName))
+            throw new IllegalArgumentException("A Credit Card requires a valid holder name.");
+        this.holderName = holderName;
+        if (expireMonth != 0 && expireYear != 0 && !isValidExpiration(expireMonth, expireYear))
+            throw new IllegalArgumentException("A Credit Card requires a valid expire date.");
+        else
+        {
+            this.expireMonth = expireMonth;
+            this.expireYear = expireYear;
+        }
+        this.payDate = 0;
     }
 
     /**
@@ -53,7 +82,7 @@ public class CreditCard {
      * @param expY the year a credit card is expired, 4-digits (YYYY)
      * @param pay  the day user needs to ready for payment, 2-digits (DD)
      */
-    public void errorMsg(String num, String usr, int expM, int expY, int pay) {
+    public static void errorMsg(String num, String usr, int expM, int expY, int pay) {
         if (num == null || num.isEmpty())
             throw new IllegalArgumentException("A Credit Card requires a valid number.");
         if (!isValidName(usr))
@@ -113,17 +142,14 @@ public class CreditCard {
     /**
      * method: compare if two credit cards are same
      *
-     * @param cardObject another credit card
+     * @param cardObject another  card
      * @return true if both credit cards have the same card number
      */
     public boolean equals(Object cardObject) {
-
         boolean equal = false;
-        CreditCard b;
 
-        if (cardObject instanceof CreditCard) {
-            b = (CreditCard) cardObject;
-            if (getCardNum().equals(b.getCardNum())) {
+        if (cardObject instanceof Card) {
+            if (getCardNum().equals(((Card) cardObject).getCardNum())) {
                 equal = true;
             }
         }
@@ -141,17 +167,22 @@ public class CreditCard {
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
         //the string "next month" needs to be replaced to real month later
-        return  getCardName() + (getCardNum().length() > 4 ?
-                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum())
-                + "\n" +
-                "Valid until " + month[getExpireMonth() - 1] + " " + getExpireYear() + "\n" +
-                getHolderName() + "\n" +
+        String ret =  cardName + (getCardNum().length() > 4 ?
+                (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum());
+        if (getExpireMonth() != 0 && getExpireYear() != 0)
+        {
+            ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear();
+        }
+        ret += "\n" + getHolderName();
+        if (getPayDate() != 0)
+        {
+            ret += "\nExpected payment on " + getPayDate() + " next month";
+        }
 
-                "Expected payment on " + getPayDate() + " next month";
+        return ret;
     }
 
-    public String toStringShort()
-    {
+    public String toStringShort() {
         return  getCardName() + " •••• " + getCardNum().substring(getCardNum().length() - 4);
     }
 
