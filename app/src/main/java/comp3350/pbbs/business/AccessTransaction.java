@@ -28,7 +28,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * focusing on sending new transactions to the database
  */
 public class AccessTransaction {
-    private StubDatabase db;    // Access to the database
+    private DataAccess db;    // Access to the database
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
@@ -187,8 +187,8 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-                System.out.println(accessValidation.isValidAmount(amountStr)+ "&&"+ accessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ accessValidation.isValidDescription(desc));
-        if (accessValidation.isValidAmount(amountStr) && accessValidation.isValidDateTime(dateStr, timeStr) && accessValidation.isValidDescription(desc)) {
+                System.out.println(AccessValidation.isValidAmount(amountStr)+ "&&"+ AccessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ AccessValidation.isValidDescription(desc));
+        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
