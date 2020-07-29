@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 
 import static org.junit.Assert.assertNotEquals;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class TestTransaction extends TestCase {
     private Date now;  // Reference to the current time
-    private CreditCard card;           // Test credit card
+    private Card card;           // Test credit card
     private BudgetCategory budgetCategory; // Test budget category
     private float amount;       // Test amount
     private String description; // Test description
@@ -30,7 +30,7 @@ public class TestTransaction extends TestCase {
      */
     public void setUp() {
         now = new Date();
-        card = new CreditCard("mastercard", "1111111111111111", "Jane Doe", 1, 2021, 15);
+        card = new Card("mastercard", "1111111111111111", "Jane Doe", 1, 2021, 15);
         budgetCategory = new BudgetCategory("Groceries", 200);
         amount = 5.57f;
         description = "Bought groceries.";
@@ -107,7 +107,7 @@ public class TestTransaction extends TestCase {
         Transaction otherTransaction = new Transaction(now, amount, description, card, budgetCategory);
         assertEquals(transaction, otherTransaction);
 
-        CreditCard otherCard = new CreditCard("mastercard", "2222222222222222", "Jane Doe", 1, 2023, 15);
+        Card otherCard = new Card("mastercard", "2222222222222222", "Jane Doe", 1, 2023, 15);
         otherTransaction = new Transaction(now, amount, description, otherCard, budgetCategory);
         assertNotEquals(transaction, otherTransaction);
 

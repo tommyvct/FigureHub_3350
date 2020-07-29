@@ -10,7 +10,7 @@ import java.util.List;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.tests.persistence.StubDatabase;
@@ -30,7 +30,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
     private Date testDate;
     private String testDesc;
     private float testAmount;
-    private CreditCard testCard;
+    private Card testCard;
     private BudgetCategory testBudgetCategory;
     private DataAccess db;
 
@@ -44,7 +44,7 @@ public class TestAccessTransactionRetrieve extends TestCase {
         testAmount = 20;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
-        testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        testCard = new Card("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);

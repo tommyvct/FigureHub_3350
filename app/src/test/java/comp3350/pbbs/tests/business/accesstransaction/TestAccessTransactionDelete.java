@@ -8,7 +8,7 @@ import java.util.List;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.tests.persistence.StubDatabase;
@@ -34,7 +34,7 @@ public class TestAccessTransactionDelete extends TestCase {
         Date testDate = new Date();
         float testAmount = 19.99f;
         String testDesc = "Bought groceries.";
-        CreditCard testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Card testCard = new Card("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         BudgetCategory testBudgetCategory = new BudgetCategory("Groceries", 100);
         testTransaction1 = new Transaction(testDate, testAmount, testDesc, testCard, testBudgetCategory);
         testTransaction2 = new Transaction(Services.calcDate(testDate, -1), testAmount, testDesc, testCard, testBudgetCategory);
@@ -77,7 +77,7 @@ public class TestAccessTransactionDelete extends TestCase {
      * Test deleting invalid transactions
      */
     public void testInvalidTransactions() {
-        CreditCard testCard = new CreditCard("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
+        Card testCard = new Card("mastercard", "1000100010001000", "Alan Alfred", 6, 2022, 27);
         BudgetCategory testBudgetCategory = new BudgetCategory("Groceries", 100);
         assertFalse(accessTransaction.deleteTransaction(new Transaction(new Date(), 20, "Bought groceries", testCard, testBudgetCategory)));
         assertFalse(accessTransaction.deleteTransaction(null));

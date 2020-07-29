@@ -5,10 +5,13 @@ import android.annotation.SuppressLint;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import comp3350.pbbs.objects.Cards.Card;
 
 /**
  * Transaction
@@ -18,12 +21,14 @@ import java.util.Date;
  * This class defines a transaction for some amount paid for using a card under some budget
  * category.
  */
-public class Transaction {
+public class Transaction implements Serializable
+{
     private Date time;                      // The time that the transaction took place
     private float amount;                   // The amount that this transaction totalled
     private String description;             // Description of this transaction
-    private CreditCard card;                // The card that this transaction was paid on
+    private Card card;                // The card that this transaction was paid on
     private BudgetCategory budgetCategory;  // The budget category this transaction fell under
+    private BankAccount bankAccount;
 
     /**
      * This method validates the parameters and assigns them.
@@ -34,7 +39,54 @@ public class Transaction {
      * @param card            The card this transaction used
      * @param budgetCategory  The category this transaction fell under.
      */
-    public Transaction(Date transactionTime, float amount, String description, CreditCard card, BudgetCategory budgetCategory) {
+    public Transaction(Date transactionTime, float amount, String description, Card card, BudgetCategory budgetCategory)
+    {
+        initTransaction(transactionTime, amount, description, budgetCategory);
+
+        if (card == null)
+            throw new IllegalArgumentException("A Transaction needs a card.");
+
+        this.card = card;
+        this.bankAccount = null;
+    }
+    /**
+     * This method validates the parameters and assigns them.
+     *
+     * @param transactionTime The time this transaction happened.
+     * @param amount          The amount this transaction went for.
+     * @param description     The description of this transaction.
+     * @param card            The card this transaction used
+     * @param bankAccount     The bank account used
+     * @param budgetCategory  The category this transaction fell under.
+     */
+    public Transaction(Date transactionTime, float amount, String description, Card card, BankAccount bankAccount, BudgetCategory budgetCategory)
+    {
+        initTransaction(transactionTime, amount, description, budgetCategory);
+
+        if (card == null)
+            throw new IllegalArgumentException("A Transaction needs a card.");
+
+        if (bankAccount == null)
+            throw new IllegalArgumentException("A Transaction needs a bank account.");
+
+        if (!bankAccount.getLinkedCard().equals(card))
+        {
+            throw new IllegalArgumentException("This card does not have given account.");
+        }
+        this.card = card;
+        this.bankAccount = bankAccount;
+    }
+
+    /**
+     * This method validates the parameters and assigns them.
+     *
+     * @param transactionTime The time this transaction happened.
+     * @param amount          The amount this transaction went for.
+     * @param description     The description of this transaction.
+     * @param budgetCategory  The category this transaction fell under.
+     */
+    private void initTransaction(Date transactionTime, float amount, String description, BudgetCategory budgetCategory)
+    {
         // Validate input
         if (transactionTime == null)
             throw new IllegalArgumentException("A Transaction needs a time.");
@@ -42,15 +94,12 @@ public class Transaction {
             throw new IllegalArgumentException("Expected a positive transaction amount.");
         if (description == null || description.isEmpty())
             throw new IllegalArgumentException("A Transaction needs a description.");
-        if (card == null)
-            throw new IllegalArgumentException("A Transaction needs a credit card.");
         if (budgetCategory == null)
             throw new IllegalArgumentException("A Transaction needs a budget category.");
         // Set object fields
         time = transactionTime;
         this.amount = amount;
         this.description = description;
-        this.card = card;
         this.budgetCategory = budgetCategory;
     }
 
@@ -63,7 +112,7 @@ public class Transaction {
         return amount;
     }
 
-    public CreditCard getCard() {
+    public Card getCard() {
         return card;
     }
 
@@ -105,7 +154,7 @@ public class Transaction {
 
     /**
      * Gets a string representation of this object.
-     *
+     *a
      * @return A string representing this object and its fields.
      */
     @NotNull

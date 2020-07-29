@@ -11,9 +11,12 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 
+import java.util.ArrayList;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.presentation.updateObject.updateTransaction;
 
 /**
  * main_transaction
@@ -24,7 +27,8 @@ import comp3350.pbbs.objects.Transaction;
  */
 public class main_transactions extends Fragment {
     private AccessTransaction accessTransaction;
-    private ListView transactionList;
+    private ListView transactionListView;
+    private ArrayList<Transaction> transactionArrayList;
     private ArrayAdapter<Transaction> listAdapter;
 
     // Required empty public constructor
@@ -44,14 +48,22 @@ public class main_transactions extends Fragment {
 
         // List view
         accessTransaction = new AccessTransaction();
-        transactionList = view.findViewById(R.id.transactionList);
+        transactionListView = view.findViewById(R.id.transactionList);
+        transactionArrayList = accessTransaction.retrieveTransactions();
         listAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                accessTransaction.retrieveTransactions()
+                transactionArrayList
         );
 
-        transactionList.setAdapter(listAdapter);
+        transactionListView.setAdapter(listAdapter);
+
+        transactionListView.setOnItemClickListener((adapterView, view1, i, l) ->
+        {
+            Intent updateTransaction = new Intent(view1.getContext(), updateTransaction.class);
+            updateTransaction.putExtra("toUpdate", transactionArrayList.get(i));
+            startActivityForResult(updateTransaction, 0);
+        });
 
         return view;
     }
@@ -66,7 +78,7 @@ public class main_transactions extends Fragment {
                 android.R.layout.simple_list_item_1,
                 accessTransaction.retrieveTransactions()
         );
-        transactionList.setAdapter(listAdapter);
+        transactionListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
 }

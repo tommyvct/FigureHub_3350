@@ -103,6 +103,11 @@ public interface DataAccess {
         t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
+        cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
+        cards.add(new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
+        cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
+
+
         dataAccess.addBudgetCategories(budgets);
         dataAccess.addAllCreditCards(creditCards);
         dataAccess.addTransactions(transactions);

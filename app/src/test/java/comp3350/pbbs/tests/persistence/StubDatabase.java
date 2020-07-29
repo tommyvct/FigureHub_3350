@@ -1,15 +1,14 @@
 package comp3350.pbbs.tests.persistence;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.CreditCard;
+import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 
@@ -25,7 +24,10 @@ public class StubDatabase implements DataAccess {
     private String dbName;                          //name of the database, not used in iteration 1
     private String dbType = "stub";
     private ArrayList<BudgetCategory> budgets;      //ArrayList for budgets
-    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
+//    private ArrayList<CreditCard> creditCards;      //ArrayList for credit cards
+//    private ArrayList<DebitCard> debitCards;      //ArrayList for credit cards
+    private ArrayList<Card> cards;
+    private ArrayList<BankAccount> accounts;        // ArrayList for bank accounts
     private ArrayList<Transaction> transactions;    //ArrayList for transactions
     private String username;                        //"Hi, {username}!"
 
@@ -37,9 +39,12 @@ public class StubDatabase implements DataAccess {
     public StubDatabase(String name) {
         this.dbName = name;
         budgets = new ArrayList<>();
-        creditCards = new ArrayList<>();
+//        creditCards = new ArrayList<>();
+//        debitCards = new ArrayList<>();
+        cards = new ArrayList<>();
         transactions = new ArrayList<>();
         username = null;
+        accounts = new ArrayList<>();
     }
 
     /**
@@ -125,75 +130,238 @@ public class StubDatabase implements DataAccess {
     }
 
     /**
-     * This method will add all the cards to a card list.
+     * This method will add all the bank accounts to the given card list.
      *
+     * @param accountList all bank accounts in the stub DB will be added to here.
      * @return true if added successfully.
      */
-    public boolean addAllCreditCards(List<CreditCard> cardList) {
-        return creditCards.addAll(cardList);
+    public boolean addAllBankAccounts(List<BankAccount> accountList) {
+        return accountList.addAll(accounts);
+    }
+
+    /**
+     * method: find a bank account exist or not in the database
+     *
+     * @param toFind a bank account needs to be found from the database
+     * @return true if this bank account has been added into the database
+     */
+    public boolean findBankAccount(BankAccount toFind) {
+        return accounts.indexOf(toFind) >= 0;
+    }
+
+    /**
+     * method: add a bank account into the database
+     *
+     * @param newAccount a bank account needs to be added into the database
+     * @return true if this bank account does not exist in the database
+     */
+    public boolean insertBankAccount(BankAccount newAccount) {
+        if (!findBankAccount(newAccount)) {
+            accounts.add(newAccount);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * method: delete a bank account from the database
+     *
+     * @param toDelete a bank account needs to be deleted from the database
+     * @return true if this bank account card does exist in the database
+     */
+    public boolean deleteBankAccount(BankAccount toDelete) {
+        if (findBankAccount(toDelete)) {
+            accounts.remove(toDelete);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * method: update a bank account existed in the database
+     *
+     * @param toUpdate an old bank account needs to be replaced
+     * @param newAccount  a new bank account will replace the other one
+     * @return true if the old bank account does exist in the database
+     */
+    public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
+        int index = accounts.indexOf(toUpdate);
+        if (index >= 0) {
+            accounts.set(index, newAccount);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<BankAccount> getAllBankAccounts() {
+        return accounts;
+    }
+
+    /**
+     * method: get the bank account from a debit card
+     *
+     * @param from the debit card
+     * @return BankAccount ArrayList links this debit card
+     */
+    public ArrayList<BankAccount> getAccountsFromDebitCard(Card from)
+    {
+        ArrayList<BankAccount> ret = new ArrayList<>();
+        for (BankAccount account : accounts) {
+            if (account.getLinkedCard().equals(from)) {
+                ret.add(account);
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * This method will add all the credit cards to the given card list.
+     *
+     * @param cardList all credit cards in the stub SB will be added to here.
+     * @return true if added successfully.
+     */
+    @SuppressWarnings("unused")  // will be used at some point in the future
+    public boolean addAllCreditCards(List<Card> cardList) {
+        ArrayList<Card> toAdd = new ArrayList<>();
+
+        for (Card c : cards)
+        {
+            if (c instanceof Card)// TODO: change to isCredit()
+            {
+                toAdd.add((Card) c);
+            }
+        }
+        return cardList.addAll(toAdd);
+    }
+
+    /**
+     * This method will add all the debit cards to the given card list.
+     *
+     * @param cardList all debit cards in the stub SB will be added to here.
+     * @return true if added successfully.
+     */  // TODO: Test pending
+    @SuppressWarnings("unused")  // will be used at some point in the future
+    public boolean addAllDebitCards(List<Card> cardList) {
+        ArrayList<Card> toAdd = new ArrayList<>();
+
+        for (Card c : cards)// TODO: change to !isCredit()
+        {
+            if (c instanceof Card)
+            {
+                toAdd.add((Card) c);
+            }
+        }
+        return cardList.addAll(toAdd);
+    }
+
+    /**
+     * This method will add all the cards to the given card list.
+     *
+     * @param cardList all cards in the stub DB will be added to here.
+     * @return true if added successfully.
+     */
+    @SuppressWarnings("unused")
+    public boolean addAllCards(List<Card> cardList)
+    {
+        return cardList.addAll(cards);
     }
 
     /**
      * This method will find if a card exist or not.
      *
+     * @param toFind card to find
      * @return the card object.
      */
-    public boolean findCreditCard(CreditCard currCard) {
-        return creditCards.contains(currCard);
+    public boolean findCard(Card toFind)
+    {
+        return cards.contains(toFind);
     }
 
     /**
-     * This method will insert a new card with the ArrayList.
+     * This method inserts a new card with the ArrayList.
      */
-    public boolean insertCreditCard(CreditCard newCard) {
+    public boolean insertCard(Card newCard) {
         boolean result = false;
-        if (!findCreditCard(newCard)) {
-            result = creditCards.add(newCard);
-        }
-        return result;
-    }
-
-    /**
-     * Getter method to get the credit cards.
-     *
-     * @return creditCards ArrayList.
-     */
-    public ArrayList<CreditCard> getCreditCards() {
-        return creditCards;
-    }
-
-    /**
-     * This method will be used to update a credit card.
-     *
-     * @return true if updated correctly.
-     */
-    public boolean updateCreditCard(CreditCard currCard, CreditCard newCard) {
-        int index = creditCards.indexOf(currCard);
-        boolean result = false;
-        if (index >= 0) {
-            creditCards.set(index, newCard);
+        if (!findCard(newCard)) {
+            cards.add(newCard);
             result = true;
         }
         return result;
     }
 
     /**
-     * This method will remove a credit card.
-     *
-     * @return True if removed successfully
+     * This method removes a given card
      */
-    public boolean deleteCreditCard(CreditCard currCard) {
+    public boolean deleteCard(Card toDelete) {
+        if (findCard(toDelete)) {
+            cards.remove(toDelete);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method updates a card existed in the database
+     *
+     * @param toUpdate an old card needs to be replaced
+     * @param newCard  a new card will replace the other one
+     * @return true if the old card does exist in the database
+     */
+    public boolean updateCard(Card toUpdate, Card newCard) {
+        int index = cards.indexOf(toUpdate);
         boolean result = false;
-        if (creditCards.contains(currCard)) {
-            result = creditCards.remove(currCard);
+        if (index >= 0) {
+            cards.set(index, newCard);
+            result = true;
         }
         return result;
     }
 
-    @Override
-    public int getCardsSize() {
-        return creditCards.size();
+    /**
+     * Getter method to get all the cards.
+     *
+     * @return all the cards.
+     */
+    public ArrayList<Card> getCards()
+    {
+        return cards;
     }
+
+    /**
+     * Getter method to get all the credit cards.
+     *
+     * @return creditCards ArrayList.
+     */
+    public ArrayList<Card> getCreditCards() {
+        ArrayList<Card> ret = new ArrayList<>();
+
+        for (Card c : cards)
+        {
+            if (c instanceof Card)
+            {
+                ret.add((Card) c);
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Getter method to get all the debit cards.
+     *
+     * @return debitCards ArrayList.
+     */  // TODO: Test pending
+    public ArrayList<Card> getDebitCards() {
+        ArrayList<Card> ret = new ArrayList<>();
+
+        for (Card c : cards)
+        {
+            if (c instanceof Card)
+            {
+                ret.add((Card) c);
+            }
+        }
+        return ret;
+    }
+
 
     /**
      * This method will add all the transactions to a transaction list.
@@ -292,4 +460,7 @@ public class StubDatabase implements DataAccess {
         this.username = newUsername;
         return true;
     }
+
+
+
 }
