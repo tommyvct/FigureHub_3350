@@ -73,15 +73,15 @@ public class StubDatabase {
         cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
 
         //local date variable
-        Date date = new Date();
+        Date date = new Date(2020-07-25);
         transactions = new ArrayList<>();
         t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
         t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 2), 40, "Hydro bill paid", card2, utilities);
+        t3 = new Transaction(Services.calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
         transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, 3), 75, "Phone Bill paid", card2, phoneBill);
+        t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
         username = null;    //initializing the username with Null, it is going to call the mane from user input

@@ -25,13 +25,13 @@ public class TestAccessBudgetCategory extends TestCase {
     private AccessBudgetCategory testAccess = null;
     private StubDatabase testDB;
     ArrayList<BudgetCategory> categories;
+    private Date testDate = new Date(2020-07-15);
     private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
     private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
     private BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
     private Card testCard = new Card("Amex", "1000100010001000", "Alan Alfred", 6, 2022, 27);
-    private Transaction t1 = new Transaction(new Date(), 20.45f, "Watched a movie", testCard, bc1);
-    private Transaction t2 = new Transaction(new Date(), 40, "Bought a video game", testCard, bc1);
-    private Date testDate;
+    private Transaction t1 = new Transaction(testDate, 20.45f, "Watched a movie", testCard, bc1);
+    private Transaction t2 = new Transaction(testDate, 40, "Bought a video game", testCard, bc1);
 
     /**
      * creating StubDatabase and AccessBudgetCategory
@@ -43,7 +43,6 @@ public class TestAccessBudgetCategory extends TestCase {
 
         testAccess.insertBudgetCategory("entertainment", "50");
         testAccess.insertBudgetCategory("restaurants", "50");
-        testDate = new Date();
     }
 
     /**
@@ -159,7 +158,7 @@ public class TestAccessBudgetCategory extends TestCase {
      * Testing that all methods work using invalid empty input
      */
     public void testInvalidEmptyInputBudgetName(){
-        //invalid input for limit (must be integer) while inserting
+        //invalid input for name while inserting
         assertFalse(testAccess.insertBudgetCategory("", "50"));
         assertFalse(testAccess.insertBudgetCategory(" ", "50"));
         assertFalse(testAccess.insertBudgetCategory("\n", "50"));
@@ -167,7 +166,7 @@ public class TestAccessBudgetCategory extends TestCase {
         //test that there are still only 6 budget categories in DB
         assertEquals(6, categories.size());
 
-        //invalid input for limit (must be integer) while updating
+        //invalid input for name while updating
         assertNull(testAccess.updateBudgetCategory(bc2, "", "100"));
         assertNull(testAccess.updateBudgetCategory(bc2, " ", "100"));
         assertNull(testAccess.updateBudgetCategory(bc2, "\n", "100"));
@@ -175,25 +174,6 @@ public class TestAccessBudgetCategory extends TestCase {
 
         //test that there are still 6 budget categories in DB
         assertEquals(6, categories.size());
-    }
-
-    /**
-     * testing the findBudgetCategory method in AccessBudgetCategory
-     */
-    public void testFinding() {
-        BudgetCategory failSearch = new BudgetCategory("Balloons", 1000);
-        BudgetCategory successSearch = new BudgetCategory("Groceries", 100);
-        assertNull(testAccess.findBudgetCategory(failSearch));
-        assertEquals(successSearch, testAccess.findBudgetCategory(successSearch));
-    }
-
-    /**
-     * testing adding a list of BudgetCategory to the stub, as well as adding individually
-     */
-    public void testAdding(){
-        assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
-        assertFalse(testAccess.insertBudgetCategory("Houseware", "15"));    //No duplicates
-        assertNotNull(testAccess.findBudgetCategory(bc3));
     }
 
     /**
@@ -223,7 +203,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testCalculateNoTransactionsTotal() {
         Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         //The two budget categories should not have any associated transactions
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
@@ -234,7 +214,7 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testCalculateOneTransactionTotal() {
         Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         testDB.insertTransaction(t1);
         assertEquals(20.45f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
@@ -242,7 +222,7 @@ public class TestAccessBudgetCategory extends TestCase {
         assertEquals(0.0f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
 
         //From Stub Database
-        currMonth.setTime(Services.calcDate(new Date(), -8));
+        currMonth.setTime(testDate);
         assertEquals(450.0f, testAccess.calculateBudgetCategoryTotal(categories.get(0), currMonth));    // Stub rent budget Category
         assertEquals(50.0f, testAccess.calculateBudgetCategoryTotal(categories.get(1), currMonth));     //groceries budget category
         assertEquals(40.0f, testAccess.calculateBudgetCategoryTotal(categories.get(2), currMonth));     //utilities budget category
@@ -254,19 +234,19 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testCalculateMultipleTransactionsTotal() {
         Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t2);
         assertEquals(60.45f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         assertEquals(0f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
-        Transaction t3 = new Transaction(new Date(), 50.53f, "Ate burger", testCard, bc2);
+        Transaction t3 = new Transaction(testDate, 50.53f, "Ate burger", testCard, bc2);
         testDB.insertTransaction(t3);
         assertEquals(60.45f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         assertEquals(50.53f, testAccess.calculateBudgetCategoryTotal(bc2, currMonth));
 
         //From Stub Database
-        currMonth.setTime(Services.calcDate(new Date(), -8));
-        StubBudgetCalcHelper(categories, new Date());
+        currMonth.setTime(testDate);
+        StubBudgetCalcHelper(categories, testDate);
 
         assertEquals(450.0f + 123.45f, testAccess.calculateBudgetCategoryTotal(categories.get(0), currMonth));    // Stub rent budget Category
         assertEquals(50.0f + 123.45f, testAccess.calculateBudgetCategoryTotal(categories.get(1), currMonth));     //groceries budget category
@@ -279,13 +259,13 @@ public class TestAccessBudgetCategory extends TestCase {
      */
     public void testCalculateTransactionDifferentMonths() {
         Calendar currMonth = Calendar.getInstance();
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         currMonth.add(Calendar.MONTH, 1);
         Transaction t3 = new Transaction(currMonth.getTime(), 40, "Bought a video game", testCard, bc1);
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t3);
         StubBudgetCalcHelper(categories, currMonth.getTime());
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         assertEquals(20.45f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));
         currMonth.add(Calendar.MONTH, 1);
         assertEquals(40f, testAccess.calculateBudgetCategoryTotal(bc1, currMonth));

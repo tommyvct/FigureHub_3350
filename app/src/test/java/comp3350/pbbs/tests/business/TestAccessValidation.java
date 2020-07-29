@@ -114,7 +114,7 @@ public class TestAccessValidation extends TestCase {
         assertEquals(1, AccessValidation.isValidExpirationDate("-1", "2068"));
         assertEquals(1, AccessValidation.isValidExpirationDate("-20", "2068"));
         assertEquals(4, AccessValidation.isValidExpirationDate("1", "-20"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("-1", "-20"));
+        assertEquals(4, AccessValidation.isValidExpirationDate("-1", "20"));
 
         //Testing isValidPayDay()
         assertFalse(AccessValidation.isValidPayDate(-1));

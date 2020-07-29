@@ -53,12 +53,19 @@ public class TestAccessCard extends TestCase {
         currMonth.setTime(testDate);
     }
 
+
     /**
      * This method tests finding credit cards in the database
      */
     public void testFindCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.findCard(card));
+
+        //tests finding cards already in stubDB
+        for(int i = 0; i < stubCards.size(); i++){
+            assertTrue(testAccess.findCard(stubCards.get(i)));
+        }
+
         assertFalse(testAccess.findCard(card1));
     }
 
@@ -68,9 +75,8 @@ public class TestAccessCard extends TestCase {
     public void testInsertCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertTrue(testAccess.insertCard(card1));
-        assertFalse(testAccess.insertCard(card1));
+        assertFalse(testAccess.insertCard(card1));  //no duplicates
     }
-
 
     /**
      * This method tests deleting credit cards
