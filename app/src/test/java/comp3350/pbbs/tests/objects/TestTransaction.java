@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 
 import static org.junit.Assert.assertNotEquals;
