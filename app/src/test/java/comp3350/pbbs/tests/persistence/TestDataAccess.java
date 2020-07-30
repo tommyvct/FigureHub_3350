@@ -1,18 +1,31 @@
 package comp3350.pbbs.tests.persistence;
 
 import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
-import comp3350.pbbs.objects.*;
-import comp3350.pbbs.application.*;
-import comp3350.pbbs.persistence.*;
+import comp3350.pbbs.application.Main;
+import comp3350.pbbs.application.Services;
+import comp3350.pbbs.objects.BankAccount;
+import comp3350.pbbs.objects.BudgetCategory;
+import comp3350.pbbs.objects.Card;
+import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessObject;
 
-public class TestDataAccess extends TestCase
-{
+import static org.junit.Assert.assertNotEquals;
+
+/**
+ * TestDataAccess
+ * Group 4
+ * PBBS
+ *
+ * This class defines a test suite for the DataAccess classes.
+ */
+public class TestDataAccess extends TestCase {
     private DataAccess dataAccess;
 
     public TestDataAccess(String arg0) {
@@ -20,21 +33,23 @@ public class TestDataAccess extends TestCase
     }
 
     public void setUp() {
-        // initially testing will be done on stub database
-        // dataAccess = new StubDatabase("test");
-        // DataAccess.populateData(dataAccess);
-
-        // switching to HSQL database can also be done by following these 2 lines:
-        dataAccess = new DataAccessObject(Main.dbName);
-        dataAccess.open(Main.getDBPathName());
-
+        //initially testing will be done on stub database
+        dataAccess = new StubDatabase("test");
+        DataAccess.populateData(dataAccess);
+       // switching to HSQL database can also be done by following these 2 lines:
+        //dataAccess = new DataAccessObject(Main.dbName);
+        //dataAccess.open(Main.getDBPathName());
         // If you're testing the data access object, the testValidValues will fail, but If you run
-        // It individually still be fine (darn persistent storage)
+        // It individually itll be fine (darn persistent storage)
     }
 
     public void tearDown() {
+        Services.closeDataAccess();
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to budgetCategories.
+     */
     public void testBudgetCategories() {
         ArrayList<BudgetCategory> budgets;
         boolean result;
@@ -78,33 +93,96 @@ public class TestDataAccess extends TestCase
         returnedBudget = dataAccess.updateBudgetCategory(b2, newBudget);
         assertTrue(returnedBudget);
         assertFalse(dataAccess.getBudgets().containsAll(budgets));// dataAccess is updated
+
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to bankAccount.
+     */
+    public void testBankAccount(){
+        ArrayList<BankAccount> bankAccounts;
+        boolean result;
+
+        //bankAccounts arrayList is created with zero objects
+        bankAccounts = new ArrayList<BankAccount>();
+        assertNotNull(bankAccounts);
+        assertEquals(0, bankAccounts.size());
+
+        //testing findBankAccount
+        BankAccount newAccount1;
+        newAccount1 = dataAccess.getAllBankAccounts().get(1);
+
+        result = dataAccess.findBankAccount(newAccount1);
+        assertTrue(result);
+        BankAccount newAccount2 = new BankAccount("Scotia", "12345678", dataAccess.getCards().get(0));
+        result = dataAccess.findBankAccount(newAccount2);
+        assertFalse(result);
+
+        //testing insertBankAccount
+        result = dataAccess.insertBankAccount(newAccount2);
+        assertTrue(result);
+        //duplicate can't be added
+        //TODO: the hsql db can't handle the duplicate cases.
+        result = dataAccess.insertBankAccount(newAccount1);
+        assertFalse(result);
+        assertEquals(3, dataAccess.getAllBankAccounts().size());
+
+        //testing updateBankAccount
+        result = dataAccess.updateBankAccount(newAccount1,newAccount2);
+        assertFalse(result);//can't update an account with an existing account
+        BankAccount updateAccount = new BankAccount("TD","23456",dataAccess.getCards().get(2));
+        result = dataAccess.updateBankAccount(newAccount1, updateAccount);
+        assertTrue(result);
+        assertFalse(dataAccess.findBankAccount(newAccount1));//false, because it has been updated
+
+        //testing getAllBankAccounts
+        assertNotEquals(bankAccounts, dataAccess.getAllBankAccounts());
+        BankAccount originalAcc = dataAccess.getAllBankAccounts().get(0);
+        bankAccounts.add(originalAcc);
+        bankAccounts.add(updateAccount);
+        bankAccounts.add(newAccount2);
+        assertEquals(bankAccounts, dataAccess.getAllBankAccounts());
+
+        //testing getAccountsFromDebitCard
+        Card debitCard = dataAccess.getDebitCards().get(0);
+        List<BankAccount> returnedAccounts = new ArrayList<>();
+        returnedAccounts = dataAccess.getAccountsFromDebitCard(debitCard);
+        assertNotNull(returnedAccounts);
+        assertNotEquals(bankAccounts, returnedAccounts);//not all the bankAccounts are from same card
+        assertEquals(1, returnedAccounts.size());//total bank accounts associated with the card is one
+   }
+
+    /**
+     * Tests all the methods in dataAccess classes related to cards.
+     */
     public void testCards() {
         ArrayList<Card> cards;
         boolean result;
 
         //cards ArrayList created with zero objects
         cards = new ArrayList<Card>();
+        assertNotNull(cards);
         assertEquals(0, cards.size());
 
         //testing the size of the ArrayList
-        //System.out.println(dataAccess.getCards());
-        //assertEquals(2, dataAccess.getCardsSize());
+        assertEquals(5, dataAccess.getCards().size());
 
         //testing findCard
         Card card1 = new Card("Card1", "2334222333", "Aziz", 12, 2023, 14);
         result = dataAccess.findCard(card1);
         assertFalse(result);
+        Card newCard = dataAccess.getCards().get(0);
+        result = dataAccess.findCard(newCard);
+        assertTrue(result);
 
         //insertCard test
         dataAccess.insertCard(card1);
         result = dataAccess.findCard(card1);
         assertTrue(result); //card added successfully
-        //assertEquals(3, dataAccess.getCardsSize());
+        assertEquals(6, dataAccess.getCards().size());
         //duplicate card can't be added
         dataAccess.insertCard(card1);
-        //assertNotEquals(4, dataAccess.getCardsSize());
+        assertNotEquals(7, dataAccess.getCards().size());
 
         //testing the getCards
         assertNotEquals(cards, dataAccess.getCards());
@@ -112,13 +190,35 @@ public class TestDataAccess extends TestCase
         assertTrue(dataAccess.getCards().containsAll(cards));
 
         //testing updateCard
-        Card newCard = new Card("newCard", "11112222", "Aziz", 12, 2022, 18);
-        result = dataAccess.updateCard(card1, newCard);
+        Card newCard2 = new Card("newCard2", "11112222", "Aziz", 12, 2022, 18);
+        result = dataAccess.updateCard(card1, newCard2);
         assertTrue(result);
         assertNotEquals(cards, dataAccess.getCards());// dataAccess is updated
-        assertTrue(dataAccess.findCard(newCard));//newCard has been updated successfully
+        assertTrue(dataAccess.findCard(newCard2));//newCard2 has been updated successfully
+
+        //testing the size of different cards
+        assertEquals(3, dataAccess.getCreditCardsSize());
+        assertEquals(3, dataAccess.getDebitCardsSize());
+
+        //testing markInactive
+        assertTrue(dataAccess.markInactive(dataAccess.getCards().get(0)));
+        Card newCard3 = new Card("card3","2324","Aziz",12,2023,12);
+        assertFalse(dataAccess.markInactive(newCard3));//doesn't exist in the card list
+
+        //testing getActiveCards
+        assertNotNull(dataAccess.getActiveCards());
+        assertEquals(5, dataAccess.getActiveCards().size()); //previously inactivated one card
+
+        //testing getCreditCards & getDebitCards
+        assertNotEquals(dataAccess.getCreditCards(), dataAccess.getDebitCards());
+        assertEquals(3,dataAccess.getCreditCards().size());
+        assertEquals(3,dataAccess.getDebitCards().size());
+
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to transactions.
+     */
     public void testTransaction() {
         ArrayList<Transaction> transactions;
         boolean result;
@@ -169,6 +269,9 @@ public class TestDataAccess extends TestCase
         assertNotEquals(transactions, dataAccess.getTransactions());// dataAccess is updated
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to user.
+     */
     public void testUser() {
         //No user name is set
         try {
@@ -180,20 +283,28 @@ public class TestDataAccess extends TestCase
         assertNotNull(dataAccess.getUsername());
     }
 
+    /**
+     * Tests all the objects in dataAccess classes with valid values.
+     */
     public void testValidValues() {
         List<BudgetCategory> budgets;
         List<Card> cards;
         List<Transaction> transactions;
+        List<BankAccount> bankAccounts;
         BudgetCategory budgetCategory;
         Card Card;
         Transaction transaction;
+        BankAccount bankAccount;
 
+        //testing budgetCategory with valid input
         budgets = dataAccess.getBudgets();
         budgetCategory = budgets.get(0);
         assertEquals("Rent/Mortgage", budgetCategory.getBudgetName());
         assertEquals(500.0, budgetCategory.getBudgetLimit());
+        //TODO: I have a feeling that the tear down isn't working, budget size is 6 maybe because of adding new budgets in previous methods.
         assertEquals(4, budgets.size());
 
+        //testing cards with valid input
         cards = dataAccess.getCards();
         Card = cards.get(0);
         assertEquals("Visa", Card.getCardName());
@@ -204,32 +315,48 @@ public class TestDataAccess extends TestCase
         assertEquals(18, Card.getPayDate());
         assertEquals(5, cards.size());
 
+
+        //testing transaction with valid inputs
         transactions = dataAccess.getTransactions();
         transaction = transactions.get(0);
         Date date = new Date();
-
         assertEquals(50.0f, transaction.getAmount());
         assertEquals("Bought Chickens", transaction.getDescription());
         assertEquals(cards.get(0), transaction.getCard());
         assertEquals(budgets.get(1), transaction.getBudgetCategory());
 
-        //No user name is set
-        try {
-            dataAccess.getUsername();
-            fail("Expected NullPointerException!");
-        } catch (NullPointerException ignored) {
-        }
-        //user name can be any String
+        //testing bankAccount with valid inputs
+        bankAccounts = dataAccess.getAllBankAccounts();
+        bankAccount = bankAccounts.get(0);
+        assertEquals("TD student banking", bankAccount.getAccountName());
+        assertEquals("50998924", bankAccount.getAccountNumber());
+        assertEquals(dataAccess.getCards().get(3), bankAccount.getLinkedCard());
+
+        //userName testing with valid input
         dataAccess.setUsername(" ");
         assertEquals(" ", dataAccess.getUsername());
 
     }
 
-    public void testNullValues() {
+    /**
+     * Testing some edge cases.
+     */
+    public void testEdgeCases() {
         try {
             dataAccess.setUsername(null);
             fail("Expected NullPointerException!");
         } catch (NullPointerException ignored) {
         }
+
+        //BankAccount with null name is valid
+        BankAccount nullNameAccount = new BankAccount(null,"123456", dataAccess.getCards().get(3));
+        assertNotNull(nullNameAccount);
+        assertTrue(dataAccess.insertBankAccount(nullNameAccount));
+
+        //BankAccount with space name is valid
+        BankAccount spaceNameAccount = new BankAccount(" ", "123232", dataAccess.getCards().get(1));
+        assertNotNull(spaceNameAccount);
+        assertTrue(dataAccess.insertBankAccount(spaceNameAccount));
+
     }
 }
