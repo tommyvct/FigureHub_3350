@@ -66,6 +66,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 				return;
 			}
 			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
+				setResult(2);
 				finish();
 				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
 			} else {

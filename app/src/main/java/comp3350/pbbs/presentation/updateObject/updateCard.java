@@ -168,7 +168,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 							Integer.parseInt(debit ? "0" : payday.getText().toString())))
 					)
 			{
-				//setResult(1);
+				setResult(2);
 				finish();
 				Toast.makeText(view.getContext(), "Card updated!", Toast.LENGTH_SHORT).show();
 			}
@@ -181,6 +181,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		findViewById(R.id.markCardInactive).setOnClickListener(view ->
 		{
 			accessCard.markInactive(oldCard);
+			setResult(2);
 			finish();
 			Toast.makeText(view.getContext(), "Card mark as inactive!", Toast.LENGTH_SHORT).show();
 		});

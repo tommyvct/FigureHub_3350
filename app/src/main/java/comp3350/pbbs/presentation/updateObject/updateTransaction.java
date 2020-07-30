@@ -156,6 +156,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     ))
             {
+                setResult(2);
                 finish();
                 Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
@@ -167,6 +168,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         {
             if (accessTransaction.deleteTransaction(oldTransaction))
             {
+                setResult(2);
                 finish();
                 Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();
             }
