@@ -1,0 +1,283 @@
+GROUP 4 DEVELOPER LOG
+ORGANIZED BY DAY
+
+Note: The following log is also documented in the Github repository,
+under Projects -> Iteration 2 : Developer logs
+
+# JULY 14
+## Meeting Details:
+- Discussed the developer tasks for iteration 2.
+- Picked up some user stories from medium priority.
+- Josh and Terra assigned to the Visualization part.
+- Aziz and Hao assigned to the Persistence layer.
+- Tommy assigned to the presentation layer.
+
+Attended by: Aziz, Josh, Terra and Tommy
+Time Taken: 1.5 hours
+
+
+# JULY 16
+## Individual entries:
+## Josh
+Added MPChartAndroid to the project
+Time taken: 4 hours
+
+
+# JULY 17
+## Individual entries:
+## Hao
+Started building the HSQLDB environment and read instructions.
+Time taken: 3 hours
+
+
+# JULY 18
+## Individual entries:
+## Aziz
+Wrote the interface for the database.
+Time taken: 1 hour
+
+## Josh
+Create pie charts for budget category sums
+Time taken: 4 hours
+
+
+# JULY 19
+## Individual entries:
+## Aziz
+Wrote tests for the persistence layer to test both the stub and the HSQLDB.
+Time taken: 4 hours
+
+
+# JULY 20
+## Individual entries:
+## Aziz
+Fixed some issues related to the HSQL database along with Hao.
+Time taken: 3 hours
+
+## Josh
+Made budget category sums work by month in the business layer
+Time taken: 3 hours
+
+## Hao
+- Finished some methods of `DataAccess` and the script.
+- Started to debug errors.
+Time taken: 12 hours
+
+## Terra
+- Refining BudgetCategory and tests
+- Investigate MPChartAndroid
+Time: 3 hours
+
+
+# JULY 21
+## Individual entries:
+## Josh
+- Wrote methods to retrieve a list of active months on the business layer
+- Help fix database issues
+- Add month selector to budget view
+Time taken: 4.5 hours
+
+
+# JULY 22
+## Individual entries:
+## Josh
+- Document new budget category viewer.
+- Fix tests
+Time taken: 1.5 hours
+
+# JULY 23
+## Meeting Details:
+- Discuss iteration 2 going forward
+- Assigned everyone a task
+
+Attended by: Aziz, Josh, Terra, Hao, and Tommy
+Time Taken: 1 hour
+
+## Individual entries:
+## Josh
+- Merge all database related code into one branch
+- Change the data access interface
+Time taken: 2 hours
+
+## Terra
+worked on Credit Card Transaction calculations.
+Time taken: 1 hour
+
+
+# JULY 25
+## Individual entries:
+## Aziz
+Wrote a script for DB
+Time taken: 3 hours
+
+## Josh
+- Further refactors to data access interface.
+- Refactor Data access tests and Stub database.
+- Refactor all other tests to work with the reworked stub database.
+- Start refactoring HSQL connector data access
+Time taken: 4.5 hours
+
+## Hao
+Started the update features of android app, finished some parts of xml layout.
+time taken: 6 hours
+
+## Terra
+- completed credit card transactions and added testing.
+- worked on Credit Card visualization
+Time taken: 4 hours
+
+## Tommy
+- Fixed the outstanding bug from iteration 1.
+- Created `ICard` interface, and a `DebitCard` class implementing it, and respective tests.
+Time: 3 hours
+
+# JULY 26
+## Individual entries:
+## Aziz
+Refactored HSQL connector but wasn't successfully done.
+Time taken: 4 hours
+
+## Josh
+Continue refactoring HSQL connector
+Time taken: 6 hours
+
+## Terra
+- Worked on Credit Card visualization some more
+Time taken: 3 hours
+
+## Tommy
+- Improving on `DebitCard` class and respective presentation layer components.
+Time: 6 hours
+
+# JULY 27
+## Meeting Details:
+- Discussed about Database
+- Code cleanup
+- Front looking view
+- Tests
+
+Attended by: Aziz, Josh, Terra, Hao, and Tommy.
+Time taken: 1 hour
+
+## Individual entries:
+## Aziz
+- Started working with updateCard.
+- Methods for updating the credit card is done.
+Time taken: 4 hours
+
+## Josh
+- Finish refactoring HSQL connector
+- Link DB to app
+Time taken: 5 hours
+
+## Hao
+- Wrote `AccessBankAccount`.
+- Wrote tests for `BankAccount` and `AccessBankAccount`.
+- Updated methods related to `AccessBankAccount` in `StubDatabase`.
+Time taken: 4 hours
+
+## Terra
+- Refactoring AccessBudgetCategory and AccessCreditCard, and the respective testing
+Time taken: 2 hours
+
+## Tommy
+- `Transaction` and `BudgetCategory` objects can be modified from the presentation layer.
+- Simplified both credit card and debit card into one class `Card`
+- Add debit card presentation layer is now finished, partially implemented.
+Time taken: 8 hours
+
+# JULY 28
+## Individual entries:
+## Aziz
+- UpdateCard is fully done for both debit and credit card.
+- Implemented "Inactivate" a card partly.
+Time taken: 6 hours
+
+## Josh
+- Finish linking db to app
+- Merge the database code and master
+Time taken: 9 hours
+
+## Hao
+- Discarded `ICard`, merged `CreditCard` and `DebitCard` into `Card`.
+- Updated some tests for the `Card` and `BankAccount` related classes in objects & business layers.
+- Updated methods related to `Card` in `StubDatabase`.
+Time taken: 2.5 hrs
+
+## Terra
+- Extracted methods into AccessValidation
+- Refactor testing for AccessBudgetCategory and created testing for AccessValidation
+- Closed issue "Extract Validation into it's own class".
+Time taken: 6 hours
+
+## Tommy
+- Reuse XML and some code in the presentation layer
+- Mark certain card as inactive. Inactive cards won't show up in card selector in `addTransaction`.
+Time taken: 6 hours
+
+
+# JULY 29
+## Individual entries:
+## Aziz
+- Wrote tests for additional methods in stubDB and HSQLDB.
+- Removed unwanted codes from the persistence layer.
+- Sketched the updated architectural diagram.
+Time taken: 7 hours
+
+## Josh
+Fixed bugs
+- Bug where the lists would not update after inserting/updating an object
+- Bug where the app would crash when viewing the transaction list when one of them has a debit card
+Time taken: 6 hours
+
+## Hao
+Cleaned up redundant commented methods and packaged. Merged into master branch.
+Time taken: 1 hour
+
+## Terra
+- Display current balance of Card on ViewCard
+- Refactored TestAccessCard
+- Closed the issue "Visualize Spending Data.
+Time taken: 3 hours
+
+## Tommy
+- Delete `Transaction` now works
+- Names are now trimmed in presentation layer before passed to business layer
+- Username which asked on first launch can be modified.
+Time taken: 2 hours
+
+# JULY 30
+## Individual entries:
+## Aziz
+
+## Josh
+
+## Hao
+
+## Terra
+
+## Tommy
+
+
+## Outstanding bugs and their fixes
+
+
+## Design decisions and rationals
+1. Implemented pie charts for budget Categories to view to the spending on each budget.
+
+2. Designed 'ViewCard' page which allows user to view the card balance and a line chart of spending for that card over time.
+
+3. Sometimes user may input wrong data, for this reason, we added the update functionality to transactions, cards, and
+   budget categories to modify if the user wants.
+
+4. We designed the feature where the user can choose debit or credit while adding a card. This will help the
+   users manage both credit and debit cards.
+
+5. A card can be made Inactive manually if that no longer is used. We didn't design the delete card feature as we don't
+   want the transactions associated with that card go away.
+
+6. In our app, the card number is intentionally left unchecked, they could be anything that is not null or empty.
+   The rational behind this is: there are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number,
+   while an American Express card have 15, and even some debit cards have 19 digits. There are even some private companies who
+   provide a financial product without a legit bank card (namely EQ Bank in Canada and Ant Financial in China).
+

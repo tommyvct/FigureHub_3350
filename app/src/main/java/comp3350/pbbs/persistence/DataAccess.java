@@ -80,11 +80,13 @@ public interface DataAccess {
      */
     static void populateData(DataAccess dataAccess) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
-        Card card1, card2;                                      //variables for multiple cards
+        Card card1, card2, card3, card4, card5;                                      //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
+        BankAccount b1,b2;
         List<BudgetCategory> budgets = new ArrayList<BudgetCategory>();
         List<Card> cards = new ArrayList<Card>();
         List<Transaction> transactions = new ArrayList<Transaction>();
+        List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 
         rent = new BudgetCategory("Rent/Mortgage", 500);
         budgets.add(rent);
@@ -121,10 +123,17 @@ public interface DataAccess {
         t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
-        cards.add(new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021));
-        cards.add(new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021));
-        cards.add(new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0));
+        card3 = new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
+        cards.add(card3);
+        card4 = new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021);
+        cards.add(card4);
+        card5 = new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0);
+        cards.add(card5);
 
+        b1 = new BankAccount("TD student banking", "50998924", card4);
+        bankAccounts.add(b1);
+        b2 = new BankAccount("CIBC banking", "290948376", card3);
+        bankAccounts.add(b2);
 
         for(BudgetCategory b : budgets) {
             dataAccess.insertBudgetCategory(b);
@@ -134,6 +143,9 @@ public interface DataAccess {
         }
         for(Transaction t : transactions) {
             dataAccess.insertTransaction(t);
+        }
+        for (BankAccount b : bankAccounts) {
+            dataAccess.insertBankAccount(b);
         }
     }
 }
