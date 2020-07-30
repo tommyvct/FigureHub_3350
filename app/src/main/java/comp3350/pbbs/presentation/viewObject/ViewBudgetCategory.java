@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -25,7 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.core.content.ContextCompat;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessTransaction;
@@ -121,7 +121,7 @@ public class ViewBudgetCategory extends Activity {
             }
         });
 
-        findViewById(R.id.updateBudgetSubmit).setOnClickListener(view ->
+        findViewById(R.id.updateBudgetButton).setOnClickListener(view ->
         {
             Intent updateBudget = new Intent(view.getContext(), updateBudgetCategory.class);
             updateBudget.putExtra("toModify", budgetCategory);
@@ -129,18 +129,18 @@ public class ViewBudgetCategory extends Activity {
             finish();
         });
 
-        findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
-        {
-            if (false/*accessBudgetCategory.deleteBudgetCategory(budgetCategory)*/)
-            {
-                Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                finish();
-                Toast.makeText(view.getContext(), "Budget category deleted!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
+//        {
+//            if (accessBudgetCategory.deleteBudgetCategory(budgetCategory) == null)
+//            {
+//                Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
+//            }
+//            else
+//            {
+//                finish();
+//                Toast.makeText(view.getContext(), "Budget category deleted!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     /**

@@ -1,10 +1,12 @@
 package comp3350.pbbs.presentation;
 
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 
@@ -17,6 +19,7 @@ import comp3350.pbbs.business.AccessUser;
  */
 public class firstTimeGreeting extends AppCompatActivity {
 
+    String a;
     /**
      * This method initiates the first time greeting activity and asks users name.
      */
@@ -25,6 +28,7 @@ public class firstTimeGreeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_greeting);
 
+        a = (String) getIntent().getSerializableExtra("a");
         Button b = findViewById(R.id.button);
         EditText nameBox = findViewById(R.id.textBox);
 
@@ -34,7 +38,10 @@ public class firstTimeGreeting extends AppCompatActivity {
                 nameBox.setError("This field cannot be empty.");
             } else {
                 new AccessUser().setUsername(nameBox.getText().toString());
-                startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
+                if (a == null)
+                {
+                    startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
+                }
                 finish();
             }
         });

@@ -89,7 +89,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector //////////TODO: DEBIT
+        ///////// Card Selector //////////TODO: add Bank account list
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
         List<Card> cardArrayList = accessCreditCard.getCreditCards();

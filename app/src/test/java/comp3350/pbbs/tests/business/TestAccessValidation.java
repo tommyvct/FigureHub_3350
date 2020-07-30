@@ -57,6 +57,8 @@ public class TestAccessValidation extends TestCase {
         assertEquals(1.10f, AccessValidation.parseAmount("1.10"));
         assertEquals(1.10f, AccessValidation.parseAmount(" 1.10"));
         assertEquals(1.10f, AccessValidation.parseAmount("1.10 "));
+        assertEquals(1.10f, AccessValidation.parseAmount("1.1"));
+        assertEquals(10.10f, AccessValidation.parseAmount("10.1"));
         assertEquals(10.10f, AccessValidation.parseAmount("10.10"));
         assertEquals(55.58f, AccessValidation.parseAmount("55.58"));
         assertEquals(1.23f, AccessValidation.parseAmount("1.23"));
@@ -175,8 +177,6 @@ public class TestAccessValidation extends TestCase {
         assertNull(AccessValidation.parseAmount("1 .234"));
         assertNull(AccessValidation.parseAmount("1,234"));
         assertNull(AccessValidation.parseAmount("1.2{34"));
-        assertNull(AccessValidation.parseAmount("1.1"));
-        assertNull(AccessValidation.parseAmount("10.1"));
         assertNull(AccessValidation.parseAmount("10.234"));
         assertNull(AccessValidation.parseAmount("one"));
         assertNull(AccessValidation.parseAmount("0two"));

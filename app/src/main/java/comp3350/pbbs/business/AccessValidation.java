@@ -8,15 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import comp3350.pbbs.objects.Cards.Card;
-
 import static comp3350.pbbs.business.AccessTransaction.DATE_FORMATS;
 
 public class AccessValidation
 {
-    /**
-     * constants: constraints to a credit card
-     */
     private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
@@ -26,15 +21,10 @@ public class AccessValidation
      * @return true if the holder name meet the requirement of the format
      */
     public static boolean isValidName(String str) {
-        if (str == null || str.isEmpty()) {
+        if (str == null || str.trim().isEmpty()) {
             return false;
         } else {
-            str = str.trim();
-            if (str == null || str.isEmpty()) {
-                return false;
-            } else {
-                return str.matches(REGEX);
-            }
+            return str.trim().matches(REGEX);
         }
     }
 
@@ -133,8 +123,8 @@ public class AccessValidation
         if (amountStr != null) {
             // If the string is decimal-like
             if (amountStr.contains(".")) {
-                // Check if the string is a decimal number with 2 decimal places
-                if (amountStr.matches("\\d*\\.\\d\\d$")) {
+                // Check if the string is a decimal number with 1 or 2 decimal places
+                if (amountStr.matches("\\d*\\.\\d\\d$") || amountStr.matches("\\d*\\.\\d$")) {
                     // Parse the string
                     toReturn = Float.parseFloat(amountStr);
                     if (toReturn < 0)
@@ -158,16 +148,7 @@ public class AccessValidation
      * @return True if the description is valid, or false if it is invalid
      */
     public static boolean isValidDescription(String desc) {
-        if (desc == null || desc.isEmpty()) {
-            return false;
-        } else {
-            desc = desc.trim();
-            if (desc == null || desc.isEmpty()) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+        return desc != null && !desc.trim().isEmpty();
     }
 
     /**
@@ -183,8 +164,8 @@ public class AccessValidation
             amountStr = amountStr.trim();
             // If the string is decimal-like
             if (amountStr.contains(".")) {
-                // Check if the string is a decimal number with 2 decimal places
-                if (amountStr.matches("\\d*\\.\\d\\d$")) {
+                // Check if the string is a decimal number with 1 or 2 decimal places
+                if (amountStr.matches("\\d*\\.\\d\\d$") || amountStr.matches("\\d*\\.\\d$")) {
                     // Parse the string
                     toReturn = Float.parseFloat(amountStr);
                     if (toReturn < 0)
@@ -224,6 +205,4 @@ public class AccessValidation
         }
         return toReturn;
     }
-
-
 }

@@ -209,39 +209,39 @@ public class StubDatabase implements DataAccess {
         return ret;
     }
 
-    /**
-     * This method will add all the credit cards to the given card list.
-     *
-     * @param cardList all credit cards in the stub SB will be added to here.
-     * @return true if added successfully.
-     */
-    //@SuppressWarnings("unused")  // will be used at some point in the future
- //   public boolean addAllCreditCards(List<Card> cardList) {
- //       ArrayList<Card> toAdd = new ArrayList<>();
+//    /**
+//     * This method will add all the credit cards to the given card list.
+//     *
+//     * @param cardList all credit cards in the stub SB will be added to here.
+//     * @return true if added successfully.
+//     */
+//    @SuppressWarnings("unused")  // will be used at some point in the future
+//    public boolean addAllCreditCards(List<Card> cardList) {
+//        ArrayList<Card> toAdd = new ArrayList<>();
 //
 //        for (Card c : cards)
 //        {
-//            if (c instanceof Card)// TODO: change to isCredit()
+//            if (!c.isDebit())
 //            {
 //                toAdd.add((Card) c);
 //            }
 //        }
 //        return cardList.addAll(toAdd);
 //    }
-
-    /**
-     * This method will add all the debit cards to the given card list.
-     *
-     * @param cardList all debit cards in the stub SB will be added to here.
-     * @return true if added successfully.
-     */  // TODO: Test pending
+//
+//    /**
+//     * This method will add all the debit cards to the given card list.
+//     *
+//     * @param cardList all debit cards in the stub SB will be added to here.
+//     * @return true if added successfully.
+//     */
 //    @SuppressWarnings("unused")  // will be used at some point in the future
 //    public boolean addAllDebitCards(List<Card> cardList) {
 //        ArrayList<Card> toAdd = new ArrayList<>();
 //
-//        for (Card c : cards)// TODO: change to !isCredit()
+//        for (Card c : cards)
 //        {
-//            if (c instanceof Card)
+//            if (c.isDebit())
 //            {
 //                toAdd.add((Card) c);
 //            }
@@ -367,8 +367,8 @@ public class StubDatabase implements DataAccess {
      * Getter method to get all the debit cards.
      *
      * @return debitCards ArrayList.
-     */  // TODO: Test pending
-    public List<Card> getDebitCards() {
+     */
+    public ArrayList<Card> getDebitCards() {
         ArrayList<Card> ret = new ArrayList<>();
         for (Card c : cards) {
             if (c.getPayDate() == 0) {

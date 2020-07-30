@@ -25,6 +25,7 @@ public class AllTests {
         suite = new TestSuite("All tests");
         testObjects();
         testBusiness();
+        testPersistence();
         return suite;
     }
 
@@ -45,11 +46,19 @@ public class AllTests {
         suite.addTestSuite(TestAccessTransactionUpload.class);
         suite.addTestSuite(TestAccessTransactionRetrieve.class);
         suite.addTestSuite(TestAccessTransactionUpdate.class);
+        suite.addTestSuite(TestAccessValidation.class);
         //suite.addTestSuite(TestAccessTransactionDelete.class);
         suite.addTestSuite(TestAccessUser.class);
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessBankAccount.class);
         suite.addTestSuite(TestAccessCard.class);
+        suite.addTestSuite(TestDataAccess.class);
+    }
+
+    /**
+     * Method to run the tests which are for the persistence layer.
+     */
+    private static void testPersistence() {
         suite.addTestSuite(TestDataAccess.class);
     }
 }
