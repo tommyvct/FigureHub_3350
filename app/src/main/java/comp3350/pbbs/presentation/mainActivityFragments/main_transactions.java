@@ -80,7 +80,7 @@ public class main_transactions extends Fragment {
         listAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                accessTransaction.retrieveTransactions()
+                transactionArrayList
         );
         transactionListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
