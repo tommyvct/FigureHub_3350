@@ -6,8 +6,8 @@ import java.util.Calendar;
 
 import comp3350.pbbs.business.AccessValidation;
 
-public class TestAccessValidation extends TestCase {
-
+public class TestAccessValidation extends TestCase
+{
     /**
      * Testing Valid input
      */

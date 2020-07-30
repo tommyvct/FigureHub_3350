@@ -25,7 +25,6 @@ public class DataAccessObject implements DataAccess {
 	private String dbType;	// type of DB
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
 	/**
 	 * Constructor of DB
 	 * @param dbName the DB name
@@ -88,16 +87,6 @@ public class DataAccessObject implements DataAccess {
 		return toReturn;
 	}
 
-//	public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-//		boolean result = false;
-//		for(BudgetCategory budgetCategory : budgetList) {
-//			result = insertBudgetCategory(budgetCategory);
-//			if(!result)
-//				break;
-//		}
-//		return result;
-//	}
-
 	public boolean findBudgetCategory(BudgetCategory currentBudget) {
 		boolean result = false;
 		try {
@@ -135,21 +124,6 @@ public class DataAccessObject implements DataAccess {
 		}
 		return result;
 	}
-
-//	public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
-//		boolean toReturn = false;
-//		try {
-//			String cmdString = "DELETE FROM BUDGETCATEGORY WHERE BUDGETNAME='" +
-//					currentBudget.getBudgetName() + "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
-//			stmt = con.createStatement();
-//			int updateCount = stmt.executeUpdate(cmdString);
-//			checkWarning(stmt, updateCount);
-//			toReturn = true;
-//		} catch (SQLException e) {
-//			System.out.println(e.toString());
-//		}
-//		return toReturn;
-//	}
 
 	public int getBudgetsSize() {
 		int count = 0;
@@ -200,7 +174,6 @@ public class DataAccessObject implements DataAccess {
 			System.out.println(e.toString());
 		}
 		return result;
-
 	}
 
 	@Override
@@ -614,37 +587,6 @@ public class DataAccessObject implements DataAccess {
 		return count;
 	}
 
-//	public boolean addAllCreditCards(List<CreditCard> cardList) {
-//		boolean result = false;
-//		for(CreditCard creditCard : cardList) {
-//			result = insertCreditCard(creditCard);
-//			if(!result)
-//				break;
-//		}
-//		return result;
-//	}
-
-//	public boolean deleteCard(Card currCard) {
-//		boolean toReturn = false;
-//		try {
-//			String cmdString = "DELETE FROM CARD WHERE" +
-//					" CARDNAME='" + currCard.getCardName() +
-//					"' AND CARDNUM='" +	currCard.getCardNum() +
-//					"' AND HOLDERNAME='" + currCard.getHolderName() +
-//					"' AND EXPIREMONTH=" + currCard.getExpireMonth() +
-//					" AND EXPIREYEAR=" + currCard.getExpireYear() +
-//					" AND PAYDATE=" + currCard.getPayDate();
-//			stmt = con.createStatement();
-//			int updateCount = stmt.executeUpdate(cmdString);
-//			checkWarning(stmt, updateCount);
-//			toReturn = true;
-//		} catch (SQLException e) {
-//			System.out.println(e.toString());
-//		}
-//		return toReturn;
-//	}
-
-
 	/**
 	 * Methods for Transactions
 	 */
@@ -695,16 +637,6 @@ public class DataAccessObject implements DataAccess {
 		}
 		return count;
 	}
-
-//	public boolean addTransactions(List<Transaction> transactionsList) {
-//		boolean result = false;
-//		for(Transaction transaction : transactionsList) {
-//			result = insertTransaction(transaction);
-//			if(!result)
-//				break;
-//		}
-//		return result;
-//	}
 
 	public boolean findTransaction(Transaction currentTransaction) {
 		boolean found = false;

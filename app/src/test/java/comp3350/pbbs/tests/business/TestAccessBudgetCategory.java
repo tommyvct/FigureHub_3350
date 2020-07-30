@@ -22,10 +22,11 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  *
  * This class tests AccessBudgetCategory class
  */
-public class TestAccessBudgetCategory extends TestCase {
-    private AccessBudgetCategory testAccess = null;
+public class TestAccessBudgetCategory extends TestCase
+{
     private DataAccess testDB;
     List<BudgetCategory> categories;
+    private AccessBudgetCategory testAccess = null;
     private Date testDate = new Date(2020-07-15);
     private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
     private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
@@ -372,9 +373,7 @@ public class TestAccessBudgetCategory extends TestCase {
         try {
             testAccess.getActiveMonths(null);
             fail("Expected NullPointerException.");
-        } catch (NullPointerException ignored) {
-
-        }
+        } catch (NullPointerException ignored) { }
     }
 
     /**

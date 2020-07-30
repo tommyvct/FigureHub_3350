@@ -2,12 +2,10 @@ package comp3350.pbbs.tests.business;
 
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.BudgetCategory;
@@ -17,23 +15,24 @@ import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
- * TestAccessCreditCard
+ * TestAccessCard
  * Group4
  * PBBS
  *
  * This class tests the methods in the AccessCreditCard class
  */
-public class TestAccessCard extends TestCase {
-    private Card card;        // a Card object
-    private Card card2;        // a Card object
+public class TestAccessCard extends TestCase
+{
     private DataAccess testDB;
-    List<Card> stubCards;
+    private AccessCard testAccess;
     private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
-    private Transaction t1;
-    private Transaction t2;
     private Calendar currMonth;
     private Date testDate;
-    private AccessCard testAccess;    // a AccessCreditCard object
+    List<Card> stubCards;
+    private Card card1;
+    private Card card2;
+    private Transaction t1;
+    private Transaction t2;
 
     /**
      * This method connects to the database, create and initiate instance variables
@@ -41,12 +40,12 @@ public class TestAccessCard extends TestCase {
     public void setUp() {
         testDB = Services.createDataAccess(new StubDatabase("populateTest"));
         stubCards = testDB.getCards();
-        card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+        card1 = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
         card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);
         testAccess = new AccessCard();
-        testAccess.insertCard(card);
-        t1 = new Transaction(new Date(), 20.45f, "Watched a movie", card, testBudgetCategory);
-        t2 = new Transaction(new Date(), 40f, "Bought a video game", card, testBudgetCategory);
+        testAccess.insertCard(card1);
+        t1 = new Transaction(new Date(), 20.45f, "Watched a movie", card1, testBudgetCategory);
+        t2 = new Transaction(new Date(), 40f, "Bought a video game", card1, testBudgetCategory);
         currMonth = Calendar.getInstance();
         testDate = new Date();
         currMonth.setTime(testDate);
@@ -58,7 +57,7 @@ public class TestAccessCard extends TestCase {
      */
     public void testFindCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(testAccess.findCard(card));
+        assertTrue(testAccess.findCard(this.card1));
 
         //tests finding cards already in stubDB
         for(int i = 0; i < stubCards.size(); i++){
@@ -78,26 +77,16 @@ public class TestAccessCard extends TestCase {
     }
 
     /**
-     * This method tests deleting credit cards
-     */
-    // public void testDeleteCreditCard() {
-    //     Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-    //     assertTrue(testAccess.deleteCard(card));
-    //     assertFalse(testAccess.deleteCard(card));
-    //     assertFalse(testAccess.deleteCard(card1));
-    // }
-
-    /**
      * This method tests updating credit cards
      */
     public void testUpdateCreditCard() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         Card debitCard = new Card("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
         assertFalse(testAccess.updateCard(card1, debitCard));
-        assertTrue(testAccess.updateCard(card, card1));
-        assertFalse(testAccess.updateCard(card, card1));
+        assertTrue(testAccess.updateCard(this.card1, card1));
+        assertFalse(testAccess.updateCard(this.card1, card1));
         assertTrue(testAccess.findCard(card1));
-        assertFalse(testAccess.findCard(card));
+        assertFalse(testAccess.findCard(this.card1));
     }
 
     /**
@@ -106,22 +95,22 @@ public class TestAccessCard extends TestCase {
     public void testCardList() {
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         List<Card> list = testAccess.getCreditCards();
-        assertTrue(list.contains(card));
+        assertTrue(list.contains(this.card1));
         assertFalse(list.contains(card1));
         testAccess.insertCard(card1);
         list = testAccess.getCreditCards();
-        assertTrue(list.contains(card));
+        assertTrue(list.contains(this.card1));
         assertTrue(list.contains(card1));
 
         Card debit1 = new Card("Debit 1", "165158684", "Tommy Vercetti", 6, 2077);
         list = testAccess.getDebitCards();
         assertFalse(list.contains(card1));
-        assertFalse(list.contains(card));
+        assertFalse(list.contains(this.card1));
         assertFalse(list.contains(debit1));
         testAccess.insertCard(debit1);
         list = testAccess.getDebitCards();
         assertFalse(list.contains(card1));
-        assertFalse(list.contains(card));
+        assertFalse(list.contains(this.card1));
         assertTrue(list.contains(debit1));
     }
 
@@ -139,8 +128,8 @@ public class TestAccessCard extends TestCase {
      */
     public void testCalculateNoTransactionsTotal() {
         //The two cards should not have any associated transactions
-        assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
-        assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(0.0f, testAccess.calculateCardTotal(card1, currMonth));
+        assertEquals(0.0f, testAccess.calculateCardTotal(card1, currMonth));
     }
 
     /**
@@ -148,10 +137,10 @@ public class TestAccessCard extends TestCase {
      */
     public void testCalculateOneTransactionTotal() {
         testDB.insertTransaction(t1);
-        assertEquals(20.45f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(20.45f, testAccess.calculateCardTotal(card1, currMonth));
         assertEquals(0.0f, testAccess.calculateCardTotal(card2, currMonth));
         currMonth.add(Calendar.MONTH, 1);
-        assertEquals(0.0f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(0.0f, testAccess.calculateCardTotal(card1, currMonth));
 
         //From Stub Database
         currMonth.set(2020, 0, 1);
@@ -164,11 +153,11 @@ public class TestAccessCard extends TestCase {
     public void testCalculateMultipleTransactionsTotal() {
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t2);
-        assertEquals(60.45f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(60.45f, testAccess.calculateCardTotal(card1, currMonth));
         assertEquals(0f, testAccess.calculateCardTotal(card2, currMonth));
         Transaction t3 = new Transaction(new Date(), 50.53f, "Ate burger", card2, testBudgetCategory);
         testDB.insertTransaction(t3);
-        assertEquals(60.45f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(60.45f, testAccess.calculateCardTotal(card1, currMonth));
         assertEquals(50.53f, testAccess.calculateCardTotal(card2, currMonth));
 
         //From Stub Database
@@ -181,13 +170,13 @@ public class TestAccessCard extends TestCase {
      */
     public void testCalculateTransactionDifferentMonths() {
         currMonth.add(Calendar.MONTH, 1);
-        Transaction t4 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card, testBudgetCategory);
+        Transaction t4 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card1, testBudgetCategory);
         currMonth.setTime(new Date());
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t4);
-        assertEquals(20.45f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(20.45f, testAccess.calculateCardTotal(card1, currMonth));
         currMonth.add(Calendar.MONTH, 1);
-        assertEquals(40f, testAccess.calculateCardTotal(card, currMonth));
+        assertEquals(40f, testAccess.calculateCardTotal(card1, currMonth));
     }
 
     /**
@@ -196,7 +185,7 @@ public class TestAccessCard extends TestCase {
     public void testEmptyActiveMonths() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
-        List<Calendar> result = testAccess.getActiveMonths(card);
+        List<Calendar> result = testAccess.getActiveMonths(card1);
         assertTrue(result.isEmpty());
     }
 
@@ -205,7 +194,7 @@ public class TestAccessCard extends TestCase {
      */
     public void testSingleActiveMonth() {
         testDB.insertTransaction(t1);
-        List<Calendar> result = testAccess.getActiveMonths(card);
+        List<Calendar> result = testAccess.getActiveMonths(card1);
         assertEquals(1, result.size());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
@@ -224,7 +213,7 @@ public class TestAccessCard extends TestCase {
     public void testMultipleActiveMonths() {
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t2);
-        List<Calendar> result = testAccess.getActiveMonths(card);
+        List<Calendar> result = testAccess.getActiveMonths(card1);
         assertEquals(1, result.size());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(testDate);
@@ -236,9 +225,9 @@ public class TestAccessCard extends TestCase {
         calendar.set(Calendar.MILLISECOND, 0);
         assertTrue(result.contains(calendar));
         calendar.set(1000, 1, 1);
-        Transaction t3 = new Transaction(calendar.getTime(), 20, "Bought groceries.", card, testBudgetCategory);
+        Transaction t3 = new Transaction(calendar.getTime(), 20, "Bought groceries.", card1, testBudgetCategory);
         testDB.insertTransaction(t3);
-        result = testAccess.getActiveMonths(card);
+        result = testAccess.getActiveMonths(card1);
         assertEquals(2, result.size());
         assertTrue(result.contains(calendar));
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -257,11 +246,8 @@ public class TestAccessCard extends TestCase {
         try {
             testAccess.getActiveMonths(null);
             fail("Expected NullPointerException.");
-        } catch (NullPointerException ignored) {
-
-        }
+        } catch (NullPointerException ignored) { }
     }
-
 
     /**
      * This teardown method disconnects from the database

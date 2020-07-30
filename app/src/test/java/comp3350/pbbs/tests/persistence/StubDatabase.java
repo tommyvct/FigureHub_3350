@@ -21,7 +21,8 @@ import comp3350.pbbs.persistence.DataAccess;
  * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess {
+public class StubDatabase implements DataAccess
+{
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
@@ -61,15 +62,6 @@ public class StubDatabase implements DataAccess {
     public void close() {
         System.out.println("Closed stub database");
     }
-
-    /**
-     * This method will add all the budgets to a budget list
-     *
-     * @return true if added successfully.
-     */
-//    public boolean addBudgetCategories(List<BudgetCategory> budgetList) {
-//        return budgets.addAll(budgetList);
-//    }
 
     /**
      * This method will find if a budget exist or not
@@ -126,16 +118,6 @@ public class StubDatabase implements DataAccess {
     }
 
     /**
-     * This method will add all the bank accounts to the given card list.
-     *
-     * @param accountList all bank accounts in the stub DB will be added to here.
-     * @return true if added successfully.
-     */
-//    public boolean addAllBankAccounts(List<BankAccount> accountList) {
-//        return accountList.addAll(accounts);
-//    }
-
-    /**
      * method: find a bank account exist or not in the database
      *
      * @param toFind a bank account needs to be found from the database
@@ -159,19 +141,6 @@ public class StubDatabase implements DataAccess {
         return false;
     }
 
-    /**
-     * method: delete a bank account from the database
-     *
-     * @param toDelete a bank account needs to be deleted from the database
-     * @return true if this bank account card does exist in the database
-     */
-    //public boolean deleteBankAccount(BankAccount toDelete) {
-    //    if (findBankAccount(toDelete)) {
-    //        accounts.remove(toDelete);
-    //        return true;
-    //    }
-    //    return false;
-    //}
     /**
      * method: update a bank account existed in the database
      *
@@ -209,58 +178,6 @@ public class StubDatabase implements DataAccess {
         return ret;
     }
 
-//    /**
-//     * This method will add all the credit cards to the given card list.
-//     *
-//     * @param cardList all credit cards in the stub SB will be added to here.
-//     * @return true if added successfully.
-//     */
-//    @SuppressWarnings("unused")  // will be used at some point in the future
-//    public boolean addAllCreditCards(List<Card> cardList) {
-//        ArrayList<Card> toAdd = new ArrayList<>();
-//
-//        for (Card c : cards)
-//        {
-//            if (!c.isDebit())
-//            {
-//                toAdd.add((Card) c);
-//            }
-//        }
-//        return cardList.addAll(toAdd);
-//    }
-//
-//    /**
-//     * This method will add all the debit cards to the given card list.
-//     *
-//     * @param cardList all debit cards in the stub SB will be added to here.
-//     * @return true if added successfully.
-//     */
-//    @SuppressWarnings("unused")  // will be used at some point in the future
-//    public boolean addAllDebitCards(List<Card> cardList) {
-//        ArrayList<Card> toAdd = new ArrayList<>();
-//
-//        for (Card c : cards)
-//        {
-//            if (c.isDebit())
-//            {
-//                toAdd.add((Card) c);
-//            }
-//        }
-//        return cardList.addAll(toAdd);
-//    }
-
-    /**
-     * This method will add all the cards to the given card list.
-     *
-     * @param cardList all cards in the stub DB will be added to here.
-     * @return true if added successfully.
-     */
-//    @SuppressWarnings("unused")
-//    public boolean addAllCards(List<Card> cardList)
-//    {
-//        return cardList.addAll(cards);
-//    }
-
     /**
      * This method will find if a card exist or not.
      *
@@ -283,17 +200,6 @@ public class StubDatabase implements DataAccess {
         }
         return result;
     }
-
-    /**
-     * This method removes a given card
-     */
-    //public boolean deleteCard(Card toDelete) {
-    //    if (findCard(toDelete)) {
-    //        cards.remove(toDelete);
-    //        return true;
-    //    }
-    //    return false;
-    //}
 
     /**
      * This method updates a card existed in the database
@@ -336,7 +242,6 @@ public class StubDatabase implements DataAccess {
         }
         return false;
     }
-
 
     /**
      * Getter method to get all the cards.
@@ -396,16 +301,6 @@ public class StubDatabase implements DataAccess {
 
         return ret;
     }
-
-
-    /**
-     * This method will add all the transactions to a transaction list.
-     *
-     * @return true if added successfully.
-     */
-    //public boolean addTransactions(List<Transaction> transactionsList) {
-    //    return transactions.addAll(transactionsList);
-    //}
 
     /**
      * This method will find if a transaction exist or not.
@@ -495,6 +390,4 @@ public class StubDatabase implements DataAccess {
         this.username = newUsername;
         return true;
     }
-
-
 }

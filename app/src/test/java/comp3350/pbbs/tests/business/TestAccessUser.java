@@ -14,7 +14,8 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  *
  * This class tests the AccessUser class.
  */
-public class TestAccessUser extends TestCase {
+public class TestAccessUser extends TestCase
+{
     private AccessUser testAccess = null;           //variable for AccessUser class
 
     /**

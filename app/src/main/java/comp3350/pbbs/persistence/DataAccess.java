@@ -19,8 +19,6 @@ public interface DataAccess {
 
     String getDBName();
 
-    //boolean addBudgetCategories(List<BudgetCategory> budgetList);
-
     boolean findBudgetCategory(BudgetCategory currentBudget);
 
     boolean insertBudgetCategory(BudgetCategory newBudget);
@@ -29,23 +27,17 @@ public interface DataAccess {
 
     boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
 
-    //boolean deleteBudgetCategory(BudgetCategory currentBudget);
-
     int getBudgetsSize();
 
     boolean findBankAccount(BankAccount toFind);
 
     boolean insertBankAccount(BankAccount newAccount);
 
-    //boolean deleteBankAccount(BankAccount toDelete);
-
     boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount);
 
     List<BankAccount> getAllBankAccounts();
 
     List<BankAccount> getAccountsFromDebitCard(Card from);
-
-    //boolean addAllCards(List<Card> cardList);
 
     boolean findCard(Card currCard);
 
@@ -63,13 +55,9 @@ public interface DataAccess {
 
     boolean markInactive(Card toMark);
 
-    //boolean deleteCard(Card currCard);
-
     int getCreditCardsSize();
 
     int getDebitCardsSize();
-
-    //boolean addTransactions(List<Transaction> transactionsList);
 
     boolean findTransaction(Transaction currentTransaction);
 

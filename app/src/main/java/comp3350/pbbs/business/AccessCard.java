@@ -50,18 +50,6 @@ public class AccessCard
     }
 
     /**
-     * method: delete a debit card from the database
-     *
-     * NOT IMPLEMENTED in presentation for iteration1.
-     *
-     * @param toDelete a debit card needs to be deleted from the database
-     * @return true if this debit card does exist in the database
-     */
-//    public boolean deleteCard(Card toDelete) {
-//        return db.deleteCard(toDelete);
-//    }
-
-    /**
      * method: update a card existed in the database
      *
      * NOT IMPLEMENTED in presentation for iteration1.
