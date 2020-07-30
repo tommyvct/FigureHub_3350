@@ -18,6 +18,13 @@ import comp3350.pbbs.persistence.DataAccessObject;
 
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ * TestDataAccess
+ * Group 4
+ * PBBS
+ *
+ * This class defines a test suite for the DataAccess classes.
+ */
 public class TestDataAccess extends TestCase {
     private DataAccess dataAccess;
 
@@ -40,6 +47,9 @@ public class TestDataAccess extends TestCase {
         Services.closeDataAccess();
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to budgetCategories.
+     */
     public void testBudgetCategories() {
         ArrayList<BudgetCategory> budgets;
         boolean result;
@@ -86,6 +96,9 @@ public class TestDataAccess extends TestCase {
 
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to bankAccount.
+     */
     public void testBankAccount(){
         ArrayList<BankAccount> bankAccounts;
         boolean result;
@@ -139,6 +152,9 @@ public class TestDataAccess extends TestCase {
         assertEquals(1, returnedAccounts.size());//total bank accounts associated with the card is one
    }
 
+    /**
+     * Tests all the methods in dataAccess classes related to cards.
+     */
     public void testCards() {
         ArrayList<Card> cards;
         boolean result;
@@ -201,6 +217,9 @@ public class TestDataAccess extends TestCase {
 
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to transactions.
+     */
     public void testTransaction() {
         ArrayList<Transaction> transactions;
         boolean result;
@@ -251,6 +270,9 @@ public class TestDataAccess extends TestCase {
         assertNotEquals(transactions, dataAccess.getTransactions());// dataAccess is updated
     }
 
+    /**
+     * Tests all the methods in dataAccess classes related to user.
+     */
     public void testUser() {
         //No user name is set
         try {
@@ -262,6 +284,9 @@ public class TestDataAccess extends TestCase {
         assertNotNull(dataAccess.getUsername());
     }
 
+    /**
+     * Tests all the objects in dataAccess classes with valid values.
+     */
     public void testValidValues() {
         List<BudgetCategory> budgets;
         List<Card> cards;
@@ -277,7 +302,7 @@ public class TestDataAccess extends TestCase {
         budgetCategory = budgets.get(0);
         assertEquals("Rent/Mortgage", budgetCategory.getBudgetName());
         assertEquals(500.0, budgetCategory.getBudgetLimit());
-        //TODO: I have a feeling that the tear down isn't working, budget size is 6 maybe because of adding new budgets in previos methods.
+        //TODO: I have a feeling that the tear down isn't working, budget size is 6 maybe because of adding new budgets in previous methods.
         assertEquals(4, budgets.size());
 
         //testing cards with valid input
@@ -314,6 +339,9 @@ public class TestDataAccess extends TestCase {
 
     }
 
+    /**
+     * Testing some edge cases.
+     */
     public void testEdgeCases() {
         try {
             dataAccess.setUsername(null);
