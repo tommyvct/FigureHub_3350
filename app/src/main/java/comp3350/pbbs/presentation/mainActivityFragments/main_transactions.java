@@ -75,10 +75,11 @@ public class main_transactions extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        transactionArrayList = accessTransaction.retrieveTransactions();
         listAdapter = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
-                accessTransaction.retrieveTransactions()
+                transactionArrayList
         );
         transactionListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
