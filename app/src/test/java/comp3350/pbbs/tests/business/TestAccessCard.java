@@ -10,7 +10,6 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessCard;
-import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
@@ -123,6 +122,17 @@ public class TestAccessCard extends TestCase {
         list = testAccess.getCreditCards();
         assertTrue(list.contains(card));
         assertTrue(list.contains(card1));
+
+        Card debit1 = new Card("Debit 1", "165158684", "Tommy Vercetti", 6, 2077);
+        list = testAccess.getDebitCards();
+        assertFalse(list.contains(card1));
+        assertFalse(list.contains(card));
+        assertFalse(list.contains(debit1));
+        testAccess.insertCard(debit1);
+        list = testAccess.getDebitCards();
+        assertFalse(list.contains(card1));
+        assertFalse(list.contains(card));
+        assertTrue(list.contains(debit1));
     }
 
     /**

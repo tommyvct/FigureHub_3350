@@ -63,7 +63,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 		cardNumber.setText(oldCard.getCardNum());
 		// in case of lacking expiry date,
 		validThruMonth.setText(String.valueOf(oldCard.getExpireMonth()).equals("0") ? "" : String.valueOf(oldCard.getExpireMonth()));
-		validThruYear.setText(String.valueOf(oldCard.getExpireYear()).equals("0") ? "" : "20" + oldCard.getExpireMonth());
+		validThruYear.setText(String.valueOf(oldCard.getExpireYear()).equals("0") ? "" : String.valueOf(oldCard.getExpireYear()));
 
 		// if credit card
 		if(oldCard.getPayDate() != 0) {

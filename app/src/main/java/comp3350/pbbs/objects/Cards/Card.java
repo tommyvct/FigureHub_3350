@@ -181,7 +181,11 @@ public class Card implements Serializable {
             ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear();
         }
         ret += "\n" + getHolderName();
-        if (getPayDate() != 0)
+        if (!active)
+        {
+            ret += "\nInactive";
+        }
+        if (!isDebit())
         {
             ret += "\nExpected payment on " + getPayDate() + " next month";
         }
@@ -242,5 +246,10 @@ public class Card implements Serializable {
     public void setActive(boolean b)
     {
         this.active = b;
+    }
+
+    public boolean isDebit()
+    {
+        return this.payDate == 0;
     }
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -176,7 +175,11 @@ public class ViewCard extends Activity {
             }
         });
 
-        ((Button) findViewById(R.id.updateCard)).setOnClickListener(view ->
+        // TODO fill listTransactions
+
+
+        findViewById(R.id.updateCard).setOnClickListener(view ->
+
         {
             Intent intent = new Intent(view.getContext(), updateCard.class);
             intent.putExtra("toUpdate", card);

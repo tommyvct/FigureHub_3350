@@ -38,7 +38,6 @@ public class addCard extends AppCompatActivity {
     AccessBankAccount accessBankAccount;
     RadioGroup radioGroup;
     boolean debit;
-    // TODO: add bankaccount and validation
 
     /**
      * This method creates a new creditCard and adds it with the creditCard list
@@ -163,7 +162,7 @@ public class addCard extends AppCompatActivity {
                 valid = false;
             }
 
-            if (bankAccountNumber.getText().toString().isEmpty())
+            if (debit && bankAccountNumber.getText().toString().isEmpty())
             {
                 bankAccountNumber.setError("Provide an account number.");
                 valid = false;
