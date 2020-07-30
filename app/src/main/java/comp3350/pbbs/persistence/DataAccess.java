@@ -55,10 +55,6 @@ public interface DataAccess {
 
     boolean markInactive(Card toMark);
 
-    int getCreditCardsSize();
-
-    int getDebitCardsSize();
-
     boolean findTransaction(Transaction currentTransaction);
 
     boolean insertTransaction(Transaction newTransaction);

@@ -1,18 +1,15 @@
 package comp3350.pbbs.tests.persistence;
 
 import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
-
 import comp3350.pbbs.objects.*;
 import comp3350.pbbs.application.*;
-import comp3350.pbbs.objects.Card;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.*;
 
 public class TestDataAccess extends TestCase
 {
@@ -24,13 +21,15 @@ public class TestDataAccess extends TestCase
 
     public void setUp() {
         // initially testing will be done on stub database
-        dataAccess = new StubDatabase("test");
-        DataAccess.populateData(dataAccess);
+        // dataAccess = new StubDatabase("test");
+        // DataAccess.populateData(dataAccess);
+
         // switching to HSQL database can also be done by following these 2 lines:
-        // dataAccess = new DataAccessObject(Main.dbName);
-        // dataAccess.open(Main.getDBPathName());
+        dataAccess = new DataAccessObject(Main.dbName);
+        dataAccess.open(Main.getDBPathName());
+
         // If you're testing the data access object, the testValidValues will fail, but If you run
-        // It individually itll be fine (darn persistent storage)
+        // It individually still be fine (darn persistent storage)
     }
 
     public void tearDown() {

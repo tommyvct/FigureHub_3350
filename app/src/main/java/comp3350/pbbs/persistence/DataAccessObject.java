@@ -1,5 +1,7 @@
 package comp3350.pbbs.persistence;
 
+import android.annotation.SuppressLint;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,11 +20,13 @@ import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.objects.BudgetCategory;
 
-public class DataAccessObject implements DataAccess {
+public class DataAccessObject implements DataAccess
+{
 	private Connection con;	// for DB switch
 	private Statement stmt; // statement
 	private String dbName;	// name of DB
 	private String dbType;	// type of DB
+	@SuppressLint("SimpleDateFormat")
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
