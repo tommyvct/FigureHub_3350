@@ -63,6 +63,7 @@ Excluding default android studio project resources and files, source code files 
 	Tap any card on the list will direct to the **View Card** page.
 	* Allows user to view the card balance and a line chart of spending for that card over time.
 	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or mark it as an inactive card in the **Update Card** page.
+	
 	> The "mark inactive" feature is not completed yet: active/inactive status is not shown in the card list, as well as no rollback feature after marking a card inactive.
 	
 4. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
