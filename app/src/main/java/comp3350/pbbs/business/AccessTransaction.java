@@ -32,8 +32,8 @@ public class AccessTransaction {
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
-            "d/M/yyyy H:m",
-            "d-M-yyyy H:m",
+            "dd/MM/yyyy HH:mm",
+            "dd-MM-yyyy HH:mm",
     };
 
     /**
@@ -53,8 +53,8 @@ public class AccessTransaction {
     {
         String[] ret = new String[2];
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("d/M/yyyy");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("H:m");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
         ret[0] = dateFormatter.format(toReverse);
         ret[1] = timeFormatter.format(toReverse);
 
@@ -290,7 +290,7 @@ public class AccessTransaction {
         List<String> toReturn = new ArrayList<>();
         DecimalFormat rounding = new DecimalFormat("0.00");
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm");
 
         //this format which will be shown in the GUI
         for (Transaction transaction : transactions) {
