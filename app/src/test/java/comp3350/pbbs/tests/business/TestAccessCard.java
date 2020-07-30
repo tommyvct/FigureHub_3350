@@ -272,7 +272,6 @@ public class TestAccessCard extends TestCase {
         }
     }
 
-
     /**
      * This teardown method disconnects from the database
      */

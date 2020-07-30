@@ -12,7 +12,8 @@ import comp3350.pbbs.persistence.DataAccess;
  *
  * This class creates an AccessUser class for the business layer.
  */
-public class AccessUser {
+public class AccessUser
+{
     private DataAccess dataAccess;        //variable for the stubDatabase
 
     /**

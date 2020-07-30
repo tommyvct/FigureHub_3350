@@ -13,10 +13,11 @@ import static org.junit.Assert.assertNotEquals;
  *
  * This class defines a test suite for the budgetCategories class.
  */
-public class TestBudgetCategory extends TestCase {
-    private String budgetName;              //Test budget name
-    private Double budgetLimit;             //Test budget limit
-    private BudgetCategory newBudget;     //Test budgetCategories object
+public class TestBudgetCategory extends TestCase
+{
+    private String budgetName;
+    private Double budgetLimit;
+    private BudgetCategory newBudget;
 
     /**
      * Method to set the test values.

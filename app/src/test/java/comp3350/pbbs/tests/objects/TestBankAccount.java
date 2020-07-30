@@ -18,13 +18,12 @@ public class TestBankAccount extends TestCase
     Card Card1;
     Card Card2;
 
-    public void setUp()
-    {
-        Card1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-        Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+    public void setUp() {
         accountName = "sjdfoihasdfsa";
         accountNumber = "55649541631";
         linkedCard = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        Card1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
     }
 
     /**

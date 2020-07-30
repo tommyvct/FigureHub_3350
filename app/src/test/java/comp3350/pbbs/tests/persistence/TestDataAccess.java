@@ -18,7 +18,8 @@ import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.persistence.DataAccessObject;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
-public class TestDataAccess extends TestCase {
+public class TestDataAccess extends TestCase
+{
     private DataAccess dataAccess;
 
     public TestDataAccess(String arg0) {
@@ -26,12 +27,12 @@ public class TestDataAccess extends TestCase {
     }
 
     public void setUp() {
-        //initially testing will be done on stub database
+        // initially testing will be done on stub database
         dataAccess = new StubDatabase("test");
         DataAccess.populateData(dataAccess);
-        //switching to HSQL database can also be done by following these 2 lines:
-        //dataAccess = new DataAccessObject(Main.dbName);
-        //dataAccess.open(Main.getDBPathName());
+        // switching to HSQL database can also be done by following these 2 lines:
+        // dataAccess = new DataAccessObject(Main.dbName);
+        // dataAccess.open(Main.getDBPathName());
         // If you're testing the data access object, the testValidValues will fail, but If you run
         // It individually itll be fine (darn persistent storage)
     }
