@@ -226,7 +226,6 @@ public class AccessTransaction {
         return toReturn;
     }
 
-
     /**
      * Retrieves a list of all the transactions in the database.
      *
