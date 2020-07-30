@@ -7,18 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.presentation.viewObject.ViewCard;
-import comp3350.pbbs.presentation.updateObject.updateTransaction;
 
 /**
  * main_cards

@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import junit.framework.TestCase;
 
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 
 import static org.junit.Assert.assertNotEquals;
 

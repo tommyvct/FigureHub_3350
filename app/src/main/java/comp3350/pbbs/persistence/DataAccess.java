@@ -9,7 +9,7 @@ import java.util.List;
 
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.*;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 
 public interface DataAccess {
 

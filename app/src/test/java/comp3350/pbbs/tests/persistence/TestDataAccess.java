@@ -1,7 +1,5 @@
 package comp3350.pbbs.tests.persistence;
 
-import android.widget.ArrayAdapter;
-
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -13,10 +11,8 @@ import static org.junit.Assert.assertNotEquals;
 
 import comp3350.pbbs.objects.*;
 import comp3350.pbbs.application.*;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.persistence.DataAccess;
-import comp3350.pbbs.persistence.DataAccessObject;
-import comp3350.pbbs.tests.persistence.StubDatabase;
 
 public class TestDataAccess extends TestCase {
     private DataAccess dataAccess;
