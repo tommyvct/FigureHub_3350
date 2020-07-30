@@ -181,6 +181,7 @@ public class DataAccessObject implements DataAccess {
 	public boolean insertBankAccount(BankAccount newAccount) {
 		boolean result = false;
 		String values;
+
 		try {
 			// Get card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
@@ -273,7 +274,7 @@ public class DataAccessObject implements DataAccess {
 				int expireMonth = results.getInt("EXPIREMONTH");
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
-				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear);
 				BankAccount bankAccount = new BankAccount(accountName, accountNumber, card);
 				bankAccounts.add(bankAccount);
 			}
@@ -433,7 +434,7 @@ public class DataAccessObject implements DataAccess {
 				int expireMonth = results.getInt("EXPIREMONTH");
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
-				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear);
 				if (!getAccountsFromDebitCard(card).isEmpty()) {
 					debitCards.add(card);
 				}
@@ -587,37 +588,6 @@ public class DataAccessObject implements DataAccess {
 		}
 		return count;
 	}
-
-//	public boolean addAllCreditCards(List<CreditCard> cardList) {
-//		boolean result = false;
-//		for(CreditCard creditCard : cardList) {
-//			result = insertCreditCard(creditCard);
-//			if(!result)
-//				break;
-//		}
-//		return result;
-//	}
-
-//	public boolean deleteCard(Card currCard) {
-//		boolean toReturn = false;
-//		try {
-//			String cmdString = "DELETE FROM CARD WHERE" +
-//					" CARDNAME='" + currCard.getCardName() +
-//					"' AND CARDNUM='" +	currCard.getCardNum() +
-//					"' AND HOLDERNAME='" + currCard.getHolderName() +
-//					"' AND EXPIREMONTH=" + currCard.getExpireMonth() +
-//					" AND EXPIREYEAR=" + currCard.getExpireYear() +
-//					" AND PAYDATE=" + currCard.getPayDate();
-//			stmt = con.createStatement();
-//			int updateCount = stmt.executeUpdate(cmdString);
-//			checkWarning(stmt, updateCount);
-//			toReturn = true;
-//		} catch (SQLException e) {
-//			System.out.println(e.toString());
-//		}
-//		return toReturn;
-//	}
-
 
 	/**
 	 * Methods for Transactions

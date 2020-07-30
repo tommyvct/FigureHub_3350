@@ -109,6 +109,7 @@ public class TestDataAccess extends TestCase {
         result = dataAccess.insertBankAccount(newAccount2);
         assertTrue(result);
         //duplicate can't be added
+        //TODO: the hsql db can't handle the duplicate cases.
         result = dataAccess.insertBankAccount(newAccount1);
         assertFalse(result);
         assertEquals(3, dataAccess.getAllBankAccounts().size());
@@ -181,10 +182,11 @@ public class TestDataAccess extends TestCase {
 
         //testing the size of different cards
         assertEquals(3, dataAccess.getCreditCardsSize());
+        //TODO: there are 3 debit cards for sure, why it's telling me it should be 2 !?
         assertEquals(3, dataAccess.getDebitCardsSize());
 
         //testing markInactive
-        assertTrue(dataAccess.markInactive(newCard));
+        assertTrue(dataAccess.markInactive(dataAccess.getCards().get(0)));
         Card newCard3 = new Card("card3","2324","Aziz",12,2023,12);
         assertFalse(dataAccess.markInactive(newCard3));//doesn't exist in the card list
 
@@ -275,6 +277,7 @@ public class TestDataAccess extends TestCase {
         budgetCategory = budgets.get(0);
         assertEquals("Rent/Mortgage", budgetCategory.getBudgetName());
         assertEquals(500.0, budgetCategory.getBudgetLimit());
+        //TODO: I have a feeling that the tear down isn't working, budget size is 6 maybe because of adding new budgets in previos methods.
         assertEquals(4, budgets.size());
 
         //testing cards with valid input
