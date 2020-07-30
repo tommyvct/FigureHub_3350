@@ -259,4 +259,25 @@ Time taken: 2 hours
 ## Tommy
 
 
+## Outstanding bugs and their fixes
+
+
+## Design decisions and rationals
+1. Implemented pie charts for budget Categories to view to the spending on each budget.
+
+2. Designed 'ViewCard' page which allows user to view the card balance and a line chart of spending for that card over time.
+
+3. Sometimes user may input wrong data, for this reason, we added the update functionality to transactions, cards, and
+   budget categories to modify if the user wants.
+
+4. We designed the feature where the user can choose debit or credit while adding a card. This will help the
+   users manage both credit and debit cards.
+
+5. A card can be made Inactive manually if that no longer is used. We didn't design the delete card feature as we don't
+   want the transactions associated with that card go away.
+
+6. In our app, the card number is intentionally left unchecked, they could be anything that is not null or empty.
+   The rational behind this is: there are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number,
+   while an American Express card have 15, and even some debit cards have 19 digits. There are even some private companies who
+   provide a financial product without a legit bank card (namely EQ Bank in Canada and Ant Financial in China).
 
