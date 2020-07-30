@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -48,7 +49,6 @@ public class main_budget extends Fragment {
 
         listView = view.findViewById(R.id.listBudgets);
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
-//        ListView listView = (ListView) view.findViewById(R.id.listBudgets);
         listViewAdaptor = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
@@ -72,6 +72,7 @@ public class main_budget extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         budgetCategoryList = accessBudgetCategory.getAllBudgetCategories();
         listViewAdaptor = new ArrayAdapter<>(
                 requireActivity(),

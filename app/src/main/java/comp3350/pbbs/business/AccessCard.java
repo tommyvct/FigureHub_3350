@@ -46,7 +46,10 @@ public class AccessCard
      * @return true if this card does not exist in the database
      */
     public boolean insertCard(Card newCard) {
-        return db.insertCard(newCard);
+        if(newCard != null)
+            return db.insertCard(newCard);
+        else
+            return false;
     }
 
     /**
@@ -59,12 +62,14 @@ public class AccessCard
      * @return true if the old card does exist in the database
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
-        if (toUpdate.getClass().equals(newCard.getClass()))
-        {
-            return db.updateCard(toUpdate, newCard);
-        } else {
-            return false;
-        }
+        if(newCard != null && toUpdate != null) {
+
+            if (toUpdate.getClass().equals(newCard.getClass())) {
+                return db.updateCard(toUpdate, newCard);
+            } else {
+                return false;
+            }
+        } else return false;
     }
 
     /**

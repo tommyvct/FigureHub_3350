@@ -22,11 +22,12 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  *
  * This class tests AccessBudgetCategory class
  */
-public class TestAccessBudgetCategory extends TestCase
-{
+public class TestAccessBudgetCategory extends TestCase {
+    private AccessBudgetCategory testAccess = null;
     private DataAccess testDB;
     List<BudgetCategory> categories;
-    private AccessBudgetCategory testAccess = null;
+
+    //Testing Data
     private Date testDate = new Date(2020-07-15);
     private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
     private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
@@ -77,8 +78,13 @@ public class TestAccessBudgetCategory extends TestCase
         assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertTrue(testAccess.findBudgetCategory(bc3));
 
+        //Other valid inputs
+        assertTrue(testAccess.insertBudgetCategory("aaaaa", "0000000000123456789"));
+        assertTrue(testAccess.insertBudgetCategory("bbbbb", "00000000001234567.89"));
+        assertTrue(testAccess.insertBudgetCategory("ccccc", "123456789"));
+
         //test that there are now 7 budget categories in DB
-        assertEquals(7, categories.size());
+        assertEquals(10, categories.size());
 
         //Update an existing category
         BudgetCategory newBC3 = new BudgetCategory("Furniture", 100);
@@ -86,8 +92,12 @@ public class TestAccessBudgetCategory extends TestCase
         assertTrue(testAccess.findBudgetCategory(newBC3));    // New BudgetCategory can be found
         assertFalse(testAccess.findBudgetCategory(bc3)); // Old BudgetCategory cannot be found
 
+        assertTrue(testAccess.updateBudgetCategory(newBC3, "Furniture", "0000000000123456789"));  //returns old BudgetCategory
+        assertTrue(testAccess.updateBudgetCategory(new BudgetCategory("Furniture", 123456789f), "Furniture", "1234567.89"));  //returns old BudgetCategory
+        assertTrue(testAccess.updateBudgetCategory(new BudgetCategory("Furniture", 1234567.89f), "Furniture", "00000000001234567.89"));  //returns old BudgetCategory
+
         //test that there are still 7 budget categories in DB
-        assertEquals(7, categories.size());
+        assertEquals(10, categories.size());
     }
 
     /**
@@ -95,6 +105,10 @@ public class TestAccessBudgetCategory extends TestCase
      */
     public void testInvalidLimitIntegerInput() {
         assertFalse(testAccess.insertBudgetCategory("Houseware", "fifty"));
+        assertFalse(testAccess.insertBudgetCategory("Houseware", "-50"));
+        assertFalse(testAccess.insertBudgetCategory("Houseware", "1.234"));
+        assertFalse(testAccess.insertBudgetCategory("Houseware", "1,23"));
+        assertFalse(testAccess.insertBudgetCategory("Houseware", "1 23456"));
 
         //test that there are still only 6 budget categories in DB
         assertEquals(6, categories.size());
@@ -103,6 +117,10 @@ public class TestAccessBudgetCategory extends TestCase
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100);
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "hundred"));
         assertFalse(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
+        assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "-50"));
+        assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "1.234"));
+        assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "1,23"));
+        assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "1 23456"));
         assertTrue(testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
 
         //test that there are still 6 budget categories in DB
@@ -125,9 +143,23 @@ public class TestAccessBudgetCategory extends TestCase
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 0.0f);
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "0"));
+        assertFalse(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "00"));
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "0.0"));
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "0.00"));
+        assertTrue(testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
+
+        //test that there are still 6 budget categories in DB
+        assertEquals(6, categories.size());
+    }
+
+    /**
+     * Testing using null input
+     */
+    public void testInvalidNullInput(){
+        //invalid input for limit (must be integer) while updating
+        BudgetCategory newBC2 = new BudgetCategory("Food places", 100.0f);
+        assertFalse(testAccess.updateBudgetCategory(null, "Food places", "100"));
         assertFalse(testAccess.findBudgetCategory(newBC2));    // New BudgetCategory cannot be found
         assertTrue(testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
 
@@ -143,6 +175,7 @@ public class TestAccessBudgetCategory extends TestCase
         assertFalse(testAccess.insertBudgetCategory("Houseware", ""));
         assertFalse(testAccess.insertBudgetCategory("Houseware", " "));
         assertFalse(testAccess.insertBudgetCategory("Houseware", "."));
+        assertFalse(testAccess.insertBudgetCategory("Houseware", null));
 
         //test that there are still only 6 budget categories in DB
         assertEquals(6, categories.size());
@@ -151,6 +184,7 @@ public class TestAccessBudgetCategory extends TestCase
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", ""));
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", " "));
         assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", "."));
+        assertFalse(testAccess.updateBudgetCategory(bc2, "Food places", null));
         assertTrue(testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
 
         //test that there are still 6 budget categories in DB
@@ -165,6 +199,7 @@ public class TestAccessBudgetCategory extends TestCase
         assertFalse(testAccess.insertBudgetCategory("", "50"));
         assertFalse(testAccess.insertBudgetCategory(" ", "50"));
         assertFalse(testAccess.insertBudgetCategory("\n", "50"));
+        assertFalse(testAccess.insertBudgetCategory(null, "50"));
 
         //test that there are still only 6 budget categories in DB
         assertEquals(6, categories.size());
@@ -173,6 +208,7 @@ public class TestAccessBudgetCategory extends TestCase
         assertFalse(testAccess.updateBudgetCategory(bc2, "", "100"));
         assertFalse(testAccess.updateBudgetCategory(bc2, " ", "100"));
         assertFalse(testAccess.updateBudgetCategory(bc2, "\n", "100"));
+        assertFalse(testAccess.updateBudgetCategory(bc2, null, "100"));
         assertTrue(testAccess.findBudgetCategory(bc2)); // Old BudgetCategory can still be found
 
         //test that there are still 6 budget categories in DB
@@ -373,7 +409,9 @@ public class TestAccessBudgetCategory extends TestCase
         try {
             testAccess.getActiveMonths(null);
             fail("Expected NullPointerException.");
-        } catch (NullPointerException ignored) { }
+        } catch (NullPointerException ignored) {
+
+        }
     }
 
     /**

@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,30 +46,22 @@ public class ViewCard extends Activity {
     private LineChart lineChart;
     private AccessCard accessCard;
     private Card card;
+    private TextView currentBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_card);
 
-        // Select the pie chart
+        // Select the line chart
         lineChart = findViewById(R.id.card_info);
 
-        // Grab the credit card
+        // Grab the card
         card = Objects.requireNonNull((Card) getIntent().getSerializableExtra("Card"));
         accessCard = new AccessCard();
+        currentBalance = findViewById(R.id.currentBalance);
+        currentBalance.setText(String.format("Current Balance: $ %.2f", accessCard.calculateCardTotal(card, Calendar.getInstance())));
 
-//        // Put the card info in the center
-//        pieChart.setCenterText(budgetCategory.getBudgetName());
-//        pieChart.setCenterTextSize(20f);
-//
-//        // Disable description & legend
-//        pieChart.getDescription().setEnabled(false);
-//        pieChart.getLegend().setEnabled(false);
-//
-//        // Reduce the scale slightly
-//        pieChart.setScaleX(0.9f);
-//        pieChart.setScaleY(0.9f);
         {   // // Chart Style // //
 
             // background color
@@ -117,8 +112,6 @@ public class ViewCard extends Activity {
 //            yAxis.setAxisMaximum(200f);
             yAxis.setAxisMinimum(0f);
         }
-
-
 
         // Construct the month selector
         Spinner monthSelector = findViewById(R.id.cardMonthSelector);
@@ -186,16 +179,17 @@ public class ViewCard extends Activity {
 
 
         findViewById(R.id.updateCard).setOnClickListener(view ->
+
         {
             Intent intent = new Intent(view.getContext(), updateCard.class);
             intent.putExtra("toUpdate", card);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
             finish();
         });
     }
 
     /**
-     * Sets the pie chart values based on the selected month
+     * Sets the line chart values based on the selected month
      *
      * @param activeMonths Calendar instance which contains the month and year to query
      */
@@ -237,11 +231,6 @@ public class ViewCard extends Activity {
             // draw points as solid circles
             set1.setDrawCircleHole(false);
 
-//            // customize legend entry
-//            set1.setFormLineWidth(1f);
-//            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-//            set1.setFormSize(15.f);
-//
             // text size of values
             set1.setValueTextSize(9f);
 
@@ -268,4 +257,6 @@ public class ViewCard extends Activity {
             lineChart.setData(data);
         }
     }
+
+
 }

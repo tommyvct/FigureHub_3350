@@ -51,7 +51,9 @@ public class AccessBudgetCategory {
      * @return False if it can't be found, or true if the category found.
      */
     public boolean findBudgetCategory(BudgetCategory currentBudgetCategory) {
-        return dataAccess.findBudgetCategory(currentBudgetCategory);
+        if(currentBudgetCategory != null)
+            return dataAccess.findBudgetCategory(currentBudgetCategory);
+        else return false;
     }
 
     /**
@@ -98,7 +100,7 @@ public class AccessBudgetCategory {
     public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
         boolean result = false;
-        if((newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
+        if(oldBudgetCategory != null && (newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }

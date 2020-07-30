@@ -52,10 +52,12 @@ public class AccessTransaction {
     public static String[] reverseParseDateTime(Date toReverse)
     {
         String[] ret = new String[2];
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat("d/M/yyyy");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("H:m");
         ret[0] = dateFormatter.format(toReverse);
         ret[1] = timeFormatter.format(toReverse);
+
         return ret;
     }
 
@@ -80,7 +82,9 @@ public class AccessTransaction {
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
-        } catch (IllegalArgumentException ignored) { }
+        } catch (IllegalArgumentException ignored) {
+        }
+
         return transaction;
     }
 
@@ -106,7 +110,9 @@ public class AccessTransaction {
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, debitCard, bankAccount, budgetCategory);
-        } catch (IllegalArgumentException ignored) { }
+        } catch (IllegalArgumentException ignored) {
+        }
+
         return transaction;
     }
 
@@ -132,6 +138,7 @@ public class AccessTransaction {
                 toReturn = db.insertTransaction(transaction);
             }
         }
+
         return toReturn;
     }
 
@@ -157,8 +164,10 @@ public class AccessTransaction {
                 toReturn = db.insertTransaction(transaction);
             }
         }
+
         return toReturn;
     }
+
 
     /**
      * This method takes the old transaction and updates it to the current given values
@@ -178,13 +187,13 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        System.out.println(AccessValidation.isValidAmount(amountStr)+ "&&"+ AccessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ AccessValidation.isValidDescription(desc));
         if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
             }
         }
+
         return toReturn;
     }
 
@@ -213,6 +222,7 @@ public class AccessTransaction {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
             }
         }
+
         return toReturn;
     }
 
@@ -235,10 +245,12 @@ public class AccessTransaction {
      */
     public List<Transaction> retrieveTransactions(Date to, Date from) {
         List<Transaction> toReturn = null;
+
         // If the parameters are valid
         if (to != null && from != null) {
             toReturn = new ArrayList<>();
             List<Transaction> allTransactions = retrieveTransactions();
+
             // Loop through all transactions
             for (Transaction transaction : allTransactions) {
                 // If the time of the transaction is between the range [to, from], add to the list
@@ -247,6 +259,7 @@ public class AccessTransaction {
                 }
             }
         }
+
         return toReturn;
     }
 
@@ -260,6 +273,7 @@ public class AccessTransaction {
      */
     public boolean deleteTransaction(Transaction toDelete) {
         boolean toReturn = false;
+
         if (toDelete != null) {
             toReturn = db.deleteTransaction(toDelete);
         }

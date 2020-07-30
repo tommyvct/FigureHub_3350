@@ -125,7 +125,7 @@ public class ViewBudgetCategory extends Activity {
         {
             Intent updateBudget = new Intent(view.getContext(), updateBudgetCategory.class);
             updateBudget.putExtra("toModify", budgetCategory);
-            startActivity(updateBudget);
+            startActivityForResult(updateBudget, 0);
             finish();
         });
 
