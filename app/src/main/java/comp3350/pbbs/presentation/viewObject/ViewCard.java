@@ -183,7 +183,7 @@ public class ViewCard extends Activity {
         {
             Intent intent = new Intent(view.getContext(), updateCard.class);
             intent.putExtra("toUpdate", card);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
             finish();
         });
     }
