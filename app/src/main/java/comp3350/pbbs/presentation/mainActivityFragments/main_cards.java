@@ -10,14 +10,12 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.presentation.viewObject.ViewCard;
-import comp3350.pbbs.presentation.updateObject.updateTransaction;
 
 /**
  * main_cards
@@ -72,7 +70,7 @@ public class main_cards extends Fragment
         {
             Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
             viewCard.putExtra("Card", cardsList.get(position));
-            startActivity(viewCard);
+            startActivityForResult(viewCard, 0);
         });
         return view;
     }
@@ -80,6 +78,7 @@ public class main_cards extends Fragment
     /**
      * This method updates the list after adding.
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(

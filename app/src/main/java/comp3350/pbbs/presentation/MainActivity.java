@@ -1,10 +1,12 @@
 package comp3350.pbbs.presentation;
 
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
@@ -12,6 +14,9 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.presentation.addObject.addTransaction;
 import comp3350.pbbs.presentation.addObject.addCard;
 import comp3350.pbbs.presentation.addObject.addBudgetCategory;
+import comp3350.pbbs.presentation.mainActivityFragments.main_budget;
+import comp3350.pbbs.presentation.mainActivityFragments.main_cards;
+import comp3350.pbbs.presentation.mainActivityFragments.main_transactions;
 
 import android.content.Intent;
 import android.view.View;
@@ -27,6 +32,7 @@ import java.util.Objects;
  */
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton addObjectFAB;
+    private Fragment fragment;
 
     /**
      * This method initiates the bottom navigation view.
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         nc.addOnDestinationChangedListener((controller, destination, arguments) ->
         {
+            //System.out.println(destination);
             if (Objects.requireNonNull(destination.getLabel()).equals("fragment_main_home"))
             {
                addObjectFAB.setVisibility(View.GONE);
@@ -65,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                addObjectFAB.setVisibility(View.VISIBLE);
                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 3));
             }
-
         });
 
     }
@@ -76,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(
             (BottomNavigationView) findViewById(R.id.bottomNavigationView),
             Navigation.findNavController(this, R.id.fragment));
+
+        Fragment f = getSupportFragmentManager().getPrimaryNavigationFragment().getChildFragmentManager().getFragments().get(0);
+        f.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == 1)
         {

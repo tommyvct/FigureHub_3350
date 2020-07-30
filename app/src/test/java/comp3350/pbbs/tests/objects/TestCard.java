@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import junit.framework.TestCase;
 
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -15,7 +15,8 @@ import static org.junit.Assert.assertNotEquals;
  *
  * This class tests the methods in the Card class
  */
-public class TestCard extends TestCase {
+public class TestCard extends TestCase
+{
     private String card;    // name of a card
     private String num;     // serial number of a card
     private String name;    // user full name of a card
@@ -27,7 +28,7 @@ public class TestCard extends TestCase {
      * setup: instantiate a default credit card
      */
     public void setUp() {
-        card = "fikajsdhfj";
+        card = "first card";
         num = "1000100010001000";
         name = "Alan Alfred";
         expMon = 12;

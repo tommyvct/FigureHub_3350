@@ -7,7 +7,6 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 
@@ -19,10 +18,10 @@ import comp3350.pbbs.persistence.DataAccess;
  * This class provides safe access to the stub DB to access and modify the DB
  */
 public class AccessBudgetCategory {
-    private DataAccess dataAccess;                    //variable for the database
-    private List<BudgetCategory> budgetCategories;      //budgetCategories list
-    private BudgetCategory budgetCat;                   //a BudgetCategory object
-    private int currentBudgetCat;                       //number of budgetCategories
+    private DataAccess dataAccess;                    // variable for the database
+    private List<BudgetCategory> budgetCategories;    // budgetCategories list
+    private BudgetCategory budgetCat;                 // a BudgetCategory object
+    private int currentBudgetCat;                     // number of budgetCategories
 
     /**
      * This method creates the link to the DB.
@@ -34,31 +33,6 @@ public class AccessBudgetCategory {
         budgetCat = null;
         currentBudgetCat = 0;
     }
-
-    /**
-     * This method adds budget categories if they have not been added, or gets
-     * the next budgetCat at position currentBudgetCat, or restarts at
-     * currentBudgetCat = 0.
-     *
-     * @return the budgetCategory at position currentBudgetCat in the ArrayList
-     */
-//    public BudgetCategory getBudgetCategory() {
-//        if (budgetCategories == null) {
-//            budgetCategories = new ArrayList<>();
-//            dataAccess.addBudgetCategories(budgetCategories);
-//            currentBudgetCat = 0;
-//        }
-//        if (currentBudgetCat < budgetCategories.size())
-//        {
-//            budgetCat = budgetCategories.get(currentBudgetCat);
-//            currentBudgetCat++;
-//        } else {
-//            budgetCategories = null;
-//            budgetCat = null;
-//            currentBudgetCat = 0;
-//        }
-//        return budgetCat;
-//    }
 
     /**
      * To get all the current budget categories in the DB
@@ -144,20 +118,6 @@ public class AccessBudgetCategory {
     }
 
     /**
-     * Takes in params directly from Presentation layer, and converts them to proper format for
-     * deleting a BudgetCategory
-     *
-     * NOT IMPLEMENTED in presentation for iteration1.
-     *
-     * @param currentBudgetCat the category to be removed
-     * @return True if deleted, false if not deleted
-     */
-//    public boolean deleteBudgetCategory(BudgetCategory currentBudgetCat)
-//    {
-//        return dataAccess.deleteBudgetCategory(currentBudgetCat);
-//    }
-
-    /**
      * Calculates the total amount spent for a given BudgetCategory from the transactions in that category
      * based on the given month
      *
@@ -181,7 +141,6 @@ public class AccessBudgetCategory {
                 sum += currentTransaction.getAmount();
             }
         }
-
         return sum;
     }
 

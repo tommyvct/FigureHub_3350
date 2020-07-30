@@ -6,7 +6,7 @@ import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 
@@ -51,18 +51,6 @@ public class AccessCard
         else
             return false;
     }
-
-    /**
-     * method: delete a debit card from the database
-     *
-     * NOT IMPLEMENTED in presentation for iteration1.
-     *
-     * @param toDelete a debit card needs to be deleted from the database
-     * @return true if this debit card does exist in the database
-     */
-//    public boolean deleteCard(Card toDelete) {
-//        return db.deleteCard(toDelete);
-//    }
 
     /**
      * method: update a card existed in the database

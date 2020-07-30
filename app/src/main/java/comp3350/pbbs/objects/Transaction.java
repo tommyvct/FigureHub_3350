@@ -11,8 +11,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import comp3350.pbbs.objects.Cards.Card;
-
 /**
  * Transaction
  * Group4
@@ -161,7 +159,7 @@ public class Transaction implements Serializable
     public String toString() {
         DecimalFormat rounding = new DecimalFormat("0.00");
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm");
 
         return  "" + description + "\n" +
                 "$" + rounding.format(amount) + "\n" +

@@ -1,13 +1,10 @@
 package comp3350.pbbs.tests.objects;
 
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.Card;
-import android.renderscript.Int2;
-import comp3350.pbbs.application.Main;
+import comp3350.pbbs.objects.Card;
 
 import junit.framework.TestCase;
-import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.Card;
+
 import static org.junit.Assert.assertNotEquals;
 
 public class TestBankAccount extends TestCase
@@ -18,13 +15,12 @@ public class TestBankAccount extends TestCase
     Card Card1;
     Card Card2;
 
-    public void setUp()
-    {
-        Card1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
-        Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
+    public void setUp() {
         accountName = "sjdfoihasdfsa";
         accountNumber = "55649541631";
         linkedCard = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        Card1 = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
+        Card2 = new Card("TD Access Debit", "4724090212345678", "Tommy", 3, 2024);
     }
 
     /**

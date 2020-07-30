@@ -15,7 +15,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 
@@ -32,8 +32,8 @@ public class AccessTransaction {
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
-            "d/M/yyyy H:m",
-            "d-M-yyyy H:m",
+            "dd/MM/yyyy HH:mm",
+            "dd-MM-yyyy HH:mm",
     };
 
     /**
@@ -53,8 +53,8 @@ public class AccessTransaction {
     {
         String[] ret = new String[2];
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("d/M/yyyy");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("H:m");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
         ret[0] = dateFormatter.format(toReverse);
         ret[1] = timeFormatter.format(toReverse);
 
@@ -187,7 +187,6 @@ public class AccessTransaction {
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-                System.out.println(AccessValidation.isValidAmount(amountStr)+ "&&"+ AccessValidation.isValidDateTime(dateStr, timeStr)+ "&&"+ AccessValidation.isValidDescription(desc));
         if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
@@ -226,7 +225,6 @@ public class AccessTransaction {
 
         return toReturn;
     }
-
 
     /**
      * Retrieves a list of all the transactions in the database.
@@ -292,7 +290,7 @@ public class AccessTransaction {
         List<String> toReturn = new ArrayList<>();
         DecimalFormat rounding = new DecimalFormat("0.00");
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' H:m");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm");
 
         //this format which will be shown in the GUI
         for (Transaction transaction : transactions) {
