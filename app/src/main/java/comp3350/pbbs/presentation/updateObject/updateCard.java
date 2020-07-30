@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -177,14 +178,30 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 			}
 		});
 
-		// mark as inactive
-		findViewById(R.id.markCardInactive).setOnClickListener(view ->
+
+		if (oldCard.isActive())
 		{
-			accessCard.markInactive(oldCard);
-			setResult(2);
-			finish();
-			Toast.makeText(view.getContext(), "Card mark as inactive!", Toast.LENGTH_SHORT).show();
-		});
+			// mark as inactive
+			findViewById(R.id.markCardInactive).setOnClickListener(view ->
+			{
+				accessCard.markInactive(oldCard);
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Card marked as inactive!", Toast.LENGTH_SHORT).show();
+			});
+		}
+		else
+		{
+			((Button) findViewById(R.id.markCardInactive)).setText("Mark Active");
+			// mark as active
+			findViewById(R.id.markCardInactive).setOnClickListener(view ->
+			{
+				accessCard.markInactive(oldCard);
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Card marked as active!", Toast.LENGTH_SHORT).show();
+			});
+		}
 	}
 
 	@Override
