@@ -196,7 +196,7 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
 			// mark as active
 			findViewById(R.id.markCardInactive).setOnClickListener(view ->
 			{
-				accessCard.markInactive(oldCard);
+				accessCard.markActive(oldCard);
 				setResult(2);
 				finish();
 				Toast.makeText(view.getContext(), "Card marked as active!", Toast.LENGTH_SHORT).show();
