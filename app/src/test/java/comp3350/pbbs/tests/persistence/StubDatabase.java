@@ -16,9 +16,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess
-{
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+public class StubDatabase implements DataAccess {
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
     private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
@@ -57,6 +55,7 @@ public class StubDatabase implements DataAccess
     public void close() {
         System.out.println("Closed stub database");
     }
+
 
     /**
      * This method will find if a budget exist or not
@@ -112,6 +111,7 @@ public class StubDatabase implements DataAccess
         return budgets.size();
     }
 
+
     /**
      * method: find a bank account exist or not in the database
      *
@@ -145,7 +145,8 @@ public class StubDatabase implements DataAccess
      */
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
-        if (index >= 0) {
+        int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
+        if (index >= 0 && updateValid<=0) {
             accounts.set(index, newAccount);
             return true;
         }
@@ -205,8 +206,9 @@ public class StubDatabase implements DataAccess
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
+        int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0) {
+        if (index >= 0 && updateValid<=0) {
             cards.set(index, newCard);
             result = true;
         }
@@ -238,6 +240,7 @@ public class StubDatabase implements DataAccess
         return false;
     }
 
+
     /**
      * Getter method to get all the cards.
      *
@@ -268,7 +271,7 @@ public class StubDatabase implements DataAccess
      *
      * @return debitCards ArrayList.
      */
-    public ArrayList<Card> getDebitCards() {
+    public List<Card> getDebitCards() {
         ArrayList<Card> ret = new ArrayList<>();
         for (Card c : cards) {
             if (c.getPayDate() == 0) {
@@ -302,7 +305,6 @@ public class StubDatabase implements DataAccess
      *
      * @return True if found, or false if not found
      */
-    @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean findTransaction(Transaction currentTransaction) {
         return transactions.contains(currentTransaction);
     }
@@ -385,4 +387,6 @@ public class StubDatabase implements DataAccess
         this.username = newUsername;
         return true;
     }
+
+
 }
