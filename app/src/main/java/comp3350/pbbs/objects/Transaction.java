@@ -11,8 +11,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import comp3350.pbbs.objects.Cards.Card;
-
 /**
  * Transaction
  * Group4

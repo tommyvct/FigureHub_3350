@@ -16,7 +16,7 @@ import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 
 /**
  * addCard

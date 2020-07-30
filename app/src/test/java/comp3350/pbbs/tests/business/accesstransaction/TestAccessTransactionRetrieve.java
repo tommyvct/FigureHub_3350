@@ -2,7 +2,6 @@ package comp3350.pbbs.tests.business.accesstransaction;
 
 import junit.framework.TestCase;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Cards.Card;
+import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.tests.persistence.StubDatabase;

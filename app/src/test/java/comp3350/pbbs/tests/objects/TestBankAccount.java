@@ -1,13 +1,10 @@
 package comp3350.pbbs.tests.objects;
 
 import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.Card;
-import android.renderscript.Int2;
-import comp3350.pbbs.application.Main;
+import comp3350.pbbs.objects.Card;
 
 import junit.framework.TestCase;
-import comp3350.pbbs.objects.BankAccount;
-import comp3350.pbbs.objects.Cards.Card;
+
 import static org.junit.Assert.assertNotEquals;
 
 public class TestBankAccount extends TestCase

@@ -1,4 +1,4 @@
-package comp3350.pbbs.objects.Cards;
+package comp3350.pbbs.objects;
 
 import org.jetbrains.annotations.NotNull;
 
