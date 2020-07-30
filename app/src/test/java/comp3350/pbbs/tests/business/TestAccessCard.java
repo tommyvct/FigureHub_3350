@@ -10,7 +10,6 @@ import java.util.List;
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.business.AccessCard;
-import comp3350.pbbs.business.AccessValidation;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Cards.Card;
 import comp3350.pbbs.objects.Transaction;
@@ -23,18 +22,21 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  * PBBS
  *
  * This class tests the methods in the AccessCreditCard class
+ * NOTE: All of the validation testing for bad input is done in TestAccessValidation.
  */
 public class TestAccessCard extends TestCase {
-    private Card card;        // a Card object
-    private Card card2;        // a Card object
     private DataAccess testDB;
     List<Card> stubCards;
-    private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
-    private Transaction t1;
-    private Transaction t2;
-    private Calendar currMonth;
-    private Date testDate;
     private AccessCard testAccess;    // a AccessCreditCard object
+
+    //Testing Data
+    private Date testDate = new Date(2020-07-15);
+    private Card card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);;        // a Card object
+    private Card card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);        // a Card object
+    private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
+    private Transaction t1 = new Transaction(testDate, 20.45f, "Watched a movie", card, testBudgetCategory);
+    private Transaction t2 = new Transaction(testDate, 40f, "Bought a video game", card, testBudgetCategory);
+    private Calendar currMonth;
 
     /**
      * This method connects to the database, create and initiate instance variables
@@ -42,23 +44,17 @@ public class TestAccessCard extends TestCase {
     public void setUp() {
         testDB = Services.createDataAccess(new StubDatabase("populateTest"));
         stubCards = testDB.getCards();
-        card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
-        card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);
         testAccess = new AccessCard();
         testAccess.insertCard(card);
-        t1 = new Transaction(new Date(), 20.45f, "Watched a movie", card, testBudgetCategory);
-        t2 = new Transaction(new Date(), 40f, "Bought a video game", card, testBudgetCategory);
         currMonth = Calendar.getInstance();
-        testDate = new Date();
         currMonth.setTime(testDate);
     }
 
-
     /**
-     * This method tests finding credit cards in the database
+     * Testing that all methods work using valid input
      */
-    public void testFindCreditCard() {
-        Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+    public void testValidInput(){
+        //Test Finding input:
         assertTrue(testAccess.findCard(card));
 
         //tests finding cards already in stubDB
@@ -66,16 +62,42 @@ public class TestAccessCard extends TestCase {
             assertTrue(testAccess.findCard(stubCards.get(i)));
         }
 
-        assertFalse(testAccess.findCard(card1));
+        Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
+
+        //Test Inserting Card:
+        assertTrue(testAccess.insertCard(card1));
+        assertFalse(testAccess.insertCard(card1));  //no duplicates
+
+        assertTrue(testAccess.insertCard(new Card("(abcdefg)", "5005600670078888", "abcdefg", 1, 2021, 31)));
+        assertTrue(testAccess.insertCard(new Card("(abcdefg)", "5005600677778008", "abcdefg", 12, 2021, 31)));
+        assertTrue(testAccess.insertCard(new Card("(abcdefg)", "5005666670078008", "abcdefg", 1, 2021, 1)));
+        assertTrue(testAccess.insertCard(new Card("(abcdefg)", "5555600670078008", "abcdefg", 1, 2022, 31)));
+
+        //Testing updating Card
+        Card card2 = new Card("mastercard2", "1234123412341234", "Ham Burgler", 3, 2021, 18);
+        Card debitCard = new Card("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
+        assertFalse(testAccess.updateCard(card2, debitCard));
+        assertTrue(testAccess.updateCard(card, card2));
+        assertFalse(testAccess.updateCard(card, card2));
+        assertTrue(testAccess.findCard(card2));
+        assertFalse(testAccess.findCard(card));
     }
 
     /**
-     * This method tests inserting credit cards
+     * Testing that all methods using null input
      */
-    public void testInsertCreditCard() {
+    public void testNullInput(){
+        //Test failure to find card not in DB
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        assertTrue(testAccess.insertCard(card1));
-        assertFalse(testAccess.insertCard(card1));  //no duplicates
+        assertFalse(testAccess.findCard(card1));
+
+        //Test Inserting Card:
+        assertFalse(testAccess.insertCard(null));
+
+        //Testing updating Card
+        Card debitCard = new Card("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
+        assertFalse(testAccess.updateCard(null, debitCard));
+        assertFalse(testAccess.updateCard(card, null));
     }
 
     /**
@@ -89,19 +111,6 @@ public class TestAccessCard extends TestCase {
     // }
 
     /**
-     * This method tests updating credit cards
-     */
-    public void testUpdateCreditCard() {
-        Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
-        Card debitCard = new Card("mastercard debit", "5615215412345678", "Tommy", 3, 2026);
-        assertFalse(testAccess.updateCard(card1, debitCard));
-        assertTrue(testAccess.updateCard(card, card1));
-        assertFalse(testAccess.updateCard(card, card1));
-        assertTrue(testAccess.findCard(card1));
-        assertFalse(testAccess.findCard(card));
-    }
-
-    /**
      * Test retrieving a list of credit cards
      */
     public void testCardList() {
@@ -113,6 +122,17 @@ public class TestAccessCard extends TestCase {
         list = testAccess.getCreditCards();
         assertTrue(list.contains(card));
         assertTrue(list.contains(card1));
+
+        Card debit1 = new Card("Debit 1", "165158684", "Tommy Vercetti", 6, 2077);
+        list = testAccess.getDebitCards();
+        assertFalse(list.contains(card1));
+        assertFalse(list.contains(card));
+        assertFalse(list.contains(debit1));
+        testAccess.insertCard(debit1);
+        list = testAccess.getDebitCards();
+        assertFalse(list.contains(card1));
+        assertFalse(list.contains(card));
+        assertTrue(list.contains(debit1));
     }
 
     /**
@@ -156,7 +176,7 @@ public class TestAccessCard extends TestCase {
         testDB.insertTransaction(t2);
         assertEquals(60.45f, testAccess.calculateCardTotal(card, currMonth));
         assertEquals(0f, testAccess.calculateCardTotal(card2, currMonth));
-        Transaction t3 = new Transaction(new Date(), 50.53f, "Ate burger", card2, testBudgetCategory);
+        Transaction t3 = new Transaction(testDate, 50.53f, "Ate burger", card2, testBudgetCategory);
         testDB.insertTransaction(t3);
         assertEquals(60.45f, testAccess.calculateCardTotal(card, currMonth));
         assertEquals(50.53f, testAccess.calculateCardTotal(card2, currMonth));
@@ -172,7 +192,7 @@ public class TestAccessCard extends TestCase {
     public void testCalculateTransactionDifferentMonths() {
         currMonth.add(Calendar.MONTH, 1);
         Transaction t4 = new Transaction(currMonth.getTime(), 40, "Bought a video game", card, testBudgetCategory);
-        currMonth.setTime(new Date());
+        currMonth.setTime(testDate);
         testDB.insertTransaction(t1);
         testDB.insertTransaction(t4);
         assertEquals(20.45f, testAccess.calculateCardTotal(card, currMonth));
@@ -251,7 +271,6 @@ public class TestAccessCard extends TestCase {
 
         }
     }
-
 
     /**
      * This teardown method disconnects from the database

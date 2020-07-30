@@ -6,6 +6,13 @@ import java.util.Calendar;
 
 import comp3350.pbbs.business.AccessValidation;
 
+/**
+ * TestAccessValidation
+ * Group4
+ * PBBS
+ *
+ * This class tests AccessValidation class
+ */
 public class TestAccessValidation extends TestCase {
 
     /**
@@ -40,6 +47,8 @@ public class TestAccessValidation extends TestCase {
         assertTrue(AccessValidation.isValidAmount("0.89"));
         assertTrue(AccessValidation.isValidAmount("12345.56"));
         assertTrue(AccessValidation.isValidAmount("20"));
+        assertTrue(AccessValidation.isValidAmount("0000000000123456789"));
+        assertTrue(AccessValidation.isValidAmount("00000000001234567.89"));
 
         //Testing isValidDescription()
         assertTrue(AccessValidation.isValidDescription("Bought groceries."));
@@ -57,11 +66,15 @@ public class TestAccessValidation extends TestCase {
         assertEquals(1.10f, AccessValidation.parseAmount("1.10"));
         assertEquals(1.10f, AccessValidation.parseAmount(" 1.10"));
         assertEquals(1.10f, AccessValidation.parseAmount("1.10 "));
+        assertEquals(1.10f, AccessValidation.parseAmount("1.1"));
+        assertEquals(10.10f, AccessValidation.parseAmount("10.1"));
         assertEquals(10.10f, AccessValidation.parseAmount("10.10"));
         assertEquals(55.58f, AccessValidation.parseAmount("55.58"));
         assertEquals(1.23f, AccessValidation.parseAmount("1.23"));
         assertEquals(12345.67f, AccessValidation.parseAmount("12345.67"));
         assertEquals(10000.00f, AccessValidation.parseAmount("10000"));
+        assertEquals(123456789f, AccessValidation.parseAmount("0000000000123456789"));
+        assertEquals(1234567.89f, AccessValidation.parseAmount("00000000001234567.89"));
     }
     /**
      * Testing null and empty values
@@ -175,8 +188,6 @@ public class TestAccessValidation extends TestCase {
         assertNull(AccessValidation.parseAmount("1 .234"));
         assertNull(AccessValidation.parseAmount("1,234"));
         assertNull(AccessValidation.parseAmount("1.2{34"));
-        assertNull(AccessValidation.parseAmount("1.1"));
-        assertNull(AccessValidation.parseAmount("10.1"));
         assertNull(AccessValidation.parseAmount("10.234"));
         assertNull(AccessValidation.parseAmount("one"));
         assertNull(AccessValidation.parseAmount("0two"));

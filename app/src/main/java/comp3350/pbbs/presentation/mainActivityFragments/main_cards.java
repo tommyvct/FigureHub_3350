@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -67,12 +68,20 @@ public class main_cards extends Fragment
             startActivityForResult(updateCard, 0);
         });
 
+        // display Card detail
+        listView.setOnItemClickListener((arg0, view1, position, arg3) ->
+        {
+            Intent viewCard = new Intent(view1.getContext(), ViewCard.class);
+            viewCard.putExtra("Card", cardsList.get(position));
+            startActivityForResult(viewCard, 0);
+        });
         return view;
     }
 
     /**
      * This method updates the list after adding.
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(

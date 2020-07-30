@@ -46,20 +46,11 @@ public class AccessCard
      * @return true if this card does not exist in the database
      */
     public boolean insertCard(Card newCard) {
-        return db.insertCard(newCard);
+        if(newCard != null)
+            return db.insertCard(newCard);
+        else
+            return false;
     }
-
-    /**
-     * method: delete a debit card from the database
-     *
-     * NOT IMPLEMENTED in presentation for iteration1.
-     *
-     * @param toDelete a debit card needs to be deleted from the database
-     * @return true if this debit card does exist in the database
-     */
-//    public boolean deleteCard(Card toDelete) {
-//        return db.deleteCard(toDelete);
-//    }
 
     /**
      * method: update a card existed in the database
@@ -71,12 +62,14 @@ public class AccessCard
      * @return true if the old card does exist in the database
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
-        if (toUpdate.getClass().equals(newCard.getClass()))
-        {
-            return db.updateCard(toUpdate, newCard);
-        } else {
-            return false;
-        }
+        if(newCard != null && toUpdate != null) {
+
+            if (toUpdate.getClass().equals(newCard.getClass())) {
+                return db.updateCard(toUpdate, newCard);
+            } else {
+                return false;
+            }
+        } else return false;
     }
 
     /**

@@ -1,17 +1,19 @@
 package comp3350.pbbs.presentation.mainActivityFragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
+import comp3350.pbbs.presentation.firstTimeGreeting;
 
 /**
  * main_home
@@ -23,7 +25,6 @@ import comp3350.pbbs.business.AccessUser;
  */
 public class main_home extends Fragment
 {
-    public main_home() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -40,6 +41,22 @@ public class main_home extends Fragment
 
         ((TextView) view.findViewById(R.id.textView3)).setText("Hello, " + new AccessUser().getUsername() + "!");
 
+        view.findViewById(R.id.changeUserNameButton).setOnClickListener(view1 ->
+        {
+            Intent intent = new Intent(view1.getContext(), firstTimeGreeting.class);
+            intent.putExtra("a", "a");
+            startActivityForResult(intent, 0);
+        });
+
         return view;
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ((TextView) requireView().findViewById(R.id.textView3)).setText("Hello, " + new AccessUser().getUsername() + "!");
     }
 }

@@ -1,8 +1,6 @@
 package comp3350.pbbs.business;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
@@ -28,16 +26,6 @@ public class AccessBankAccount
 	}
 
 	/**
-	 * This method will add all the bank accounts to the given card list.
-	 *
-	 * @param accountList all bank accounts in the stub DB will be added to here.
-	 * @return true if added successfully.
-	 */
-//	public boolean addAllBankAccounts(List<BankAccount> accountList) {
-//		return db.addAllBankAccounts(accountList);
-//	}
-
-	/**
 	 * method: find a bank account exist or not in the database
 	 *
 	 * @param toFind a bank account needs to be found from the database
@@ -56,16 +44,6 @@ public class AccessBankAccount
 	public boolean insertBankAccount(BankAccount newAccount) {
 		return db.insertBankAccount(newAccount);
 	}
-
-	/**
-	 * method: delete a bank account from the database
-	 *
-	 * @param toDelete a bank account needs to be deleted from the database
-	 * @return true if this bank account card does exist in the database
-	 */
-//	public boolean deleteBankAccount(BankAccount toDelete) {
-//		return db.deleteBankAccount(toDelete);
-//	}
 
 	/**
 	 * method: update a bank account existed in the database

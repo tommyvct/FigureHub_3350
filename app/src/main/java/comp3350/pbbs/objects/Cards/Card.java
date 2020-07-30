@@ -172,33 +172,20 @@ public class Card implements Serializable {
         String[] month = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-// <<<<<<< HEAD
         //the string "next month" needs to be replaced to real month later
         String ret =  cardName + (getCardNum().length() > 4 ?
                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " " + getCardNum());
-        if (getExpireMonth() != 0 && getExpireYear() != 0)
-        {
+        if (getExpireMonth() != 0 && getExpireYear() != 0) {
             ret += "\nValid until " + month[getExpireMonth() - 1] + " " + getExpireYear();
         }
         ret += "\n" + getHolderName();
-        if (getPayDate() != 0)
-        {
+        if (!active) {
+            ret += "\nInactive";
+        }
+        if (!isDebit()) {
             ret += "\nExpected payment on " + getPayDate() + " next month";
         }
-
         return ret;
-// =======
-//         // the string "next month" needs to be replaced to real month later
-//         String credit = "\n" + "Expected payment on " + getPayDate() + " next month";
-//         String result = getCardName() + (getCardNum().length() > 4 ?
-//                 (" •••• " + getCardNum().substring(getCardNum().length() - 4)) : " "
-//                 + getCardNum()) + "\nValid until " + month[getExpireMonth() - 1] + " "
-//                 + getExpireYear() + "\n" + getHolderName();
-//         if (payDate != 0) {
-//             result += credit;
-//         }
-//         return result;
-// >>>>>>> origin/local_hz
     }
 
     public String toStringShort() {
@@ -242,5 +229,10 @@ public class Card implements Serializable {
     public void setActive(boolean b)
     {
         this.active = b;
+    }
+
+    public boolean isDebit()
+    {
+        return this.payDate == 0;
     }
 }

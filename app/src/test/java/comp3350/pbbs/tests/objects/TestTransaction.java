@@ -18,12 +18,13 @@ import static org.junit.Assert.assertNotEquals;
  *
  * This class defines a test suite for the Transaction class.
  */
-public class TestTransaction extends TestCase {
-    private Date now;  // Reference to the current time
-    private Card card;           // Test credit card
-    private BudgetCategory budgetCategory; // Test budget category
-    private float amount;       // Test amount
-    private String description; // Test description
+public class TestTransaction extends TestCase
+{
+    private Date now;                       // Reference to the current time
+    private float amount;                   // Test amount
+    private String description;             // Test description
+    private Card card;                      // Test credit card
+    private BudgetCategory budgetCategory;  // Test budget category
 
     /**
      * Method that runs before each test, sets the test values.
