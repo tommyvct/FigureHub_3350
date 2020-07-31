@@ -58,7 +58,7 @@ public class TestAccessBudgetCategory extends TestCase {
 
         //These are the expected contents of the stub DB
         BudgetCategory rent, groceries, utilities, phoneBill;
-        rent = new BudgetCategory("Rent/Mortgage", 500);
+        rent = new BudgetCategory("Mortgage", 500);
         groceries = new BudgetCategory("Groceries", 100);
         utilities = new BudgetCategory("Utilities", 80);
         phoneBill = new BudgetCategory("Phone Bill", 75);
