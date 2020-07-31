@@ -18,7 +18,8 @@
                 android:id="@+id/addTransDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/description" />
+                android:hint="@string/description"
+                android:maxLength="60"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
