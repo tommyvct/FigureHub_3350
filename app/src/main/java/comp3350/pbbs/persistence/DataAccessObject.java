@@ -158,25 +158,7 @@ public class DataAccessObject implements DataAccess {
 	 *
 	 * @return True if the budget category was updated successfully, or false if not
 	 */
-	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		boolean toReturn = false;
-		String values, where, cmdString;
-		try {
-			values = "BUDGETNAME='" + newBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
-			where = "WHERE BUDGETNAME='" + currentBudget.getBudgetName()
-					+ "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
-			cmdString = "UPDATE BUDGETCATEGORY SET " + values + " " + where;
-			stmt = con.createStatement();
-			int updateCount = stmt.executeUpdate(cmdString);
-			if (updateCount == 1) {
-				toReturn = true;
-			}
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
-		return toReturn;
-	}
+
 
 	/**
 	 * This method will return the size of the budget.
@@ -967,13 +949,6 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	/**
-	 * This method will be used to update a transaction.
-	 *
-	 * @param currentTransaction transaction that need to be updated
-	 * @param newTransaction     transaction which will be set
-	 * @return true if updated successfully.
-	 */
 	public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
 		boolean result = false;
 		String values, where;
@@ -989,7 +964,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + newTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" + newTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
@@ -1009,7 +984,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
@@ -1040,9 +1015,7 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Getter for username
-	 *
-	 * @return username
+	 * Methods for Users
 	 */
 	public String getUsername() {
 		String username = null;
@@ -1050,9 +1023,10 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT NAME FROM USERNAME";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			if (results.next()) {
+			if(results.next()) {
 				username = results.getString("NAME");
-			} else {
+			}
+			else {
 				throw new NullPointerException("No username is set");
 			}
 		} catch (SQLException e) {
@@ -1061,14 +1035,6 @@ public class DataAccessObject implements DataAccess {
 		return username;
 	}
 
-	/**
-	 * setter for username, used when renaming
-	 * the username could be anything single line.
-	 * this is ensured on presentation side
-	 *
-	 * @param newUsername String representation of the user's name
-	 * @return True if the username was set successfully
-	 */
 	public boolean setUsername(String newUsername) {
 		boolean result = false;
 		if (newUsername == null) {
@@ -1082,7 +1048,7 @@ public class DataAccessObject implements DataAccess {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch (SQLException e) {
+			} catch(SQLException e) {
 				System.out.println(e.toString());
 			}
 		} catch (NullPointerException npe) {
@@ -1092,7 +1058,7 @@ public class DataAccessObject implements DataAccess {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch (SQLException e) {
+			} catch(SQLException e) {
 				System.out.println(e.toString());
 			}
 		}
@@ -1100,10 +1066,7 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Method for checking DB functions
-	 *
-	 * @param st          statement variable
-	 * @param updateCount int variable to update the count
+	 * Methods for DB functions
 	 */
 	public void checkWarning(Statement st, int updateCount) {
 		try {

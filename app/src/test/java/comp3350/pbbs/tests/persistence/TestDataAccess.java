@@ -34,11 +34,11 @@ public class TestDataAccess extends TestCase {
 
     public void setUp() {
         //initially testing will be done on stub database
-//        dataAccess = new StubDatabase("test");
-//        DataAccess.populateData(dataAccess);
+        dataAccess = new StubDatabase("test");
+        DataAccess.populateData(dataAccess);
         // switching to HSQL database can also be done by following these 2 lines:
-        dataAccess = new DataAccessObject(Main.dbName);
-        dataAccess.open(Main.getDBPathName());
+//        dataAccess = new DataAccessObject(Main.dbName);
+//        dataAccess.open(Main.getDBPathName());
         // If you're testing the data access object, the testValidValues will fail, but If you run
         // It individually itll be fine (darn persistent storage)
     }
@@ -208,6 +208,10 @@ public class TestDataAccess extends TestCase {
         //testing getActiveCards
         assertNotNull(dataAccess.getActiveCards());
         assertEquals(5, dataAccess.getActiveCards().size()); //previously inactivated one card
+
+        //testing markActive
+        assertTrue(dataAccess.markActive(dataAccess.getCards().get(0)));
+        assertFalse(dataAccess.markActive(newCard3));
 
         //testing getCreditCards & getDebitCards
         assertNotEquals(dataAccess.getCreditCards(), dataAccess.getDebitCards());

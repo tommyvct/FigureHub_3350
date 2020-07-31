@@ -176,10 +176,11 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             if (accessTransaction.deleteTransaction(oldTransaction))
             {
                 setResult(2);
-            if (accessTransaction.deleteTransaction(oldTransaction)) {
                 finish();
                 Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else
+            {
                 Snackbar.make(view, "Failed to delete Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });
