@@ -48,23 +48,23 @@ Excluding default android studio project resources and files, source code files 
 ### Features
 
 1. **New User Stories**: added and updated some stories for the purpose of providing more features.
-	* A PDF file *Iteration_2_user_stories.pdf* is attached within submittion.
+	* A PDF file *Iteration_2_user_stories.pdf* is attached within submition.
 
 2. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
 3. The default interface after inputting the name is the **Home** page. There are 4 menu options in total and are listed at the bottom part of the screen. In addition to Home, the app provides navigation options for Cards, Budget, and Transactions. Each of these 3 menus has a **add** button at the bottom right corner for their sub-menus.
 
-	**Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
+	**Change Name**: Home page shows a welcome message but also offers a feature that the user can choose to change the username.
 
 4. **Card** page contains detailed information of each card the user has.
 
-	* Cards now are splited into 2 kinds: credit and debit.
-	* Credit cards have specific field *Payment Day* while debit cards do not.
+	* Cards are now split into 2 types: credit and debit.
+	* Credit cards have a specific field *Payment Day* while debit cards do not.
 
 	The add button brings the user to the **Add Card** page, which brings up a form that requires input.
 
 	* *Card Name*: a description or name of the card (eg. My BMO).
-	* *Card Number*: a series of digits print on this card (eg. 1002100310041005).
+	* *Card Number*: a series of digits printed on the card (eg. 1002100310041005).
 	* *Expire Date (month & year)*: expire month and year of this card (eg. 12, 2025).
 	* *Holder Name*: the user's full name shown on the card (eg. Joshua Smallwood).
 	* *Payment Day*: CREDIT CARD ONLY, due day of next payment from the current month (eg. 15).
@@ -73,7 +73,7 @@ Excluding default android studio project resources and files, source code files 
 
 	* Allows user to view the card balance and a line chart of spending for that card over time.
 	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
-	  * If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
+	  * If a card is labelled as inactive, the word "Inactive" will be shown for that card on the list.
 
 5. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
 
@@ -82,7 +82,7 @@ Excluding default android studio project resources and files, source code files 
 
 	Tap any budget on the list will direct to the **View Budget Category** page.
 
-	* The total amount and the amount has spent for a budget are visualized together in pie chart form for user viewing purpose.
+	* The total amount and the amount has spent for a budget are visualized together in a pie chart for user viewing purpose.
 	* Update a budget category: tap the button at the bottom allows user to re-enter all the info of a budget category in the **Update Budget Category** page.
 
 6. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
