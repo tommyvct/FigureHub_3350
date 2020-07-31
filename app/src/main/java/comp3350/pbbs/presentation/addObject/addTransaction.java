@@ -11,12 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCard;
@@ -81,7 +85,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector ////////////TODO: add Bank account list
+        ///////// Card Selector ////////////
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
         List<Card> cardArrayList = accessCard.getActiveCards();
@@ -144,8 +148,8 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
                             (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
                             budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
                     )) {
-                        setResult(1);
-                        finish();
+                setResult(1);
+                finish();
             } else {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
             }

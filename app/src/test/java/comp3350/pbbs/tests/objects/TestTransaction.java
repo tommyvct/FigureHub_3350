@@ -13,13 +13,12 @@ import static org.junit.Assert.assertNotEquals;
 
 /**
  * TestTransaction
- * Joshua Smallwood
+ * Group4
  * PBBS
  *
  * This class defines a test suite for the Transaction class.
  */
-public class TestTransaction extends TestCase
-{
+public class TestTransaction extends TestCase {
     private Date now;                       // Reference to the current time
     private float amount;                   // Test amount
     private String description;             // Test description

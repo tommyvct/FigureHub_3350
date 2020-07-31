@@ -118,7 +118,7 @@ public class ViewCard extends Activity {
 
         //Giving the x-axis month labels
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
-        @Override
+            @Override
             public String getFormattedValue(float value) {
                 return dateFormat.format(new Date((long) value));
             }
@@ -172,7 +172,7 @@ public class ViewCard extends Activity {
             set1.notifyDataSetChanged();
             lineChart.getData().notifyDataChanged();
             lineChart.notifyDataSetChanged();
-        }else {
+        } else {
             // create a dataset and give it a type
             set1 = new LineDataSet(chartValues, "DataSet 1");
 

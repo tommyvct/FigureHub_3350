@@ -16,6 +16,6 @@ public class DollarValueFormatter extends ValueFormatter {
 
     @Override
     public String getFormattedValue(float value) {
-        return "$"+rounding.format(value);
+        return "$" + rounding.format(value);
     }
 }

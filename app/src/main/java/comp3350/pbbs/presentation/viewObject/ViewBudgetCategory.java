@@ -81,14 +81,14 @@ public class ViewBudgetCategory extends Activity {
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 
         // If there are no active months, default to the current month and year
-        if(activeMonths.isEmpty()){
+        if (activeMonths.isEmpty()) {
             Calendar now = Calendar.getInstance();
             now.setTime(new Date());
             activeMonths.add(now);
         }
 
         // Generate the selection text
-        for(Calendar activeMonth : activeMonths) {
+        for (Calendar activeMonth : activeMonths) {
             monthOptions.add(dateFormat.format(activeMonth.getTime()));
         }
 
@@ -128,19 +128,6 @@ public class ViewBudgetCategory extends Activity {
             startActivityForResult(updateBudget, 0);
             finish();
         });
-
-//        findViewById(R.id.deleteBudgetSubmit).setOnClickListener(view ->
-//        {
-//            if (accessBudgetCategory.deleteBudgetCategory(budgetCategory) == null)
-//            {
-//                Toast.makeText(view.getContext(), "Failed to delete budget category.", Toast.LENGTH_SHORT).show();
-//            }
-//            else
-//            {
-//                finish();
-//                Toast.makeText(view.getContext(), "Budget category deleted!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     /**
@@ -158,14 +145,14 @@ public class ViewBudgetCategory extends Activity {
 
         // Get the amount spent and the max budget limit for this budget
         float amount = accessBudgetCategory.calculateBudgetCategoryTotal(budgetCategory, month);
-        float max = (float)budgetCategory.getBudgetLimit();
+        float max = (float) budgetCategory.getBudgetLimit();
 
         // Calculate the diff
         float diff = max - amount;
         // If there is still money left on the budget
         if (diff > 0) {
             // Add the amount if there is any money spent
-            if(amount > 0) {
+            if (amount > 0) {
                 entries.add(new PieEntry(
                         amount,
                         "Current Amount"
@@ -175,13 +162,12 @@ public class ViewBudgetCategory extends Activity {
 
             // Add a color gradient between forestGreen and fireBrick based on the percent left on budget
             // Note that the order matters when adding entries, for pie charts the entries are inserted clockwise
-            colors.add((Integer)new ArgbEvaluator().evaluate(amount / max, forestGreen, fireBrick));
+            colors.add((Integer) new ArgbEvaluator().evaluate(amount / max, forestGreen, fireBrick));
             entries.add(new PieEntry(
                     diff,
                     "Left on Budget"
             ));
-        }
-        else if(diff < 0) { // If over the budget
+        } else if (diff < 0) { // If over the budget
             entries.add(new PieEntry(
                     Math.abs(diff),
                     "Over Budget"
@@ -193,8 +179,7 @@ public class ViewBudgetCategory extends Activity {
                     "Budget Limit"
             ));
             colors.add(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-        }
-        else { //diff == 0
+        } else { //diff == 0
             entries.add(new PieEntry(
                     max,
                     "At Budget Limit"

@@ -48,8 +48,7 @@ public class AccessTransaction {
 
 
     @SuppressLint("SimpleDateFormat")
-    public static String[] reverseParseDateTime(Date toReverse)
-    {
+    public static String[] reverseParseDateTime(Date toReverse) {
         String[] ret = new String[2];
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,7 +66,7 @@ public class AccessTransaction {
      * @param dateStr        The date of the transaction
      * @param timeStr        The time of the transaction
      * @param amountStr      The amount of the transaction
-     * @param card     The card the transaction was paid with
+     * @param card           The card the transaction was paid with
      * @param budgetCategory The category of the transaction
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
@@ -170,7 +169,7 @@ public class AccessTransaction {
 
     /**
      * This method takes the old transaction and updates it to the current given values
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param oldTransaction The transaction to replace
@@ -197,8 +196,8 @@ public class AccessTransaction {
     }
 
     /**
-     * This method takes the old transaction and updates it to the current given values (paid with Debit)
-     *
+     * This method takes the old transaction and updates it to the current given values
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param oldTransaction The transaction to replace
@@ -263,7 +262,7 @@ public class AccessTransaction {
 
     /**
      * Deletes the given transaction in the database
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param toDelete The transaction to delete

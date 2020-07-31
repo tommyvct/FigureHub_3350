@@ -24,8 +24,7 @@ import comp3350.pbbs.presentation.viewObject.ViewCard;
  *
  * This fragment displays all cards.
  */
-public class main_cards extends Fragment
-{
+public class main_cards extends Fragment {
     private AccessCard accessCard;
     private List<Card> cardsList;
     private ArrayAdapter<Card> listViewAdapter;
@@ -33,19 +32,18 @@ public class main_cards extends Fragment
 
 
     // Required empty public constructor
-    public main_cards() {}
+    public main_cards() {
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         accessCard = new AccessCard();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
 
         // list all the credit cards

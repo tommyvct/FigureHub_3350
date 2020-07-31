@@ -303,3 +303,4 @@ So far in this iteration we have fixed all the bugs.
    The rational behind this is: there are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number,
    while an American Express card have 15, and even some debit cards have 19 digits. There are even some private companies who
    provide a financial product without a legit bank card (namely EQ Bank in Canada and Ant Financial in China).
+

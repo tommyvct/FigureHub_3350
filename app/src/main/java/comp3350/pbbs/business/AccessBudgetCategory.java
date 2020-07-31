@@ -50,7 +50,7 @@ public class AccessBudgetCategory {
      * @return False if it can't be found, or true if the category found.
      */
     public boolean findBudgetCategory(BudgetCategory currentBudgetCategory) {
-        if(currentBudgetCategory != null)
+        if (currentBudgetCategory != null)
             return dataAccess.findBudgetCategory(currentBudgetCategory);
         else return false;
     }
@@ -66,9 +66,9 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0){
+        if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0) {
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
-            if(!findBudgetCategory(newBC))
+            if (!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
         }
         return result;
@@ -87,16 +87,16 @@ public class AccessBudgetCategory {
     /**
      * Takes in params directly from Presentation layer, and converts them to proper format for
      * deleting a BudgetCategory
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
-     * @param  oldBudgetCategory the category to be replaced
-     * @param newLabel name of the BudgetCategory
-     * @param newLimit limit of the BudgetCategory in string form - to be parsed to Float
+     * @param oldBudgetCategory the category to be replaced
+     * @param newLabel          name of the BudgetCategory
+     * @param newLimit          limit of the BudgetCategory in string form - to be parsed to Float
      * @return success
      * deleting a BudgetCategory.@return update budgetCategory
      */
-    public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
+    public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit) {
         Float newLimitFlt;
         boolean result = false;
         if (oldBudgetCategory != null && (newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
@@ -106,7 +106,7 @@ public class AccessBudgetCategory {
 
     /**
      * Replaces one budget category with another in the DB
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param currentBudget the budget category currently in the DB
@@ -122,22 +122,22 @@ public class AccessBudgetCategory {
      * based on the given month
      *
      * @param currentBudgetCat is the specified BudgetCategory
-     * @param monthAndYear is the month and year to query
+     * @param monthAndYear     is the month and year to query
      * @return the total amount from transactions in that budget category
      */
-    public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat, Calendar monthAndYear){
+    public float calculateBudgetCategoryTotal(BudgetCategory currentBudgetCat, Calendar monthAndYear) {
         float sum = 0;
         List<Transaction> transactions = dataAccess.getTransactions();
 
-        for(int i = 0; i < transactions.size() && monthAndYear != null; i++){
+        for (int i = 0; i < transactions.size() && monthAndYear != null; i++) {
             Transaction currentTransaction = transactions.get(i);
             BudgetCategory transactionBudget = currentTransaction.getBudgetCategory();
             Calendar currTime = Calendar.getInstance();
             currTime.setTime(currentTransaction.getTime());
             // Check if the budget categories are the same and if the year and month are the same
-            if(transactionBudget.equals(currentBudgetCat) &&
-               currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
-               currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)){
+            if (transactionBudget.equals(currentBudgetCat) &&
+                    currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
+                    currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)) {
                 sum += currentTransaction.getAmount();
             }
         }
@@ -147,15 +147,15 @@ public class AccessBudgetCategory {
     /**
      * Retrieves a list of months that have transactions for a certain budget category.
      *
-     * @param category      The budget Category to query.
-     * @return              A list of Calendar instances with the year and month specified.
+     * @param category The budget Category to query.
+     * @return A list of Calendar instances with the year and month specified.
      */
     public List<Calendar> getActiveMonths(BudgetCategory category) {
         List<Calendar> activeMonths = new ArrayList<Calendar>();
 
         // Loop through all transactions
-        for(Transaction transaction : dataAccess.getTransactions()) {
-            if(category.equals(transaction.getBudgetCategory())) {
+        for (Transaction transaction : dataAccess.getTransactions()) {
+            if (category.equals(transaction.getBudgetCategory())) {
                 // Construct the calendar object
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTime());
@@ -167,7 +167,7 @@ public class AccessBudgetCategory {
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 // Add to set if not appeared
-                if(!activeMonths.contains(calendar)) {
+                if (!activeMonths.contains(calendar)) {
                     activeMonths.add(calendar);
                 }
             }

@@ -32,6 +32,13 @@ import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 
+/**
+ * updateTransaction
+ * Group4
+ * PBBS
+ *
+ * This class updates an existed transactions within the list.
+ */
 public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
 
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
@@ -89,7 +96,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector //////////TODO: add Bank account list
+        ///////// Card Selector //////////
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
         List<Card> cardArrayList = accessCreditCard.getActiveCards();

@@ -1,26 +1,31 @@
 package comp3350.pbbs.application;
 
 import android.annotation.SuppressLint;
-import comp3350.pbbs.persistence.StubDatabase;
 
-public class Main
-{
+/**
+ * Main
+ * Group4
+ * PBBS
+ *
+ * This class is the Main file in the project.
+ */
+public class Main {
     public static final String dbName = "TBCU"; //database contains Transactions, Budget Categories, Credit Cards, and Users
     private static String dbPathName = "db/TBCU";
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         startup();
         shutDown();
     }
 
     @SuppressLint("NewApi")
-    public static void startup()
-    {
-        Services.createDataAccess(new StubDatabase("populate"));    // stub
-//        Services.createDataAccess(dbName);     // real
+    public static void startup() {
+        Services.createDataAccess(dbName);
     }
 
-    public static void shutDown() { Services.closeDataAccess();}
+    public static void shutDown() {
+        Services.closeDataAccess();
+    }
 
     public static String getDBPathName() {
         if (dbPathName == null)
