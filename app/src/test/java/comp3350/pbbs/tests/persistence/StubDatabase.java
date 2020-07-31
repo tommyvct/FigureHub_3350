@@ -240,6 +240,21 @@ public class StubDatabase implements DataAccess {
         return false;
     }
 
+    /**
+     * Mark given card as inactive.
+     * @param toMark card to mark as inactive
+     */
+    public boolean markActive(Card toMark)
+    {
+        int index = cards.indexOf(toMark);
+        if (index >= 0)
+        {
+            cards.get(index).setActive(true);
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * Getter method to get all the cards.
