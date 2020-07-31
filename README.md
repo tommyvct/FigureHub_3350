@@ -78,7 +78,7 @@ Excluding default android studio project resources and files, source code files 
 5. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
 
 	* *Desciption*: name of this category (eg. Snack food).
-	* *Limit*: amount of money as the cost upperlimit (eg. 50).
+	* *Limit*: amount of money as the cost upperlimit (eg. 50.00).
 
 	Tap any budget on the list will direct to the **View Budget Category** page.
 
@@ -87,7 +87,7 @@ Excluding default android studio project resources and files, source code files 
 
 6. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
 
-	* *Amount*: Amount of money spent (eg. 20).
+	* *Amount*: Amount of money spent (eg. 20.00).
 	* *Date and Time*: Time when this transaction happened (Implemented as a date and time selector).
 	* *Description*: What is the purpose of this transaction (eg. Bought Groceries).
 	* *Card*: Information of credit card used for this transaction (Implemented as a dropdown).
