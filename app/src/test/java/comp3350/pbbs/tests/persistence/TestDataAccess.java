@@ -36,7 +36,7 @@ public class TestDataAccess extends TestCase {
         //initially testing will be done on stub database
 //        dataAccess = new StubDatabase("test");
 //        DataAccess.populateData(dataAccess);
-       // switching to HSQL database can also be done by following these 2 lines:
+        // switching to HSQL database can also be done by following these 2 lines:
         dataAccess = new DataAccessObject(Main.dbName);
         dataAccess.open(Main.getDBPathName());
         // If you're testing the data access object, the testValidValues will fail, but If you run
@@ -99,7 +99,7 @@ public class TestDataAccess extends TestCase {
     /**
      * Tests all the methods in dataAccess classes related to bankAccount.
      */
-    public void testBankAccount(){
+    public void testBankAccount() {
         ArrayList<BankAccount> bankAccounts;
         boolean result;
 
@@ -128,9 +128,9 @@ public class TestDataAccess extends TestCase {
         assertEquals(3, dataAccess.getAllBankAccounts().size());
 
         //testing updateBankAccount
-        result = dataAccess.updateBankAccount(newAccount1,newAccount2);
+        result = dataAccess.updateBankAccount(newAccount1, newAccount2);
         assertFalse(result);//can't update an account with an existing account
-        BankAccount updateAccount = new BankAccount("TD","23456",dataAccess.getCards().get(2));
+        BankAccount updateAccount = new BankAccount("TD", "23456", dataAccess.getCards().get(2));
         result = dataAccess.updateBankAccount(newAccount1, updateAccount);
         assertTrue(result);
         assertFalse(dataAccess.findBankAccount(newAccount1));//false, because it has been updated
@@ -150,7 +150,7 @@ public class TestDataAccess extends TestCase {
         assertNotNull(returnedAccounts);
         assertNotEquals(bankAccounts, returnedAccounts);//not all the bankAccounts are from same card
         assertEquals(1, returnedAccounts.size());//total bank accounts associated with the card is one
-   }
+    }
 
     /**
      * Tests all the methods in dataAccess classes related to cards.
@@ -203,7 +203,7 @@ public class TestDataAccess extends TestCase {
 
         //testing markInactive
         assertTrue(dataAccess.markInactive(dataAccess.getCards().get(0)));
-        Card newCard3 = new Card("card3","2324","Aziz",12,2023,12);
+        Card newCard3 = new Card("card3", "2324", "Aziz", 12, 2023, 12);
         assertFalse(dataAccess.markInactive(newCard3));//doesn't exist in the card list
 
         //testing getActiveCards
@@ -212,8 +212,8 @@ public class TestDataAccess extends TestCase {
 
         //testing getCreditCards & getDebitCards
         assertNotEquals(dataAccess.getCreditCards(), dataAccess.getDebitCards());
-        assertEquals(3,dataAccess.getCreditCards().size());
-        assertEquals(3,dataAccess.getDebitCards().size());
+        assertEquals(3, dataAccess.getCreditCards().size());
+        assertEquals(3, dataAccess.getDebitCards().size());
 
     }
 
@@ -350,7 +350,7 @@ public class TestDataAccess extends TestCase {
         }
 
         //BankAccount with null name is valid
-        BankAccount nullNameAccount = new BankAccount(null,"123456", dataAccess.getCards().get(3));
+        BankAccount nullNameAccount = new BankAccount(null, "123456", dataAccess.getCards().get(3));
         assertNotNull(nullNameAccount);
         assertTrue(dataAccess.insertBankAccount(nullNameAccount));
 

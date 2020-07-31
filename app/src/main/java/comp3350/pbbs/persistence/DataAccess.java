@@ -11,6 +11,13 @@ import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.*;
 import comp3350.pbbs.objects.Card;
 
+/**
+ * DataAccess
+ * Group4
+ * PBBS
+ * <p>
+ * This class defines the interface for the persistence layer.
+ */
 public interface DataAccess {
 
     void open(String dbPath);
@@ -77,6 +84,8 @@ public interface DataAccess {
 
     /**
      * This method is used for populating fake data into the stub database
+     *
+     * @param dataAccess a variable to represent the current database
      */
     static void populateData(DataAccess dataAccess) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories

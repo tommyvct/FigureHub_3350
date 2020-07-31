@@ -18,21 +18,34 @@ import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.objects.BudgetCategory;
 
+/**
+ * DataAccessObject
+ * Group4
+ * PBBS
+ * <p>
+ * This class defines the HSQL database for the persistence layer.
+ */
 public class DataAccessObject implements DataAccess {
-	private Connection con;	// for DB switch
+	private Connection con;    // for DB switch
 	private Statement stmt; // statement
-	private String dbName;	// name of DB
-	private String dbType;	// type of DB
+	private String dbName;    // name of DB
+	private String dbType;    // type of DB
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * Constructor of DB
+	 *
 	 * @param dbName the DB name
 	 */
 	public DataAccessObject(String dbName) {
 		this.dbName = dbName;
 	}
 
+	/**
+	 * Opens the database by connecting the hsqldb file.
+	 *
+	 * @param dbPath Database path
+	 */
 	public void open(String dbPath) {
 		String url;
 		try {
@@ -41,13 +54,16 @@ public class DataAccessObject implements DataAccess {
 			Class.forName("org.hsqldb.jdbcDriver").newInstance();
 			con = DriverManager.getConnection(url, "PBBS", "");
 			System.out.println("Opened " + dbType + " database " + dbPath);
-			if(getBudgetsSize() == 0 && getCardsSize() == 0 && getTransactionsSize() == 0)
+			if (getBudgetsSize() == 0 && getCardsSize() == 0 && getTransactionsSize() == 0)
 				DataAccess.populateData(this);
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
 
+	/**
+	 * This method is returning the DB name
+	 */
 	public String getDBName() {
 		return dbName;
 	}
@@ -67,14 +83,16 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Methods for BudgetCategories
+	 * Methods to return the list of BudgetCategories
+	 *
+	 * @return budgets list
 	 */
 	public List<BudgetCategory> getBudgets() {
 		List<BudgetCategory> toReturn = new ArrayList<BudgetCategory>();
 		try {
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery("SELECT * FROM BUDGETCATEGORY");
-			while(results.next()) {
+			while (results.next()) {
 				String budgetName = results.getString("BUDGETNAME");
 				double budgetLimit = results.getDouble("BUDGETLIMIT");
 				BudgetCategory budgetCategory = new BudgetCategory(budgetName, budgetLimit);
@@ -87,17 +105,22 @@ public class DataAccessObject implements DataAccess {
 		return toReturn;
 	}
 
+	/**
+	 * This method will find if a budget exist or not
+	 *
+	 * @return True if found, false if not found
+	 */
 	public boolean findBudgetCategory(BudgetCategory currentBudget) {
 		boolean result = false;
 		try {
 			String cmdString = "SELECT COUNT(*) AS CNT FROM BUDGETCATEGORY WHERE BUDGETNAME='"
 					+ currentBudget.getBudgetName() + "' AND BUDGETLIMIT="
-			        + currentBudget.getBudgetLimit();
+					+ currentBudget.getBudgetLimit();
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
 			while (results.next()) {
 				int count = results.getInt("CNT");
-				if(count == 1) {
+				if (count == 1) {
 					result = true;
 				}
 			}
@@ -108,6 +131,11 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method will insert a new budget category with the budgets ArrayList.
+	 *
+	 * @return true, if inserted successfully
+	 */
 	public boolean insertBudgetCategory(BudgetCategory newBudget) {
 		boolean result = false;
 		String values;
@@ -125,13 +153,43 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method will be used to update a Budget.
+	 *
+	 * @return True if the budget category was updated successfully, or false if not
+	 */
+	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
+		boolean toReturn = false;
+		String values, where, cmdString;
+		try {
+			values = "BUDGETNAME='" + newBudget.getBudgetName()
+					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
+			where = "WHERE BUDGETNAME='" + currentBudget.getBudgetName()
+					+ "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
+			cmdString = "UPDATE BUDGETCATEGORY SET " + values + " " + where;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
+			if (updateCount == 1) {
+				toReturn = true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return toReturn;
+	}
+
+	/**
+	 * This method will return the size of the budget.
+	 *
+	 * @return size of the budget list
+	 */
 	public int getBudgetsSize() {
 		int count = 0;
 		try {
 			String cmdString = "SELECT COUNT(*) AS CNT FROM BUDGETCATEGORY";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				count = results.getInt("CNT");
 			}
 			results.close();
@@ -141,6 +199,12 @@ public class DataAccessObject implements DataAccess {
 		return count;
 	}
 
+	/**
+	 * method: find a bank account exist or not in the database
+	 *
+	 * @param toFind a bank account needs to be found from the database
+	 * @return true if this bank account has been added into the database
+	 */
 	@Override
 	public boolean findBankAccount(BankAccount toFind) {
 		boolean result = false;
@@ -148,7 +212,7 @@ public class DataAccessObject implements DataAccess {
 			// Get card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + toFind.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" +	toFind.getLinkedCard().getCardNum() +
+					"' AND CARDNUM='" + toFind.getLinkedCard().getCardNum() +
 					"' AND HOLDERNAME='" + toFind.getLinkedCard().getHolderName() +
 					"' AND EXPIREMONTH=" + toFind.getLinkedCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + toFind.getLinkedCard().getExpireYear() +
@@ -160,12 +224,12 @@ public class DataAccessObject implements DataAccess {
 
 			cmdString = "SELECT COUNT(*) AS CNT FROM BANKACCOUNT WHERE ACCOUNTNAME='"
 					+ toFind.getAccountName() + "' AND ACCOUNTNUMBER='"
-					+ toFind.getAccountNumber() + "' AND CARDID="+cardID;
+					+ toFind.getAccountNumber() + "' AND CARDID=" + cardID;
 			stmt = con.createStatement();
 			results = stmt.executeQuery(cmdString);
 			while (results.next()) {
 				int count = results.getInt("CNT");
-				if(count == 1) {
+				if (count == 1) {
 					result = true;
 				}
 			}
@@ -177,6 +241,12 @@ public class DataAccessObject implements DataAccess {
 
 	}
 
+	/**
+	 * method: add a bank account into the database
+	 *
+	 * @param newAccount a bank account needs to be added into the database
+	 * @return true if this bank account does not exist in the database
+	 */
 	@Override
 	public boolean insertBankAccount(BankAccount newAccount) {
 		boolean result = false;
@@ -186,7 +256,7 @@ public class DataAccessObject implements DataAccess {
 			// Get card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + newAccount.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" +	newAccount.getLinkedCard().getCardNum() +
+					"' AND CARDNUM='" + newAccount.getLinkedCard().getCardNum() +
 					"' AND HOLDERNAME='" + newAccount.getLinkedCard().getHolderName() +
 					"' AND EXPIREMONTH=" + newAccount.getLinkedCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + newAccount.getLinkedCard().getExpireYear() +
@@ -197,7 +267,7 @@ public class DataAccessObject implements DataAccess {
 			results.close();
 
 			values = "'" + newAccount.getAccountName() + "', '" + newAccount.getAccountNumber() +
-			"', " + cardID;
+					"', " + cardID;
 			cmdString = "INSERT INTO BANKACCOUNT (ACCOUNTNAME, ACCOUNTNUMBER, CARDID) " +
 					"VALUES(" + values + ")";
 			stmt = con.createStatement();
@@ -210,6 +280,13 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * method: update a bank account existed in the database
+	 *
+	 * @param toUpdate   an old bank account needs to be replaced
+	 * @param newAccount a new bank account will replace the other one
+	 * @return true if the old bank account does exist in the database
+	 */
 	@Override
 	public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
 		boolean result = false;
@@ -218,7 +295,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + newAccount.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" +	newAccount.getLinkedCard().getCardNum() +
+					"' AND CARDNUM='" + newAccount.getLinkedCard().getCardNum() +
 					"' AND HOLDERNAME='" + newAccount.getLinkedCard().getHolderName() +
 					"' AND EXPIREMONTH=" + newAccount.getLinkedCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + newAccount.getLinkedCard().getExpireYear() +
@@ -230,7 +307,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + toUpdate.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" +	toUpdate.getLinkedCard().getCardNum() +
+					"' AND CARDNUM='" + toUpdate.getLinkedCard().getCardNum() +
 					"' AND HOLDERNAME='" + toUpdate.getLinkedCard().getHolderName() +
 					"' AND EXPIREMONTH=" + toUpdate.getLinkedCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + toUpdate.getLinkedCard().getExpireYear() +
@@ -256,6 +333,11 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * method: to get all the bankAccounts from the database
+	 *
+	 * @return a list of bankAccounts
+	 */
 	@Override
 	public List<BankAccount> getAllBankAccounts() {
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
@@ -264,7 +346,7 @@ public class DataAccessObject implements DataAccess {
 					"BA.CARDID=C.ID";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String accountName = results.getString("ACCOUNTNAME");
 				String accountNumber = results.getString("ACCOUNTNUMBER");
 				// Get card
@@ -284,6 +366,12 @@ public class DataAccessObject implements DataAccess {
 		return bankAccounts;
 	}
 
+	/**
+	 * method: get the bank account from a debit card
+	 *
+	 * @param from the debit card
+	 * @return BankAccount ArrayList links this debit card
+	 */
 	@Override
 	public List<BankAccount> getAccountsFromDebitCard(Card from) {
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
@@ -291,7 +379,7 @@ public class DataAccessObject implements DataAccess {
 			// Get card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + from.getCardName() +
-					"' AND CARDNUM='" +	from.getCardNum() +
+					"' AND CARDNUM='" + from.getCardNum() +
 					"' AND HOLDERNAME='" + from.getHolderName() +
 					"' AND EXPIREMONTH=" + from.getExpireMonth() +
 					" AND EXPIREYEAR=" + from.getExpireYear() +
@@ -303,7 +391,7 @@ public class DataAccessObject implements DataAccess {
 			cmdString = "SELECT * FROM BANKACCOUNT WHERE CARDID=" + cardID;
 			stmt = con.createStatement();
 			results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String accountName = results.getString("ACCOUNTNAME");
 				String accountNumber = results.getString("ACCOUNTNUMBER");
 				BankAccount bankAccount = new BankAccount(accountName, accountNumber, from);
@@ -315,22 +403,28 @@ public class DataAccessObject implements DataAccess {
 		return bankAccounts;
 	}
 
+	/**
+	 * This method will find if a card exist or not.
+	 *
+	 * @param currCard card to find
+	 * @return the card object.
+	 */
 	@Override
 	public boolean findCard(Card currCard) {
 		boolean result = false;
 		try {
 			String cmdString = "SELECT COUNT(*) AS CNT FROM CARD WHERE" +
 					" CARDNAME='" + currCard.getCardName() +
-					"' AND CARDNUM='" +	currCard.getCardNum() +
+					"' AND CARDNUM='" + currCard.getCardNum() +
 					"' AND HOLDERNAME='" + currCard.getHolderName() +
 					"' AND EXPIREMONTH=" + currCard.getExpireMonth() +
 					" AND EXPIREYEAR=" + currCard.getExpireYear() +
 					" AND PAYDATE=" + currCard.getPayDate();
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while (results.next()){
+			while (results.next()) {
 				int count = results.getInt("CNT");
-				if(count == 1) {
+				if (count == 1) {
 					result = true;
 				}
 			}
@@ -341,6 +435,11 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method inserts a new card in the database.
+	 *
+	 * @return true, if it inserted properly
+	 */
 	@Override
 	public boolean insertCard(Card newCard) {
 		String values;
@@ -366,28 +465,10 @@ public class DataAccessObject implements DataAccess {
 		return toReturn;
 	}
 
-	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
-		boolean toReturn = false;
-		String values, where, cmdString;
-		try {
-			values = "BUDGETNAME='" + newBudget.getBudgetName()
-					+ "', BUDGETLIMIT=" + newBudget.getBudgetLimit();
-			where = "WHERE BUDGETNAME='" + currentBudget.getBudgetName()
-					+ "' AND BUDGETLIMIT=" + currentBudget.getBudgetLimit();
-			cmdString = "UPDATE BUDGETCATEGORY SET " + values + " " + where;
-			stmt = con.createStatement();
-			int updateCount = stmt.executeUpdate(cmdString);
-			if(updateCount == 1) {
-				toReturn = true;
-			}
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
-		return toReturn;
-	}
-
 	/**
-	 * Methods for CreditCards
+	 * Getter method to get all the credit cards.
+	 *
+	 * @return creditCards.
 	 */
 	public List<Card> getCreditCards() {
 		List<Card> creditCards = new ArrayList<Card>();
@@ -395,7 +476,7 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT * FROM CARD";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String cardName = results.getString("CARDNAME");
 				String cardNum = results.getString("CARDNUM");
 				String name = results.getString("HOLDERNAME");
@@ -403,10 +484,9 @@ public class DataAccessObject implements DataAccess {
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
 				Card card;
-				if(payDate == 0) {
+				if (payDate == 0) {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
-				}
-				else {
+				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
 				if (getAccountsFromDebitCard(card).isEmpty()) {
@@ -420,6 +500,11 @@ public class DataAccessObject implements DataAccess {
 		return creditCards;
 	}
 
+	/**
+	 * Getter method to get all the debit cards.
+	 *
+	 * @return debitCards.
+	 */
 	@Override
 	public List<Card> getDebitCards() {
 		List<Card> debitCards = new ArrayList<Card>();
@@ -427,7 +512,7 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT * FROM CARD";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String cardName = results.getString("CARDNAME");
 				String cardNum = results.getString("CARDNUM");
 				String name = results.getString("HOLDERNAME");
@@ -446,6 +531,11 @@ public class DataAccessObject implements DataAccess {
 		return debitCards;
 	}
 
+	/**
+	 * Getter method to get all the cards.
+	 *
+	 * @return all the cards.
+	 */
 	@Override
 	public List<Card> getCards() {
 		List<Card> cards = new ArrayList<Card>();
@@ -453,7 +543,7 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT * FROM CARD";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String cardName = results.getString("CARDNAME");
 				String cardNum = results.getString("CARDNUM");
 				String name = results.getString("HOLDERNAME");
@@ -461,10 +551,9 @@ public class DataAccessObject implements DataAccess {
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
 				Card card;
-				if(payDate == 0) {
+				if (payDate == 0) {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
-				}
-				else {
+				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
 				cards.add(card);
@@ -476,6 +565,11 @@ public class DataAccessObject implements DataAccess {
 		return cards;
 	}
 
+	/**
+	 * Getter method for only active cards
+	 *
+	 * @return active cards
+	 */
 	@Override
 	public List<Card> getActiveCards() {
 		List<Card> cards = new ArrayList<Card>();
@@ -483,7 +577,7 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT * FROM CARD WHERE ACTIVE <> 0";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				String cardName = results.getString("CARDNAME");
 				String cardNum = results.getString("CARDNUM");
 				String name = results.getString("HOLDERNAME");
@@ -491,10 +585,9 @@ public class DataAccessObject implements DataAccess {
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
 				Card card;
-				if(payDate == 0) {
+				if (payDate == 0) {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
-				}
-				else {
+				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
 				cards.add(card);
@@ -506,6 +599,13 @@ public class DataAccessObject implements DataAccess {
 		return cards;
 	}
 
+	/**
+	 * This method updates a card existed in the database
+	 *
+	 * @param currCard an old card needs to be replaced
+	 * @param newCard  a new card will replace the other one
+	 * @return true if the old card does exist in the database
+	 */
 	@Override
 	public boolean updateCard(Card currCard, Card newCard) {
 		boolean result = false;
@@ -534,6 +634,11 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * Mark given card as inactive.
+	 *
+	 * @param toMark card to mark as inactive
+	 */
 	@Override
 	public boolean markInactive(Card toMark) {
 		boolean result = false;
@@ -541,7 +646,7 @@ public class DataAccessObject implements DataAccess {
 		try {
 			String cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + toMark.getCardName() +
-					"' AND CARDNUM='" +	toMark.getCardNum() +
+					"' AND CARDNUM='" + toMark.getCardNum() +
 					"' AND HOLDERNAME='" + toMark.getHolderName() +
 					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
 					" AND EXPIREYEAR=" + toMark.getExpireYear() +
@@ -563,23 +668,38 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method returns the credit card size
+	 *
+	 * @return size of the credit card.
+	 */
 	@Override
 	public int getCreditCardsSize() {
 		return getCreditCards().size();
 	}
 
+	/**
+	 * This method returns the debit card size
+	 *
+	 * @return size of the debit card.
+	 */
 	@Override
 	public int getDebitCardsSize() {
 		return getDebitCards().size();
 	}
 
+	/**
+	 * This method returns the card size
+	 *
+	 * @return size of the card.
+	 */
 	public int getCardsSize() {
 		int count = 0;
 		try {
 			String cmdString = "SELECT COUNT(*) AS CNT FROM CARD";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while (results.next()){
+			while (results.next()) {
 				count = results.getInt("CNT");
 			}
 			results.close();
@@ -590,7 +710,9 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Methods for Transactions
+	 * Getter method to get the transactions.
+	 *
+	 * @return transactions from database.
 	 */
 	public List<Transaction> getTransactions() {
 		List<Transaction> transactions = new ArrayList<Transaction>();
@@ -599,9 +721,9 @@ public class DataAccessObject implements DataAccess {
 					" T.BUDGETCATEGORYID=BC.ID INNER JOIN CARD AS C ON T.CARDID=C.ID";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while(results.next()) {
+			while (results.next()) {
 				Date time = dateFormat.parse(results.getString("DATE"));
-				float amount = (float)results.getDouble("AMOUNT");
+				float amount = (float) results.getDouble("AMOUNT");
 				String description = results.getString("DESCRIPTION");
 				// Get credit card
 				String cardName = results.getString("CARDNAME");
@@ -611,10 +733,9 @@ public class DataAccessObject implements DataAccess {
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
 				Card card;
-				if(payDate == 0) {
+				if (payDate == 0) {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
-				}
-				else {
+				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
 				// Get budget category
@@ -630,13 +751,18 @@ public class DataAccessObject implements DataAccess {
 		return transactions;
 	}
 
+	/**
+	 * This method will return the transaction size.
+	 *
+	 * @return size of transaction
+	 */
 	public int getTransactionsSize() {
 		int count = 0;
 		try {
 			String cmdString = "SELECT COUNT(*) AS CNT FROM TRANSACTION";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			while (results.next()){
+			while (results.next()) {
 				count = results.getInt("CNT");
 			}
 			results.close();
@@ -646,6 +772,12 @@ public class DataAccessObject implements DataAccess {
 		return count;
 	}
 
+	/**
+	 * This method will find if a transaction exist or not.
+	 *
+	 * @param currentTransaction transaction that will be searched
+	 * @return True if found, or false if not found
+	 */
 	public boolean findTransaction(Transaction currentTransaction) {
 		boolean found = false;
 		try {
@@ -660,7 +792,7 @@ public class DataAccessObject implements DataAccess {
 			// Get card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
@@ -677,9 +809,9 @@ public class DataAccessObject implements DataAccess {
 					" AND BUDGETCATEGORYID=" + budgetID;
 			stmt = con.createStatement();
 			results = stmt.executeQuery(cmdString);
-			while (results.next()){
+			while (results.next()) {
 				int count = results.getInt("CNT");
-				if(count == 1) {
+				if (count == 1) {
 					found = true;
 				}
 			}
@@ -690,6 +822,12 @@ public class DataAccessObject implements DataAccess {
 		return found;
 	}
 
+	/**
+	 * This method will insert a new transaction with the ArrayList.
+	 *
+	 * @param newTransaction transaction that will be inserted
+	 * @return true if inserted the transaction properly.
+	 */
 	public boolean insertTransaction(Transaction newTransaction) {
 		boolean result = false;
 		try {
@@ -704,7 +842,7 @@ public class DataAccessObject implements DataAccess {
 			// Get card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + newTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" + newTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
@@ -728,6 +866,12 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method will be used to remove a transaction.
+	 *
+	 * @param currentTransaction transaction that needs to be deleted
+	 * @return true if deleted successfully
+	 */
 	public boolean deleteTransaction(Transaction currentTransaction) {
 		boolean result = false;
 		try {
@@ -742,7 +886,7 @@ public class DataAccessObject implements DataAccess {
 			// Get credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
@@ -767,6 +911,13 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * This method will be used to update a transaction.
+	 *
+	 * @param currentTransaction transaction that need to be updated
+	 * @param newTransaction     transaction which will be set
+	 * @return true if updated successfully.
+	 */
 	public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
 		boolean result = false;
 		String values, where;
@@ -782,7 +933,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + newTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" + newTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
@@ -802,7 +953,7 @@ public class DataAccessObject implements DataAccess {
 			// Get first credit card
 			cmdString = "SELECT ID FROM CARD WHERE" +
 					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
+					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
 					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
 					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
 					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
@@ -833,7 +984,9 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Methods for Users
+	 * Getter for username
+	 *
+	 * @return username
 	 */
 	public String getUsername() {
 		String username = null;
@@ -841,10 +994,9 @@ public class DataAccessObject implements DataAccess {
 			String cmdString = "SELECT NAME FROM USERNAME";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			if(results.next()) {
+			if (results.next()) {
 				username = results.getString("NAME");
-			}
-			else {
+			} else {
 				throw new NullPointerException("No username is set");
 			}
 		} catch (SQLException e) {
@@ -853,6 +1005,14 @@ public class DataAccessObject implements DataAccess {
 		return username;
 	}
 
+	/**
+	 * setter for username, used when renaming
+	 * the username could be anything single line.
+	 * this is ensured on presentation side
+	 *
+	 * @param newUsername String representation of the user's name
+	 * @return True if the username was set successfully
+	 */
 	public boolean setUsername(String newUsername) {
 		boolean result = false;
 		if (newUsername == null) {
@@ -866,7 +1026,7 @@ public class DataAccessObject implements DataAccess {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				System.out.println(e.toString());
 			}
 		} catch (NullPointerException npe) {
@@ -876,7 +1036,7 @@ public class DataAccessObject implements DataAccess {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				System.out.println(e.toString());
 			}
 		}
@@ -884,7 +1044,10 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * Methods for DB functions
+	 * Method for checking DB functions
+	 *
+	 * @param st          statement variable
+	 * @param updateCount int variable to update the count
 	 */
 	public void checkWarning(Statement st, int updateCount) {
 		try {
