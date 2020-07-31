@@ -88,7 +88,7 @@ public interface DataAccess {
         List<Transaction> transactions = new ArrayList<Transaction>();
         List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 
-        rent = new BudgetCategory("Rent/Mortgage", 500);
+        rent = new BudgetCategory("Mortgage", 500);
         budgets.add(rent);
         groceries = new BudgetCategory("Groceries", 100);
         budgets.add(groceries);
