@@ -55,8 +55,15 @@ Excluding default android studio project resources and files, source code files 
 3. The default interface after inputting the name is the **Home** page. There are 4 menu options in total and are listed at the bottom part of the screen. In addition to Home, the app provides navigation options for Cards, Budget, and Transactions. Each of these 3 menus has a **add** button at the bottom right corner for their sub-menus.
 
 	**Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
+	
+4. In this iteration, **Card** page allows various inputs:
 
-4. **Card** page contains detailed information of each card the user has.
+	* *Card number* is intentionally left unchecked, they could be anything that is not null or empty.
+	* There are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number, while an American Express card have 15, and even some debit cards have 19 digits.
+	* Some private companies who provide a financial product without a legit bank card (namely EQ Bank in Canada and Ant Financial in China).
+	* The time invested on implementing these checks have minimum returns to the quality and experience of the app.
+
+5. **Card** page contains detailed information of each card the user has.
 
 	* Cards now are splited into 2 kinds: credit and debit.
 	* Credit cards have specific field *Payment Day* while debit cards do not.
@@ -75,7 +82,7 @@ Excluding default android studio project resources and files, source code files 
 	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
 	  * If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
 
-5. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
+6. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
 
 	* *Desciption*: name of this category (eg. Snack food).
 	* *Limit*: amount of money as the cost upperlimit (eg. 50).
@@ -85,7 +92,7 @@ Excluding default android studio project resources and files, source code files 
 	* The total amount and the amount has spent for a budget are visualized together in pie chart form for user viewing purpose.
 	* Update a budget category: tap the button at the bottom allows user to re-enter all the info of a budget category in the **Update Budget Category** page.
 
-6. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
+7. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
 
 	* *Amount*: Amount of money spent (eg. 20).
 	* *Date and Time*: Time when this transaction happened (Implemented as a date and time selector).
@@ -98,7 +105,7 @@ Excluding default android studio project resources and files, source code files 
 	* Allows user to re-enter all the info of a transaction, as well selecting the budget category this transaction belongs to, and the card this transaction was made.
 	* Update or delete a transaction: 2 buttons are provided to let user update or delete a transaction.
 
-7. **Bank Accounts**: incompleted in this iteration.
+8. **Bank Accounts**: incompleted in this iteration.
 
 	* *Account Name*: a description or name of the bank account (eg. House savings).
 	* *Account Number*: user's bank account number (eg. 2001963).
