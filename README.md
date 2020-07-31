@@ -91,7 +91,7 @@ Excluding default android studio project resources and files, source code files 
 	
 	Purpose is to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving). Layers of objects and business and their tests are completed. May create another menu option in the app interface to list all bank accounts.
 
-> More features will be created in the next iteration.
+	> More features involving *Bank Accounts* will be created in the next iteration.
 
 ---
 
@@ -113,7 +113,7 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 ### Known Bugs
 
-	> So far all bugs are solved in this iteration. 
+> So far all bugs are solved in this iteration. 
 
 ---
 
