@@ -15,11 +15,19 @@ import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
+/**
+ * AllTests
+ * Group4
+ * PBBS
+ *
+ * This class tests AccessTransaction class
+ */
 public class TestAccessTransaction extends TestCase {
     private AccessTransaction accessTransaction;
     private DataAccess testDB;
     List<Transaction> transactions;
 
+    //Testing Data
     private Date date = new Date(2020-07-15);
     private String testDate = date.toString();
     private String testAmount = "12.07";
@@ -50,7 +58,7 @@ public class TestAccessTransaction extends TestCase {
      * Testing that all methods work using valid input
      */
     public void testValidInput(){
-        //Testing adding valid transactions:
+        //Testing adding and updating valid transactions:
         HelperBothCardTypesTogether(true, "groceries", "31/12/2020", "00:00", "1.23", testBudgetCategory);
         HelperBothCardTypesTogether(true, "GROCERIES", "30/1/2020", "1:15", "12.34", testBudgetCategory);
         HelperBothCardTypesTogether(true, "GrOcErIeS!!!!", "30-3-2020", "23:59", "000000.12", testBudgetCategory);
@@ -146,7 +154,7 @@ public class TestAccessTransaction extends TestCase {
     }
 
     /**
-     * Testing using bad date input (only for date params)
+     * Testing using bad time input (only for time params)
      */
     public void testInvalidTimeInput(){
         //Testing adding and updating transaction with bad time values:
@@ -159,6 +167,17 @@ public class TestAccessTransaction extends TestCase {
         HelperBothCardTypesTogether(false, testDesc, testDate, "23:150", testAmount, testBudgetCategory);
     }
 
+    /**
+     * Helper method that enables testing addTransaction, addDebitTransaction, updateTransaction,
+     * and updateDebitTransaction at once.
+     *
+     * @param succeed   param that tells whether the tests should pass or fail
+     * @param desc      description to be tested
+     * @param date      date to be tested
+     * @param time      time to be tested
+     * @param amount    amount to be tested
+     * @param category  category to be tested
+     */
     public void HelperBothCardTypesTogether(Boolean succeed, String desc, String date, String time, String amount, BudgetCategory category){
         if(succeed){
             assertTrue(accessTransaction.addTransaction(desc, date, time, amount, testCard, category));
