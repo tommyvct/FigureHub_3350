@@ -1,4 +1,4 @@
-package comp3350.pbbs.tests.persistence;
+package comp3350.pbbs.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,16 +7,17 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * StubDatabase
  * Group4
  * PBBS
- *
+ * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess {
+public class StubDatabase implements DataAccess
+{
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
     private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
@@ -67,8 +68,6 @@ public class StubDatabase implements DataAccess {
 
     /**
      * This method will insert a new budget category with the budgets ArrayList.
-     *
-     * @return true, if inserted successfully
      */
     public boolean insertBudgetCategory(BudgetCategory newBudget) {
         return budgets.add(newBudget);
@@ -99,15 +98,18 @@ public class StubDatabase implements DataAccess {
     }
 
     /**
-     * This method will return the size of the budget.
+     * This method will remove a budget category.
      *
-     * @return size of the budget list
+     * @return True if the budget category was deleted, or false if not
      */
+    public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
+        return budgets.remove(currentBudget);
+    }
+
     @Override
     public int getBudgetsSize() {
         return budgets.size();
     }
-
 
     /**
      * method: find a bank account exist or not in the database
@@ -142,19 +144,13 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
-        int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
-        if (index >= 0 && updateValid <= 0) {
+        if (index >= 0) {
             accounts.set(index, newAccount);
             return true;
         }
         return false;
     }
 
-    /**
-     * method: to get all the bankAccounts from the database
-     *
-     * @return an arrayList of bankAccounts
-     */
     public ArrayList<BankAccount> getAllBankAccounts() {
         return accounts;
     }
@@ -189,8 +185,6 @@ public class StubDatabase implements DataAccess {
 
     /**
      * This method inserts a new card with the ArrayList.
-     *
-     * @return true, if it inserted properly
      */
     public boolean insertCard(Card newCard) {
         boolean result = false;
@@ -210,30 +204,19 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
-        int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0 && updateValid <= 0) {
+        if (index >= 0) {
             cards.set(index, newCard);
             result = true;
         }
         return result;
     }
 
-    /**
-     * This method returns the credit card size
-     *
-     * @return size of the credit card.
-     */
     @Override
     public int getCreditCardsSize() {
         return getCreditCards().size();
     }
 
-    /**
-     * This method returns the debit card size
-     *
-     * @return size of the debit card.
-     */
     @Override
     public int getDebitCardsSize() {
         return getDebitCards().size();
@@ -241,7 +224,6 @@ public class StubDatabase implements DataAccess {
 
     /**
      * Mark given card as inactive.
-     *
      * @param toMark card to mark as inactive
      */
     public boolean markInactive(Card toMark)
@@ -301,7 +283,7 @@ public class StubDatabase implements DataAccess {
      *
      * @return debitCards ArrayList.
      */
-    public List<Card> getDebitCards() {
+    public ArrayList<Card> getDebitCards() {
         ArrayList<Card> ret = new ArrayList<>();
         for (Card c : cards) {
             if (c.getPayDate() == 0) {
@@ -313,7 +295,6 @@ public class StubDatabase implements DataAccess {
 
     /**
      * Getter method for only active cards
-     *
      * @return active cards
      */
     public ArrayList<Card> getActiveCards()
@@ -334,9 +315,9 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will find if a transaction exist or not.
      *
-     * @param currentTransaction transaction that will be searched
      * @return True if found, or false if not found
      */
+    @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean findTransaction(Transaction currentTransaction) {
         return transactions.contains(currentTransaction);
     }
@@ -344,7 +325,6 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will insert a new transaction with the ArrayList.
      *
-     * @param newTransaction transaction that will be inserted
      * @return true if inserted the transaction properly.
      */
     public boolean insertTransaction(Transaction newTransaction) {
@@ -363,13 +343,11 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will be used to update a transaction.
      *
-     * @param currentTransaction transaction that need to be updated
-     * @param newTransaction transaction which will be set
      * @return true if updated successfully.
      */
     public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
         boolean toReturn = false;
-        while(transactions.contains(currentTransaction)) {
+        if (transactions.contains(currentTransaction)) {
             int index = transactions.indexOf(currentTransaction);
             if (index >= 0) {
                 toReturn = transactions.set(index, newTransaction) != null;
@@ -381,22 +359,16 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will be used to remove a transaction.
      *
-     * @param currentTransaction transaction that needs to be deleted
      * @return true if deleted successfully
      */
     public boolean deleteTransaction(Transaction currentTransaction) {
         boolean toReturn = false;
-        while (transactions.contains(currentTransaction)) {
+        while(transactions.contains(currentTransaction)) {
             toReturn = transactions.remove(currentTransaction);
         }
         return toReturn;
     }
 
-    /**
-     * This method will return the transaction size.
-     *
-     * @return size of transaction ArrayList
-     */
     @Override
     public int getTransactionsSize() {
         return transactions.size();
@@ -428,6 +400,4 @@ public class StubDatabase implements DataAccess {
         this.username = newUsername;
         return true;
     }
-
-
 }

@@ -49,6 +49,9 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 
         BudgetNameET.setText(oldBudgetCategory.getBudgetName());
         BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
+		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
+		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
+		BudgetNameET.setEnabled(false);
 
         ((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
         // validation for the new entered information
@@ -73,4 +76,28 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
             }
         });
     }
+		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
+		// validation for the new entered information
+		findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
+			boolean valid = true;
+			if (BudgetNameET.getText().toString().trim().isEmpty()) {
+				BudgetNameET.setError("Name required.");
+				valid = false;
+			}
+			if (BudgetLimitET.getText().toString().isEmpty()) {
+				BudgetLimitET.setError("Limit required.");
+				valid = false;
+			}
+			if (!valid) {
+				return;
+			}
+			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
+			} else {
+				Snackbar.make(view, "Failed to update Budget Category.", Snackbar.LENGTH_SHORT).show();
+			}
+		});
+	}
 }

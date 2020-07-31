@@ -80,6 +80,16 @@ public class AccessCard {
     }
 
     /**
+     * Mark given card as active.
+     * @param toMark card to mark as inactive
+     */
+    public boolean markActive(Card toMark)
+    {
+        return db.markActive(toMark);
+    }
+
+
+    /**
      * Getter method to get the debit cards.
      *
      * @return debitCards ArrayList.

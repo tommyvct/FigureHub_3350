@@ -78,6 +78,7 @@ public class main_cards extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         cardsList = accessCard.getCards();
         listViewAdapter = new ArrayAdapter<>(
                 requireActivity(),

@@ -62,6 +62,8 @@ public interface DataAccess {
 
     boolean markInactive(Card toMark);
 
+    boolean markActive(Card toMark);
+
     int getCreditCardsSize();
 
     int getDebitCardsSize();

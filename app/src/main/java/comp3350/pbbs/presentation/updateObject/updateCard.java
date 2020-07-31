@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -156,39 +157,58 @@ public class updateCard extends AppCompatActivity implements OnItemSelectedListe
                 valid = false;
             }
 
-            //if everything is valid then checks if the card can be inserted or not
-            if (valid && accessCard.updateCard(oldCard, debit ?
-                    new Card(
-                            cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
-                            cardNumber.getText().toString(),
-                            cardholderName.getText().toString().trim(),
-                            Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
-                            Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()))
-                    :
-                    new Card(
-                            cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
-                            cardNumber.getText().toString(),
-                            cardholderName.getText().toString().trim(),
-                            Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
-                            Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()),
-                            Integer.parseInt(debit ? "0" : payday.getText().toString())))
-            ) {
-                //setResult(1);
-                finish();
-                Toast.makeText(view.getContext(), "Card updated!", Toast.LENGTH_SHORT).show();
-            } else {
-                Snackbar.make(view, "Failed to update Card", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+			//if everything is valid then checks if the card can be inserted or not
+			if (valid && accessCard.updateCard(oldCard, debit ?
+					new Card(
+							cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
+							cardNumber.getText().toString(),
+							cardholderName.getText().toString().trim(),
+							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
+							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()))
+					:
+					new Card(
+							cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
+							cardNumber.getText().toString(),
+							cardholderName.getText().toString().trim(),
+							Integer.parseInt(validThruMonth.getText().toString().isEmpty() ? "0" : validThruMonth.getText().toString()),
+							Integer.parseInt(validThruYear.getText().toString().isEmpty() ? "0" : validThruYear.getText().toString()),
+							Integer.parseInt(debit ? "0" : payday.getText().toString())))
+					)
+			{
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Card updated!", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Snackbar.make(view,"Failed to update Card",Snackbar.LENGTH_SHORT).show();
+			}
+		});
 
-        // mark as inactive
-        findViewById(R.id.markCardInactive).setOnClickListener(view ->
-        {
-            accessCard.markInactive(oldCard);
-            finish();
-            Toast.makeText(view.getContext(), "Card mark as inactive!", Toast.LENGTH_SHORT).show();
-        });
-    }
+
+		if (oldCard.isActive())
+		{
+			// mark as inactive
+			findViewById(R.id.markCardInactive).setOnClickListener(view ->
+			{
+				accessCard.markInactive(oldCard);
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Card marked as inactive!", Toast.LENGTH_SHORT).show();
+			});
+		}
+		else
+		{
+			((Button) findViewById(R.id.markCardInactive)).setText("Mark Active");
+			// mark as active
+			findViewById(R.id.markCardInactive).setOnClickListener(view ->
+			{
+				accessCard.markActive(oldCard);
+				setResult(2);
+				finish();
+				Toast.makeText(view.getContext(), "Card marked as active!", Toast.LENGTH_SHORT).show();
+			});
+		}
+	}
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

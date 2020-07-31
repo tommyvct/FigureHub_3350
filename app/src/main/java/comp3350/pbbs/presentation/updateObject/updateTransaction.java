@@ -99,7 +99,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         ///////// Card Selector //////////TODO: add Bank account list
         accessCreditCard = new AccessCard();
         ArrayList<String> cardDisplayList = new ArrayList<>();
-        List<Card> cardArrayList = accessCreditCard.getCreditCards();
+        List<Card> cardArrayList = accessCreditCard.getActiveCards();
         cardDisplayList.add("Select card");
         for (Card c : cardArrayList) {
             cardDisplayList.add(c.getCardName() + "\n" + c.getCardNum());
@@ -153,15 +153,17 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             //if everything is valid then checks if the transaction can be inserted or not
             if (valid &&
                     accessTransaction.updateTransaction
-                            (
-                                    oldTransaction,
-                                    ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
-                                    dateText.getText().toString(),
-                                    timeText.getText().toString(),
-                                    ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                                    (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
-                                    budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                            )) {
+                    (
+                            oldTransaction,
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+                            dateText.getText().toString(),
+                            timeText.getText().toString(),
+                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+                    ))
+            {
+                setResult(2);
                 finish();
                 Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
@@ -171,6 +173,9 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
 
         findViewById(R.id.deleteTrans).setOnClickListener(view ->
         {
+            if (accessTransaction.deleteTransaction(oldTransaction))
+            {
+                setResult(2);
             if (accessTransaction.deleteTransaction(oldTransaction)) {
                 finish();
                 Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();

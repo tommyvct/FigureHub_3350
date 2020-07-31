@@ -198,7 +198,6 @@ public class TestDataAccess extends TestCase {
 
         //testing the size of different cards
         assertEquals(3, dataAccess.getCreditCardsSize());
-        //TODO: there are 3 debit cards for sure, why it's telling me it should be 2 !?
         assertEquals(3, dataAccess.getDebitCardsSize());
 
         //testing markInactive
