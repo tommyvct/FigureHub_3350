@@ -113,7 +113,7 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 ### Known Bugs
 
-> So far all bugs are solved in this iteration. 
+> No bugs left so far in this iteration. 
 
 ---
 
