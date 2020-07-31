@@ -247,20 +247,43 @@ Time taken: 3 hours
 Time taken: 2 hours
 
 # JULY 30
+## Meeting Details
+- Discussed all the bugs
+- Revised everything
+- Fixed DB issues
+
+Attended by: Aziz, Josh, Hao, Terra, Tommy
+Time taken: 3 hours
+
 ## Individual entries:
 ## Aziz
+- Wrote the developer log for iteration 2.
+- Commented, formatted, and removed unwanted codes.
+Time taken: 5 hours
 
 ## Josh
+Fix bugs
+- Bug where the viewing the most recent transaction would crash after adding
+- Fix marking cards as inactive not working
+- Change card graph
+Time taken: 4.5 hours
 
 ## Hao
+Updated `README.md` for iteration 2.
+Time taken: 2 hours
 
 ## Terra
+- Completed "More comprehensive testing"
+Time taken: 3 hours
 
 ## Tommy
-
+- Cards can be reactivated now
+- Fixed `viewBudgetCategory` XML, `BudgetCategory.equals()` now only relies on name, and it cannot be changed anymore for the sake of concurrency.
+- Changed SQL write delay to 0, added name length limit from XML side
+Times: 6 hours
 
 ## Outstanding bugs and their fixes
-
+So far in this iteration we have fixed all the bugs.
 
 ## Design decisions and rationals
 1. Implemented pie charts for budget Categories to view to the spending on each budget.
@@ -280,4 +303,3 @@ Time taken: 2 hours
    The rational behind this is: there are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number,
    while an American Express card have 15, and even some debit cards have 19 digits. There are even some private companies who
    provide a financial product without a legit bank card (namely EQ Bank in Canada and Ant Financial in China).
-
