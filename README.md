@@ -56,7 +56,7 @@ Excluding default android studio project resources and files, source code files 
 
 	**Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
 	
-4. In this iteration, **Card** page allows various input:
+4. In this iteration, **Card** page allows various inputs:
 
 	* *Card number* is intentionally left unchecked, they could be anything that is not null or empty.
 	* There are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number, while an American Express card have 15, and even some debit cards have 19 digits.
