@@ -49,6 +49,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
 		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
+		BudgetNameET.setEnabled(false);
 
 		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
@@ -66,6 +67,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 				return;
 			}
 			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
+				setResult(2);
 				finish();
 				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
 			} else {

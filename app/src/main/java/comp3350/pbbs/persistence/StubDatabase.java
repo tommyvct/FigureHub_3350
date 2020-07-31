@@ -1,4 +1,4 @@
-package comp3350.pbbs.tests.persistence;
+package comp3350.pbbs.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
 
 /**
  * StubDatabase
@@ -16,7 +15,9 @@ import comp3350.pbbs.persistence.DataAccess;
  * <p>
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess {
+public class StubDatabase implements DataAccess
+{
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
     private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
@@ -55,7 +56,6 @@ public class StubDatabase implements DataAccess {
     public void close() {
         System.out.println("Closed stub database");
     }
-
 
     /**
      * This method will find if a budget exist or not
@@ -111,7 +111,6 @@ public class StubDatabase implements DataAccess {
         return budgets.size();
     }
 
-
     /**
      * method: find a bank account exist or not in the database
      *
@@ -145,8 +144,7 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
-        int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
-        if (index >= 0 && updateValid<=0) {
+        if (index >= 0) {
             accounts.set(index, newAccount);
             return true;
         }
@@ -206,9 +204,8 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
-        int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0 && updateValid<=0) {
+        if (index >= 0) {
             cards.set(index, newCard);
             result = true;
         }
@@ -286,7 +283,7 @@ public class StubDatabase implements DataAccess {
      *
      * @return debitCards ArrayList.
      */
-    public List<Card> getDebitCards() {
+    public ArrayList<Card> getDebitCards() {
         ArrayList<Card> ret = new ArrayList<>();
         for (Card c : cards) {
             if (c.getPayDate() == 0) {
@@ -320,6 +317,7 @@ public class StubDatabase implements DataAccess {
      *
      * @return True if found, or false if not found
      */
+    @SuppressWarnings("unused")  // will be used at some point in the future
     public boolean findTransaction(Transaction currentTransaction) {
         return transactions.contains(currentTransaction);
     }
@@ -349,7 +347,7 @@ public class StubDatabase implements DataAccess {
      */
     public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
         boolean toReturn = false;
-        while(transactions.contains(currentTransaction)) {
+        if (transactions.contains(currentTransaction)) {
             int index = transactions.indexOf(currentTransaction);
             if (index >= 0) {
                 toReturn = transactions.set(index, newTransaction) != null;
@@ -402,6 +400,4 @@ public class StubDatabase implements DataAccess {
         this.username = newUsername;
         return true;
     }
-
-
 }

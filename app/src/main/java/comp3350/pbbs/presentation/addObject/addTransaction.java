@@ -84,7 +84,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         ///////// Card Selector ////////////TODO: add Bank account list
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
-        List<Card> cardArrayList = accessCard.getCreditCards();
+        List<Card> cardArrayList = accessCard.getActiveCards();
         cardList.add("Select card");
         for (Card c : cardArrayList) {
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
