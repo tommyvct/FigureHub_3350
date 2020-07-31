@@ -49,6 +49,7 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
 		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
+		BudgetNameET.setEnabled(false);
 
 		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
