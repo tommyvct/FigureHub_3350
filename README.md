@@ -62,9 +62,8 @@ Excluding default android studio project resources and files, source code files 
 	
 	Tap any card on the list will direct to the **View Card** page.
 	* Allows user to view the card balance and a line chart of spending for that card over time.
-	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or mark it as an inactive card in the **Update Card** page.
-	
-	> The "mark inactive" feature is not completed yet: active/inactive status is not shown in the card list, as well as no rollback feature after marking a card inactive.
+	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
+		* If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
 	
 4. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
 	* *Desciption*: name of this category (eg. Snack food).
@@ -92,7 +91,7 @@ Excluding default android studio project resources and files, source code files 
 	
 	Purpose is to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving). Layers of objects and business and their tests are completed. May create another menu option in the app interface to list all bank accounts.
 
-> More features will be created in the next iteration.
+	> More features involving *Bank Accounts* will be created in the next iteration.
 
 ---
 
@@ -114,13 +113,7 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 ### Known Bugs
 
-REQUIRE CHANGES: THE FOLLOWING IS FOR ITERATION 1, NEED TO FILL SOME FOR ITERATION 2
-
->There is a bug on all upload forms. You can press the submit button multiple times when everything is filled out before going back to the main list view, resulting in duplicate records being added to the database.
-
->Fix: Move the snackbar to previous activity, which was the original design. 
-  
->Due to unfamiliarity, current design is relatively easier to understand and implement. 
+> No bugs left so far in this iteration. 
 
 ---
 

@@ -99,7 +99,7 @@ public class AccessBudgetCategory {
     public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit){
         Float newLimitFlt;
         boolean result = false;
-        if(oldBudgetCategory != null && (newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
+        if (oldBudgetCategory != null && (newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }

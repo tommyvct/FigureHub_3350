@@ -174,12 +174,14 @@ public class DataAccessObject implements DataAccess {
 			System.out.println(e.toString());
 		}
 		return result;
+
 	}
 
 	@Override
 	public boolean insertBankAccount(BankAccount newAccount) {
 		boolean result = false;
 		String values;
+
 		try {
 			// Get card
 			String cmdString = "SELECT ID FROM CARD WHERE" +
@@ -272,7 +274,7 @@ public class DataAccessObject implements DataAccess {
 				int expireMonth = results.getInt("EXPIREMONTH");
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
-				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear);
 				BankAccount bankAccount = new BankAccount(accountName, accountNumber, card);
 				bankAccounts.add(bankAccount);
 			}
@@ -350,9 +352,10 @@ public class DataAccessObject implements DataAccess {
 						+ "', '" + newCard.getHolderName()
 						+ "', " + newCard.getExpireMonth()
 						+ ", " + newCard.getExpireYear()
-						+ ", " + newCard.getPayDate();
+						+ ", " + newCard.getPayDate()
+						+ ", 1";
 				String cmdString = "INSERT INTO CARD (CARDNAME, CARDNUM, HOLDERNAME," +
-						" EXPIREMONTH, EXPIREYEAR, PAYDATE) VALUES(" + values + ")";
+						" EXPIREMONTH, EXPIREYEAR, PAYDATE, ISACTIVE) VALUES(" + values + ")";
 				stmt = con.createStatement();
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
@@ -407,7 +410,7 @@ public class DataAccessObject implements DataAccess {
 				else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
-				if (getAccountsFromDebitCard(card).isEmpty()) {
+				if (getAccountsFromDebitCard(card).isEmpty() || payDate != 0) {
 					creditCards.add(card);
 				}
 			}
@@ -432,8 +435,14 @@ public class DataAccessObject implements DataAccess {
 				int expireMonth = results.getInt("EXPIREMONTH");
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
-				Card card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
-				if (!getAccountsFromDebitCard(card).isEmpty()) {
+				Card card;
+				if(payDate == 0) {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
+				}
+				else {
+					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
+				}
+				if (!getAccountsFromDebitCard(card).isEmpty() || payDate == 0) {
 					debitCards.add(card);
 				}
 			}
@@ -478,7 +487,7 @@ public class DataAccessObject implements DataAccess {
 	public List<Card> getActiveCards() {
 		List<Card> cards = new ArrayList<Card>();
 		try {
-			String cmdString = "SELECT * FROM CARD WHERE ACTIVE <> 0";
+			String cmdString = "SELECT * FROM CARD WHERE ISACTIVE <> 0";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
 			while(results.next()) {
@@ -548,7 +557,7 @@ public class DataAccessObject implements DataAccess {
 			results.next();
 			int cardID = results.getInt("ID");
 			results.close();
-			values = "ACTIVE=0";
+			values = "ISACTIVE=0";
 			where = "ID=" + cardID;
 			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
 			stmt = con.createStatement();
@@ -560,6 +569,36 @@ public class DataAccessObject implements DataAccess {
 		}
 		return result;
 	}
+
+	@Override
+	public boolean markActive(Card toMark) {
+		boolean result = false;
+		String values, where;
+		try {
+			String cmdString = "SELECT ID FROM CARD WHERE" +
+					" CARDNAME='" + toMark.getCardName() +
+					"' AND CARDNUM='" +	toMark.getCardNum() +
+					"' AND HOLDERNAME='" + toMark.getHolderName() +
+					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
+					" AND EXPIREYEAR=" + toMark.getExpireYear() +
+					" AND PAYDATE=" + toMark.getPayDate();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			int cardID = results.getInt("ID");
+			results.close();
+			values = "ACTIVE=1";
+			where = "ID=" + cardID;
+			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
+			stmt = con.createStatement();
+			int updateCount = stmt.executeUpdate(cmdString);
+			checkWarning(stmt, updateCount);
+			result = true;
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 
 	@Override
 	public int getCreditCardsSize() {

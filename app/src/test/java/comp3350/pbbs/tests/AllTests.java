@@ -48,7 +48,6 @@ public class AllTests {
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessBankAccount.class);
         suite.addTestSuite(TestAccessCard.class);
-        suite.addTestSuite(TestDataAccess.class);
     }
 
     /**
