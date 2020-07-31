@@ -7,17 +7,21 @@
 ### Background
 
 1. Project name: **Personal Budget-Balancing System (PBBS)**.
+
 2. Repository link: [PBBS Repository](https://github.com/tommyvct/FigureHub_3350).
-	
-	* You can view all the source code files from the link above.
+
+   * You can view all the source code files from the link above.
+
 3. Developer logs: [PBBS Developer log (iteration 2)](https://github.com/tommyvct/FigureHub_3350/projects/3).
-	* The developer logs are written by members in the development team, used to record the process of how this project proceeded and what actions members performed.
-	* You can view the developer logs from the link above. It is also sorted as a text document in the main zip file directory.
+
+   * The developer logs are written by members in the development team, used to record the process of how this project proceeded and what actions members performed.
+   * You can view the developer logs from the link above. It is also sorted as a text document in the main zip file directory.
 
 4. Team members:
-	* *Azizul Hakim (7848052)*,	*Terra Jentsch (7613907)*,	*Joshua Smallwood (7826555)*,	*Tommy Wu (7852291)*,	*Hao Zheng (7870389)*.
-	
-	> Names are represented in ascending order based on the first letter of surnames of developers.
+
+   * *Azizul Hakim (7848052)*,	*Terra Jentsch (7613907)*,	*Joshua Smallwood (7826555)*,	*Tommy Wu (7852291)*,	*Hao Zheng (7870389)*.
+
+   > Names are represented in ascending order based on the first letter of surnames of developers.
 
 ---
 
@@ -43,61 +47,72 @@ Excluding default android studio project resources and files, source code files 
 
 ### Features
 
-1. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
+1. **New User Stories**: added and updated some stories for the purpose of providing more features. A PDF file *Iteration_2_user_stories.pdf* is attached within submittion.
 
-2. The default interface after inputting the name is the **Home** page. There are 4 menu options in total and are listed at the bottom part of the screen. In addition to Home, the app provides navigation options for Cards, Budget, and Transactions. Each of these 3 menus has a **add** button at the bottom right corner for their sub-menus.
+2. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
-	**Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
-	
-3. **Card** page contains detailed information of each card the user has.
-	* Cards now are splited into 2 kinds: credit and debit.
-	* Credit cards have specific field *Payment Day* while debit cards do not.
-	
-	The add button brings the user to the **Add Card** page, which brings up a form that requires input.
-	* *Card Name*: a description or name of the card (eg. My BMO).
-	* *Card Number*: a series of digits print on this card (eg. 1002100310041005).
-	* *Expire Date (month & year)*: expire month and year of this card (eg. 12, 2025).
-	* *Holder Name*: the user's full name shown on the card (eg. Joshua Smallwood).
-	* *Payment Day*: CREDIT CARD ONLY, due day of next payment from the current month (eg. 15).
-	
-	Tap any card on the list will direct to the **View Card** page.
-	* Allows user to view the card balance and a line chart of spending for that card over time.
-	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
-		* If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
-	
-4. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
-	* *Desciption*: name of this category (eg. Snack food).
-	* *Limit*: amount of money as the cost upperlimit (eg. 50).
+3. The default interface after inputting the name is the **Home** page. There are 4 menu options in total and are listed at the bottom part of the screen. In addition to Home, the app provides navigation options for Cards, Budget, and Transactions. Each of these 3 menus has a **add** button at the bottom right corner for their sub-menus.
 
-	Tap any budget on the list will direct to the **View Budget Category** page.
-	* The total amount and the amount has spent for a budget are visualized together in pie chart form for user viewing purpose.
-	* Update a budget category: tap the button at the bottom allows user to re-enter all the info of a budget category in the **Update Budget Category** page.
+   **Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
 
-5. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
-	* *Amount*: Amount of money spent (eg. 20).
-	* *Date and Time*: Time when this transaction happened (Implemented as a date and time selector).
-	* *Description*: What is the purpose of this transaction (eg. Bought Groceries).
-	* *Card*: Information of credit card used for this transaction (Implemented as a dropdown).
-	* *Budget Category*: Budget category this transaction belongs and the limit (Implemented as a dropdown).
-	
-	Tap any transaction on the list will direct to the **Update Transaction** page.
-	* Allows user to re-enter all the info of a transaction, as well selecting the budget category this transaction belongs to, and the card this transaction was made.
-	* Update or delete a transaction: 2 buttons are provided to let user update or delete a transaction.
+4. **Card** page contains detailed information of each card the user has.
 
-6.	**Bank Accounts**: incompleted in this iteration.
-	* *Account Name*: a description or name of the bank account (eg. House savings).
-	* *Account Number*: user's bank account number (eg. 2001963).
-	* *Linked Card*: the debit card that a bank issued with at least 1 bank account (eg. BMO Access).
-	
-	Purpose is to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving). Layers of objects and business and their tests are completed. May create another menu option in the app interface to list all bank accounts.
+   * Cards now are splited into 2 kinds: credit and debit.
+   * Credit cards have specific field *Payment Day* while debit cards do not.
 
-	> More features involving *Bank Accounts* will be created in the next iteration.
+   The add button brings the user to the **Add Card** page, which brings up a form that requires input.
+
+   * *Card Name*: a description or name of the card (eg. My BMO).
+   * *Card Number*: a series of digits print on this card (eg. 1002100310041005).
+   * *Expire Date (month & year)*: expire month and year of this card (eg. 12, 2025).
+   * *Holder Name*: the user's full name shown on the card (eg. Joshua Smallwood).
+   * *Payment Day*: CREDIT CARD ONLY, due day of next payment from the current month (eg. 15).
+
+   Tap any card on the list will direct to the **View Card** page.
+
+   * Allows user to view the card balance and a line chart of spending for that card over time.
+   * Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
+     * If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
+
+5. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
+
+   * *Desciption*: name of this category (eg. Snack food).
+   * *Limit*: amount of money as the cost upperlimit (eg. 50).
+
+   Tap any budget on the list will direct to the **View Budget Category** page.
+
+   * The total amount and the amount has spent for a budget are visualized together in pie chart form for user viewing purpose.
+   * Update a budget category: tap the button at the bottom allows user to re-enter all the info of a budget category in the **Update Budget Category** page.
+
+6. **Transactions** page aims to record each transaction the user made. The add button brings the user to **Add Transaction** page, which brings up a form that requires input.
+
+   * *Amount*: Amount of money spent (eg. 20).
+   * *Date and Time*: Time when this transaction happened (Implemented as a date and time selector).
+   * *Description*: What is the purpose of this transaction (eg. Bought Groceries).
+   * *Card*: Information of credit card used for this transaction (Implemented as a dropdown).
+   * *Budget Category*: Budget category this transaction belongs and the limit (Implemented as a dropdown).
+
+   Tap any transaction on the list will direct to the **Update Transaction** page.
+
+   * Allows user to re-enter all the info of a transaction, as well selecting the budget category this transaction belongs to, and the card this transaction was made.
+   * Update or delete a transaction: 2 buttons are provided to let user update or delete a transaction.
+
+7. **Bank Accounts**: incompleted in this iteration.
+
+   * *Account Name*: a description or name of the bank account (eg. House savings).
+   * *Account Number*: user's bank account number (eg. 2001963).
+   * *Linked Card*: the debit card that a bank issued with at least 1 bank account (eg. BMO Access).
+
+   Purpose is to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving). Layers of objects and business and their tests are completed. May create another menu option in the app interface to list all bank accounts.
+
+   > More features involving *Bank Accounts* will be created in the next iteration.
 
 ---
 
 ### Environments
 
 The PBBS was tested on following environments:
+
 |               Emulator/Device                |                  OS                  |
 | :------------------------------------------: | :----------------------------------: |
 |           Nexus 7 Emulator (amd64)           | Android 6 Marshmallow (API Level 23) |
