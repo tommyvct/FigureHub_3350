@@ -272,6 +272,10 @@ Time taken: 4.5 hours
 Updated `README.md` for iteration 2.
 Time taken: 2 hours
 
+## Terra
+- Completed "More comprehensive testing"
+Time taken: 3 hours
+
 ## Tommy
 - Cards can be reactivated now
 - Fixed `viewBudgetCategory` XML, `BudgetCategory.equals()` now only relies on name, and it cannot be changed anymore for the sake of concurrency.
