@@ -48,7 +48,7 @@ public class TestAccessTransactionUpdate extends TestCase {
         db = Services.createDataAccess(new StubDatabase("test"));
 
         DateFormat df = new SimpleDateFormat("d/M/yyyy H:m");
-        testDate = df.parse(df.format(new Date()));
+        testDate = df.parse("30/7/2020 19:29"/*df.format(new Date())*/);
         testAmount = 19.99f;
         testDesc = "Bought groceries.";
         accessTransaction = new AccessTransaction(true);
