@@ -15,8 +15,7 @@ import static org.junit.Assert.assertNotEquals;
  *
  * This class tests the methods in the Card class
  */
-public class TestCard extends TestCase
-{
+public class TestCard extends TestCase {
     private String card;    // name of a card
     private String num;     // serial number of a card
     private String name;    // user full name of a card

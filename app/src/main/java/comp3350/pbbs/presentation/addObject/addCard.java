@@ -69,8 +69,7 @@ public class addCard extends AppCompatActivity {
 
         radioGroup.setOnCheckedChangeListener((radioGroup, i) ->
         {
-            switch (i)
-            {
+            switch (i) {
                 case R.id.addCreditRadioButton:
                     debit = false;
                     findViewById(R.id.paydayLayout).setVisibility(View.VISIBLE);
@@ -97,10 +96,8 @@ public class addCard extends AppCompatActivity {
                 valid = false;
             }
 
-            if(!debit || !(validThruMonth.getText().toString().isEmpty() && validThruYear.getText().toString().isEmpty()))
-            {
-                switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString()))
-                {
+            if (!debit || !(validThruMonth.getText().toString().isEmpty() && validThruYear.getText().toString().isEmpty())) {
+                switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
                     case 1:  // invalid month
                         validThruMonth.setError("There is no such month!");
                         valid = false;
@@ -133,8 +130,7 @@ public class addCard extends AppCompatActivity {
                         break;
 
                     case 7:
-                        if (!debit)
-                        {
+                        if (!debit) {
                             validThruMonth.setError("Expire month is required.");
                             validThruYear.setError("Expire year is required.");
                             valid = false;
@@ -162,20 +158,16 @@ public class addCard extends AppCompatActivity {
                 valid = false;
             }
 
-            if (debit && bankAccountNumber.getText().toString().isEmpty())
-            {
+            if (debit && bankAccountNumber.getText().toString().isEmpty()) {
                 bankAccountNumber.setError("Provide an account number.");
                 valid = false;
             }
 
-            if (valid)
-            {
-                if (debit)
-                {
+            if (valid) {
+                if (debit) {
                     Card card2Insert;
                     // don't have a valid expiry date
-                    if (validThruYear.getText().toString().isEmpty() || validThruYear.getText().toString().equals("20") || validThruMonth.getText().toString().isEmpty())
-                    {
+                    if (validThruYear.getText().toString().isEmpty() || validThruYear.getText().toString().equals("20") || validThruMonth.getText().toString().isEmpty()) {
                         card2Insert = new Card(cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
                                 cardNumber.getText().toString(),
                                 cardholderName.getText().toString().trim(),
@@ -187,13 +179,11 @@ public class addCard extends AppCompatActivity {
                                         bankAccountName.getText().toString().trim().isEmpty() ? "No Name" : bankAccountName.getText().toString().trim(),
                                         bankAccountNumber.getText().toString(),
                                         card2Insert))
-                        )
-                        {
+                        ) {
                             setResult(1);
                             finish();
                         }
-                    }
-                    else  // have one
+                    } else  // have one
                     {
                         card2Insert = new Card(cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
                                 cardNumber.getText().toString(),
@@ -205,14 +195,12 @@ public class addCard extends AppCompatActivity {
                                 bankAccountName.getText().toString().trim().isEmpty() ? "No Name" : bankAccountName.getText().toString().trim(),
                                 bankAccountNumber.getText().toString(),
                                 card2Insert))
-                        )
-                        {
+                        ) {
                             setResult(1);
                             finish();
                         }
                     }
-                }
-                else  // credit card
+                } else  // credit card
                 {
                     if (accessCard.insertCard(
                             new Card
@@ -222,8 +210,7 @@ public class addCard extends AppCompatActivity {
                                             cardholderName.getText().toString().trim(),
                                             Integer.parseInt(validThruMonth.getText().toString()),
                                             Integer.parseInt(validThruYear.getText().toString()),
-                                            Integer.parseInt(payday.getText().toString()))))
-                    {
+                                            Integer.parseInt(payday.getText().toString())))) {
                         setResult(1);
                         finish();
                     }

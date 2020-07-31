@@ -49,8 +49,7 @@ public class AccessTransaction {
 
 
     @SuppressLint("SimpleDateFormat")
-    public static String[] reverseParseDateTime(Date toReverse)
-    {
+    public static String[] reverseParseDateTime(Date toReverse) {
         String[] ret = new String[2];
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -68,7 +67,7 @@ public class AccessTransaction {
      * @param dateStr        The date of the transaction
      * @param timeStr        The time of the transaction
      * @param amountStr      The amount of the transaction
-     * @param card     The card the transaction was paid with
+     * @param card           The card the transaction was paid with
      * @param budgetCategory The category of the transaction
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
@@ -171,7 +170,7 @@ public class AccessTransaction {
 
     /**
      * This method takes the old transaction and updates it to the current given values
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param oldTransaction The transaction to replace
@@ -199,7 +198,7 @@ public class AccessTransaction {
 
     /**
      * This method takes the old transaction and updates it to the current given values
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param oldTransaction The transaction to replace
@@ -264,7 +263,7 @@ public class AccessTransaction {
 
     /**
      * Deletes the given transaction in the database
-     *
+     * <p>
      * NOT IMPLEMENTED in presentation for iteration1.
      *
      * @param toDelete The transaction to delete
@@ -307,15 +306,15 @@ public class AccessTransaction {
     /**
      * Retrieves a list of months that have transactions for a certain budget category.
      *
-     * @param category      The budget Category to query.
-     * @return              A list of Calendar instances with the year and month specified.
+     * @param category The budget Category to query.
+     * @return A list of Calendar instances with the year and month specified.
      */
     public List<Calendar> getActiveMonths(BudgetCategory category) {
         List<Calendar> activeMonths = new ArrayList<>();
 
         // Loop through all transactions
-        for(Transaction transaction : retrieveTransactions()) {
-            if(category.equals(transaction.getBudgetCategory())) {
+        for (Transaction transaction : retrieveTransactions()) {
+            if (category.equals(transaction.getBudgetCategory())) {
                 // Construct the calendar object
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTime());
@@ -327,7 +326,7 @@ public class AccessTransaction {
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 // Add to set if not appeared
-                if(!activeMonths.contains(calendar)) {
+                if (!activeMonths.contains(calendar)) {
                     activeMonths.add(calendar);
                 }
             }

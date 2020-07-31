@@ -118,20 +118,20 @@ public class ViewCard extends Activity {
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 
         // If there are no active months, default to the current month and year
-        if(activeMonths.isEmpty()){
+        if (activeMonths.isEmpty()) {
             Calendar now = Calendar.getInstance();
             now.setTime(new Date());
             activeMonths.add(now);
         }
 
         // Generate the selection text
-        for(Calendar activeMonth : activeMonths) {
+        for (Calendar activeMonth : activeMonths) {
             monthOptions.add(dateFormat.format(activeMonth.getTime()));
         }
 
         //Giving the x-axis month labels
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
-        @Override
+            @Override
             public String getFormattedValue(float value) {
                 if (value >= 0) {
                     if (value < monthOptions.size()) return monthOptions.get((int) value);
@@ -195,7 +195,7 @@ public class ViewCard extends Activity {
         ArrayList<Entry> chartValues = new ArrayList<>();
         int index = 0;
 
-        for(Calendar activeMonth : activeMonths) {
+        for (Calendar activeMonth : activeMonths) {
             chartValues.add(new Entry(index, accessCard.calculateCardTotal(card, activeMonth)));
             index++;
         }
@@ -209,7 +209,7 @@ public class ViewCard extends Activity {
             set1.notifyDataSetChanged();
             lineChart.getData().notifyDataChanged();
             lineChart.notifyDataSetChanged();
-        }else {
+        } else {
             // create a dataset and give it a type
             set1 = new LineDataSet(chartValues, "DataSet 1");
 

@@ -27,7 +27,7 @@ public class TestAccessBudgetCategory extends TestCase {
     List<BudgetCategory> categories;
 
     //Testing Data
-    private Date testDate = new Date(2020-07-15);
+    private Date testDate = new Date(2020 - 07 - 15);
     private BudgetCategory bc1 = new BudgetCategory("entertainment", 50);
     private BudgetCategory bc2 = new BudgetCategory("restaurants", 50);
     private BudgetCategory bc3 = new BudgetCategory("Houseware", 15);
@@ -72,7 +72,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * Testing that all methods work using valid input
      */
-    public void testValidInput(){
+    public void testValidInput() {
         //Add one category by itself
         assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertTrue(testAccess.findBudgetCategory(bc3));
@@ -129,7 +129,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * Testing that all methods work using invalid zero input
      */
-    public void testInvalidLimitZeroInput(){
+    public void testInvalidLimitZeroInput() {
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("Houseware", "0"));
         assertFalse(testAccess.insertBudgetCategory("Houseware", "00"));
@@ -155,7 +155,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * Testing using null input
      */
-    public void testInvalidNullInput(){
+    public void testInvalidNullInput() {
         //invalid input for limit (must be integer) while updating
         BudgetCategory newBC2 = new BudgetCategory("Food places", 100.0f);
         assertFalse(testAccess.updateBudgetCategory(null, "Food places", "100"));
@@ -169,7 +169,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * Testing that all methods work using invalid empty input
      */
-    public void testInvalidEmptyInputBudgetLimit(){
+    public void testInvalidEmptyInputBudgetLimit() {
         //invalid input for limit (must be integer) while inserting
         assertFalse(testAccess.insertBudgetCategory("Houseware", ""));
         assertFalse(testAccess.insertBudgetCategory("Houseware", " "));
@@ -193,7 +193,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * Testing that all methods work using invalid empty input
      */
-    public void testInvalidEmptyInputBudgetName(){
+    public void testInvalidEmptyInputBudgetName() {
         //invalid input for name while inserting
         assertFalse(testAccess.insertBudgetCategory("", "50"));
         assertFalse(testAccess.insertBudgetCategory(" ", "50"));
@@ -227,7 +227,7 @@ public class TestAccessBudgetCategory extends TestCase {
     /**
      * testing adding a list of BudgetCategory to the stub, as well as adding individually
      */
-    public void testAdding(){
+    public void testAdding() {
         assertTrue(testAccess.insertBudgetCategory("Houseware", "15"));
         assertFalse(testAccess.insertBudgetCategory("Houseware", "15"));    //No duplicates
         assertTrue(testAccess.findBudgetCategory(bc3));
@@ -336,7 +336,7 @@ public class TestAccessBudgetCategory extends TestCase {
 
     }
 
-    public void StubBudgetCalcHelper(List<BudgetCategory> categories, Date date){
+    public void StubBudgetCalcHelper(List<BudgetCategory> categories, Date date) {
         Transaction t4 = new Transaction(date, 123.45f, "Extra Rent", testCard, categories.get(0));
         testDB.insertTransaction(t4);
         Transaction t5 = new Transaction(date, 123.45f, "Extra Groceries", testCard, categories.get(1));

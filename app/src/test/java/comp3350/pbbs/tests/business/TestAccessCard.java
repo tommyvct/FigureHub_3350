@@ -28,8 +28,9 @@ public class TestAccessCard extends TestCase {
     private AccessCard testAccess;    // a AccessCreditCard object
 
     //Testing Data
-    private Date testDate = new Date(2020-07-15);
-    private Card card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);;        // a Card object
+    private Date testDate = new Date(2020 - 07 - 15);
+    private Card card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+    // a Card object
     private Card card2 = new Card("visa", "1111222233334444", "Si-Chuan Hotpot", 11, 2022, 04);        // a Card object
     private BudgetCategory testBudgetCategory = new BudgetCategory("Houseware", 20);
     private Transaction t1 = new Transaction(testDate, 20.45f, "Watched a movie", card, testBudgetCategory);
@@ -51,12 +52,12 @@ public class TestAccessCard extends TestCase {
     /**
      * Testing that all methods work using valid input
      */
-    public void testValidInput(){
+    public void testValidInput() {
         //Test Finding input:
         assertTrue(testAccess.findCard(card));
 
         //tests finding cards already in stubDB
-        for(int i = 0; i < stubCards.size(); i++){
+        for (int i = 0; i < stubCards.size(); i++) {
             assertTrue(testAccess.findCard(stubCards.get(i)));
         }
 
@@ -84,7 +85,7 @@ public class TestAccessCard extends TestCase {
     /**
      * Testing that all methods using null input
      */
-    public void testNullInput(){
+    public void testNullInput() {
         //Test failure to find card not in DB
         Card card1 = new Card("mastercard", "5005600670078008", "Cheese Burger", 3, 2021, 18);
         assertFalse(testAccess.findCard(card1));

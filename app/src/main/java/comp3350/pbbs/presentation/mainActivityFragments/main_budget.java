@@ -34,7 +34,8 @@ public class main_budget extends Fragment {
 
 
     // Required empty public constructor
-    public main_budget() {}
+    public main_budget() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

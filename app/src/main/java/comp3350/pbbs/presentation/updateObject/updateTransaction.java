@@ -32,6 +32,13 @@ import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 
+/**
+ * updateTransaction
+ * Group4
+ * PBBS
+ *
+ * This class updates an existed transactions within the list.
+ */
 public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
 
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
@@ -146,16 +153,15 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
             //if everything is valid then checks if the transaction can be inserted or not
             if (valid &&
                     accessTransaction.updateTransaction
-                    (
-                            oldTransaction,
-                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
-                            dateText.getText().toString(),
-                            timeText.getText().toString(),
-                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
-                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                    ))
-            {
+                            (
+                                    oldTransaction,
+                                    ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+                                    dateText.getText().toString(),
+                                    timeText.getText().toString(),
+                                    ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                                    (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                                    budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+                            )) {
                 finish();
                 Toast.makeText(view.getContext(), "Updated!", Toast.LENGTH_SHORT).show();
             } else {
@@ -165,13 +171,10 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
 
         findViewById(R.id.deleteTrans).setOnClickListener(view ->
         {
-            if (accessTransaction.deleteTransaction(oldTransaction))
-            {
+            if (accessTransaction.deleteTransaction(oldTransaction)) {
                 finish();
                 Toast.makeText(view.getContext(), "Deleted!", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 Snackbar.make(view, "Failed to delete Transaction.", Snackbar.LENGTH_LONG).show();
             }
         });

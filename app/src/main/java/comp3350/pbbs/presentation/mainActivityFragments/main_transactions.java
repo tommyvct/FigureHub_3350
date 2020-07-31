@@ -34,7 +34,8 @@ public class main_transactions extends Fragment {
     private ArrayAdapter<Transaction> listAdapter;
 
     // Required empty public constructor
-    public main_transactions() {}
+    public main_transactions() {
+    }
 
 
     @Override

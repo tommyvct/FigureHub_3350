@@ -22,7 +22,7 @@ import comp3350.pbbs.objects.BudgetCategory;
  * DataAccessObject
  * Group4
  * PBBS
- * <p>
+ *
  * This class defines the HSQL database for the persistence layer.
  */
 public class DataAccessObject implements DataAccess {

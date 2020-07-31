@@ -2,20 +2,23 @@ package comp3350.pbbs.objects;
 
 import java.io.Serializable;
 
-public class BankAccount  implements Serializable
-{
+/**
+ * BankAccount
+ * Group4
+ * PBBS
+ *
+ * This class defines the object bankAccount.
+ */
+public class BankAccount implements Serializable {
     private String accountName;
     private String accountNumber;
     private Card linkedCard;    // the card this account links to
 
-    public BankAccount(String accountName, String accountNumber, Card linkedCard)
-    {
-        if (accountNumber == null)
-        {
+    public BankAccount(String accountName, String accountNumber, Card linkedCard) {
+        if (accountNumber == null) {
             throw new IllegalArgumentException("account number cannot be null");
         }
-        if (linkedCard == null)
-        {
+        if (linkedCard == null) {
             throw new IllegalArgumentException("A bank account must be linked to a debit card");
         }
 
@@ -24,23 +27,19 @@ public class BankAccount  implements Serializable
         this.linkedCard = linkedCard;
     }
 
-    public String getAccountName()
-    {
+    public String getAccountName() {
         return accountName;
     }
 
-    public String getAccountNumber()
-    {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public Card getLinkedCard()
-    {
+    public Card getLinkedCard() {
         return linkedCard;
     }
 
-    public boolean equals(BankAccount o)
-    {
+    public boolean equals(BankAccount o) {
         return this.accountNumber.equals(o.accountNumber);
     }
 }

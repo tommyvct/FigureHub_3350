@@ -10,8 +10,14 @@ import java.util.Date;
 
 import static comp3350.pbbs.business.AccessTransaction.DATE_FORMATS;
 
-public class AccessValidation
-{
+/**
+ * AccessValidation
+ * Group4
+ * PBBS
+ *
+ * This class creates an AccessValidation class for the business layer.
+ */
+public class AccessValidation {
     private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
@@ -82,7 +88,7 @@ public class AccessValidation
 
     /**
      * This method checks if the given date string and time string are valid.
-     *
+     * <p>
      * A valid date follows the format dd/mm/yyyy or dd-mm-yyyy, while a valid time follows the
      * 24-hour format: 0:00 to 23:59
      *
@@ -110,7 +116,7 @@ public class AccessValidation
 
     /**
      * This method tells if the given amount string is a valid numeric amount
-     *
+     * <p>
      * A valid amount is either a positive integer (20) or a positive decimal number with 2 decimal
      * places (20.03)
      *
@@ -141,7 +147,7 @@ public class AccessValidation
 
     /**
      * This method checks if the description is valid or not
-     *
+     * <p>
      * A valid description is non null and not empty
      *
      * @param desc The description to check

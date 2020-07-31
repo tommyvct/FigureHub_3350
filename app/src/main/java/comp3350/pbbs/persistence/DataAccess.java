@@ -15,7 +15,7 @@ import comp3350.pbbs.objects.Card;
  * DataAccess
  * Group4
  * PBBS
- * <p>
+ *
  * This class defines the interface for the persistence layer.
  */
 public interface DataAccess {

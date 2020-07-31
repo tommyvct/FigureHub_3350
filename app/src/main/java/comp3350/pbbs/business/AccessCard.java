@@ -11,14 +11,13 @@ import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccess;
 
 /**
- * AccessICard
+ * AccessCard
  * Group4
  * PBBS
  *
  * This class defines the access layer where deliver cards info to the database
  */
-public class AccessCard
-{
+public class AccessCard {
     private DataAccess db;    // create an object of the database
 
     /**
@@ -34,8 +33,7 @@ public class AccessCard
      * @param toFind a card needs to be found from the database
      * @return true if this card has been added into the database
      */
-    public boolean findCard(Card toFind)
-    {
+    public boolean findCard(Card toFind) {
         return db.findCard(toFind);
     }
 
@@ -46,7 +44,7 @@ public class AccessCard
      * @return true if this card does not exist in the database
      */
     public boolean insertCard(Card newCard) {
-        if(newCard != null)
+        if (newCard != null)
             return db.insertCard(newCard);
         else
             return false;
@@ -62,7 +60,7 @@ public class AccessCard
      * @return true if the old card does exist in the database
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
-        if(newCard != null && toUpdate != null) {
+        if (newCard != null && toUpdate != null) {
 
             if (toUpdate.getClass().equals(newCard.getClass())) {
                 return db.updateCard(toUpdate, newCard);
@@ -74,10 +72,10 @@ public class AccessCard
 
     /**
      * Mark given card as inactive.
+     *
      * @param toMark card to mark as inactive
      */
-    public boolean markInactive(Card toMark)
-    {
+    public boolean markInactive(Card toMark) {
         return db.markInactive(toMark);
     }
 
@@ -101,19 +99,19 @@ public class AccessCard
 
     /**
      * Getter method for all Cards
+     *
      * @return all cards
      */
-    public List<Card> getCards()
-    {
+    public List<Card> getCards() {
         return db.getCards();
     }
 
     /**
      * Getter method for only active cards
+     *
      * @return active cards
      */
-    public List<Card> getActiveCards()
-    {
+    public List<Card> getActiveCards() {
         return db.getActiveCards();
     }
 
@@ -121,23 +119,23 @@ public class AccessCard
      * Calculates the total amount spent for a given Card from the transactions in that category
      * based on the given month
      *
-     * @param currentCard is the specified BudgetCategory
+     * @param currentCard  is the specified BudgetCategory
      * @param monthAndYear is the month and year to query
      * @return the total amount from transactions in that budget category
      */
-    public float calculateCardTotal(Card currentCard, Calendar monthAndYear){
+    public float calculateCardTotal(Card currentCard, Calendar monthAndYear) {
         float sum = 0;
         List<Transaction> transactions = db.getTransactions();
 
-        for(int i = 0; i < transactions.size() && monthAndYear != null; i++){
+        for (int i = 0; i < transactions.size() && monthAndYear != null; i++) {
             Transaction currentTransaction = transactions.get(i);
             Card transactionCard = currentTransaction.getCard();
             Calendar currTime = Calendar.getInstance();
             currTime.setTime(currentTransaction.getTime());
             // Check if the budget categories are the same and if the year and month are the same
-            if(transactionCard.equals(currentCard) &&
+            if (transactionCard.equals(currentCard) &&
                     currTime.get(Calendar.MONTH) == monthAndYear.get(Calendar.MONTH) &&
-                    currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)){
+                    currTime.get(Calendar.YEAR) == monthAndYear.get(Calendar.YEAR)) {
                 sum += currentTransaction.getAmount();
             }
         }
@@ -148,18 +146,18 @@ public class AccessCard
     /**
      * Retrieves a list of months that have transactions for a certain card.
      *
-     * @param card      The credit card to query.
-     * @return              A list of Calendar instances with the year and month specified.
+     * @param card The credit card to query.
+     * @return A list of Calendar instances with the year and month specified.
      */
     public List<Calendar> getActiveMonths(Card card) {
-        if(card == null) {
+        if (card == null) {
             throw new NullPointerException("Expected a non null card");
         }
         List<Calendar> activeMonths = new ArrayList<Calendar>();
 
         // Loop through all transactions
-        for(Transaction transaction : db.getTransactions()) {
-            if(card.equals(transaction.getCard())) {
+        for (Transaction transaction : db.getTransactions()) {
+            if (card.equals(transaction.getCard())) {
                 // Construct the calendar object
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(transaction.getTime());
@@ -171,7 +169,7 @@ public class AccessCard
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 // Add to set if not appeared
-                if(!activeMonths.contains(calendar)) {
+                if (!activeMonths.contains(calendar)) {
                     activeMonths.add(calendar);
                 }
             }

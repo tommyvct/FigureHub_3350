@@ -28,49 +28,49 @@ import comp3350.pbbs.objects.BudgetCategory;
 
 public class updateBudgetCategory extends AppCompatActivity implements Serializable {
 
-	private AccessBudgetCategory accessBudgetCategory;	// AccessBudgetCategory variable
-	EditText BudgetNameET;								// EditText variable for budgetName
-	EditText BudgetLimitET;								// EditText variable for budgetLimit
-	BudgetCategory oldBudgetCategory;                      // BudgetCategory to update
+    private AccessBudgetCategory accessBudgetCategory;    // AccessBudgetCategory variable
+    EditText BudgetNameET;                                // EditText variable for budgetName
+    EditText BudgetLimitET;                                // EditText variable for budgetLimit
+    BudgetCategory oldBudgetCategory;                      // BudgetCategory to update
 
-	@SuppressLint("SetTextI18n")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_budget_category);
-		Objects.requireNonNull(getSupportActionBar()).setTitle("Update Budget Category");
-		oldBudgetCategory =
-				Objects.requireNonNull((BudgetCategory) getIntent().getSerializableExtra("toModify"));
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_budget_category);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Update Budget Category");
+        oldBudgetCategory =
+                Objects.requireNonNull((BudgetCategory) getIntent().getSerializableExtra("toModify"));
 
 
-		accessBudgetCategory = new AccessBudgetCategory();
-		BudgetNameET = findViewById(R.id.editBudgetName);
-		BudgetLimitET = findViewById(R.id.editBudgetLimit);
+        accessBudgetCategory = new AccessBudgetCategory();
+        BudgetNameET = findViewById(R.id.editBudgetName);
+        BudgetLimitET = findViewById(R.id.editBudgetLimit);
 
-		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
-		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
+        BudgetNameET.setText(oldBudgetCategory.getBudgetName());
+        BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
 
-		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
-		// validation for the new entered information
-		findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
-			boolean valid = true;
-			if (BudgetNameET.getText().toString().trim().isEmpty()) {
-				BudgetNameET.setError("Name required.");
-				valid = false;
-			}
-			if (BudgetLimitET.getText().toString().isEmpty()) {
-				BudgetLimitET.setError("Limit required.");
-				valid = false;
-			}
-			if (!valid) {
-				return;
-			}
-			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
-				finish();
-				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
-			} else {
-				Snackbar.make(view, "Failed to update Budget Category.", Snackbar.LENGTH_SHORT).show();
-			}
-		});
-	}
+        ((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
+        // validation for the new entered information
+        findViewById(R.id.addBudgetSubmit).setOnClickListener(view -> {
+            boolean valid = true;
+            if (BudgetNameET.getText().toString().trim().isEmpty()) {
+                BudgetNameET.setError("Name required.");
+                valid = false;
+            }
+            if (BudgetLimitET.getText().toString().isEmpty()) {
+                BudgetLimitET.setError("Limit required.");
+                valid = false;
+            }
+            if (!valid) {
+                return;
+            }
+            if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
+                finish();
+                Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(view, "Failed to update Budget Category.", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

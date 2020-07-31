@@ -18,14 +18,14 @@ public class TestAccessValidation extends TestCase {
     /**
      * Testing Valid input
      */
-    public void testValidInput(){
+    public void testValidInput() {
         //Testing isValidName()
-        assertTrue( AccessValidation.isValidName("cool name"));
-        assertTrue( AccessValidation.isValidName(" cool name "));
-        assertTrue( AccessValidation.isValidName("COOL NAME"));
-        assertTrue( AccessValidation.isValidName(" name"));
-        assertTrue( AccessValidation.isValidName("cool "));
-        assertTrue( AccessValidation.isValidName("c. n."));
+        assertTrue(AccessValidation.isValidName("cool name"));
+        assertTrue(AccessValidation.isValidName(" cool name "));
+        assertTrue(AccessValidation.isValidName("COOL NAME"));
+        assertTrue(AccessValidation.isValidName(" name"));
+        assertTrue(AccessValidation.isValidName("cool "));
+        assertTrue(AccessValidation.isValidName("c. n."));
 
         //Testing isValidExpirationDate()
         assertEquals(0, AccessValidation.isValidExpirationDate("1", "2068"));
@@ -76,10 +76,11 @@ public class TestAccessValidation extends TestCase {
         assertEquals(123456789f, AccessValidation.parseAmount("0000000000123456789"));
         assertEquals(1234567.89f, AccessValidation.parseAmount("00000000001234567.89"));
     }
+
     /**
      * Testing null and empty values
      */
-    public void testNullAndEmpty(){
+    public void testNullAndEmpty() {
         //Testing isValidName()
         assertFalse(AccessValidation.isValidName(""));
         assertFalse(AccessValidation.isValidName(" "));
@@ -122,7 +123,7 @@ public class TestAccessValidation extends TestCase {
     /**
      * Testing Negative input (only for numeric validation)
      */
-    public void testNegativeInput(){
+    public void testNegativeInput() {
         //Testing isValidExpirationDate()
         assertEquals(1, AccessValidation.isValidExpirationDate("-1", "2068"));
         assertEquals(1, AccessValidation.isValidExpirationDate("-20", "2068"));
@@ -153,7 +154,7 @@ public class TestAccessValidation extends TestCase {
     /**
      * Test invalid String input (bad strings for string validation, and any string input for numeric validation)
      */
-    public void testInvalidString(){
+    public void testInvalidString() {
         //Testing isValidName()
         assertFalse(AccessValidation.isValidName("X AE A-12"));
 
@@ -161,7 +162,7 @@ public class TestAccessValidation extends TestCase {
         Calendar calender = Calendar.getInstance();
         int currYear = calender.get(Calendar.YEAR);
         assertEquals(5, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear)));
-        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear-1)));
+        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear - 1)));
         assertEquals(7, AccessValidation.isValidExpirationDate("string", "2068"));
         assertEquals(7, AccessValidation.isValidExpirationDate("1", "string"));
         assertEquals(7, AccessValidation.isValidExpirationDate("string", "string 2"));
@@ -201,7 +202,7 @@ public class TestAccessValidation extends TestCase {
     /**
      * Testing out of bounds (for date and time)
      */
-    public void testOutOfBounds(){
+    public void testOutOfBounds() {
         //Testing isValidExpirationDate()
         assertEquals(1, AccessValidation.isValidExpirationDate("13", "2068"));
         assertEquals(1, AccessValidation.isValidExpirationDate("24", "2068"));

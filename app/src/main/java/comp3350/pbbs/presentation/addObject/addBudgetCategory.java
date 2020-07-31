@@ -1,10 +1,14 @@
 package comp3350.pbbs.presentation.addObject;
 
 import java.util.Objects;
+
 import android.os.Bundle;
 import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 
@@ -42,20 +46,17 @@ public class addBudgetCategory extends AppCompatActivity {
         {
             boolean valid = true;
 
-            if (BudgetNameET.getText().toString().trim().isEmpty())
-            {
+            if (BudgetNameET.getText().toString().trim().isEmpty()) {
                 BudgetNameET.setError("Name required.");
                 valid = false;
             }
 
-            if (BudgetLimitET.getText().toString().isEmpty())
-            {
+            if (BudgetLimitET.getText().toString().isEmpty()) {
                 BudgetLimitET.setError("Limit required.");
                 valid = false;
             }
 
-            if (!valid)
-            {
+            if (!valid) {
                 return;
             }
 
@@ -64,9 +65,7 @@ public class addBudgetCategory extends AppCompatActivity {
             {
                 setResult(1);
                 finish();
-            }
-            else
-            {
+            } else {
                 Snackbar.make(view, "Failed to add Budget Category.", Snackbar.LENGTH_SHORT).show();
             }
         });
