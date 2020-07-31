@@ -7,7 +7,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +88,7 @@ public class AccessTransaction {
     }
 
     /**
-     * This method parses the given variables into a transaction object
+     * This method parses the given variables into a transaction object (paid with debit)
      *
      * @param desc           The description of the transaction
      * @param dateStr        The date of the transaction
@@ -101,7 +100,7 @@ public class AccessTransaction {
      * @return The parsed transaction, or null if the transaction could not be
      * parsed correctly.
      */
-    private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    private Transaction parseDebitTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
         Date transactionTime = AccessValidation.parseDatetime(dateStr, timeStr);
@@ -143,7 +142,7 @@ public class AccessTransaction {
     }
 
     /**
-     * This method parses the transaction and adds it to the database
+     * This method parses the transaction and adds it to the database (paid with debit)
      *
      * @param desc           The description of the transaction
      * @param dateStr        The date of the transaction
@@ -155,11 +154,11 @@ public class AccessTransaction {
      * @return True if the transaction was added successfully, or false if it was
      * not added successfully
      */
-    public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    public boolean addDebitTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
-            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
+            Transaction transaction = parseDebitTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
             }
@@ -198,7 +197,7 @@ public class AccessTransaction {
     }
 
     /**
-     * This method takes the old transaction and updates it to the current given values
+     * This method takes the old transaction and updates it to the current given values (paid with Debit)
      *
      * NOT IMPLEMENTED in presentation for iteration1.
      *
@@ -213,11 +212,11 @@ public class AccessTransaction {
      * @return True if the transaction was replaced successfully, or false if it
      * was not replaced successfully
      */
-    public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
+    public boolean updateDebitTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
         if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
-            Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
+            Transaction transaction = parseDebitTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
             }
@@ -302,36 +301,5 @@ public class AccessTransaction {
             toReturn.add(row);
         }
         return toReturn.toArray(new String[0]);
-    }
-
-    /**
-     * Retrieves a list of months that have transactions for a certain budget category.
-     *
-     * @param category      The budget Category to query.
-     * @return              A list of Calendar instances with the year and month specified.
-     */
-    public List<Calendar> getActiveMonths(BudgetCategory category) {
-        List<Calendar> activeMonths = new ArrayList<>();
-
-        // Loop through all transactions
-        for(Transaction transaction : retrieveTransactions()) {
-            if(category.equals(transaction.getBudgetCategory())) {
-                // Construct the calendar object
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(transaction.getTime());
-                // Remove time after month
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.HOUR, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                // Add to set if not appeared
-                if(!activeMonths.contains(calendar)) {
-                    activeMonths.add(calendar);
-                }
-            }
-        }
-        return activeMonths;
     }
 }
