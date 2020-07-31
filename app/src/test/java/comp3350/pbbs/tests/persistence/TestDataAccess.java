@@ -299,7 +299,7 @@ public class TestDataAccess extends TestCase {
         //testing budgetCategory with valid input
         budgets = dataAccess.getBudgets();
         budgetCategory = budgets.get(0);
-        assertEquals("Rent/Mortgage", budgetCategory.getBudgetName());
+        assertEquals("Mortgage", budgetCategory.getBudgetName());
         assertEquals(500.0, budgetCategory.getBudgetLimit());
         //TODO: I have a feeling that the tear down isn't working, budget size is 6 maybe because of adding new budgets in previous methods.
         assertEquals(4, budgets.size());
