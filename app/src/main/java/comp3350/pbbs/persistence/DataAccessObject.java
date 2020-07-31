@@ -570,34 +570,6 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
-	public boolean markActive(Card toMark) {
-		boolean result = false;
-		String values, where;
-		try {
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + toMark.getCardName() +
-					"' AND CARDNUM='" +	toMark.getCardNum() +
-					"' AND HOLDERNAME='" + toMark.getHolderName() +
-					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
-					" AND EXPIREYEAR=" + toMark.getExpireYear() +
-					" AND PAYDATE=" + toMark.getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
-			values = "ISACTIVE=1";
-			where = "ID=" + cardID;
-			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
-			stmt = con.createStatement();
-			int updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
-			result = true;
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
-		return result;
-	}
-
 	@Override
 	public boolean markActive(Card toMark) {
 		boolean result = false;
