@@ -47,7 +47,8 @@ Excluding default android studio project resources and files, source code files 
 
 ### Features
 
-1. **New User Stories**: added and updated some stories for the purpose of providing more features. A PDF file *Iteration_2_user_stories.pdf* is attached within submittion.
+1. **New User Stories**: added and updated some stories for the purpose of providing more features.
+  * A PDF file *Iteration_2_user_stories.pdf* is attached within submittion.
 
 2. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
