@@ -67,7 +67,7 @@ public class BudgetCategory implements Serializable {
         DecimalFormat rounding = new DecimalFormat("0.00");
         if (budgetObj instanceof BudgetCategory) {
             b = (BudgetCategory) budgetObj;
-            if ((rounding.format(b.getBudgetLimit()).equals(rounding.format(this.getBudgetLimit()))) && b.getBudgetName().equals(this.getBudgetName())) {
+            if (b.getBudgetName().equals(this.getBudgetName())) {
                 equal = true;
             }
         }
