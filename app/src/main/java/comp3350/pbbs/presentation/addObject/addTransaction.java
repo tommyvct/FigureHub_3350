@@ -85,7 +85,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
             timePickerDialog.show();
         }));
 
-        ///////// Card Selector ////////////TODO: add Bank account list
+        ///////// Card Selector ////////////
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
         List<Card> cardArrayList = accessCard.getActiveCards();
