@@ -49,6 +49,7 @@ public class AllTests {
         suite.addTestSuite(TestAccessBankAccount.class);
         suite.addTestSuite(TestAccessCard.class);
         suite.addTestSuite(TestParser.class);
+        suite.addTestSuite(TestCardTransactionLinker.class);
     }
 
     /**
