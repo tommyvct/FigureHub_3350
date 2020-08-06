@@ -61,12 +61,7 @@ public class AccessCard {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         if (newCard != null && toUpdate != null) {
-
-            if (toUpdate.getClass().equals(newCard.getClass())) {
-                return db.updateCard(toUpdate, newCard);
-            } else {
-                return false;
-            }
+            return db.updateCard(toUpdate, newCard);
         } else return false;
     }
 
