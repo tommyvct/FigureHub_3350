@@ -4,11 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -25,19 +20,16 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.presentation.DollarValueFormatter;
-import comp3350.pbbs.presentation.updateObject.updateCard;
+import comp3350.pbbs.presentation.updateObject.UpdateCard;
 
 /**
  * Group4
@@ -128,7 +120,7 @@ public class ViewCard extends Activity {
         findViewById(R.id.updateCard).setOnClickListener(view ->
 
         {
-            Intent intent = new Intent(view.getContext(), updateCard.class);
+            Intent intent = new Intent(view.getContext(), UpdateCard.class);
             intent.putExtra("toUpdate", card);
             startActivityForResult(intent, 0);
             finish();

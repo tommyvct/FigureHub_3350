@@ -11,7 +11,7 @@ import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
@@ -23,7 +23,7 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  * NOTE: All of the validation testing for bad input is done in TestAccessValidation.
  */
 public class TestAccessCard extends TestCase {
-    private DataAccess testDB;
+    private DataAccessI testDB;
     List<Card> stubCards;
     private AccessCard testAccess;    // a AccessCreditCard object
 

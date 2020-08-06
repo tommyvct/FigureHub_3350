@@ -36,7 +36,7 @@ import comp3350.pbbs.objects.Card;
  *
  * This class adds a new transaction with the existing list.
  */
-public class addTransaction extends AppCompatActivity implements OnItemSelectedListener {
+public class AddTransaction extends AppCompatActivity implements OnItemSelectedListener {
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
     EditText dateText;                              //EditText variable for date
     TimePickerDialog timePickerDialog;              //variable for TimePickerDialog
@@ -64,7 +64,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         dateText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
-            datePickerDialog = new DatePickerDialog(addTransaction.this,
+            datePickerDialog = new DatePickerDialog(AddTransaction.this,
                     (view, year1, monthOfYear, dayOfMonth) ->
                     {
                         dateText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
@@ -77,7 +77,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         timeText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
-            timePickerDialog = new TimePickerDialog(addTransaction.this,
+            timePickerDialog = new TimePickerDialog(AddTransaction.this,
                     (timePicker, hourOfDay, minute) ->
                     {
                         timeText.setText(hourOfDay + ":" + minute);

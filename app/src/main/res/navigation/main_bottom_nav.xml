@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/main_home"
-        android:name="comp3350.pbbs.presentation.mainActivityFragments.main_home"
+        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainHome"
         android:label="fragment_main_home"
         tools:layout="@layout/fragment_main_home" />
     <fragment
         android:id="@+id/main_transactions"
-        android:name="comp3350.pbbs.presentation.mainActivityFragments.main_transactions"
+        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainTransactions"
         android:label="fragment_main_transactions"
         tools:layout="@layout/fragment_main_transactions" />
     <fragment
         android:id="@+id/main_cards"
-        android:name="comp3350.pbbs.presentation.mainActivityFragments.main_cards"
+        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainCards"
         android:label="fragment_main_cards"
         tools:layout="@layout/fragment_main_cards" />
     <fragment
         android:id="@+id/main_budget"
-        android:name="comp3350.pbbs.presentation.mainActivityFragments.main_budget"
+        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainBudget"
         android:label="fragment_main_budget"
         tools:layout="@layout/fragment_main_budget" />
 </navigation>

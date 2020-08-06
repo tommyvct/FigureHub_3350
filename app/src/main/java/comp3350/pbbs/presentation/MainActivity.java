@@ -7,17 +7,13 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.presentation.addObject.addTransaction;
-import comp3350.pbbs.presentation.addObject.addCard;
-import comp3350.pbbs.presentation.addObject.addBudgetCategory;
-import comp3350.pbbs.presentation.mainActivityFragments.main_budget;
-import comp3350.pbbs.presentation.mainActivityFragments.main_cards;
-import comp3350.pbbs.presentation.mainActivityFragments.main_transactions;
+import comp3350.pbbs.presentation.addObject.AddTransaction;
+import comp3350.pbbs.presentation.addObject.AddCard;
+import comp3350.pbbs.presentation.addObject.AddBudgetCategory;
 
 import android.content.Intent;
 import android.view.View;
@@ -62,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 addObjectFAB.setOnClickListener(null);
             } else if (destination.getLabel().equals("fragment_main_transactions")) {
                 addObjectFAB.setVisibility(View.VISIBLE);
-                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addTransaction.class), 1));
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddTransaction.class), 1));
             } else if (destination.getLabel().equals("fragment_main_cards")) {
                 addObjectFAB.setVisibility(View.VISIBLE);
-                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addCard.class), 2));
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddCard.class), 2));
             } else if (destination.getLabel().equals("fragment_main_budget")) {
                 addObjectFAB.setVisibility(View.VISIBLE);
-                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 3));
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddBudgetCategory.class), 3));
             }
         });
 

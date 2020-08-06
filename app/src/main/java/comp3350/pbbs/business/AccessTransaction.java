@@ -16,7 +16,7 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * TransactionAccess
@@ -27,7 +27,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * focusing on sending new transactions to the database
  */
 public class AccessTransaction {
-    private DataAccess db;    // Access to the database
+    private DataAccessI db;    // Access to the database
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{

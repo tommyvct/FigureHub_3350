@@ -39,7 +39,7 @@ import comp3350.pbbs.objects.Transaction;
  *
  * This class updates an existed transactions within the list.
  */
-public class updateTransaction extends AppCompatActivity implements OnItemSelectedListener {
+public class UpdateTransaction extends AppCompatActivity implements OnItemSelectedListener {
 
     DatePickerDialog datePickerDialog;              //variable for DatePickerDialog
     EditText dateText;                              //EditText variable for date

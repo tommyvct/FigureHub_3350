@@ -11,7 +11,7 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
@@ -23,7 +23,7 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  */
 public class TestAccessBudgetCategory extends TestCase {
     private AccessBudgetCategory accessBudgetCategory = null;
-    private DataAccess testDB;
+    private DataAccessI testDB;
     List<BudgetCategory> categories;
 
     //Testing Data

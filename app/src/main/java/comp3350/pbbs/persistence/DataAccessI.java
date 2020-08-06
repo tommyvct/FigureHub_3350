@@ -18,7 +18,7 @@ import comp3350.pbbs.objects.Card;
  *
  * This class defines the interface for the persistence layer.
  */
-public interface DataAccess {
+public interface DataAccessI {
 
     void open(String dbPath);
 

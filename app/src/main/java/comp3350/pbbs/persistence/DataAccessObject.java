@@ -25,7 +25,7 @@ import comp3350.pbbs.objects.BudgetCategory;
  *
  * This class defines the HSQL database for the persistence layer.
  */
-public class DataAccessObject implements DataAccess {
+public class DataAccessObject implements DataAccessI {
 	private Connection con;    // for DB switch
 	private Statement stmt; // statement
 	private String dbName;    // name of DB

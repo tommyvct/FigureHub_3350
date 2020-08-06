@@ -7,14 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
-import comp3350.pbbs.persistence.DataAccessObject;
+import comp3350.pbbs.persistence.DataAccessI;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -26,7 +24,7 @@ import static org.junit.Assert.assertNotEquals;
  * This class defines a test suite for the DataAccess classes.
  */
 public class TestDataAccess extends TestCase {
-    private DataAccess dataAccess;
+    private DataAccessI dataAccess;
 
     public TestDataAccess(String arg0) {
         super(arg0);

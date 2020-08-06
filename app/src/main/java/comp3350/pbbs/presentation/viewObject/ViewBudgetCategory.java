@@ -31,7 +31,7 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.presentation.DollarValueFormatter;
-import comp3350.pbbs.presentation.updateObject.updateBudgetCategory;
+import comp3350.pbbs.presentation.updateObject.UpdateBudgetCategory;
 
 /**
  * Group4
@@ -123,7 +123,7 @@ public class ViewBudgetCategory extends Activity {
 
         findViewById(R.id.updateBudgetButton).setOnClickListener(view ->
         {
-            Intent updateBudget = new Intent(view.getContext(), updateBudgetCategory.class);
+            Intent updateBudget = new Intent(view.getContext(), UpdateBudgetCategory.class);
             updateBudget.putExtra("toModify", budgetCategory);
             startActivityForResult(updateBudget, 0);
             finish();

@@ -3,7 +3,7 @@ package comp3350.pbbs.business;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * AccessUser
@@ -13,7 +13,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * This class creates an AccessUser class for the business layer.
  */
 public class AccessUser {
-    private DataAccess dataAccess;        //variable for the stubDatabase
+    private DataAccessI dataAccess;        //variable for the stubDatabase
 
     /**
      * This method creates StubDatabase and initializes all the fields

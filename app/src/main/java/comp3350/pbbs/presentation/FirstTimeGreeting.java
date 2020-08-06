@@ -17,7 +17,7 @@ import comp3350.pbbs.business.AccessUser;
  *
  * This class implements the greeting when an user enters the app
  */
-public class firstTimeGreeting extends AppCompatActivity {
+public class FirstTimeGreeting extends AppCompatActivity {
 
     String a;
 
@@ -40,7 +40,7 @@ public class firstTimeGreeting extends AppCompatActivity {
             } else {
                 new AccessUser().setUsername(nameBox.getText().toString());
                 if (a == null) {
-                    startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
+                    startActivity(new Intent(FirstTimeGreeting.this, MainActivity.class));
                 }
                 finish();
             }

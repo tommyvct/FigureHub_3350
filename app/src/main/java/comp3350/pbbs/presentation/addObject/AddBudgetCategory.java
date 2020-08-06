@@ -19,7 +19,7 @@ import comp3350.pbbs.business.AccessBudgetCategory;
  *
  * This class adds a new budgetCategory with the existing list.
  */
-public class addBudgetCategory extends AppCompatActivity {
+public class AddBudgetCategory extends AppCompatActivity {
 
     private AccessBudgetCategory accessBudgetCategory;      //an accessBudgetCategory variable
 

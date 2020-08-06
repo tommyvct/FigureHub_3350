@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 import androidx.annotation.RequiresApi;
 
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.persistence.DataAccessObject;
 
 /**
@@ -20,7 +20,7 @@ import comp3350.pbbs.persistence.DataAccessObject;
  */
 public class Services {
 
-    private static DataAccess dbAccessService = null;
+    private static DataAccessI dbAccessService = null;
 
     /**
      * This method creates a new database variable.
@@ -29,7 +29,7 @@ public class Services {
      * @return Database for other classes to use
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static DataAccess createDataAccess(String dbName) {
+    public static DataAccessI createDataAccess(String dbName) {
         if (dbAccessService == null) {
             dbAccessService = new DataAccessObject(dbName);
             dbAccessService.open(Main.getDBPathName());
@@ -43,7 +43,7 @@ public class Services {
      * @param dataAccess A string representing the name of the database.
      * @return StubDatabase for other classes to use
      */
-    public static DataAccess createDataAccess(DataAccess dataAccess) {
+    public static DataAccessI createDataAccess(DataAccessI dataAccess) {
         if (dbAccessService == null) {
             dbAccessService = dataAccess;
             dbAccessService.open(dbAccessService.getDBName());
@@ -57,7 +57,7 @@ public class Services {
      * @param dbName A string representing the name of the database.
      * @return StubDatabase once it has been created
      */
-    public static DataAccess getDataAccess(String dbName) {
+    public static DataAccessI getDataAccess(String dbName) {
         if (dbAccessService == null) {
             System.out.println("Connection to data access has not been established.");
             System.exit(1);

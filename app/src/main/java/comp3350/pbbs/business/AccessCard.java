@@ -8,7 +8,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * AccessCard
@@ -18,7 +18,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * This class defines the access layer where deliver cards info to the database
  */
 public class AccessCard {
-    private DataAccess db;    // create an object of the database
+    private DataAccessI db;    // create an object of the database
 
     /**
      * constructor: enabling access to the database

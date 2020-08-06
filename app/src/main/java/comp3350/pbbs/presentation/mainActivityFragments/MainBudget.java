@@ -26,7 +26,7 @@ import comp3350.pbbs.presentation.viewObject.ViewBudgetCategory;
  *
  * This fragment displays all budget category
  */
-public class main_budget extends Fragment {
+public class MainBudget extends Fragment {
     private AccessBudgetCategory accessBudgetCategory;
     private List<BudgetCategory> budgetCategoryList;
     private ArrayAdapter<BudgetCategory> listViewAdaptor;
@@ -34,7 +34,7 @@ public class main_budget extends Fragment {
 
 
     // Required empty public constructor
-    public main_budget() {
+    public MainBudget() {
     }
 
     @Override

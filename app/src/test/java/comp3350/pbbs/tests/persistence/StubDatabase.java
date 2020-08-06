@@ -12,7 +12,7 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * StubDatabase
@@ -21,7 +21,7 @@ import comp3350.pbbs.persistence.DataAccess;
  *
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess {
+public class StubDatabase implements DataAccessI {
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
     private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
@@ -439,7 +439,7 @@ public class StubDatabase implements DataAccess {
      *
      * @param dataAccess a variable to represent the current database
      */
-    static void populateData(DataAccess dataAccess) {
+    static void populateData(DataAccessI dataAccess) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         Card card1, card2, card3, card4, card5;                                      //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
