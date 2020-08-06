@@ -154,13 +154,6 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
-	 * This method will be used to update a Budget.
-	 *
-	 * @return True if the budget category was updated successfully, or false if not
-	 */
-
-
-	/**
 	 * This method will return the size of the budget.
 	 *
 	 * @return size of the budget list
@@ -182,6 +175,29 @@ public class DataAccessObject implements DataAccess {
 	}
 
 	/**
+	 * Retrieves the row index ID for the given budget category
+	 *
+	 * @param budgetCategory
+	 * @return
+	 */
+	private int getBudgetID(BudgetCategory budgetCategory) {
+		int budgetID = -1;
+		try {
+
+			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
+					" BUDGETNAME='" + budgetCategory.getBudgetName() +
+					"' AND BUDGETLIMIT=" + budgetCategory.getBudgetLimit();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			budgetID = results.getInt("ID");
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return budgetID;
+	}
+
+	/**
 	 * method: find a bank account exist or not in the database
 	 *
 	 * @param toFind a bank account needs to be found from the database
@@ -191,24 +207,13 @@ public class DataAccessObject implements DataAccess {
 	public boolean findBankAccount(BankAccount toFind) {
 		boolean result = false;
 		try {
-			// Get card
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + toFind.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" + toFind.getLinkedCard().getCardNum() +
-					"' AND HOLDERNAME='" + toFind.getLinkedCard().getHolderName() +
-					"' AND EXPIREMONTH=" + toFind.getLinkedCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + toFind.getLinkedCard().getExpireYear() +
-					" AND PAYDATE=" + toFind.getLinkedCard().getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
+			int cardID = getCardID(toFind.getLinkedCard());
 
-			cmdString = "SELECT COUNT(*) AS CNT FROM BANKACCOUNT WHERE ACCOUNTNAME='"
+			String cmdString = "SELECT COUNT(*) AS CNT FROM BANKACCOUNT WHERE ACCOUNTNAME='"
 					+ toFind.getAccountName() + "' AND ACCOUNTNUMBER='"
 					+ toFind.getAccountNumber() + "' AND CARDID=" + cardID;
 			stmt = con.createStatement();
-			results = stmt.executeQuery(cmdString);
+			ResultSet results = stmt.executeQuery(cmdString);
 			while (results.next()) {
 				int count = results.getInt("CNT");
 				if (count == 1) {
@@ -235,22 +240,11 @@ public class DataAccessObject implements DataAccess {
 		String values;
 
 		try {
-			// Get card
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + newAccount.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" + newAccount.getLinkedCard().getCardNum() +
-					"' AND HOLDERNAME='" + newAccount.getLinkedCard().getHolderName() +
-					"' AND EXPIREMONTH=" + newAccount.getLinkedCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + newAccount.getLinkedCard().getExpireYear() +
-					" AND PAYDATE=" + newAccount.getLinkedCard().getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
+			int cardID = getCardID(newAccount.getLinkedCard());
 
 			values = "'" + newAccount.getAccountName() + "', '" + newAccount.getAccountNumber() +
 					"', " + cardID;
-			cmdString = "INSERT INTO BANKACCOUNT (ACCOUNTNAME, ACCOUNTNUMBER, CARDID) " +
+			String cmdString = "INSERT INTO BANKACCOUNT (ACCOUNTNAME, ACCOUNTNUMBER, CARDID) " +
 					"VALUES(" + values + ")";
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
@@ -275,29 +269,9 @@ public class DataAccessObject implements DataAccess {
 		String values, where;
 		try {
 			// Get first credit card
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + newAccount.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" + newAccount.getLinkedCard().getCardNum() +
-					"' AND HOLDERNAME='" + newAccount.getLinkedCard().getHolderName() +
-					"' AND EXPIREMONTH=" + newAccount.getLinkedCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + newAccount.getLinkedCard().getExpireYear() +
-					" AND PAYDATE=" + newAccount.getLinkedCard().getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int newCardID = results.getInt("ID");
-			results.close();
-			// Get first credit card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + toUpdate.getLinkedCard().getCardName() +
-					"' AND CARDNUM='" + toUpdate.getLinkedCard().getCardNum() +
-					"' AND HOLDERNAME='" + toUpdate.getLinkedCard().getHolderName() +
-					"' AND EXPIREMONTH=" + toUpdate.getLinkedCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + toUpdate.getLinkedCard().getExpireYear() +
-					" AND PAYDATE=" + toUpdate.getLinkedCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int currentCardID = results.getInt("ID");
-			results.close();
+			int newCardID = getCardID(newAccount.getLinkedCard());
+			// Get second credit card
+			int currentCardID = getCardID(newAccount.getLinkedCard());
 			values = "ACCOUNTNAME='" + newAccount.getAccountName()
 					+ "', ACCOUNTNUMBER='" + newAccount.getAccountNumber()
 					+ ", CARDID=" + newCardID;
@@ -305,7 +279,7 @@ public class DataAccessObject implements DataAccess {
 					+ "' AND ACCOUNTNUMBER='" + toUpdate.getAccountNumber()
 					+ " AND CARDID=" + currentCardID;
 			stmt = con.createStatement();
-			cmdString = "UPDATE BANKACCOUNT SET " + values + " " + where;
+			String cmdString = "UPDATE BANKACCOUNT SET " + values + " " + where;
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -359,20 +333,10 @@ public class DataAccessObject implements DataAccess {
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		try {
 			// Get card
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + from.getCardName() +
-					"' AND CARDNUM='" + from.getCardNum() +
-					"' AND HOLDERNAME='" + from.getHolderName() +
-					"' AND EXPIREMONTH=" + from.getExpireMonth() +
-					" AND EXPIREYEAR=" + from.getExpireYear() +
-					" AND PAYDATE=" + from.getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
-			cmdString = "SELECT * FROM BANKACCOUNT WHERE CARDID=" + cardID;
+			int cardID = getCardID(from);
+			String cmdString = "SELECT * FROM BANKACCOUNT WHERE CARDID=" + cardID;
 			stmt = con.createStatement();
-			results = stmt.executeQuery(cmdString);
+			ResultSet results = stmt.executeQuery(cmdString);
 			while (results.next()) {
 				String accountName = results.getString("ACCOUNTNAME");
 				String accountNumber = results.getString("ACCOUNTNUMBER");
@@ -448,6 +412,11 @@ public class DataAccessObject implements DataAccess {
 		return toReturn;
 	}
 
+	/**
+	 * This method will be used to update a Budget.
+	 *
+	 * @return True if the budget category was updated successfully, or false if not
+	 */
 	public boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget) {
 		boolean toReturn = false;
 		String values, where, cmdString;
@@ -653,20 +622,10 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		String values, where;
 		try {
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + toMark.getCardName() +
-					"' AND CARDNUM='" + toMark.getCardNum() +
-					"' AND HOLDERNAME='" + toMark.getHolderName() +
-					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
-					" AND EXPIREYEAR=" + toMark.getExpireYear() +
-					" AND PAYDATE=" + toMark.getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
+			int cardID = getCardID(toMark);
 			values = "ISACTIVE=0";
 			where = "ID=" + cardID;
-			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
+			String cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
@@ -677,25 +636,42 @@ public class DataAccessObject implements DataAccess {
 		return result;
 	}
 
+	/**
+	 * Retrieves the id in the database of the given card.
+	 *
+	 * @param card Card to search for
+	 * @return	ID of the card in the database.
+	 */
+	private int getCardID(Card card) {
+		int cardID = -1;
+		try {
+			// Get card
+			String cmdString = "SELECT ID FROM CARD WHERE" +
+					" CARDNAME='" + card.getCardName() +
+					"' AND CARDNUM='" + card.getCardNum() +
+					"' AND HOLDERNAME='" + card.getHolderName() +
+					"' AND EXPIREMONTH=" + card.getExpireMonth() +
+					" AND EXPIREYEAR=" + card.getExpireYear() +
+					" AND PAYDATE=" + card.getPayDate();
+			ResultSet results = stmt.executeQuery(cmdString);
+			results.next();
+			cardID = results.getInt("ID");
+			results.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		return cardID;
+	}
+
 	@Override
 	public boolean markActive(Card toMark) {
 		boolean result = false;
 		String values, where;
 		try {
-			String cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + toMark.getCardName() +
-					"' AND CARDNUM='" +	toMark.getCardNum() +
-					"' AND HOLDERNAME='" + toMark.getHolderName() +
-					"' AND EXPIREMONTH=" + toMark.getExpireMonth() +
-					" AND EXPIREYEAR=" + toMark.getExpireYear() +
-					" AND PAYDATE=" + toMark.getPayDate();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
+			int cardID = getCardID(toMark);
 			values = "ACTIVE=1";
 			where = "ID=" + cardID;
-			cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
+			String cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
@@ -819,34 +795,17 @@ public class DataAccessObject implements DataAccess {
 	public boolean findTransaction(Transaction currentTransaction) {
 		boolean found = false;
 		try {
-			// Get budget category
-			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
-					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int budgetID = results.getInt("ID");
-			results.close();
+			int budgetID = getBudgetID(currentTransaction.getBudgetCategory());
 			// Get card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
-					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
-					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
-					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
-			cmdString = "SELECT COUNT(*) AS CNT FROM TRANSACTION WHERE" +
+			int cardID = getCardID(currentTransaction.getCard());
+			String cmdString = "SELECT COUNT(*) AS CNT FROM TRANSACTION WHERE" +
 					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
 					"' AND AMOUNT=" + currentTransaction.getAmount() +
 					" AND DESCRIPTION='" + currentTransaction.getDescription() +
 					"' AND CARDID=" + cardID +
 					" AND BUDGETCATEGORYID=" + budgetID;
 			stmt = con.createStatement();
-			results = stmt.executeQuery(cmdString);
+			ResultSet results = stmt.executeQuery(cmdString);
 			while (results.next()) {
 				int count = results.getInt("CNT");
 				if (count == 1) {
@@ -870,31 +829,15 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			// Get budget category
-			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-					" BUDGETNAME='" + newTransaction.getBudgetCategory().getBudgetName() +
-					"' AND BUDGETLIMIT=" + newTransaction.getBudgetCategory().getBudgetLimit();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int budgetID = results.getInt("ID");
-			results.close();
+			int budgetID = getBudgetID(newTransaction.getBudgetCategory());
 			// Get card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + newTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" + newTransaction.getCard().getCardNum() +
-					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
-					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
-					" AND PAYDATE=" + newTransaction.getCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
+			int cardID = getCardID(newTransaction.getCard());
 			String columns = "DATE, AMOUNT, DESCRIPTION, CARDID, BUDGETCATEGORYID";
 			String values = "'" + dateFormat.format(newTransaction.getTime()) + "'," +
 					newTransaction.getAmount() + ",'" +
 					newTransaction.getDescription() + "'," +
 					cardID + "," + budgetID;
-			cmdString = "INSERT INTO TRANSACTION (" + columns + ") VALUES (" + values + ")";
+			String cmdString = "INSERT INTO TRANSACTION (" + columns + ") VALUES (" + values + ")";
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -914,26 +857,10 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		try {
 			// Get budget category
-			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
-					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int budgetID = results.getInt("ID");
-			results.close();
-			// Get credit card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" + currentTransaction.getCard().getCardNum() +
-					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
-					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
-					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int cardID = results.getInt("ID");
-			results.close();
-			cmdString = "DELETE FROM TRANSACTION WHERE" +
+			int budgetID = getBudgetID(currentTransaction.getBudgetCategory());
+			// Get card
+			int cardID = getCardID(currentTransaction.getCard());
+			String cmdString = "DELETE FROM TRANSACTION WHERE" +
 					" DATE='" + dateFormat.format(currentTransaction.getTime()) +
 					"' AND AMOUNT=" + currentTransaction.getAmount() +
 					" AND DESCRIPTION='" + currentTransaction.getDescription() +
@@ -953,46 +880,14 @@ public class DataAccessObject implements DataAccess {
 		boolean result = false;
 		String values, where;
 		try {
-			// Get first budget category
-			String cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-					" BUDGETNAME='" + newTransaction.getBudgetCategory().getBudgetName() +
-					"' AND BUDGETLIMIT=" + newTransaction.getBudgetCategory().getBudgetLimit();
-			ResultSet results = stmt.executeQuery(cmdString);
-			results.next();
-			int newBudgetID = results.getInt("ID");
-			results.close();
-			// Get first credit card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + newTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	newTransaction.getCard().getCardNum() +
-					"' AND HOLDERNAME='" + newTransaction.getCard().getHolderName() +
-					"' AND EXPIREMONTH=" + newTransaction.getCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + newTransaction.getCard().getExpireYear() +
-					" AND PAYDATE=" + newTransaction.getCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int newCardID = results.getInt("ID");
-			results.close();
-			// Get second budget category
-			cmdString = "SELECT ID FROM BUDGETCATEGORY WHERE" +
-					" BUDGETNAME='" + currentTransaction.getBudgetCategory().getBudgetName() +
-					"' AND BUDGETLIMIT=" + currentTransaction.getBudgetCategory().getBudgetLimit();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int currentBudgetID = results.getInt("ID");
-			results.close();
-			// Get first credit card
-			cmdString = "SELECT ID FROM CARD WHERE" +
-					" CARDNAME='" + currentTransaction.getCard().getCardName() +
-					"' AND CARDNUM='" +	currentTransaction.getCard().getCardNum() +
-					"' AND HOLDERNAME='" + currentTransaction.getCard().getHolderName() +
-					"' AND EXPIREMONTH=" + currentTransaction.getCard().getExpireMonth() +
-					" AND EXPIREYEAR=" + currentTransaction.getCard().getExpireYear() +
-					" AND PAYDATE=" + currentTransaction.getCard().getPayDate();
-			results = stmt.executeQuery(cmdString);
-			results.next();
-			int currentCardID = results.getInt("ID");
-			results.close();
+			// Get new budget category
+			int newBudgetID = getBudgetID(newTransaction.getBudgetCategory());
+			// Get new card
+			int newCardID = getCardID(newTransaction.getCard());
+			// Get current budget category
+			int currentBudgetID = getBudgetID(newTransaction.getBudgetCategory());
+			// Get current card
+			int currentCardID = getCardID(newTransaction.getCard());
 			values = "DESCRIPTION='" + newTransaction.getDescription()
 					+ "', DATE='" + dateFormat.format(newTransaction.getTime())
 					+ "', AMOUNT=" + newTransaction.getAmount()
@@ -1004,7 +899,7 @@ public class DataAccessObject implements DataAccess {
 					+ " AND CARDID=" + currentCardID
 					+ " AND BUDGETCATEGORYID=" + currentBudgetID;
 			stmt = con.createStatement();
-			cmdString = "UPDATE TRANSACTION SET " + values + " " + where;
+			String cmdString = "UPDATE TRANSACTION SET " + values + " " + where;
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
 			result = true;
@@ -1035,6 +930,12 @@ public class DataAccessObject implements DataAccess {
 		return username;
 	}
 
+	/**
+	 * Sets the username in the database to the given username
+	 *
+	 * @param newUsername	The new username to set
+	 * @return	True if successful, false if not.
+	 */
 	public boolean setUsername(String newUsername) {
 		boolean result = false;
 		if (newUsername == null) {
