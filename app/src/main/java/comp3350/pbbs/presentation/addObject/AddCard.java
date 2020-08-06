@@ -25,7 +25,7 @@ import comp3350.pbbs.objects.Card;
  *
  * This class adds a new creditCard with the existing list.
  */
-public class addCard extends AppCompatActivity {
+public class AddCard extends AppCompatActivity {
     EditText cardName;                      //EditText variable for cardName
     EditText cardNumber;                    //EditText variable for cardNumber
     EditText validThruMonth;                //EditText variable for valid month

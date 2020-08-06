@@ -7,14 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
-import comp3350.pbbs.persistence.DataAccessObject;
+import comp3350.pbbs.persistence.DataAccessI;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -26,7 +24,7 @@ import static org.junit.Assert.assertNotEquals;
  * This class defines a test suite for the DataAccess classes.
  */
 public class TestDataAccess extends TestCase {
-    private DataAccess dataAccess;
+    private DataAccessI dataAccess;
 
     public TestDataAccess(String arg0) {
         super(arg0);
@@ -35,7 +33,7 @@ public class TestDataAccess extends TestCase {
     public void setUp() {
         //initially testing will be done on stub database
         dataAccess = new StubDatabase("test");
-        DataAccess.populateData(dataAccess);
+        StubDatabase.populateData(dataAccess);
         // switching to HSQL database can also be done by following these 2 lines:
         //dataAccess = new DataAccessObject(Main.dbName);
         //dataAccess.open(Main.getDBPathName());
@@ -44,7 +42,7 @@ public class TestDataAccess extends TestCase {
     }
 
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 
     /**
@@ -93,7 +91,6 @@ public class TestDataAccess extends TestCase {
         returnedBudget = dataAccess.updateBudgetCategory(b2, newBudget);
         assertTrue(returnedBudget);
         assertFalse(dataAccess.getBudgets().containsAll(budgets));// dataAccess is updated
-
     }
 
     /**
@@ -235,7 +232,7 @@ public class TestDataAccess extends TestCase {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         date = calendar.getTime();
-        Transaction t1 = new Transaction(Services.calcDate(date, -5), 5, "Bought Chips", card1, b1);
+        Transaction t1 = new Transaction(StubDatabase.calcDate(date, -5), 5, "Bought Chips", card1, b1);
         assertNotNull(t1);//Transaction object created
 
         //transactions ArrayList created with zero objects
@@ -266,7 +263,7 @@ public class TestDataAccess extends TestCase {
         assertTrue(dataAccess.getTransactions().containsAll(transactions));
 
         //testing updateTransaction
-        Transaction newTransaction = new Transaction(Services.calcDate(date, -6), 50, "bill Paid", card1, b1);
+        Transaction newTransaction = new Transaction(StubDatabase.calcDate(date, -6), 50, "bill Paid", card1, b1);
         result = dataAccess.updateTransaction(t1, newTransaction);
         assertTrue(result);
         assertNotEquals(transactions, dataAccess.getTransactions());// dataAccess is updated

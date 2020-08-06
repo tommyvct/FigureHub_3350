@@ -38,7 +38,7 @@ public class Auth extends AppCompatActivity {
             String username = new AccessUser().getUsername();
             this.startActivity(new Intent(this, MainActivity.class));
         } catch (NullPointerException npe) {// first launch
-            this.startActivity(new Intent(this, firstTimeGreeting.class));
+            this.startActivity(new Intent(this, FirstTimeGreeting.class));
         }
         finish(); // done with authentication
 

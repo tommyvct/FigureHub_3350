@@ -29,7 +29,7 @@ import comp3350.pbbs.objects.Card;
  *
  * This class updates an existed card within the list.
  */
-public class updateCard extends AppCompatActivity implements OnItemSelectedListener {
+public class UpdateCard extends AppCompatActivity implements OnItemSelectedListener {
 
     AccessCard accessCard;    // AccessCreditCard variable
     EditText cardName;                    // EditText variable for cardName

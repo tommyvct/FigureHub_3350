@@ -26,7 +26,7 @@ import comp3350.pbbs.objects.BudgetCategory;
  * This class updates(including deletes) an existed budgetCategory within the list.
  */
 
-public class updateBudgetCategory extends AppCompatActivity implements Serializable {
+public class UpdateBudgetCategory extends AppCompatActivity implements Serializable {
 
     private AccessBudgetCategory accessBudgetCategory;    // AccessBudgetCategory variable
     EditText BudgetNameET;                                // EditText variable for budgetName

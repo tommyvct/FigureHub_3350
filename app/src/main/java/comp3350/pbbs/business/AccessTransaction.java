@@ -3,20 +3,18 @@ package comp3350.pbbs.business;
 
 import android.annotation.SuppressLint;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * TransactionAccess
@@ -27,7 +25,7 @@ import comp3350.pbbs.persistence.DataAccess;
  * focusing on sending new transactions to the database
  */
 public class AccessTransaction {
-    private DataAccess db;    // Access to the database
+    private DataAccessI db;    // Access to the database
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
@@ -39,11 +37,11 @@ public class AccessTransaction {
      * This constructor gets access to the database.
      */
     public AccessTransaction() {
-        db = Services.getDataAccess(Main.dbName);
+        db = DataAccessController.getDataAccess(Main.dbName);
     }
 
     public AccessTransaction(@SuppressWarnings("unused") boolean test) {
-        db = Services.getDataAccess("test");
+        db = DataAccessController.getDataAccess("test");
     }
 
 
@@ -74,9 +72,9 @@ public class AccessTransaction {
     private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = AccessValidation.parseDatetime(dateStr, timeStr);
+        Date transactionTime = Parser.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = AccessValidation.parseAmount(amountStr);
+        float amount = Parser.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
@@ -102,9 +100,9 @@ public class AccessTransaction {
     private Transaction parseDebitTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = AccessValidation.parseDatetime(dateStr, timeStr);
+        Date transactionTime = Parser.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = AccessValidation.parseAmount(amountStr);
+        float amount = Parser.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, debitCard, bankAccount, budgetCategory);
@@ -275,30 +273,5 @@ public class AccessTransaction {
             toReturn = db.deleteTransaction(toDelete);
         }
         return toReturn;
-    }
-
-    /**
-     * This method implements a format which is used to present the transactions
-     *
-     * @return the formatted transactions list
-     */
-    @SuppressWarnings("unused")
-    public String[] getFormattedTransactionList() {
-        List<Transaction> transactions = retrieveTransactions();
-        List<String> toReturn = new ArrayList<>();
-        DecimalFormat rounding = new DecimalFormat("0.00");
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm");
-
-        //this format which will be shown in the GUI
-        for (Transaction transaction : transactions) {
-            String row = transaction.getDescription() +
-                    " $" + rounding.format(transaction.getAmount()) +
-                    " Paid: " + transaction.getCard().getCardName() +
-                    " " + dateFormat.format(transaction.getTime()) +
-                    " " + transaction.getBudgetCategory().getBudgetName();
-            toReturn.add(row);
-        }
-        return toReturn.toArray(new String[0]);
     }
 }

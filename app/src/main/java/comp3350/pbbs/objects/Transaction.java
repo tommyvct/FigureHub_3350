@@ -152,7 +152,7 @@ public class Transaction implements Serializable
 
     /**
      * Gets a string representation of this object.
-     *a
+     *
      * @return A string representing this object and its fields.
      */
     @NotNull
@@ -166,6 +166,5 @@ public class Transaction implements Serializable
                 dateFormat.format(time) + "\n" +
                 card.toStringShort() + "\n" +
                 "Belongs to " + budgetCategory.getBudgetName() + " budget";
-
     }
 }

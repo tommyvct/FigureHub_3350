@@ -29,9 +29,10 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessTransaction;
+import comp3350.pbbs.business.BudgetCategoryTransactionLinker;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.presentation.DollarValueFormatter;
-import comp3350.pbbs.presentation.updateObject.updateBudgetCategory;
+import comp3350.pbbs.presentation.updateObject.UpdateBudgetCategory;
 
 /**
  * Group4
@@ -44,6 +45,7 @@ public class ViewBudgetCategory extends Activity {
     private PieChart pieChart;  // Pie chart component
     private AccessBudgetCategory accessBudgetCategory; // Access layer for the budget categories
     private BudgetCategory budgetCategory;  // The budget category to view
+    private BudgetCategoryTransactionLinker linker; //Object that links budget categories and transactions
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,11 @@ public class ViewBudgetCategory extends Activity {
         // Reduce the scale slightly
         pieChart.setScaleX(0.9f);
         pieChart.setScaleY(0.9f);
+        linker = new BudgetCategoryTransactionLinker();
 
         // Construct the month selector
         Spinner monthSelector = findViewById(R.id.budgetMonthSelector);
-        AccessTransaction accessTransaction = new AccessTransaction();
-        List<Calendar> activeMonths = accessBudgetCategory.getActiveMonths(budgetCategory);
+        List<Calendar> activeMonths = linker.getActiveMonths(budgetCategory);
         List<String> monthOptions = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
 
@@ -123,7 +125,7 @@ public class ViewBudgetCategory extends Activity {
 
         findViewById(R.id.updateBudgetButton).setOnClickListener(view ->
         {
-            Intent updateBudget = new Intent(view.getContext(), updateBudgetCategory.class);
+            Intent updateBudget = new Intent(view.getContext(), UpdateBudgetCategory.class);
             updateBudget.putExtra("toModify", budgetCategory);
             startActivityForResult(updateBudget, 0);
             finish();
@@ -144,7 +146,7 @@ public class ViewBudgetCategory extends Activity {
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         // Get the amount spent and the max budget limit for this budget
-        float amount = accessBudgetCategory.calculateBudgetCategoryTotal(budgetCategory, month);
+        float amount = linker.calculateBudgetCategoryTotal(budgetCategory, month);
         float max = (float) budgetCategory.getBudgetLimit();
 
         // Calculate the diff
