@@ -93,7 +93,6 @@ public class TestDataAccess extends TestCase {
         returnedBudget = dataAccess.updateBudgetCategory(b2, newBudget);
         assertTrue(returnedBudget);
         assertFalse(dataAccess.getBudgets().containsAll(budgets));// dataAccess is updated
-
     }
 
     /**

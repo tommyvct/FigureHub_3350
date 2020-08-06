@@ -71,7 +71,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
         accessTransaction = new AccessTransaction();
         dateText = findViewById(R.id.dateInput);
         dateText.setText(reversedDateTime[0]);
-        dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
+        dateText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
             datePickerDialog = new DatePickerDialog(this,
@@ -80,12 +80,12 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                         dateText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
                     }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
-        }));
+        });
 
         ///////// Time Input //////////
         timeText = findViewById(R.id.timeInput);
         timeText.setText(reversedDateTime[1]);
-        timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
+        timeText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
             timePickerDialog = new TimePickerDialog(this,
@@ -94,7 +94,7 @@ public class updateTransaction extends AppCompatActivity implements OnItemSelect
                         timeText.setText(hourOfDay + ":" + minute);
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
             timePickerDialog.show();
-        }));
+        });
 
         ///////// Card Selector //////////
         accessCreditCard = new AccessCard();

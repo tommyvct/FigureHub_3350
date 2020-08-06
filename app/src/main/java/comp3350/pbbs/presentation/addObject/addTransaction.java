@@ -61,7 +61,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
         ///////// Date Input //////////
         accessTransaction = new AccessTransaction();
         dateText = findViewById(R.id.dateInput);
-        dateText.setOnClickListener(v -> dateText.setOnClickListener(v1 ->
+        dateText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
             datePickerDialog = new DatePickerDialog(addTransaction.this,
@@ -70,11 +70,11 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
                         dateText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
                     }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
-        }));
+        });
 
         ///////// Time Input //////////
         timeText = findViewById(R.id.timeInput);
-        timeText.setOnClickListener(v -> timeText.setOnClickListener(v1 ->
+        timeText.setOnClickListener(v ->
         {
             //noinspection CodeBlock2Expr
             timePickerDialog = new TimePickerDialog(addTransaction.this,
@@ -83,7 +83,7 @@ public class addTransaction extends AppCompatActivity implements OnItemSelectedL
                         timeText.setText(hourOfDay + ":" + minute);
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
             timePickerDialog.show();
-        }));
+        });
 
         ///////// Card Selector ////////////
         accessCard = new AccessCard();
