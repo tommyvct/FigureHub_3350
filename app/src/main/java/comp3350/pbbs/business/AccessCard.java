@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccessI;
@@ -24,7 +24,7 @@ public class AccessCard {
      * constructor: enabling access to the database
      */
     public AccessCard() {
-        db = Services.getDataAccess(Main.dbName);
+        db = DataAccessController.getDataAccess(Main.dbName);
     }
 
     /**

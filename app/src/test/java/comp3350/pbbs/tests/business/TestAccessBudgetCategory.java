@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -39,7 +39,7 @@ public class TestAccessBudgetCategory extends TestCase {
      * creating StubDatabase and AccessBudgetCategory
      */
     public void setUp() {
-        testDB = Services.createDataAccess(new StubDatabase("populateTest"));
+        testDB = DataAccessController.createDataAccess(new StubDatabase("populateTest"));
         accessBudgetCategory = new AccessBudgetCategory();
         assertTrue(accessBudgetCategory.insertBudgetCategory("entertainment", "50"));
         assertTrue(accessBudgetCategory.insertBudgetCategory("restaurants", "50"));
@@ -417,6 +417,6 @@ public class TestAccessBudgetCategory extends TestCase {
      * This method closes StubDatabase
      */
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 }

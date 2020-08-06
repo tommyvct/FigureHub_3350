@@ -2,7 +2,7 @@ package comp3350.pbbs.business;
 
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.persistence.DataAccessI;
 
 /**
@@ -19,7 +19,7 @@ public class AccessUser {
      * This method creates StubDatabase and initializes all the fields
      */
     public AccessUser() {
-        dataAccess = Services.getDataAccess(Main.dbName);
+        dataAccess = DataAccessController.getDataAccess(Main.dbName);
     }
 
 

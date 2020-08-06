@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -41,7 +41,7 @@ public class TestAccessCard extends TestCase {
      * This method connects to the database, create and initiate instance variables
      */
     public void setUp() {
-        testDB = Services.createDataAccess(new StubDatabase("populateTest"));
+        testDB = DataAccessController.createDataAccess(new StubDatabase("populateTest"));
         stubCards = testDB.getCards();
         testAccess = new AccessCard();
         testAccess.insertCard(card);
@@ -275,7 +275,7 @@ public class TestAccessCard extends TestCase {
      * This teardown method disconnects from the database
      */
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 
 }

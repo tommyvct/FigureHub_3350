@@ -5,9 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import comp3350.pbbs.application.Services;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -475,13 +475,13 @@ public class StubDatabase implements DataAccessI {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         date = calendar.getTime();
-        t1 = new Transaction(Services.calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
+        t1 = new Transaction(calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
         transactions.add(t1);
-        t2 = new Transaction(Services.calcDate(date, -8), 450, "Rent Paid", card2, rent);
+        t2 = new Transaction(calcDate(date, -8), 450, "Rent Paid", card2, rent);
         transactions.add(t2);
-        t3 = new Transaction(Services.calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
+        t3 = new Transaction(calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
         transactions.add(t3);
-        t4 = new Transaction(Services.calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
+        t4 = new Transaction(calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
         transactions.add(t4);
 
         card3 = new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
@@ -508,5 +508,18 @@ public class StubDatabase implements DataAccessI {
         for (BankAccount b : bankAccounts) {
             dataAccess.insertBankAccount(b);
         }
+    }
+
+    /**
+     * This method performs the date calculation
+     *
+     * @return a Date object
+     */
+    public static Date calcDate(Date d, int n) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(d);
+        calendar.add(Calendar.DATE, n);
+        d = calendar.getTime();
+        return d;
     }
 }

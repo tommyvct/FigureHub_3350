@@ -1,4 +1,4 @@
-package comp3350.pbbs.application;
+package comp3350.pbbs.persistence;
 
 import android.os.Build;
 
@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 
 import androidx.annotation.RequiresApi;
 
+import comp3350.pbbs.application.Main;
 import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.persistence.DataAccessObject;
 
@@ -18,7 +19,7 @@ import comp3350.pbbs.persistence.DataAccessObject;
  *
  * This class creates and closes database for all other classes to use.
  */
-public class Services {
+public class DataAccessController {
 
     private static DataAccessI dbAccessService = null;
 
@@ -73,18 +74,5 @@ public class Services {
             dbAccessService.close();
         }
         dbAccessService = null;
-    }
-
-    /**
-     * This method performs the date calculation
-     *
-     * @return a Date object
-     */
-    public static Date calcDate(Date d, int n) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(d);
-        calendar.add(Calendar.DATE, n);
-        d = calendar.getTime();
-        return d;
     }
 }

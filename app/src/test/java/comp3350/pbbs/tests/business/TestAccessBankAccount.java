@@ -2,7 +2,7 @@ package comp3350.pbbs.tests.business;
 
 import junit.framework.TestCase;
 
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Card;
@@ -21,7 +21,7 @@ public class TestAccessBankAccount extends TestCase {
     private AccessBankAccount accessBankAccount;
 
     public void setUp() {
-        Services.createDataAccess(new StubDatabase("PopulateTest"));
+        DataAccessController.createDataAccess(new StubDatabase("PopulateTest"));
         card = new Card("TD Access Debit", "5135794680086666", "John", 5, 2022);
         bankAccount = new BankAccount("My TD", "1357964", card);
         accessBankAccount = new AccessBankAccount();

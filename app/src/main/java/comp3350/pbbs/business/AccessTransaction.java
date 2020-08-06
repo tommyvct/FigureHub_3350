@@ -3,15 +3,13 @@ package comp3350.pbbs.business;
 
 import android.annotation.SuppressLint;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -39,11 +37,11 @@ public class AccessTransaction {
      * This constructor gets access to the database.
      */
     public AccessTransaction() {
-        db = Services.getDataAccess(Main.dbName);
+        db = DataAccessController.getDataAccess(Main.dbName);
     }
 
     public AccessTransaction(@SuppressWarnings("unused") boolean test) {
-        db = Services.getDataAccess("test");
+        db = DataAccessController.getDataAccess("test");
     }
 
 

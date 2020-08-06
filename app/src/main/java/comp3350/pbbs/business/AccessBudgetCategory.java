@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccessI;
@@ -25,7 +25,7 @@ public class AccessBudgetCategory {
      * Also initializes all class variables.
      */
     public AccessBudgetCategory() {
-        dataAccess = Services.getDataAccess(Main.dbName);
+        dataAccess = DataAccessController.getDataAccess(Main.dbName);
     }
 
     /**

@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -42,7 +42,7 @@ public class TestDataAccess extends TestCase {
     }
 
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 
     /**
@@ -232,7 +232,7 @@ public class TestDataAccess extends TestCase {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         date = calendar.getTime();
-        Transaction t1 = new Transaction(Services.calcDate(date, -5), 5, "Bought Chips", card1, b1);
+        Transaction t1 = new Transaction(StubDatabase.calcDate(date, -5), 5, "Bought Chips", card1, b1);
         assertNotNull(t1);//Transaction object created
 
         //transactions ArrayList created with zero objects
@@ -263,7 +263,7 @@ public class TestDataAccess extends TestCase {
         assertTrue(dataAccess.getTransactions().containsAll(transactions));
 
         //testing updateTransaction
-        Transaction newTransaction = new Transaction(Services.calcDate(date, -6), 50, "bill Paid", card1, b1);
+        Transaction newTransaction = new Transaction(StubDatabase.calcDate(date, -6), 50, "bill Paid", card1, b1);
         result = dataAccess.updateTransaction(t1, newTransaction);
         assertTrue(result);
         assertNotEquals(transactions, dataAccess.getTransactions());// dataAccess is updated

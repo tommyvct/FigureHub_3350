@@ -2,6 +2,8 @@ package comp3350.pbbs.application;
 
 import android.annotation.SuppressLint;
 
+import comp3350.pbbs.persistence.DataAccessController;
+
 /**
  * Main
  * Group4
@@ -20,11 +22,11 @@ public class Main {
 
     @SuppressLint("NewApi")
     public static void startup() {
-        Services.createDataAccess(dbName);
+        DataAccessController.createDataAccess(dbName);
     }
 
     public static void shutDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 
     public static String getDBPathName() {

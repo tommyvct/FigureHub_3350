@@ -3,7 +3,7 @@ package comp3350.pbbs.business;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.persistence.DataAccessI;
@@ -22,7 +22,7 @@ public class AccessBankAccount {
      * constructor: enabling access to the database
      */
     public AccessBankAccount() {
-        db = Services.getDataAccess(Main.dbName);
+        db = DataAccessController.getDataAccess(Main.dbName);
     }
 
     /**
