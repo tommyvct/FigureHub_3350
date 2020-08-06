@@ -35,7 +35,7 @@ public class TestDataAccess extends TestCase {
     public void setUp() {
         //initially testing will be done on stub database
         dataAccess = new StubDatabase("test");
-        DataAccess.populateData(dataAccess);
+        StubDatabase.populateData(dataAccess);
         // switching to HSQL database can also be done by following these 2 lines:
         //dataAccess = new DataAccessObject(Main.dbName);
         //dataAccess.open(Main.getDBPathName());
