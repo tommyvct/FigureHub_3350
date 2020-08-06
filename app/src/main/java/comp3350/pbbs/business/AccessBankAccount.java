@@ -61,16 +61,6 @@ public class AccessBankAccount {
     }
 
     /**
-     * method: get all bank accounts from a debit card
-     *
-     * @param from the debit card
-     * @return BankAccount ArrayList links this debit card
-     */
-    public List<BankAccount> getAccountsFromDebitCard(Card from) {
-        return db.getAccountsFromDebitCard(from);
-    }
-
-    /**
      * Getter method to get the bank accounts
      *
      * @return BankAccount ArrayList

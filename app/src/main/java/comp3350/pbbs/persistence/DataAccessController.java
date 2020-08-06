@@ -13,7 +13,7 @@ import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.persistence.DataAccessObject;
 
 /**
- * Services
+ * DataAccessController
  * Group4
  * PBBS
  *
