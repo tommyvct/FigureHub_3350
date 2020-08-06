@@ -276,29 +276,4 @@ public class AccessTransaction {
         }
         return toReturn;
     }
-
-    /**
-     * This method implements a format which is used to present the transactions
-     *
-     * @return the formatted transactions list
-     */
-    @SuppressWarnings("unused")
-    public String[] getFormattedTransactionList() {
-        List<Transaction> transactions = retrieveTransactions();
-        List<String> toReturn = new ArrayList<>();
-        DecimalFormat rounding = new DecimalFormat("0.00");
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy 'at' HH:mm");
-
-        //this format which will be shown in the GUI
-        for (Transaction transaction : transactions) {
-            String row = transaction.getDescription() +
-                    " $" + rounding.format(transaction.getAmount()) +
-                    " Paid: " + transaction.getCard().getCardName() +
-                    " " + dateFormat.format(transaction.getTime()) +
-                    " " + transaction.getBudgetCategory().getBudgetName();
-            toReturn.add(row);
-        }
-        return toReturn.toArray(new String[0]);
-    }
 }
