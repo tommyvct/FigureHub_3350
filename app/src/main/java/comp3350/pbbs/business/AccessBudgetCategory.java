@@ -19,9 +19,6 @@ import comp3350.pbbs.persistence.DataAccessI;
  */
 public class AccessBudgetCategory {
     private DataAccessI dataAccess;                    // variable for the database
-    private List<BudgetCategory> budgetCategories;    // budgetCategories list
-    private BudgetCategory budgetCat;                 // a BudgetCategory object
-    private int currentBudgetCat;                     // number of budgetCategories
 
     /**
      * This method creates the link to the DB.
@@ -29,9 +26,6 @@ public class AccessBudgetCategory {
      */
     public AccessBudgetCategory() {
         dataAccess = Services.getDataAccess(Main.dbName);
-        budgetCategories = null;
-        budgetCat = null;
-        currentBudgetCat = 0;
     }
 
     /**
