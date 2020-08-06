@@ -60,7 +60,7 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = AccessValidation.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0) {
+        if ((limitFlt = Parser.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0) {
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
             if (!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
@@ -93,7 +93,7 @@ public class AccessBudgetCategory {
     public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit) {
         Float newLimitFlt;
         boolean result = false;
-        if (oldBudgetCategory != null && (newLimitFlt = AccessValidation.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
+        if (oldBudgetCategory != null && (newLimitFlt = Parser.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }

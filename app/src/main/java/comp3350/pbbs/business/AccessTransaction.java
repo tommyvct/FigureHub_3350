@@ -74,9 +74,9 @@ public class AccessTransaction {
     private Transaction parseTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = AccessValidation.parseDatetime(dateStr, timeStr);
+        Date transactionTime = Parser.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = AccessValidation.parseAmount(amountStr);
+        float amount = Parser.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, card, budgetCategory);
@@ -102,9 +102,9 @@ public class AccessTransaction {
     private Transaction parseDebitTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         Transaction transaction = null;
         // Parse the date
-        Date transactionTime = AccessValidation.parseDatetime(dateStr, timeStr);
+        Date transactionTime = Parser.parseDatetime(dateStr, timeStr);
         // Parse the amount
-        float amount = AccessValidation.parseAmount(amountStr);
+        float amount = Parser.parseAmount(amountStr);
         // Create the transaction
         try {
             transaction = new Transaction(transactionTime, amount, desc, debitCard, bankAccount, budgetCategory);
