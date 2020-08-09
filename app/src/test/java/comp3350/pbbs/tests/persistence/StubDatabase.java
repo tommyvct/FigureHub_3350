@@ -1,22 +1,27 @@
 package comp3350.pbbs.tests.persistence;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 
 /**
  * StubDatabase
  * Group4
  * PBBS
- * <p>
+ *
  * This class defines the persistence layer (stub database).
  */
-public class StubDatabase implements DataAccess {
+public class StubDatabase implements DataAccessI {
     private String databaseName;                    // name of the database, not used in iteration 1
     private ArrayList<Transaction> transactions;    // ArrayList for transactions
     private ArrayList<BudgetCategory> budgets;      // ArrayList for budgets
@@ -44,7 +49,7 @@ public class StubDatabase implements DataAccess {
      */
     public void open(String dbPath) {
         if(dbPath.contains("populate"))
-            DataAccess.populateData(this);
+            StubDatabase.populateData(this);
         System.out.println("Opened stub database");
     }
 
@@ -55,7 +60,6 @@ public class StubDatabase implements DataAccess {
     public void close() {
         System.out.println("Closed stub database");
     }
-
 
     /**
      * This method will find if a budget exist or not
@@ -68,6 +72,8 @@ public class StubDatabase implements DataAccess {
 
     /**
      * This method will insert a new budget category with the budgets ArrayList.
+     *
+     * @return true, if inserted successfully
      */
     public boolean insertBudgetCategory(BudgetCategory newBudget) {
         return budgets.add(newBudget);
@@ -98,14 +104,10 @@ public class StubDatabase implements DataAccess {
     }
 
     /**
-     * This method will remove a budget category.
+     * This method will return the size of the budget.
      *
-     * @return True if the budget category was deleted, or false if not
+     * @return size of the budget list
      */
-    public boolean deleteBudgetCategory(BudgetCategory currentBudget) {
-        return budgets.remove(currentBudget);
-    }
-
     @Override
     public int getBudgetsSize() {
         return budgets.size();
@@ -146,13 +148,18 @@ public class StubDatabase implements DataAccess {
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
         int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
-        if (index >= 0 && updateValid<=0) {
+        if (index >= 0 && updateValid <= 0) {
             accounts.set(index, newAccount);
             return true;
         }
         return false;
     }
 
+    /**
+     * method: to get all the bankAccounts from the database
+     *
+     * @return an arrayList of bankAccounts
+     */
     public ArrayList<BankAccount> getAllBankAccounts() {
         return accounts;
     }
@@ -187,6 +194,8 @@ public class StubDatabase implements DataAccess {
 
     /**
      * This method inserts a new card with the ArrayList.
+     *
+     * @return true, if it inserted properly
      */
     public boolean insertCard(Card newCard) {
         boolean result = false;
@@ -208,18 +217,28 @@ public class StubDatabase implements DataAccess {
         int index = cards.indexOf(toUpdate);
         int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0 && updateValid<=0) {
+        if (index >= 0 && updateValid <= 0) {
             cards.set(index, newCard);
             result = true;
         }
         return result;
     }
 
+    /**
+     * This method returns the credit card size
+     *
+     * @return size of the credit card.
+     */
     @Override
     public int getCreditCardsSize() {
         return getCreditCards().size();
     }
 
+    /**
+     * This method returns the debit card size
+     *
+     * @return size of the debit card.
+     */
     @Override
     public int getDebitCardsSize() {
         return getDebitCards().size();
@@ -227,6 +246,7 @@ public class StubDatabase implements DataAccess {
 
     /**
      * Mark given card as inactive.
+     *
      * @param toMark card to mark as inactive
      */
     public boolean markInactive(Card toMark)
@@ -298,6 +318,7 @@ public class StubDatabase implements DataAccess {
 
     /**
      * Getter method for only active cards
+     *
      * @return active cards
      */
     public ArrayList<Card> getActiveCards()
@@ -318,6 +339,7 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will find if a transaction exist or not.
      *
+     * @param currentTransaction transaction that will be searched
      * @return True if found, or false if not found
      */
     public boolean findTransaction(Transaction currentTransaction) {
@@ -327,6 +349,7 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will insert a new transaction with the ArrayList.
      *
+     * @param newTransaction transaction that will be inserted
      * @return true if inserted the transaction properly.
      */
     public boolean insertTransaction(Transaction newTransaction) {
@@ -345,6 +368,8 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will be used to update a transaction.
      *
+     * @param currentTransaction transaction that need to be updated
+     * @param newTransaction transaction which will be set
      * @return true if updated successfully.
      */
     public boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction) {
@@ -361,16 +386,22 @@ public class StubDatabase implements DataAccess {
     /**
      * This method will be used to remove a transaction.
      *
+     * @param currentTransaction transaction that needs to be deleted
      * @return true if deleted successfully
      */
     public boolean deleteTransaction(Transaction currentTransaction) {
         boolean toReturn = false;
-        while(transactions.contains(currentTransaction)) {
+        while (transactions.contains(currentTransaction)) {
             toReturn = transactions.remove(currentTransaction);
         }
         return toReturn;
     }
 
+    /**
+     * This method will return the transaction size.
+     *
+     * @return size of transaction ArrayList
+     */
     @Override
     public int getTransactionsSize() {
         return transactions.size();
@@ -403,5 +434,92 @@ public class StubDatabase implements DataAccess {
         return true;
     }
 
+    /**
+     * This method is used for populating fake data into the stub database
+     *
+     * @param dataAccess a variable to represent the current database
+     */
+    static void populateData(DataAccessI dataAccess) {
+        BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
+        Card card1, card2, card3, card4, card5;                                      //variables for multiple cards
+        Transaction t1, t2, t3, t4;                             //variables for multiple transactions
+        BankAccount b1,b2;
+        List<BudgetCategory> budgets = new ArrayList<BudgetCategory>();
+        List<Card> cards = new ArrayList<Card>();
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 
+        rent = new BudgetCategory("Mortgage", 500);
+        budgets.add(rent);
+        groceries = new BudgetCategory("Groceries", 100);
+        budgets.add(groceries);
+        utilities = new BudgetCategory("Utilities", 80);
+        budgets.add(utilities);
+        phoneBill = new BudgetCategory("Phone Bill", 75);
+        budgets.add(phoneBill);
+
+        card1 = new Card("Visa", "1000100010001000", "Jimmy", 12, 2021, 18);
+        cards.add(card1);
+        card2 = new Card("Mastercard", "1002100310041005", "Jimmy", 11, 2021, 15);
+        cards.add(card2);
+
+        //local date variable
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-mm-dd").parse("2020-07-25");
+        } catch (ParseException e) {
+            date = new Date();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        date = calendar.getTime();
+        t1 = new Transaction(calcDate(date, -5), 50, "Bought Chickens", card1, groceries);
+        transactions.add(t1);
+        t2 = new Transaction(calcDate(date, -8), 450, "Rent Paid", card2, rent);
+        transactions.add(t2);
+        t3 = new Transaction(calcDate(date, 0), 40, "Hydro bill paid", card2, utilities);
+        transactions.add(t3);
+        t4 = new Transaction(calcDate(date, -10), 75, "Phone Bill paid", card2, phoneBill);
+        transactions.add(t4);
+
+        card3 = new Card("CIBC Advantage Debit Card", "4506445712345678", "Jimmy", 12, 2021);
+        cards.add(card3);
+        card4 = new Card("TD Access Card", "4724090212345678", "Jimmy", 11, 2021);
+        cards.add(card4);
+        card5 = new Card("RBC Client Card", "4519011234567890", "Jimmy", 0, 0);
+        cards.add(card5);
+
+        b1 = new BankAccount("TD student banking", "50998924", card4);
+        bankAccounts.add(b1);
+        b2 = new BankAccount("CIBC banking", "290948376", card3);
+        bankAccounts.add(b2);
+
+        for(BudgetCategory b : budgets) {
+            dataAccess.insertBudgetCategory(b);
+        }
+        for(Card c : cards) {
+            dataAccess.insertCard(c);
+        }
+        for(Transaction t : transactions) {
+            dataAccess.insertTransaction(t);
+        }
+        for (BankAccount b : bankAccounts) {
+            dataAccess.insertBankAccount(b);
+        }
+    }
+
+    /**
+     * This method performs the date calculation
+     *
+     * @return a Date object
+     */
+    public static Date calcDate(Date d, int n) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(d);
+        calendar.add(Calendar.DATE, n);
+        d = calendar.getTime();
+        return d;
+    }
 }

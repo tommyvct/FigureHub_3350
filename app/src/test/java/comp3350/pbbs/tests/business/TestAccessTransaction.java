@@ -6,13 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.persistence.DataAccess;
+import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
@@ -24,7 +24,7 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  */
 public class TestAccessTransaction extends TestCase {
     private AccessTransaction accessTransaction;
-    private DataAccess testDB;
+    private DataAccessI testDB;
     List<Transaction> transactions;
 
     //Testing Data
@@ -38,14 +38,14 @@ public class TestAccessTransaction extends TestCase {
     private BankAccount testBankAccount = new BankAccount("cheque", "965214", testDebitCard);
     private BudgetCategory testBudgetCategory = new BudgetCategory("Groceries", 100);
     private Transaction testTransaction1 = new Transaction(date, 19.99f, testDesc, testCard, testBudgetCategory);
-    private Transaction testTransaction2 = new Transaction(Services.calcDate(date, -1), 19.99f, testDesc, testCard, testBudgetCategory);
-    private Transaction testTransaction3 = new Transaction(Services.calcDate(date, -2), 19.99f, testDesc, testCard, testBudgetCategory);
+    private Transaction testTransaction2 = new Transaction(StubDatabase.calcDate(date, -1), 19.99f, testDesc, testCard, testBudgetCategory);
+    private Transaction testTransaction3 = new Transaction(StubDatabase.calcDate(date, -2), 19.99f, testDesc, testCard, testBudgetCategory);
 
     /**
      * Before each test, set the test values
      */
     public void setUp() {
-        testDB = Services.createDataAccess(new StubDatabase("test"));
+        testDB = DataAccessController.createDataAccess(new StubDatabase("test"));
         accessTransaction = new AccessTransaction(true);
         assertTrue(testDB.insertTransaction(testTransaction1));
         assertTrue(testDB.insertTransaction(testTransaction2));
@@ -232,7 +232,7 @@ public class TestAccessTransaction extends TestCase {
      * Tests retrieving transactions on a range containing a single date
      */
     public void testRangeOneDay() {
-        List<Transaction> results = accessTransaction.retrieveTransactions(Services.calcDate(date, -1), Services.calcDate(date, 1));
+        List<Transaction> results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(date, -1), StubDatabase.calcDate(date, 1));
         assertTrue(results.contains(testTransaction1));
         assertFalse(results.contains(testTransaction2));
         assertFalse(results.contains(testTransaction3));
@@ -242,7 +242,7 @@ public class TestAccessTransaction extends TestCase {
      * Tests retrieving transactions on a range containing two dates
      */
     public void testRangeTwoDays() {
-        List<Transaction> results = accessTransaction.retrieveTransactions(Services.calcDate(date, -2), Services.calcDate(date, 1));
+        List<Transaction> results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(date, -2), StubDatabase.calcDate(date, 1));
         assertTrue(results.contains(testTransaction1));
         assertTrue(results.contains(testTransaction2));
         assertFalse(results.contains(testTransaction3));
@@ -271,10 +271,10 @@ public class TestAccessTransaction extends TestCase {
         assertTrue(results.contains(testTransaction3));
 
         float testAmountFloat = 19.99f;
-        Transaction testTransaction4 = new Transaction(Services.calcDate(date, -5), testAmountFloat, testDesc, testCard, testBudgetCategory);
+        Transaction testTransaction4 = new Transaction(StubDatabase.calcDate(date, -5), testAmountFloat, testDesc, testCard, testBudgetCategory);
         assertFalse(results.contains(testTransaction4));
 
-        results = accessTransaction.retrieveTransactions(Services.calcDate(date, -500), Services.calcDate(date, 500));
+        results = accessTransaction.retrieveTransactions(StubDatabase.calcDate(date, -500), StubDatabase.calcDate(date, 500));
         assertTrue(results.contains(testTransaction1));
         assertTrue(results.contains(testTransaction2));
         assertTrue(results.contains(testTransaction3));
@@ -285,7 +285,7 @@ public class TestAccessTransaction extends TestCase {
      * Closes the server connection
      */
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 
 }

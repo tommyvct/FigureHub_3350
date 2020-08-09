@@ -10,15 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.updateObject.updateTransaction" />
+        <activity android:name=".presentation.updateObject.UpdateTransaction" />
         <activity android:name=".presentation.viewObject.ViewCard" />
-        <activity android:name=".presentation.updateObject.updateCard" />
-        <activity android:name=".presentation.updateObject.updateBudgetCategory" />
-        <activity android:name=".presentation.addObject.addCard" />
-        <activity android:name=".presentation.addObject.addBudgetCategory" />
+        <activity android:name=".presentation.updateObject.UpdateCard" />
+        <activity android:name=".presentation.updateObject.UpdateBudgetCategory" />
+        <activity android:name=".presentation.addObject.AddCard" />
+        <activity android:name=".presentation.addObject.AddBudgetCategory" />
         <activity android:name=".presentation.viewObject.ViewBudgetCategory" />
-        <activity android:name=".presentation.firstTimeGreeting" />
-        <activity android:name=".presentation.addObject.addTransaction" />
+        <activity android:name=".presentation.FirstTimeGreeting" />
+        <activity android:name=".presentation.addObject.AddTransaction" />
         <activity android:name=".presentation.MainActivity" />
         <activity android:name=".presentation.Auth">
             <intent-filter>

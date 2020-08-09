@@ -1,22 +1,19 @@
 package comp3350.pbbs.presentation;
 
 import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.presentation.addObject.addTransaction;
-import comp3350.pbbs.presentation.addObject.addCard;
-import comp3350.pbbs.presentation.addObject.addBudgetCategory;
-import comp3350.pbbs.presentation.mainActivityFragments.main_budget;
-import comp3350.pbbs.presentation.mainActivityFragments.main_cards;
-import comp3350.pbbs.presentation.mainActivityFragments.main_transactions;
+import comp3350.pbbs.presentation.addObject.AddTransaction;
+import comp3350.pbbs.presentation.addObject.AddCard;
+import comp3350.pbbs.presentation.addObject.AddBudgetCategory;
 
 import android.content.Intent;
 import android.view.View;
@@ -28,6 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Objects;
 
 /**
+ * MainActivity
+ * Group4
+ * PBBS
+ *
  * This class implements the main page
  */
 public class MainActivity extends AppCompatActivity {
@@ -52,25 +53,18 @@ public class MainActivity extends AppCompatActivity {
         nc.addOnDestinationChangedListener((controller, destination, arguments) ->
         {
             //System.out.println(destination);
-            if (Objects.requireNonNull(destination.getLabel()).equals("fragment_main_home"))
-            {
-               addObjectFAB.setVisibility(View.GONE);
-               addObjectFAB.setOnClickListener(null);
-            }
-            else if (destination.getLabel().equals("fragment_main_transactions"))
-            {
-               addObjectFAB.setVisibility(View.VISIBLE);
-               addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addTransaction.class), 1));
-            }
-            else if (destination.getLabel().equals("fragment_main_cards"))
-            {
-               addObjectFAB.setVisibility(View.VISIBLE);
-               addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addCard.class), 2));
-            }
-            else if (destination.getLabel().equals("fragment_main_budget"))
-            {
-               addObjectFAB.setVisibility(View.VISIBLE);
-               addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), addBudgetCategory.class), 3));
+            if (Objects.requireNonNull(destination.getLabel()).equals("fragment_main_home")) {
+                addObjectFAB.setVisibility(View.GONE);
+                addObjectFAB.setOnClickListener(null);
+            } else if (destination.getLabel().equals("fragment_main_transactions")) {
+                addObjectFAB.setVisibility(View.VISIBLE);
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddTransaction.class), 1));
+            } else if (destination.getLabel().equals("fragment_main_cards")) {
+                addObjectFAB.setVisibility(View.VISIBLE);
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddCard.class), 2));
+            } else if (destination.getLabel().equals("fragment_main_budget")) {
+                addObjectFAB.setVisibility(View.VISIBLE);
+                addObjectFAB.setOnClickListener(view -> startActivityForResult(new Intent(view.getContext(), AddBudgetCategory.class), 3));
             }
         });
 
@@ -81,25 +75,19 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         NavigationUI.setupWithNavController(
-            (BottomNavigationView) findViewById(R.id.bottomNavigationView),
-            Navigation.findNavController(this, R.id.fragment));
+                (BottomNavigationView) findViewById(R.id.bottomNavigationView),
+                Navigation.findNavController(this, R.id.fragment));
 
         Fragment f = getSupportFragmentManager().getPrimaryNavigationFragment().getChildFragmentManager().getFragments().get(0);
         f.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == 1)
-        {
+        if (resultCode == 1) {
             String text = "";
-            if (requestCode == 1)
-            {
+            if (requestCode == 1) {
                 text += "Transaction ";
-            }
-            else if (requestCode == 3)
-            {
+            } else if (requestCode == 3) {
                 text += "Budget ";
-            }
-            else if (requestCode == 2)
-            {
+            } else if (requestCode == 2) {
                 text += "Card ";
             }
 

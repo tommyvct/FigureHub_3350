@@ -18,14 +18,14 @@ public class TestAccessValidation extends TestCase {
     /**
      * Testing Valid input
      */
-    public void testValidInput(){
+    public void testValidInput() {
         //Testing isValidName()
-        assertTrue( AccessValidation.isValidName("cool name"));
-        assertTrue( AccessValidation.isValidName(" cool name "));
-        assertTrue( AccessValidation.isValidName("COOL NAME"));
-        assertTrue( AccessValidation.isValidName(" name"));
-        assertTrue( AccessValidation.isValidName("cool "));
-        assertTrue( AccessValidation.isValidName("c. n."));
+        assertTrue(AccessValidation.isValidName("cool name"));
+        assertTrue(AccessValidation.isValidName(" cool name "));
+        assertTrue(AccessValidation.isValidName("COOL NAME"));
+        assertTrue(AccessValidation.isValidName(" name"));
+        assertTrue(AccessValidation.isValidName("cool "));
+        assertTrue(AccessValidation.isValidName("c. n."));
 
         //Testing isValidExpirationDate()
         assertEquals(0, AccessValidation.isValidExpirationDate("1", "2068"));
@@ -56,30 +56,12 @@ public class TestAccessValidation extends TestCase {
         assertTrue(AccessValidation.isValidDescription("  Bought groceries  "));
         assertTrue(AccessValidation.isValidDescription("<<>>>????:::{{{}}}"));
         assertTrue(AccessValidation.isValidDescription("<BOUGHT groceries>"));
-
-        //Testing parseAmount()
-        assertEquals(1f, AccessValidation.parseAmount("1.00"));
-        assertEquals(1f, AccessValidation.parseAmount("1"));
-        assertEquals(1f, AccessValidation.parseAmount(" 1"));
-        assertEquals(1f, AccessValidation.parseAmount("1 "));
-        assertEquals(10f, AccessValidation.parseAmount("10.00"));
-        assertEquals(1.10f, AccessValidation.parseAmount("1.10"));
-        assertEquals(1.10f, AccessValidation.parseAmount(" 1.10"));
-        assertEquals(1.10f, AccessValidation.parseAmount("1.10 "));
-        assertEquals(1.10f, AccessValidation.parseAmount("1.1"));
-        assertEquals(10.10f, AccessValidation.parseAmount("10.1"));
-        assertEquals(10.10f, AccessValidation.parseAmount("10.10"));
-        assertEquals(55.58f, AccessValidation.parseAmount("55.58"));
-        assertEquals(1.23f, AccessValidation.parseAmount("1.23"));
-        assertEquals(12345.67f, AccessValidation.parseAmount("12345.67"));
-        assertEquals(10000.00f, AccessValidation.parseAmount("10000"));
-        assertEquals(123456789f, AccessValidation.parseAmount("0000000000123456789"));
-        assertEquals(1234567.89f, AccessValidation.parseAmount("00000000001234567.89"));
     }
+
     /**
      * Testing null and empty values
      */
-    public void testNullAndEmpty(){
+    public void testNullAndEmpty() {
         //Testing isValidName()
         assertFalse(AccessValidation.isValidName(""));
         assertFalse(AccessValidation.isValidName(" "));
@@ -112,17 +94,12 @@ public class TestAccessValidation extends TestCase {
         assertFalse(AccessValidation.isValidDescription(null));
         assertFalse(AccessValidation.isValidDescription(""));
         assertFalse(AccessValidation.isValidDescription(" "));
-
-        //Testing parseAmount()
-        assertNull(AccessValidation.parseAmount(""));
-        assertNull(AccessValidation.parseAmount("  "));
-        assertNull(AccessValidation.parseAmount(null));
     }
 
     /**
      * Testing Negative input (only for numeric validation)
      */
-    public void testNegativeInput(){
+    public void testNegativeInput() {
         //Testing isValidExpirationDate()
         assertEquals(1, AccessValidation.isValidExpirationDate("-1", "2068"));
         assertEquals(1, AccessValidation.isValidExpirationDate("-20", "2068"));
@@ -143,17 +120,12 @@ public class TestAccessValidation extends TestCase {
         assertFalse(AccessValidation.isValidAmount("-20"));
         assertFalse(AccessValidation.isValidAmount("-2.52"));
         assertFalse(AccessValidation.isValidAmount("-0.58"));
-
-        //Testing parseAmount()
-        assertNull(AccessValidation.parseAmount("-1.23"));
-        assertNull(AccessValidation.parseAmount("-0.23"));
-        assertNull(AccessValidation.parseAmount("-1000"));
     }
 
     /**
      * Test invalid String input (bad strings for string validation, and any string input for numeric validation)
      */
-    public void testInvalidString(){
+    public void testInvalidString() {
         //Testing isValidName()
         assertFalse(AccessValidation.isValidName("X AE A-12"));
 
@@ -161,7 +133,7 @@ public class TestAccessValidation extends TestCase {
         Calendar calender = Calendar.getInstance();
         int currYear = calender.get(Calendar.YEAR);
         assertEquals(5, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear)));
-        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear-1)));
+        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear - 1)));
         assertEquals(7, AccessValidation.isValidExpirationDate("string", "2068"));
         assertEquals(7, AccessValidation.isValidExpirationDate("1", "string"));
         assertEquals(7, AccessValidation.isValidExpirationDate("string", "string 2"));
@@ -180,28 +152,12 @@ public class TestAccessValidation extends TestCase {
 
         //Testing isValidDescription()
         assertFalse(AccessValidation.isValidDescription("\n"));
-
-        //Testing parseAmount()
-        assertNull(AccessValidation.parseAmount("abcd"));
-        assertNull(AccessValidation.parseAmount("1.234"));
-        assertNull(AccessValidation.parseAmount("1.23 4"));
-        assertNull(AccessValidation.parseAmount("1 .234"));
-        assertNull(AccessValidation.parseAmount("1,234"));
-        assertNull(AccessValidation.parseAmount("1.2{34"));
-        assertNull(AccessValidation.parseAmount("10.234"));
-        assertNull(AccessValidation.parseAmount("one"));
-        assertNull(AccessValidation.parseAmount("0two"));
-        assertNull(AccessValidation.parseAmount("1three"));
-        assertNull(AccessValidation.parseAmount("123four"));
-        assertNull(AccessValidation.parseAmount("1two3"));
-        assertNull(AccessValidation.parseAmount("1.four"));
-        assertNull(AccessValidation.parseAmount("1.zero2"));
     }
 
     /**
      * Testing out of bounds (for date and time)
      */
-    public void testOutOfBounds(){
+    public void testOutOfBounds() {
         //Testing isValidExpirationDate()
         assertEquals(1, AccessValidation.isValidExpirationDate("13", "2068"));
         assertEquals(1, AccessValidation.isValidExpirationDate("24", "2068"));

@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -24,15 +20,16 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
-import comp3350.pbbs.business.AccessCard;
+import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.Card;
-import comp3350.pbbs.presentation.updateObject.updateCard;
+import comp3350.pbbs.objects.Transaction;
+import comp3350.pbbs.presentation.DollarValueFormatter;
+import comp3350.pbbs.presentation.updateObject.UpdateCard;
 
 /**
  * Group4
@@ -42,9 +39,8 @@ import comp3350.pbbs.presentation.updateObject.updateCard;
  */
 public class ViewCard extends Activity {
     private LineChart lineChart;
-    private AccessCard accessCard;
+    private AccessTransaction accessTransaction;
     private Card card;
-    private TextView currentBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +52,7 @@ public class ViewCard extends Activity {
 
         // Grab the card
         card = Objects.requireNonNull((Card) getIntent().getSerializableExtra("Card"));
-        accessCard = new AccessCard();
-        currentBalance = findViewById(R.id.currentBalance);
-        currentBalance.setText(String.format("Current Balance: $ %.2f", accessCard.calculateCardTotal(card, Calendar.getInstance())));
+        accessTransaction = new AccessTransaction();
 
         {   // // Chart Style // //
 
@@ -91,14 +85,15 @@ public class ViewCard extends Activity {
 
             // vertical grid lines
             xAxis.enableGridDashedLine(10f, 10f, 0f);
-
-            xAxis.setAxisMinimum(0.0f);
-            xAxis.setAxisMaximum(12.0f);
+            xAxis.setTextSize(13f);
+            xAxis.setLabelCount(5, true);
+            xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         }
 
         YAxis yAxis;
         {   // // Y-Axis Style // //
             yAxis = lineChart.getAxisLeft();
+            yAxis.setValueFormatter(new DollarValueFormatter());
 
             // disable dual axis (only use LEFT axis)
             lineChart.getAxisRight().setEnabled(false);
@@ -107,98 +102,58 @@ public class ViewCard extends Activity {
             yAxis.enableGridDashedLine(10f, 10f, 0f);
 
             // axis range
-//            yAxis.setAxisMaximum(200f);
             yAxis.setAxisMinimum(0f);
+            yAxis.setTextSize(13f);
         }
 
-        // Construct the month selector
-        Spinner monthSelector = findViewById(R.id.cardMonthSelector);
-        List<Calendar> activeMonths = accessCard.getActiveMonths(card);
-        List<String> monthOptions = new ArrayList<String>();
-        DateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
-
-        // If there are no active months, default to the current month and year
-        if(activeMonths.isEmpty()){
-            Calendar now = Calendar.getInstance();
-            now.setTime(new Date());
-            activeMonths.add(now);
-        }
-
-        // Generate the selection text
-        for(Calendar activeMonth : activeMonths) {
-            monthOptions.add(dateFormat.format(activeMonth.getTime()));
-        }
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
 
         //Giving the x-axis month labels
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
-        @Override
+            @Override
             public String getFormattedValue(float value) {
-                if (value >= 0) {
-                    if (value < monthOptions.size()) return monthOptions.get((int) value);
-                    return "";
-                }
-                return "";
+                return dateFormat.format(new Date((long) value));
             }
         });
-
-        // Set the array adapter
-        monthSelector.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, monthOptions));
-
-        // Set the selection listener
-        monthSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            /**
-             * Sets the pie chart values to the values relating to the selected month
-             *
-             * @param parentView        The parent view
-             * @param selectedItemView  The view of the selected item
-             * @param position          The position in the array that was selected
-             * @param id                Id, unrelated to position
-             */
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                setLineChartValues(activeMonths);
-
-                // draw points over time
-                lineChart.animateX(1500);
-            }
-
-            /**
-             * If there is nothing selected, the program has reached an invalid state.
-             *
-             * @param adapterView   View of the adapter
-             */
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                throw new NullPointerException("There should be a month selected no matter what");
-            }
-        });
-
-        // TODO fill listTransactions
 
 
         findViewById(R.id.updateCard).setOnClickListener(view ->
 
         {
-            Intent intent = new Intent(view.getContext(), updateCard.class);
+            Intent intent = new Intent(view.getContext(), UpdateCard.class);
             intent.putExtra("toUpdate", card);
             startActivityForResult(intent, 0);
             finish();
         });
+        lineChart.getLegend().setEnabled(false);
+        setLineChartValues();
     }
 
     /**
      * Sets the line chart values based on the selected month
-     *
-     * @param activeMonths Calendar instance which contains the month and year to query
      */
-    private void setLineChartValues(List<Calendar> activeMonths) {
+    private void setLineChartValues() {
         ArrayList<Entry> chartValues = new ArrayList<>();
-        int index = 0;
+        ArrayList<Long> times = new ArrayList<Long>();
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
-        for(Calendar activeMonth : activeMonths) {
-            chartValues.add(new Entry(index, accessCard.calculateCardTotal(card, activeMonth)));
-            index++;
+        for(Transaction t : accessTransaction.retrieveTransactions()){
+            if(card.equals(t.getCard())) {
+                times.add(t.getTime().getTime());
+                Collections.sort(times);
+                transactions.add(times.indexOf(t.getTime().getTime()), t);
+            }
         }
+        for(Transaction t: transactions) {
+            chartValues.add(new Entry(t.getTime().getTime(), t.getAmount()));
+        }
+        XAxis xAxis = lineChart.getXAxis();
+        if(!times.isEmpty()) {
+            xAxis.setAxisMinimum(Collections.min(times));
+            xAxis.setAxisMaximum(Collections.max(times));
+        }
+//        lineChart.setScaleX(0.9f);
+//        lineChart.setScaleY(0.8f);
 
         LineDataSet set1;
 
@@ -209,7 +164,7 @@ public class ViewCard extends Activity {
             set1.notifyDataSetChanged();
             lineChart.getData().notifyDataChanged();
             lineChart.notifyDataSetChanged();
-        }else {
+        } else {
             // create a dataset and give it a type
             set1 = new LineDataSet(chartValues, "DataSet 1");
 
@@ -243,8 +198,10 @@ public class ViewCard extends Activity {
                     return lineChart.getAxisLeft().getAxisMinimum();
                 }
             });
+            set1.setValueFormatter(new DollarValueFormatter());
 
 
+            set1.setValueTextSize(13f);
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1); // add the data sets
 
@@ -253,6 +210,7 @@ public class ViewCard extends Activity {
 
             // set data
             lineChart.setData(data);
+            lineChart.animateX(500, Easing.EaseInOutQuad);
         }
     }
 

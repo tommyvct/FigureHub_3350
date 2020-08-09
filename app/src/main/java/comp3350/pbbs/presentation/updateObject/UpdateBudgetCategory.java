@@ -26,12 +26,12 @@ import comp3350.pbbs.objects.BudgetCategory;
  * This class updates(including deletes) an existed budgetCategory within the list.
  */
 
-public class updateBudgetCategory extends AppCompatActivity implements Serializable {
+public class UpdateBudgetCategory extends AppCompatActivity implements Serializable {
 
-	private AccessBudgetCategory accessBudgetCategory;	// AccessBudgetCategory variable
-	EditText BudgetNameET;								// EditText variable for budgetName
-	EditText BudgetLimitET;								// EditText variable for budgetLimit
-	BudgetCategory oldBudgetCategory;                      // BudgetCategory to update
+    private AccessBudgetCategory accessBudgetCategory;    // AccessBudgetCategory variable
+    EditText BudgetNameET;                                // EditText variable for budgetName
+    EditText BudgetLimitET;                                // EditText variable for budgetLimit
+    BudgetCategory oldBudgetCategory;                      // BudgetCategory to update
 
 	@SuppressLint("SetTextI18n")
 	@Override
@@ -49,7 +49,6 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 
 		BudgetNameET.setText(oldBudgetCategory.getBudgetName());
 		BudgetLimitET.setText(new DecimalFormat("0.00").format(oldBudgetCategory.getBudgetLimit()));
-		BudgetNameET.setEnabled(false);
 
 		((Button) findViewById(R.id.addBudgetSubmit)).setText(R.string.update);
 		// validation for the new entered information
@@ -67,7 +66,6 @@ public class updateBudgetCategory extends AppCompatActivity implements Serializa
 				return;
 			}
 			if (accessBudgetCategory.updateBudgetCategory(oldBudgetCategory, BudgetNameET.getText().toString().trim(), BudgetLimitET.getText().toString())) {
-				setResult(2);
 				finish();
 				Toast.makeText(view.getContext(), "Budget category updated!", Toast.LENGTH_SHORT).show();
 			} else {

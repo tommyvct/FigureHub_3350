@@ -7,8 +7,14 @@ import junit.framework.TestCase;
 
 import static org.junit.Assert.assertNotEquals;
 
-public class TestBankAccount extends TestCase
-{
+/**
+ * TestBankAccount
+ * Group4
+ * PBBS
+ *
+ * This class defines a test suite for the BankAccount class.
+ */
+public class TestBankAccount extends TestCase {
     String accountName;
     String accountNumber;
     Card linkedCard;
@@ -58,7 +64,8 @@ public class TestBankAccount extends TestCase
         try {
             new BankAccount(accountName, null, linkedCard);
             fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     /**
@@ -78,6 +85,7 @@ public class TestBankAccount extends TestCase
         try {
             new BankAccount(accountName, accountNumber, null);
             fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 }

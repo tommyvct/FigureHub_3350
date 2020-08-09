@@ -15,6 +15,7 @@ import java.util.List;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.objects.Card;
+import comp3350.pbbs.presentation.updateObject.UpdateCard;
 import comp3350.pbbs.presentation.viewObject.ViewCard;
 
 /**
@@ -24,8 +25,7 @@ import comp3350.pbbs.presentation.viewObject.ViewCard;
  *
  * This fragment displays all cards.
  */
-public class main_cards extends Fragment
-{
+public class MainCards extends Fragment {
     private AccessCard accessCard;
     private List<Card> cardsList;
     private ArrayAdapter<Card> listViewAdapter;
@@ -33,19 +33,18 @@ public class main_cards extends Fragment
 
 
     // Required empty public constructor
-    public main_cards() {}
+    public MainCards() {
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         accessCard = new AccessCard();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_cards, container, false);
 
         // list all the credit cards
@@ -60,7 +59,7 @@ public class main_cards extends Fragment
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener((adapterView, view1, i, l) ->
         {
-            Intent updateCard = new Intent(view1.getContext(), comp3350.pbbs.presentation.updateObject.updateCard.class);
+            Intent updateCard = new Intent(view1.getContext(), UpdateCard.class);
             updateCard.putExtra("toUpdate", cardsList.get(i));
             startActivityForResult(updateCard, 0);
         });

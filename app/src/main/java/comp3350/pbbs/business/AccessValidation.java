@@ -10,8 +10,14 @@ import java.util.Date;
 
 import static comp3350.pbbs.business.AccessTransaction.DATE_FORMATS;
 
-public class AccessValidation
-{
+/**
+ * AccessValidation
+ * Group4
+ * PBBS
+ *
+ * This class creates an AccessValidation class for the business layer.
+ */
+public class AccessValidation {
     private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
@@ -82,7 +88,7 @@ public class AccessValidation
 
     /**
      * This method checks if the given date string and time string are valid.
-     *
+     * <p>
      * A valid date follows the format dd/mm/yyyy or dd-mm-yyyy, while a valid time follows the
      * 24-hour format: 0:00 to 23:59
      *
@@ -110,7 +116,7 @@ public class AccessValidation
 
     /**
      * This method tells if the given amount string is a valid numeric amount
-     *
+     * <p>
      * A valid amount is either a positive integer (20) or a positive decimal number with 2 decimal
      * places (20.03)
      *
@@ -141,7 +147,7 @@ public class AccessValidation
 
     /**
      * This method checks if the description is valid or not
-     *
+     * <p>
      * A valid description is non null and not empty
      *
      * @param desc The description to check
@@ -149,60 +155,5 @@ public class AccessValidation
      */
     public static boolean isValidDescription(String desc) {
         return desc != null && !desc.trim().isEmpty();
-    }
-
-    /**
-     * This method parses the given amount string to a float number, rounded to 2 decimals
-     *
-     * @param amountStr The string to convert
-     * @return The converted float, or null if the amount is invalid
-     */
-    public static Float parseAmount(String amountStr) {
-        Float toReturn = null;
-
-        if (amountStr != null) {
-            amountStr = amountStr.trim();
-            // If the string is decimal-like
-            if (amountStr.contains(".")) {
-                // Check if the string is a decimal number with 1 or 2 decimal places
-                if (amountStr.matches("\\d*\\.\\d\\d$") || amountStr.matches("\\d*\\.\\d$")) {
-                    // Parse the string
-                    toReturn = Float.parseFloat(amountStr);
-                    if (toReturn < 0)
-                        toReturn = null;
-                }
-            }
-            // Check if the amount is a positive integer
-            else if (amountStr.matches("[0-9]+")) {
-                toReturn = (float) Integer.parseInt(amountStr);
-            }
-        }
-        return toReturn;
-    }
-
-    /**
-     * This method parses the given date string and time string into a single date time object.
-     *
-     * @param dateStr The given date to convert
-     * @param timeStr The given time to convert
-     * @return java.text.Date object that contains the date time, or null if the strings
-     * do not match any of the predefined formats
-     */
-    public static Date parseDatetime(String dateStr, String timeStr) {
-        Date toReturn = null;
-
-        // Check the possible date formats
-        for (String format : DATE_FORMATS) {
-            @SuppressLint("SimpleDateFormat")
-            DateFormat df = new SimpleDateFormat(format);
-            // Needed or else 30/13/2020 will become 30/1/2021
-            df.setLenient(false);
-            try {
-                // Parse the date
-                toReturn = df.parse(dateStr + " " + timeStr);
-            } catch (ParseException ignored) {
-            }
-        }
-        return toReturn;
     }
 }

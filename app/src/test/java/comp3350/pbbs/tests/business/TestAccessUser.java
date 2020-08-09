@@ -3,7 +3,7 @@ package comp3350.pbbs.tests.business;
 import junit.framework.TestCase;
 
 import comp3350.pbbs.application.Main;
-import comp3350.pbbs.application.Services;
+import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.business.AccessUser;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
@@ -14,15 +14,14 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  *
  * This class tests the AccessUser class.
  */
-public class TestAccessUser extends TestCase
-{
+public class TestAccessUser extends TestCase {
     private AccessUser testAccess = null;           //variable for AccessUser class
 
     /**
      * This method creates StubDatabase and AccessUser
      */
     public void setUp() {
-        Services.createDataAccess(new StubDatabase(Main.dbName));
+        DataAccessController.createDataAccess(new StubDatabase(Main.dbName));
         testAccess = new AccessUser();
     }
 
@@ -58,6 +57,6 @@ public class TestAccessUser extends TestCase
      * This method closes StubDatabase
      */
     public void tearDown() {
-        Services.closeDataAccess();
+        DataAccessController.closeDataAccess();
     }
 }

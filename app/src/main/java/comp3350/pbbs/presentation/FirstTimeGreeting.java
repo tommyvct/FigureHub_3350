@@ -17,9 +17,10 @@ import comp3350.pbbs.business.AccessUser;
  *
  * This class implements the greeting when an user enters the app
  */
-public class firstTimeGreeting extends AppCompatActivity {
+public class FirstTimeGreeting extends AppCompatActivity {
 
     String a;
+
     /**
      * This method initiates the first time greeting activity and asks users name.
      */
@@ -38,9 +39,8 @@ public class firstTimeGreeting extends AppCompatActivity {
                 nameBox.setError("This field cannot be empty.");
             } else {
                 new AccessUser().setUsername(nameBox.getText().toString());
-                if (a == null)
-                {
-                    startActivity(new Intent(firstTimeGreeting.this, MainActivity.class));
+                if (a == null) {
+                    startActivity(new Intent(FirstTimeGreeting.this, MainActivity.class));
                 }
                 finish();
             }

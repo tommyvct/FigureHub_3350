@@ -7,18 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessTransaction;
 import comp3350.pbbs.objects.Transaction;
-import comp3350.pbbs.presentation.updateObject.updateTransaction;
+import comp3350.pbbs.presentation.updateObject.UpdateTransaction;
 
 /**
  * main_transaction
@@ -27,14 +25,15 @@ import comp3350.pbbs.presentation.updateObject.updateTransaction;
  *
  * This fragment displays all transactions.
  */
-public class main_transactions extends Fragment {
+public class MainTransactions extends Fragment {
     private AccessTransaction accessTransaction;
     private ListView transactionListView;
     private List<Transaction> transactionArrayList;
     private ArrayAdapter<Transaction> listAdapter;
 
     // Required empty public constructor
-    public main_transactions() {}
+    public MainTransactions() {
+    }
 
 
     @Override
@@ -62,7 +61,7 @@ public class main_transactions extends Fragment {
 
         transactionListView.setOnItemClickListener((adapterView, view1, i, l) ->
         {
-            Intent updateTransaction = new Intent(view1.getContext(), updateTransaction.class);
+            Intent updateTransaction = new Intent(view1.getContext(), UpdateTransaction.class);
             updateTransaction.putExtra("toUpdate", transactionArrayList.get(i));
             startActivityForResult(updateTransaction, 0);
         });
