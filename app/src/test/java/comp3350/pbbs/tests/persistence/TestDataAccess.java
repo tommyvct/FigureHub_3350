@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotEquals;
  * This class defines a test suite for the DataAccess classes.
  */
 public class TestDataAccess extends TestCase {
-    private DataAccessI dataAccess;
+    protected DataAccessI dataAccess;
 
     public TestDataAccess(String arg0) {
         super(arg0);

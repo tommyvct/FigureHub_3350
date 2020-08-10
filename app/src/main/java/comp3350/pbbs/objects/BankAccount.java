@@ -39,7 +39,11 @@ public class BankAccount implements Serializable {
         return linkedCard;
     }
 
-    public boolean equals(BankAccount o) {
-        return this.accountNumber.equals(o.accountNumber);
+    public boolean equals(Object o) {
+        boolean result = false;
+        if(o instanceof BankAccount) {
+            result = this.accountNumber.equals(((BankAccount)o).accountNumber);
+        }
+        return result;
     }
 }
