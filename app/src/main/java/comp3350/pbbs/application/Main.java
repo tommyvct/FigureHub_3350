@@ -2,6 +2,7 @@ package comp3350.pbbs.application;
 
 import android.annotation.SuppressLint;
 
+import comp3350.pbbs.business.NotificationObservable;
 import comp3350.pbbs.persistence.DataAccessController;
 
 /**
@@ -14,6 +15,7 @@ import comp3350.pbbs.persistence.DataAccessController;
 public class Main {
     public static final String dbName = "TBCU"; //database contains Transactions, Budget Categories, Credit Cards, and Users
     private static String dbPathName = "db/TBCU";
+    public static NotificationObservable observable;
 
     public static void main(String[] args) {
         startup();
@@ -23,6 +25,7 @@ public class Main {
     @SuppressLint("NewApi")
     public static void startup() {
         DataAccessController.createDataAccess(dbName);
+        observable = NotificationObservable.getInstance();
     }
 
     public static void shutDown() {
