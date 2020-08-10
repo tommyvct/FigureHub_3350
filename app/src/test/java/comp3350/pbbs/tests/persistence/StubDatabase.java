@@ -215,9 +215,8 @@ public class StubDatabase implements DataAccessI {
      */
     public boolean updateCard(Card toUpdate, Card newCard) {
         int index = cards.indexOf(toUpdate);
-        int updateValid = cards.indexOf(newCard);
         boolean result = false;
-        if (index >= 0 && updateValid <= 0) {
+        if (index >= 0) {
             cards.set(index, newCard);
             result = true;
         }
@@ -443,7 +442,7 @@ public class StubDatabase implements DataAccessI {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         Card card1, card2, card3, card4, card5;                                      //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
-        BankAccount b1,b2;
+        BankAccount b1,b2, b3;
         List<BudgetCategory> budgets = new ArrayList<BudgetCategory>();
         List<Card> cards = new ArrayList<Card>();
         List<Transaction> transactions = new ArrayList<Transaction>();
@@ -495,6 +494,8 @@ public class StubDatabase implements DataAccessI {
         bankAccounts.add(b1);
         b2 = new BankAccount("CIBC banking", "290948376", card3);
         bankAccounts.add(b2);
+        b3 = new BankAccount("RBC Student Chequing", "85946894", card5);
+        bankAccounts.add(b3);
 
         for(BudgetCategory b : budgets) {
             dataAccess.insertBudgetCategory(b);

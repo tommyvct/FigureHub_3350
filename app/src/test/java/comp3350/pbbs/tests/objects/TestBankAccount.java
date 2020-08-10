@@ -66,6 +66,12 @@ public class TestBankAccount extends TestCase {
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException ignored) {
         }
+
+        try {
+            new BankAccount(accountName, "", linkedCard);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 
     /**
