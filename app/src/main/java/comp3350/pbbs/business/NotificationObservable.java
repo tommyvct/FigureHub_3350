@@ -20,17 +20,19 @@ public class NotificationObservable extends java.util.Observable {
         return instance;
     }
 
+    public int getNumObservers(){return observers.size();}
+
     public boolean attach(NotificationObserver newObserver){
         boolean attachSuccess = false;
-        if(!observers.contains(newObserver)){
+        if(newObserver != null && !observers.contains(newObserver)){
             attachSuccess = observers.add(newObserver);
         }
         return attachSuccess;
     }
 
-    public boolean detach(Observer targetObserver){
+    public boolean detach(NotificationObserver targetObserver){
         boolean detachSuccess = false;
-        if(observers.contains(targetObserver)){
+        if(targetObserver != null && observers.contains(targetObserver)){
             detachSuccess = observers.remove(targetObserver);
         }
         return detachSuccess;

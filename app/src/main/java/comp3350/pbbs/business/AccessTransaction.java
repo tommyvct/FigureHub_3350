@@ -134,7 +134,7 @@ public class AccessTransaction {
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
                 //Notify observers to check budget categories
-                observable.notifyObservers();
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -162,7 +162,7 @@ public class AccessTransaction {
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
                 //Notify observers to check budget categories
-                observable.notifyObservers();
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -194,7 +194,7 @@ public class AccessTransaction {
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
                 //Notify observers to check budget categories
-                observable.notifyObservers();
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -225,7 +225,7 @@ public class AccessTransaction {
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
                 //Notify observers to check budget categories
-                observable.notifyObservers();
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -282,7 +282,7 @@ public class AccessTransaction {
         if (toDelete != null) {
             toReturn = db.deleteTransaction(toDelete);
             //Notify observers to check budget categories
-            observable.notifyObservers();
+            if(toReturn) observable.notifyObservers();
         }
         return toReturn;
     }

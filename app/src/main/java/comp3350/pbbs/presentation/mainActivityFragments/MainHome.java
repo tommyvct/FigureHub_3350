@@ -88,8 +88,7 @@ public class MainHome extends Fragment implements NotificationObserver {
     @Override
     public void updateNotifications() {
         notifications.clear();
-        List<BudgetCategory> Budgets = accessBudgetCategory.getAllBudgetCategories();
-        for(BudgetCategory b: Budgets){
+        for(BudgetCategory b: accessBudgetCategory.getAllBudgetCategories()){
             float bTotal = bctLinker.calculateBudgetCategoryTotal(b, Calendar.getInstance());
             if (bTotal > b.getBudgetLimit()){
                 notifications.add(String.format("You are over budget in %s: $%.2f / $%.2f ", b.getBudgetName(), bTotal, b.getBudgetLimit()));
@@ -97,6 +96,5 @@ public class MainHome extends Fragment implements NotificationObserver {
                 notifications.add(String.format("You are about to go over budget in %s: $%.2f / $%.2f ", b.getBudgetName(), bTotal, b.getBudgetLimit()));
             }
         }
-
     }
 }
