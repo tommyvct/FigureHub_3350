@@ -167,4 +167,9 @@ public class Transaction implements Serializable
                 card.toStringShort() + "\n" +
                 "Belongs to " + budgetCategory.getBudgetName() + " budget";
     }
+
+    public BankAccount getBankAccount()
+    {
+        return this.bankAccount;
+    }
 }
