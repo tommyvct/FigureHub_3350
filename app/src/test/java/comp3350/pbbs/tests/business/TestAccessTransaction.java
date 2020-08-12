@@ -16,10 +16,10 @@ import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
 /**
- * AllTests
+ * TestAccessTransaction
  * Group4
  * PBBS
- *
+ * <p>
  * This class tests AccessTransaction class
  */
 public class TestAccessTransaction extends TestCase {
@@ -28,7 +28,7 @@ public class TestAccessTransaction extends TestCase {
     List<Transaction> transactions;
 
     //Testing Data
-    private Date date = new Date(2020-07-15);
+    private Date date = new Date(2020 - 07 - 15);
     private String testDate = date.toString();
     private String testAmount = "12.07";
     private String testDesc = "Bought groceries.";
@@ -57,7 +57,7 @@ public class TestAccessTransaction extends TestCase {
     /**
      * Testing that all methods work using valid input
      */
-    public void testValidInput(){
+    public void testValidInput() {
         //Testing adding and updating valid transactions:
         HelperBothCardTypesTogether(true, "groceries", "31/12/2020", "00:00", "1.23", testBudgetCategory);
         HelperBothCardTypesTogether(true, "GROCERIES", "30/1/2020", "1:15", "12.34", testBudgetCategory);
@@ -87,7 +87,7 @@ public class TestAccessTransaction extends TestCase {
     /**
      * Testing that all methods work using invalid zero input
      */
-    public void testInvalidZeroInput(){
+    public void testInvalidZeroInput() {
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, "0", testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, "-0", testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, "0.00", testBudgetCategory);
@@ -98,29 +98,29 @@ public class TestAccessTransaction extends TestCase {
     /**
      * Testing using null and empty input
      */
-    public void testInvalidNullAndEmptyInput(){
+    public void testInvalidNullAndEmptyInput() {
         //Testing adding and updating transaction with null values:
-            //description
+        //description
         HelperBothCardTypesTogether(false, null, testDate, testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, "", testDate, testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, " ", testDate, testTime, testAmount, testBudgetCategory);
-            //time
+        //time
         HelperBothCardTypesTogether(false, testDesc, testDate, "", testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, null, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, " ", testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, ":", testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, " : ", testAmount, testBudgetCategory);
-             //Date
+        //Date
         HelperBothCardTypesTogether(false, testDesc, "", testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, null, testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, "//", testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, " / / ", testTime, testAmount, testBudgetCategory);
-             //amount
+        //amount
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, "", testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, null, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, " ", testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, ".", testBudgetCategory);
-             //cards
+        //cards
         assertFalse(accessTransaction.addTransaction(testDesc, testDate, testTime, testAmount, null, testBudgetCategory));
         assertFalse(accessTransaction.addDebitTransaction(testDesc, testDate, testTime, testAmount, null, null, testBudgetCategory));
         assertFalse(accessTransaction.addDebitTransaction(testDesc, testDate, testTime, testAmount, testDebitCard, null, testBudgetCategory));
@@ -129,7 +129,7 @@ public class TestAccessTransaction extends TestCase {
         assertFalse(accessTransaction.updateDebitTransaction(transactions.get(0), testDesc, testDate, testTime, testAmount, null, null, testBudgetCategory));
         assertFalse(accessTransaction.updateDebitTransaction(transactions.get(0), testDesc, testDate, testTime, testAmount, testDebitCard, null, testBudgetCategory));
         assertFalse(accessTransaction.updateDebitTransaction(transactions.get(0), testDesc, testDate, testTime, testAmount, null, testBankAccount, testBudgetCategory));
-            //budget Category
+        //budget Category
         HelperBothCardTypesTogether(false, testDesc, testDate, testTime, testAmount, null);
 
         //Test deleting invalid input
@@ -141,7 +141,7 @@ public class TestAccessTransaction extends TestCase {
     /**
      * Testing using bad date input (only for date params)
      */
-    public void testInvalidDateInput(){
+    public void testInvalidDateInput() {
         //Testing adding and updating transaction with bad date values:
         HelperBothCardTypesTogether(false, testDesc, "Date", testTime, testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, "32/2/2020", testTime, testAmount, testBudgetCategory);
@@ -156,7 +156,7 @@ public class TestAccessTransaction extends TestCase {
     /**
      * Testing using bad time input (only for time params)
      */
-    public void testInvalidTimeInput(){
+    public void testInvalidTimeInput() {
         //Testing adding and updating transaction with bad time values:
         HelperBothCardTypesTogether(false, testDesc, testDate, "24:00", testAmount, testBudgetCategory);
         HelperBothCardTypesTogether(false, testDesc, testDate, "-0:01", testAmount, testBudgetCategory);
@@ -171,15 +171,15 @@ public class TestAccessTransaction extends TestCase {
      * Helper method that enables testing addTransaction, addDebitTransaction, updateTransaction,
      * and updateDebitTransaction at once.
      *
-     * @param succeed   param that tells whether the tests should pass or fail
-     * @param desc      description to be tested
-     * @param date      date to be tested
-     * @param time      time to be tested
-     * @param amount    amount to be tested
-     * @param category  category to be tested
+     * @param succeed  param that tells whether the tests should pass or fail
+     * @param desc     description to be tested
+     * @param date     date to be tested
+     * @param time     time to be tested
+     * @param amount   amount to be tested
+     * @param category category to be tested
      */
-    public void HelperBothCardTypesTogether(Boolean succeed, String desc, String date, String time, String amount, BudgetCategory category){
-        if(succeed){
+    public void HelperBothCardTypesTogether(Boolean succeed, String desc, String date, String time, String amount, BudgetCategory category) {
+        if (succeed) {
             assertTrue(accessTransaction.addTransaction(desc, date, time, amount, testCard, category));
             assertTrue(accessTransaction.addDebitTransaction(desc, date, time, amount, testDebitCard, testBankAccount, category));
             assertTrue(accessTransaction.updateTransaction(transactions.get(0), desc, date, time, amount, testCard, category));

@@ -26,6 +26,7 @@ import comp3350.pbbs.persistence.DataAccessI;
  */
 public class AccessTransaction {
     private DataAccessI db;    // Access to the database
+    private NotificationObservable observable = NotificationObservable.getInstance();
 
     // Formats for the dates
     public static final String[] DATE_FORMATS = new String[]{
@@ -128,10 +129,12 @@ public class AccessTransaction {
     public boolean addTransaction(String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
+        if (Validation.isValidAmount(amountStr) && Validation.isValidDateTime(dateStr, timeStr) && Validation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
+                //Notify observers to check budget categories
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -154,10 +157,12 @@ public class AccessTransaction {
     public boolean addDebitTransaction(String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
+        if (Validation.isValidAmount(amountStr) && Validation.isValidDateTime(dateStr, timeStr) && Validation.isValidDescription(desc)) {
             Transaction transaction = parseDebitTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.insertTransaction(transaction);
+                //Notify observers to check budget categories
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -182,11 +187,14 @@ public class AccessTransaction {
      */
     public boolean updateTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card card, BudgetCategory budgetCategory) {
         boolean toReturn = false;
+        float modOldBudgetTotal = 0;
         // Ensure the parameters are valid
-        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
+        if (Validation.isValidAmount(amountStr) && Validation.isValidDateTime(dateStr, timeStr) && Validation.isValidDescription(desc)) {
             Transaction transaction = parseTransaction(desc, dateStr, timeStr, amountStr, card, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
+                //Notify observers to check budget categories
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -212,10 +220,12 @@ public class AccessTransaction {
     public boolean updateDebitTransaction(Transaction oldTransaction, String desc, String dateStr, String timeStr, String amountStr, Card debitCard, BankAccount bankAccount, BudgetCategory budgetCategory) {
         boolean toReturn = false;
         // Ensure the parameters are valid
-        if (AccessValidation.isValidAmount(amountStr) && AccessValidation.isValidDateTime(dateStr, timeStr) && AccessValidation.isValidDescription(desc)) {
+        if (Validation.isValidAmount(amountStr) && Validation.isValidDateTime(dateStr, timeStr) && Validation.isValidDescription(desc)) {
             Transaction transaction = parseDebitTransaction(desc, dateStr, timeStr, amountStr, debitCard, bankAccount, budgetCategory);
             if (transaction != null) {
                 toReturn = db.updateTransaction(oldTransaction, transaction);
+                //Notify observers to check budget categories
+                if(toReturn) observable.notifyObservers();
             }
         }
 
@@ -271,6 +281,8 @@ public class AccessTransaction {
 
         if (toDelete != null) {
             toReturn = db.deleteTransaction(toDelete);
+            //Notify observers to check budget categories
+            if(toReturn) observable.notifyObservers();
         }
         return toReturn;
     }

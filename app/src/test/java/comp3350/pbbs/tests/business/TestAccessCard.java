@@ -20,7 +20,7 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
  * PBBS
  *
  * This class tests the methods in the AccessCreditCard class
- * NOTE: All of the validation testing for bad input is done in TestAccessValidation.
+ * NOTE: All of the validation testing for bad input is done in TestValidation.
  */
 public class TestAccessCard extends TestCase {
     private DataAccessI testDB;

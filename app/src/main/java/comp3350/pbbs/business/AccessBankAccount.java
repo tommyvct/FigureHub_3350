@@ -68,4 +68,9 @@ public class AccessBankAccount {
     public List<BankAccount> getAllBankAccounts() {
         return db.getAllBankAccounts();
     }
+
+    public List<BankAccount> getBankAccountsFromDebitCard(Card card)
+    {
+        return db.getAccountsFromDebitCard(card);
+    }
 }

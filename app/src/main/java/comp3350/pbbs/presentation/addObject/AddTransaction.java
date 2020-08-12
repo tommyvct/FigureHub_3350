@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,10 +23,12 @@ import java.util.List;
 import java.util.Objects;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessTransaction;
-import comp3350.pbbs.business.AccessValidation;
+import comp3350.pbbs.business.Validation;
+import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 
@@ -45,6 +48,9 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
     AccessTransaction accessTransaction;            //AccessTransaction variable
     AccessCard accessCard;              //AccessCreditCard variable
     AccessBudgetCategory accessBudget;              //AccessBudgetCategory variable
+    AccessBankAccount accessBankAccount;
+    Spinner bankAccountSelector;
+    List<BankAccount> bankAccountArrayList;
 
     /**
      * This method creates a new transaction and adds it with the transaction list
@@ -80,12 +86,14 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
             timePickerDialog = new TimePickerDialog(AddTransaction.this,
                     (timePicker, hourOfDay, minute) ->
                     {
-                        timeText.setText(hourOfDay + ":" + minute);
+                        timeText.setText(hourOfDay + ":" + ((minute < 10) ?  "0" : "") + minute);
                     }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
             timePickerDialog.show();
         });
 
-        ///////// Card Selector ////////////
+
+        ///////// Card & BankAccount Selector ////////////
+        accessBankAccount = new AccessBankAccount();
         accessCard = new AccessCard();
         List<String> cardList = new ArrayList<>();
         List<Card> cardArrayList = accessCard.getActiveCards();
@@ -94,7 +102,35 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
             cardList.add(c.getCardName() + "\n" + c.getCardNum());
         }
         Spinner cardSelector = findViewById(R.id.cardSelector);
-        cardSelector.setOnItemSelectedListener(this);
+        cardSelector.setOnItemSelectedListener(new OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                bankAccountSelector = findViewById(R.id.bankAccountSelector);
+                if (i != 0 && cardArrayList.get(i - 1).isDebit())
+                {
+                    bankAccountSelector.setVisibility(View.VISIBLE);
+                    List<String> bankAccountList = new ArrayList<>();
+                    bankAccountArrayList = accessBankAccount.getBankAccountsFromDebitCard((Card) cardArrayList.get(i - 1));
+
+                    for (BankAccount a : bankAccountArrayList)
+                    {
+                        bankAccountList.add(a.getAccountName());
+                    }
+
+                    bankAccountSelector.setAdapter(new ArrayAdapter<>(view.getContext(), R.layout.support_simple_spinner_dropdown_item, bankAccountList));
+                }
+                else
+                {
+                    bankAccountSelector.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {}
+        });
         cardSelector.setAdapter(new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, cardList));
 
         ///////// Budget Selector //////////
@@ -117,16 +153,16 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
             boolean valid = true;
 
             // validate fields, use methods from business class
-            if (!AccessValidation.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
+            if (!Validation.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
                 timeText.setError("Invalid time.");
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
+            if (!Validation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
+            if (!Validation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }
@@ -134,25 +170,56 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
                 ((TextView) BudgetSelector.getSelectedView()).setError("Please select a budget category.");
                 valid = false;
             }
+
+            Card card = null;
             if (cardSelector.getSelectedItemPosition() - 1 == -1) {
                 ((TextView) cardSelector.getSelectedView()).setError("Please select a card.");
                 valid = false;
             }
-            //if everything is valid then checks if the transaction can be inserted or not
-            if (valid && accessTransaction.addTransaction
-                    (
-                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
-                            dateText.getText().toString(),
-                            timeText.getText().toString(),
-                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
-                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                    )) {
-                setResult(1);
-                finish();
-            } else {
+            else
+            {
+                card = cardArrayList.get(cardSelector.getSelectedItemPosition() - 1);
+            }
+
+            if (!valid)
+            {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
             }
+            else
+            {
+                if (card.isDebit() && accessTransaction.addDebitTransaction(
+                        ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+                        dateText.getText().toString(),
+                        timeText.getText().toString(),
+                        ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                        card,
+                        bankAccountArrayList.get(bankAccountSelector.getSelectedItemPosition()),
+                        budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+                ))
+                {
+                    setResult(1);
+                    finish();
+                }
+                else
+                {
+                    Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
+                }
+            }
+//            //if everything is valid then checks if the transaction can be inserted or not
+//            if (valid && accessTransaction.addTransaction
+//                    (
+//                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+//                            dateText.getText().toString(),
+//                            timeText.getText().toString(),
+//                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+//                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+//                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+//                    )) {
+//                setResult(1);
+//                finish();
+//            } else {
+//
+//            }
         });
 
     }
@@ -160,11 +227,9 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }

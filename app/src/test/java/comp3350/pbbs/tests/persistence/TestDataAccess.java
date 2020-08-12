@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotEquals;
  * This class defines a test suite for the DataAccess classes.
  */
 public class TestDataAccess extends TestCase {
-    private DataAccessI dataAccess;
+    protected DataAccessI dataAccess;
 
     public TestDataAccess(String arg0) {
         super(arg0);
@@ -121,7 +121,7 @@ public class TestDataAccess extends TestCase {
         //duplicate can't be added
         result = dataAccess.insertBankAccount(newAccount1);
         assertFalse(result);
-        assertEquals(3, dataAccess.getAllBankAccounts().size());
+        assertEquals(4, dataAccess.getAllBankAccounts().size());
 
         //testing updateBankAccount
         result = dataAccess.updateBankAccount(newAccount1, newAccount2);
@@ -137,7 +137,7 @@ public class TestDataAccess extends TestCase {
         bankAccounts.add(originalAcc);
         bankAccounts.add(updateAccount);
         bankAccounts.add(newAccount2);
-        assertEquals(bankAccounts, dataAccess.getAllBankAccounts());
+        assertTrue(dataAccess.getAllBankAccounts().containsAll(bankAccounts));
 
         //testing getAccountsFromDebitCard
         Card debitCard = dataAccess.getDebitCards().get(0);

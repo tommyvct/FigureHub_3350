@@ -26,7 +26,7 @@ import comp3350.pbbs.objects.BudgetCategory;
  * This class defines the HSQL database for the persistence layer.
  */
 public class DataAccessObject implements DataAccessI {
-	private Connection con;    // for DB switch
+	protected Connection con;    // for DB switch
 	private Statement stmt; // statement
 	private String dbName;    // name of DB
 	private String dbType;    // type of DB
@@ -76,7 +76,7 @@ public class DataAccessObject implements DataAccessI {
 			con.close();
 			System.out.println("Closed " + dbType + " database " + dbName);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 
@@ -97,7 +97,7 @@ public class DataAccessObject implements DataAccessI {
 				toReturn.add(budgetCategory);
 			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 
 		return toReturn;
@@ -124,7 +124,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -146,7 +146,7 @@ public class DataAccessObject implements DataAccessI {
 			checkWarning(stmt, updateCount);
 			result = true;
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -167,7 +167,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return count;
 	}
@@ -190,7 +190,7 @@ public class DataAccessObject implements DataAccessI {
 			budgetID = results.getInt("ID");
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return budgetID;
 	}
@@ -220,7 +220,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 
@@ -237,19 +237,21 @@ public class DataAccessObject implements DataAccessI {
 		boolean result = false;
 		String values;
 
-		try {
-			int cardID = getCardID(newAccount.getLinkedCard());
+		if(!findBankAccount(newAccount)) {
+			try {
+				int cardID = getCardID(newAccount.getLinkedCard());
 
-			values = "'" + newAccount.getAccountName() + "', '" + newAccount.getAccountNumber() +
-					"', " + cardID;
-			String cmdString = "INSERT INTO BANKACCOUNT (ACCOUNTNAME, ACCOUNTNUMBER, CARDID) " +
-					"VALUES(" + values + ")";
-			stmt = con.createStatement();
-			int updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
-			result = true;
-		} catch (SQLException e) {
-			System.out.println(e.toString());
+				values = "'" + newAccount.getAccountName() + "', '" + newAccount.getAccountNumber() +
+						"', " + cardID;
+				String cmdString = "INSERT INTO BANKACCOUNT (ACCOUNTNAME, ACCOUNTNUMBER, CARDID) " +
+						"VALUES(" + values + ")";
+				stmt = con.createStatement();
+				int updateCount = stmt.executeUpdate(cmdString);
+				checkWarning(stmt, updateCount);
+				result = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -265,24 +267,26 @@ public class DataAccessObject implements DataAccessI {
 	public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
 		boolean result = false;
 		String values, where;
-		try {
-			// Get first credit card
-			int newCardID = getCardID(newAccount.getLinkedCard());
-			// Get second credit card
-			int currentCardID = getCardID(newAccount.getLinkedCard());
-			values = "ACCOUNTNAME='" + newAccount.getAccountName()
-					+ "', ACCOUNTNUMBER='" + newAccount.getAccountNumber()
-					+ ", CARDID=" + newCardID;
-			where = "WHERE ACCOUNTNAME='" + toUpdate.getAccountName()
-					+ "' AND ACCOUNTNUMBER='" + toUpdate.getAccountNumber()
-					+ " AND CARDID=" + currentCardID;
-			stmt = con.createStatement();
-			String cmdString = "UPDATE BANKACCOUNT SET " + values + " " + where;
-			int updateCount = stmt.executeUpdate(cmdString);
-			checkWarning(stmt, updateCount);
-			result = true;
-		} catch (SQLException e) {
-			System.out.println(e.toString());
+		if(!findBankAccount(newAccount)) {
+			try {
+				// Get first credit card
+				int newCardID = getCardID(newAccount.getLinkedCard());
+				// Get second credit card
+				int currentCardID = getCardID(newAccount.getLinkedCard());
+				values = "ACCOUNTNAME='" + newAccount.getAccountName()
+						+ "', ACCOUNTNUMBER='" + newAccount.getAccountNumber()
+						+ "', CARDID=" + newCardID;
+				where = "WHERE ACCOUNTNAME='" + toUpdate.getAccountName()
+						+ "' AND ACCOUNTNUMBER='" + toUpdate.getAccountNumber()
+						+ "' AND CARDID=" + currentCardID;
+				stmt = con.createStatement();
+				String cmdString = "UPDATE BANKACCOUNT SET " + values + " " + where;
+				int updateCount = stmt.executeUpdate(cmdString);
+				checkWarning(stmt, updateCount);
+				result = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -315,7 +319,7 @@ public class DataAccessObject implements DataAccessI {
 				bankAccounts.add(bankAccount);
 			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return bankAccounts;
 	}
@@ -342,7 +346,7 @@ public class DataAccessObject implements DataAccessI {
 				bankAccounts.add(bankAccount);
 			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return bankAccounts;
 	}
@@ -374,7 +378,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -404,7 +408,7 @@ public class DataAccessObject implements DataAccessI {
 				checkWarning(stmt, updateCount);
 				toReturn = true;
 			} catch (SQLException e) {
-				System.out.println(e.toString());
+				e.printStackTrace();
 			}
 		}
 		return toReturn;
@@ -430,7 +434,7 @@ public class DataAccessObject implements DataAccessI {
 				toReturn = true;
 			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return toReturn;
 	}
@@ -459,13 +463,13 @@ public class DataAccessObject implements DataAccessI {
 				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
-				if (getAccountsFromDebitCard(card).isEmpty() || payDate != 0) {
+				if (getAccountsFromDebitCard(card).isEmpty() && payDate != 0) {
 					creditCards.add(card);
 				}
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return creditCards;
 	}
@@ -502,7 +506,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return debitCards;
 	}
@@ -536,7 +540,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return cards;
 	}
@@ -570,7 +574,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return cards;
 	}
@@ -605,7 +609,7 @@ public class DataAccessObject implements DataAccessI {
 			checkWarning(stmt, updateCount);
 			result = true;
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -627,9 +631,11 @@ public class DataAccessObject implements DataAccessI {
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			result = true;
+			if(updateCount > 0) {
+				result = true;
+			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -656,7 +662,7 @@ public class DataAccessObject implements DataAccessI {
 			cardID = results.getInt("ID");
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return cardID;
 	}
@@ -667,15 +673,17 @@ public class DataAccessObject implements DataAccessI {
 		String values, where;
 		try {
 			int cardID = getCardID(toMark);
-			values = "ACTIVE=1";
+			values = "ISACTIVE=1";
 			where = "ID=" + cardID;
 			String cmdString = "UPDATE CARD SET " + values + " WHERE " + where;
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			result = true;
+			if(updateCount > 0) {
+				result = true;
+			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -716,7 +724,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return count;
 	}
@@ -758,7 +766,7 @@ public class DataAccessObject implements DataAccessI {
 				transactions.add(transaction);
 			}
 		} catch (SQLException | ParseException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return transactions;
 	}
@@ -779,7 +787,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return count;
 	}
@@ -812,7 +820,7 @@ public class DataAccessObject implements DataAccessI {
 			}
 			results.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return found;
 	}
@@ -840,7 +848,7 @@ public class DataAccessObject implements DataAccessI {
 			checkWarning(stmt, updateCount);
 			result = true;
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -869,7 +877,7 @@ public class DataAccessObject implements DataAccessI {
 			checkWarning(stmt, updateCount);
 			result = true;
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -902,7 +910,7 @@ public class DataAccessObject implements DataAccessI {
 			checkWarning(stmt, updateCount);
 			result = true;
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -923,7 +931,7 @@ public class DataAccessObject implements DataAccessI {
 				throw new NullPointerException("No username is set");
 			}
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		return username;
 	}
@@ -948,7 +956,7 @@ public class DataAccessObject implements DataAccessI {
 				checkWarning(stmt, updateCount);
 				result = true;
 			} catch(SQLException e) {
-				System.out.println(e.toString());
+				e.printStackTrace();
 			}
 		} catch (NullPointerException npe) {
 			try {
@@ -958,7 +966,7 @@ public class DataAccessObject implements DataAccessI {
 				checkWarning(stmt, updateCount);
 				result = true;
 			} catch(SQLException e) {
-				System.out.println(e.toString());
+				e.printStackTrace();
 			}
 		}
 		return result;
@@ -975,9 +983,6 @@ public class DataAccessObject implements DataAccessI {
 			}
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
-		}
-		if (updateCount < 1) {
-			System.out.println("Tuple not inserted correctly.");
 		}
 	}
 }

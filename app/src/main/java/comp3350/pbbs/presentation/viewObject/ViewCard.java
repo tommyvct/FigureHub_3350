@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -123,10 +124,18 @@ public class ViewCard extends Activity {
             Intent intent = new Intent(view.getContext(), UpdateCard.class);
             intent.putExtra("toUpdate", card);
             startActivityForResult(intent, 0);
-            finish();
+//            finish();
         });
         lineChart.getLegend().setEnabled(false);
         setLineChartValues();
+
+        if (card.isDebit())
+        {
+            findViewById(R.id.view_accounts_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.view_accounts_button).setOnClickListener(
+                    view -> startActivity(new Intent(view.getContext(), ViewBankAccount.class)
+                            .putExtra("DebitCard", card)));
+        }
     }
 
     /**
@@ -214,5 +223,13 @@ public class ViewCard extends Activity {
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2)
+        {
+            finish();
+        }
+    }
 }
