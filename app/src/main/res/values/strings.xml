@@ -34,5 +34,6 @@
     <string name="mark_inactive">Mark Inactive</string>
     <string name="update_card_information">Update Card Information</string>
     <string name="change_user_name">Change name</string>
+    <string name="view_accounts">View Accounts</string>
     <!--    <string name="authenticate">Authenticate</string>-->
 </resources>

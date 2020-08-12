@@ -14,7 +14,7 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.business.AccessCard;
-import comp3350.pbbs.business.AccessValidation;
+import comp3350.pbbs.business.Validation;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Card;
 
@@ -97,7 +97,7 @@ public class AddCard extends AppCompatActivity {
             }
 
             if (!debit || !(validThruMonth.getText().toString().isEmpty() && validThruYear.getText().toString().isEmpty())) {
-                switch (AccessValidation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
+                switch (Validation.isValidExpirationDate(validThruMonth.getText().toString(), validThruYear.getText().toString())) {
                     case 1:  // invalid month
                         validThruMonth.setError("There is no such month!");
                         valid = false;
@@ -143,7 +143,7 @@ public class AddCard extends AppCompatActivity {
             if (!debit && payday.getText().toString().isEmpty()) {
                 payday.setError("Which day of month do you need to pay this card?");
                 valid = false;
-            } else if (!debit && !AccessValidation.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
+            } else if (!debit && !Validation.isValidPayDate(Integer.parseInt(payday.getText().toString())))   // validate fields, use methods from business class
             {
                 payday.setError("There is no such day in a month!");
                 valid = false;
@@ -152,7 +152,7 @@ public class AddCard extends AppCompatActivity {
             if (cardholderName.getText().toString().trim().isEmpty()) {
                 cardholderName.setError("Provide a cardholder name.");
                 valid = false;
-            } else if (!AccessValidation.isValidName(cardholderName.getText().toString().trim()))   // validate fields, use methods from business class
+            } else if (!Validation.isValidName(cardholderName.getText().toString().trim()))   // validate fields, use methods from business class
             {
                 cardholderName.setError("Cardholder name can only contain letters, period and dash.");
                 valid = false;

@@ -11,13 +11,13 @@ import java.util.Date;
 import static comp3350.pbbs.business.AccessTransaction.DATE_FORMATS;
 
 /**
- * AccessValidation
+ * Validation
  * Group4
  * PBBS
  *
- * This class creates an AccessValidation class for the business layer.
+ * This class creates an Validation class for the business layer.
  */
-public class AccessValidation {
+public class Validation {
     private static final String REGEX = "^[a-zA-Z \\-.']*$";    // the format of a name
 
     /**
