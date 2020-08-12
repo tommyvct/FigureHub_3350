@@ -49,4 +49,8 @@ public class TestAccessBankAccount extends TestCase {
         assertTrue(accessBankAccount.updateBankAccount(bankAccount, bA));
         assertFalse(accessBankAccount.updateBankAccount(bankAccount, bA));
     }
+
+    public void tearDown() {
+        DataAccessController.closeDataAccess();
+    }
 }
