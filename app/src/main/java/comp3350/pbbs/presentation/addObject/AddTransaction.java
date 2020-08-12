@@ -200,6 +200,19 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
                     setResult(1);
                     finish();
                 }
+                else if (accessTransaction.addTransaction
+                    (
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+                            dateText.getText().toString(),
+                            timeText.getText().toString(),
+                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+                    ))
+                {
+                    setResult(1);
+                    finish();
+                }
                 else
                 {
                     Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();

@@ -49,28 +49,24 @@ public class ViewBankAccount extends AppCompatActivity
             bankAccountArrayList = accessBankAccount.getBankAccountsFromDebitCard(debitCard);
             Objects.requireNonNull(getSupportActionBar()).setSubtitle(debitCard.toStringShort());
             findViewById(R.id.add_bank_account_fab).setOnClickListener(view ->
-            {
-                AddBankAccountDialogue.dialogue(view.getContext(), debitCard, () ->
+                AddBankAccountDialogue.addBankAccountDialogue(view.getContext(), debitCard, accessBankAccount, () ->
                 {
-                    bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
-                    listViewAdapter.clear();
-                    listViewAdapter.addAll(bankAccountArrayList);
-                    listViewAdapter.notifyDataSetChanged();
-                });
-            });
+                   bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
+                   listViewAdapter.clear();
+                   listViewAdapter.addAll(bankAccountArrayList);
+                   listViewAdapter.notifyDataSetChanged();
+                }));
         }
 
         listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,bankAccountArrayList);
         bankAccountListView.setAdapter(listViewAdapter);
         bankAccountListView.setOnItemClickListener((adapterView, view, i, l) ->
-        {
-            UpdateBankAccountDialogue.dialogue(view.getContext(), bankAccountArrayList.get(i), () ->
+            UpdateBankAccountDialogue.updateBankAccountDialogue(view.getContext(), bankAccountArrayList.get(i), accessBankAccount, () ->
             {
-                bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
-                listViewAdapter.clear();
-                listViewAdapter.addAll(bankAccountArrayList);
-                listViewAdapter.notifyDataSetChanged();
-            });
-        });
+               bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
+               listViewAdapter.clear();
+               listViewAdapter.addAll(bankAccountArrayList);
+               listViewAdapter.notifyDataSetChanged();
+            }));
     }
 }
