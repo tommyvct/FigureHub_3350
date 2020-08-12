@@ -45,21 +45,12 @@ public class BankAccount implements Serializable {
         return linkedCard;
     }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
+    public boolean equals(Object o) {
+        boolean result = false;
+        if(o instanceof BankAccount) {
+            result = this.accountNumber.equals(((BankAccount)o).accountNumber);
         }
-        if (o == null || getClass() != o.getClass())
-        {
-            return false;
-        }
-
-        BankAccount account = (BankAccount) o;
-
-        return accountNumber.equals(account.accountNumber);
+        return result;
     }
 
     @Override
@@ -67,7 +58,6 @@ public class BankAccount implements Serializable {
     {
         return accountNumber.hashCode();
     }
-
 
     @Override
     public String toString()
