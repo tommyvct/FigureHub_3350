@@ -11,15 +11,15 @@ public class TestNotificationObservable extends TestCase {
         observable = NotificationObservable.getInstance();
     }
 
-    public void testValidData(){
+    public void testValid(){
         //verify we start with no observers
         assertEquals(0, observable.getNumObservers());
         //Test adding observers
         StubNotificationObserver stub1 = new StubNotificationObserver();
-        assertTrue(observable.attach(new StubNotificationObserver()));
+        assertTrue(observable.attach(stub1));
         assertEquals(1, observable.getNumObservers());
 
-        StubNotificationObserver[] stubArray = new StubNotificationObserver[10];
+        StubNotificationObserver[] stubArray = new StubNotificationObserver[5];
         for(int i = 0; i < 5; i++){
             stubArray[i] = new StubNotificationObserver();
             assertTrue(observable.attach(stubArray[i]));
@@ -36,6 +36,8 @@ public class TestNotificationObservable extends TestCase {
             assertTrue(observable.detach(stubArray[i]));
         }
         assertEquals(1, observable.getNumObservers());
+        assertTrue(observable.detach(stub1));
+        assertEquals(0, observable.getNumObservers());
     }
 
     public void testInvalid(){

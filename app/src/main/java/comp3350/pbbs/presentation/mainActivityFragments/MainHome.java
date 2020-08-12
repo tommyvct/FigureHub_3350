@@ -45,6 +45,9 @@ public class MainHome extends Fragment implements NotificationObserver {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        observable = NotificationObservable.getInstance();
+        observable.attach(this);
+        updateNotifications();
     }
 
     @SuppressLint("SetTextI18n")
@@ -63,10 +66,8 @@ public class MainHome extends Fragment implements NotificationObserver {
         });
 
         //Notifications
-        observable = NotificationObservable.getInstance();
-        observable.attach(this);
+
         listView = view.findViewById(R.id.notificationList);
-        updateNotifications();
         listViewAdaptor = new ArrayAdapter<>(
                 requireActivity(),
                 android.R.layout.simple_list_item_1,
