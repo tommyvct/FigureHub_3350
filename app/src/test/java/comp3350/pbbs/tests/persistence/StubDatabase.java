@@ -147,8 +147,7 @@ public class StubDatabase implements DataAccessI {
      */
     public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
         int index = accounts.indexOf(toUpdate);
-        int updateValid = accounts.indexOf(newAccount); //update will be valid if the newAccount doesn't cause any duplication
-        if (index >= 0 && updateValid <= 0) {
+        if (index >= 0 && !findBankAccount(newAccount)) {
             accounts.set(index, newAccount);
             return true;
         }
