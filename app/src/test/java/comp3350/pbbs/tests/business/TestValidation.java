@@ -7,13 +7,13 @@ import java.util.Calendar;
 import comp3350.pbbs.business.Validation;
 
 /**
- * TestAccessValidation
+ * TestValidation
  * Group4
  * PBBS
  *
  * This class tests Validation class
  */
-public class TestAccessValidation extends TestCase {
+public class TestValidation extends TestCase {
 
     /**
      * Testing Valid input
