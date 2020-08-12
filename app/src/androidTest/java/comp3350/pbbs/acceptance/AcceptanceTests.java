@@ -10,6 +10,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
+import androidx.transition.Transition;
 
 import static androidx.test.espresso.Espresso.*;
 import static androidx.test.espresso.action.ViewActions.*;
@@ -21,25 +22,33 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import comp3350.pbbs.R;
+import comp3350.pbbs.application.Main;
+import comp3350.pbbs.persistence.DataAccessController;
+import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.presentation.Auth;
 
-@RunWith(AndroidJUnit4.class)
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+
 @LargeTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AcceptanceTests {
 
     @Rule
     public ActivityTestRule<Auth> auth = new ActivityTestRule<>(Auth.class);
 
-//    @Test
-//    public void testFirstActivity(){
-//        //REINSTALL THE APP EVERY TIME YOU RUN THE ACCEPTANCE TEST
-//        onView(withId(R.id.textView5)).check(matches(isDisplayed()));
-//        onView(withId(R.id.textBox)).perform(typeText("Aziz"));
-//        Espresso.closeSoftKeyboard();
-//        onView(withText("CONTINUE")).perform(click());
-//        onView(withText("Hello, Aziz!")).check(matches(isDisplayed()));
-//        onView(withText("CHANGE NAME")).check(matches(isDisplayed()));
-//    }
+    @Test
+    public void testAfirstActivity() {
+        //REINSTALL THE APP EVERY TIME YOU RUN THE ACCEPTANCE TEST
+        onView(withId(R.id.textView5)).check(matches(isDisplayed()));
+        onView(withId(R.id.textBox)).perform(typeText("Aziz"));
+        Espresso.closeSoftKeyboard();
+        onView(withText("CONTINUE")).perform(click());
+        onView(withText("Hello, Aziz!")).check(matches(isDisplayed()));
+        onView(withText("CHANGE NAME")).check(matches(isDisplayed()));
+    }
 
     @Test
     public void testBudgetCategories() {
@@ -99,28 +108,41 @@ public class AcceptanceTests {
         Espresso.pressBack();
 
         //testing add debit card
+        onView(withId(R.id.main_cards)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.addObjectFAB)).perform(click());
+        onView(withId(R.id.addDebitRadioButton)).perform(click());
+        onView(withId(R.id.cardName)).perform(typeText("NewDebitCard"));
+        onView(withId(R.id.cardNumber)).perform(typeText("12312312333"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.ValidThruMonth)).perform(typeText("2"));
+        onView(withId(R.id.validThruYear)).perform(typeText("22"));
+        onView(withId(R.id.cardholderName)).perform(typeText("Aziz"));
+        onView(withId(R.id.addDebitDefaultBankAccountName)).perform(typeText("TD Bank"));
+        onView(withId(R.id.addDebitDefaultBankAccountNumber)).perform(typeText("654567"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.addCardSubmit)).perform(click());
+        Espresso.pressBack();
 
     }
 
-//    @Test
-//    public void testTransactions(){
-//        //testing the add function
-//        onView(withId(R.id.main_transactions)).check(matches(isDisplayed())).perform(click());
-//        onView(withId(R.id.addObjectFAB)).perform(click());
-//        onView(withId(R.id.addTransDescription)).perform(typeText("NewTransaction"));
-//        Espresso.closeSoftKeyboard();
-//        onView(withId(R.id.dateInput)).perform(click());
-//        onView(withText("OK")).perform(click());
-//        onView(withId(R.id.timeInput)).perform(click());
-//        onView(withText("OK")).perform(click());
-//        onView(withId(R.id.addTransAmount)).check(matches(isDisplayed())).perform(typeText("20.00"));
-//        Espresso.closeSoftKeyboard();
-//        onView(withId(R.id.cardSelector)).perform(click());
-//        onView(withText("NewCreditCard 123412341234")).perform(click());
-//        onView(withId(R.id.budgetSelector)).perform(click());
-//        onView(withText("UpdatedBudget")).perform(click());
-//        onView(withId(R.id.addTransSubmit)).perform(click());
-//        Espresso.pressBack();
-//    }
+    @Test
+    public void testTransactions() {
+        //testing the add function
+        onView(withId(R.id.main_transactions)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.addObjectFAB)).perform(click());
+        onView(withId(R.id.addTransDescription)).perform(typeText("NewTransaction"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.dateInput)).perform(click());
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.timeInput)).perform(click());
+        onView(withText("OK")).perform(click());
+        onView(withId(R.id.addTransAmount)).check(matches(isDisplayed())).perform(typeText("20.00"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.cardSelector)).perform(click());
+        onView(withText("NewCreditCard 123412341234")).perform(click());
+        onView(withId(R.id.budgetSelector)).perform(click());
+        onView(withText("UpdatedBudget")).perform(click());
+        onView(withId(R.id.addTransSubmit)).perform(click());
+        Espresso.pressBack();
+    }
 }
-
