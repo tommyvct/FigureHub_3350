@@ -59,7 +59,7 @@ public class AccessBudgetCategory {
         boolean result = false;
         if ((limitFlt = Parser.parseAmount(limit)) != null && limitFlt > 0 && Validation.isValidName(label) && label.length() > 0) {
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
-            if (!findBudgetCategory(newBC))
+            //if (!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
         }
         return result;
