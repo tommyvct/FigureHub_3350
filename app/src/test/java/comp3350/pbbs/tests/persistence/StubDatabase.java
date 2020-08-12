@@ -437,7 +437,7 @@ public class StubDatabase implements DataAccessI {
      *
      * @param dataAccess a variable to represent the current database
      */
-    static void populateData(DataAccessI dataAccess) {
+    public static void populateData(DataAccessI dataAccess) {
         BudgetCategory rent, groceries, utilities, phoneBill;   //various types of BudgetCategories
         Card card1, card2, card3, card4, card5;                                      //variables for multiple cards
         Transaction t1, t2, t3, t4;                             //variables for multiple transactions
