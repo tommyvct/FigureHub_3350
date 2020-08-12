@@ -28,7 +28,7 @@ import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.business.AccessCard;
 import comp3350.pbbs.business.AccessTransaction;
-import comp3350.pbbs.business.AccessValidation;
+import comp3350.pbbs.business.Validation;
 import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
@@ -170,16 +170,16 @@ public class UpdateTransaction extends AppCompatActivity implements OnItemSelect
             boolean valid = true;
 
             // validate fields, use methods from business class
-            if (!AccessValidation.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
+            if (!Validation.isValidDateTime(dateText.getText().toString(), timeText.getText().toString())) {
                 timeText.setError("Invalid time.");
                 dateText.setError("Invalid date.");
                 valid = false;
             }
-            if (!AccessValidation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
+            if (!Validation.isValidAmount(((EditText) findViewById(R.id.addTransAmount)).getText().toString())) {
                 ((EditText) findViewById(R.id.addTransAmount)).setError("Invalid amount.");
                 valid = false;
             }
-            if (!AccessValidation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
+            if (!Validation.isValidDescription(((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim())) {
                 ((EditText) findViewById(R.id.addTransDescription)).setError("Invalid description.");
                 valid = false;
             }

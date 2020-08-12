@@ -4,14 +4,14 @@ import junit.framework.TestCase;
 
 import java.util.Calendar;
 
-import comp3350.pbbs.business.AccessValidation;
+import comp3350.pbbs.business.Validation;
 
 /**
  * TestAccessValidation
  * Group4
  * PBBS
  *
- * This class tests AccessValidation class
+ * This class tests Validation class
  */
 public class TestAccessValidation extends TestCase {
 
@@ -20,42 +20,42 @@ public class TestAccessValidation extends TestCase {
      */
     public void testValidInput() {
         //Testing isValidName()
-        assertTrue(AccessValidation.isValidName("cool name"));
-        assertTrue(AccessValidation.isValidName(" cool name "));
-        assertTrue(AccessValidation.isValidName("COOL NAME"));
-        assertTrue(AccessValidation.isValidName(" name"));
-        assertTrue(AccessValidation.isValidName("cool "));
-        assertTrue(AccessValidation.isValidName("c. n."));
+        assertTrue(Validation.isValidName("cool name"));
+        assertTrue(Validation.isValidName(" cool name "));
+        assertTrue(Validation.isValidName("COOL NAME"));
+        assertTrue(Validation.isValidName(" name"));
+        assertTrue(Validation.isValidName("cool "));
+        assertTrue(Validation.isValidName("c. n."));
 
         //Testing isValidExpirationDate()
-        assertEquals(0, AccessValidation.isValidExpirationDate("1", "2068"));
-        assertEquals(0, AccessValidation.isValidExpirationDate("12", "2068"));
+        assertEquals(0, Validation.isValidExpirationDate("1", "2068"));
+        assertEquals(0, Validation.isValidExpirationDate("12", "2068"));
 
         //Testing isValidPayDay()
-        assertTrue(AccessValidation.isValidPayDate(1));
-        assertTrue(AccessValidation.isValidPayDate(15));
-        assertTrue(AccessValidation.isValidPayDate(31));
+        assertTrue(Validation.isValidPayDate(1));
+        assertTrue(Validation.isValidPayDate(15));
+        assertTrue(Validation.isValidPayDate(31));
 
         //Testing isValidDateTime()
-        assertTrue(AccessValidation.isValidDateTime("30/3/2020", "0:00"));
-        assertTrue(AccessValidation.isValidDateTime("30/3/2020", "2:30"));
-        assertTrue(AccessValidation.isValidDateTime("30-3-2020", "23:59"));
+        assertTrue(Validation.isValidDateTime("30/3/2020", "0:00"));
+        assertTrue(Validation.isValidDateTime("30/3/2020", "2:30"));
+        assertTrue(Validation.isValidDateTime("30-3-2020", "23:59"));
 
         //Test isValidAmount()
-        assertTrue(AccessValidation.isValidAmount("20.00"));
-        assertTrue(AccessValidation.isValidAmount("1.20"));
-        assertTrue(AccessValidation.isValidAmount("0.89"));
-        assertTrue(AccessValidation.isValidAmount("12345.56"));
-        assertTrue(AccessValidation.isValidAmount("20"));
-        assertTrue(AccessValidation.isValidAmount("0000000000123456789"));
-        assertTrue(AccessValidation.isValidAmount("00000000001234567.89"));
+        assertTrue(Validation.isValidAmount("20.00"));
+        assertTrue(Validation.isValidAmount("1.20"));
+        assertTrue(Validation.isValidAmount("0.89"));
+        assertTrue(Validation.isValidAmount("12345.56"));
+        assertTrue(Validation.isValidAmount("20"));
+        assertTrue(Validation.isValidAmount("0000000000123456789"));
+        assertTrue(Validation.isValidAmount("00000000001234567.89"));
 
         //Testing isValidDescription()
-        assertTrue(AccessValidation.isValidDescription("Bought groceries."));
-        assertTrue(AccessValidation.isValidDescription("1234"));
-        assertTrue(AccessValidation.isValidDescription("  Bought groceries  "));
-        assertTrue(AccessValidation.isValidDescription("<<>>>????:::{{{}}}"));
-        assertTrue(AccessValidation.isValidDescription("<BOUGHT groceries>"));
+        assertTrue(Validation.isValidDescription("Bought groceries."));
+        assertTrue(Validation.isValidDescription("1234"));
+        assertTrue(Validation.isValidDescription("  Bought groceries  "));
+        assertTrue(Validation.isValidDescription("<<>>>????:::{{{}}}"));
+        assertTrue(Validation.isValidDescription("<BOUGHT groceries>"));
     }
 
     /**
@@ -63,37 +63,37 @@ public class TestAccessValidation extends TestCase {
      */
     public void testNullAndEmpty() {
         //Testing isValidName()
-        assertFalse(AccessValidation.isValidName(""));
-        assertFalse(AccessValidation.isValidName(" "));
-        assertFalse(AccessValidation.isValidName(null));
+        assertFalse(Validation.isValidName(""));
+        assertFalse(Validation.isValidName(" "));
+        assertFalse(Validation.isValidName(null));
 
         //Testing isValidExpirationDate()
-        assertEquals(7, AccessValidation.isValidExpirationDate("", "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate(" ", "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate(null, "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", ""));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", " "));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", null));
+        assertEquals(7, Validation.isValidExpirationDate("", "2068"));
+        assertEquals(7, Validation.isValidExpirationDate(" ", "2068"));
+        assertEquals(7, Validation.isValidExpirationDate(null, "2068"));
+        assertEquals(7, Validation.isValidExpirationDate("1", ""));
+        assertEquals(7, Validation.isValidExpirationDate("1", " "));
+        assertEquals(7, Validation.isValidExpirationDate("1", null));
 
         //Testing isValidDateTime()
         String testDate = "30/3/2020";
         String testTime = "2:30";
-        assertFalse(AccessValidation.isValidDateTime(testDate, null));
-        assertFalse(AccessValidation.isValidDateTime(testDate, ""));
-        assertFalse(AccessValidation.isValidDateTime(testDate, " "));
-        assertFalse(AccessValidation.isValidDateTime(null, testTime));
-        assertFalse(AccessValidation.isValidDateTime("", testTime));
-        assertFalse(AccessValidation.isValidDateTime(" ", testTime));
+        assertFalse(Validation.isValidDateTime(testDate, null));
+        assertFalse(Validation.isValidDateTime(testDate, ""));
+        assertFalse(Validation.isValidDateTime(testDate, " "));
+        assertFalse(Validation.isValidDateTime(null, testTime));
+        assertFalse(Validation.isValidDateTime("", testTime));
+        assertFalse(Validation.isValidDateTime(" ", testTime));
 
         //Test isValidAmount()
-        assertFalse(AccessValidation.isValidAmount(""));
-        assertFalse(AccessValidation.isValidAmount(" "));
-        assertFalse(AccessValidation.isValidAmount(null));
+        assertFalse(Validation.isValidAmount(""));
+        assertFalse(Validation.isValidAmount(" "));
+        assertFalse(Validation.isValidAmount(null));
 
         //Testing isValidDescription()
-        assertFalse(AccessValidation.isValidDescription(null));
-        assertFalse(AccessValidation.isValidDescription(""));
-        assertFalse(AccessValidation.isValidDescription(" "));
+        assertFalse(Validation.isValidDescription(null));
+        assertFalse(Validation.isValidDescription(""));
+        assertFalse(Validation.isValidDescription(" "));
     }
 
     /**
@@ -101,25 +101,25 @@ public class TestAccessValidation extends TestCase {
      */
     public void testNegativeInput() {
         //Testing isValidExpirationDate()
-        assertEquals(1, AccessValidation.isValidExpirationDate("-1", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("-20", "2068"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "-20"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("-1", "20"));
+        assertEquals(1, Validation.isValidExpirationDate("-1", "2068"));
+        assertEquals(1, Validation.isValidExpirationDate("-20", "2068"));
+        assertEquals(4, Validation.isValidExpirationDate("1", "-20"));
+        assertEquals(4, Validation.isValidExpirationDate("-1", "20"));
 
         //Testing isValidPayDay()
-        assertFalse(AccessValidation.isValidPayDate(-1));
-        assertFalse(AccessValidation.isValidPayDate(-15));
+        assertFalse(Validation.isValidPayDate(-1));
+        assertFalse(Validation.isValidPayDate(-15));
 
         //Testing isValidDateTime()
-        assertFalse(AccessValidation.isValidDateTime("-30/10/2020", "1:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/-10/2020", "1:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/10/-2020", "1:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/10/2020", "-1:00"));
+        assertFalse(Validation.isValidDateTime("-30/10/2020", "1:00"));
+        assertFalse(Validation.isValidDateTime("30/-10/2020", "1:00"));
+        assertFalse(Validation.isValidDateTime("30/10/-2020", "1:00"));
+        assertFalse(Validation.isValidDateTime("30/10/2020", "-1:00"));
 
         //Test isValidAmount()
-        assertFalse(AccessValidation.isValidAmount("-20"));
-        assertFalse(AccessValidation.isValidAmount("-2.52"));
-        assertFalse(AccessValidation.isValidAmount("-0.58"));
+        assertFalse(Validation.isValidAmount("-20"));
+        assertFalse(Validation.isValidAmount("-2.52"));
+        assertFalse(Validation.isValidAmount("-0.58"));
     }
 
     /**
@@ -127,31 +127,31 @@ public class TestAccessValidation extends TestCase {
      */
     public void testInvalidString() {
         //Testing isValidName()
-        assertFalse(AccessValidation.isValidName("X AE A-12"));
+        assertFalse(Validation.isValidName("X AE A-12"));
 
         //Testing isValidExpirationDate()
         Calendar calender = Calendar.getInstance();
         int currYear = calender.get(Calendar.YEAR);
-        assertEquals(5, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear)));
-        assertEquals(6, AccessValidation.isValidExpirationDate("1", Integer.toString(currYear - 1)));
-        assertEquals(7, AccessValidation.isValidExpirationDate("string", "2068"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("1", "string"));
-        assertEquals(7, AccessValidation.isValidExpirationDate("string", "string 2"));
+        assertEquals(5, Validation.isValidExpirationDate("1", Integer.toString(currYear)));
+        assertEquals(6, Validation.isValidExpirationDate("1", Integer.toString(currYear - 1)));
+        assertEquals(7, Validation.isValidExpirationDate("string", "2068"));
+        assertEquals(7, Validation.isValidExpirationDate("1", "string"));
+        assertEquals(7, Validation.isValidExpirationDate("string", "string 2"));
 
         //Testing isValidDateTime()
-        assertFalse(AccessValidation.isValidDateTime("30/3/2020", "\n"));
-        assertFalse(AccessValidation.isValidDateTime("30/3/2020", "time"));
-        assertFalse(AccessValidation.isValidDateTime("\n", "2:30"));
-        assertFalse(AccessValidation.isValidDateTime("date", "2:30"));
+        assertFalse(Validation.isValidDateTime("30/3/2020", "\n"));
+        assertFalse(Validation.isValidDateTime("30/3/2020", "time"));
+        assertFalse(Validation.isValidDateTime("\n", "2:30"));
+        assertFalse(Validation.isValidDateTime("date", "2:30"));
 
         //Test isValidAmount()
-        assertFalse(AccessValidation.isValidAmount("number"));
-        assertFalse(AccessValidation.isValidAmount("\n"));
-        assertFalse(AccessValidation.isValidAmount("one"));
-        assertFalse(AccessValidation.isValidAmount("20.205"));
+        assertFalse(Validation.isValidAmount("number"));
+        assertFalse(Validation.isValidAmount("\n"));
+        assertFalse(Validation.isValidAmount("one"));
+        assertFalse(Validation.isValidAmount("20.205"));
 
         //Testing isValidDescription()
-        assertFalse(AccessValidation.isValidDescription("\n"));
+        assertFalse(Validation.isValidDescription("\n"));
     }
 
     /**
@@ -159,27 +159,27 @@ public class TestAccessValidation extends TestCase {
      */
     public void testOutOfBounds() {
         //Testing isValidExpirationDate()
-        assertEquals(1, AccessValidation.isValidExpirationDate("13", "2068"));
-        assertEquals(1, AccessValidation.isValidExpirationDate("24", "2068"));
-        assertEquals(2, AccessValidation.isValidExpirationDate("1", "2100"));
-        assertEquals(2, AccessValidation.isValidExpirationDate("1", "3000"));
-        assertEquals(3, AccessValidation.isValidExpirationDate("13", "2100"));
-        assertEquals(3, AccessValidation.isValidExpirationDate("24", "3000"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "900"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "90"));
-        assertEquals(4, AccessValidation.isValidExpirationDate("1", "9"));
+        assertEquals(1, Validation.isValidExpirationDate("13", "2068"));
+        assertEquals(1, Validation.isValidExpirationDate("24", "2068"));
+        assertEquals(2, Validation.isValidExpirationDate("1", "2100"));
+        assertEquals(2, Validation.isValidExpirationDate("1", "3000"));
+        assertEquals(3, Validation.isValidExpirationDate("13", "2100"));
+        assertEquals(3, Validation.isValidExpirationDate("24", "3000"));
+        assertEquals(4, Validation.isValidExpirationDate("1", "900"));
+        assertEquals(4, Validation.isValidExpirationDate("1", "90"));
+        assertEquals(4, Validation.isValidExpirationDate("1", "9"));
 
         //Testing isValidPayDay()
-        assertFalse(AccessValidation.isValidPayDate(0));
-        assertFalse(AccessValidation.isValidPayDate(32));
-        assertFalse(AccessValidation.isValidPayDate(64));
+        assertFalse(Validation.isValidPayDate(0));
+        assertFalse(Validation.isValidPayDate(32));
+        assertFalse(Validation.isValidPayDate(64));
 
         //Testing isValidDateTime()
-        assertFalse(AccessValidation.isValidDateTime("30/3/2020", "24:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/3/2020", "48:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/3/2020", "23:60"));
-        assertFalse(AccessValidation.isValidDateTime("30/13/2020", "0:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/00/2020", "0:00"));
-        assertFalse(AccessValidation.isValidDateTime("30/02/2020", "0:00"));
+        assertFalse(Validation.isValidDateTime("30/3/2020", "24:00"));
+        assertFalse(Validation.isValidDateTime("30/3/2020", "48:00"));
+        assertFalse(Validation.isValidDateTime("30/3/2020", "23:60"));
+        assertFalse(Validation.isValidDateTime("30/13/2020", "0:00"));
+        assertFalse(Validation.isValidDateTime("30/00/2020", "0:00"));
+        assertFalse(Validation.isValidDateTime("30/02/2020", "0:00"));
     }
 }

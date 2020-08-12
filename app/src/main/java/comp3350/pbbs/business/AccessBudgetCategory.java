@@ -1,13 +1,10 @@
 package comp3350.pbbs.business;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.objects.BudgetCategory;
-import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccessI;
 
 /**
@@ -60,7 +57,7 @@ public class AccessBudgetCategory {
     public boolean insertBudgetCategory(String label, String limit) {
         Float limitFlt;
         boolean result = false;
-        if ((limitFlt = Parser.parseAmount(limit)) != null && limitFlt > 0 && AccessValidation.isValidName(label) && label.length() > 0) {
+        if ((limitFlt = Parser.parseAmount(limit)) != null && limitFlt > 0 && Validation.isValidName(label) && label.length() > 0) {
             BudgetCategory newBC = new BudgetCategory(label, limitFlt);
             if (!findBudgetCategory(newBC))
                 result = insertBudgetCategoryParsed(newBC);
@@ -93,7 +90,7 @@ public class AccessBudgetCategory {
     public boolean updateBudgetCategory(BudgetCategory oldBudgetCategory, String newLabel, String newLimit) {
         Float newLimitFlt;
         boolean result = false;
-        if (oldBudgetCategory != null && (newLimitFlt = Parser.parseAmount(newLimit)) != null && newLimitFlt > 0 && AccessValidation.isValidName(newLabel))
+        if (oldBudgetCategory != null && (newLimitFlt = Parser.parseAmount(newLimit)) != null && newLimitFlt > 0 && Validation.isValidName(newLabel))
             result = updateBudgetCategoryParsed(oldBudgetCategory, new BudgetCategory(newLabel, newLimitFlt));
         return result;
     }
