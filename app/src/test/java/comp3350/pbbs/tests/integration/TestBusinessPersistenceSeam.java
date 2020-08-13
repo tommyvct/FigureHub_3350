@@ -2,8 +2,9 @@ package comp3350.pbbs.tests.integration;
 
 import junit.framework.TestCase;
 
+import java.util.Calendar;
 import java.util.Date;
-import java.sql.SQLException;
+import java.util.List;
 
 import comp3350.pbbs.application.Main;
 import comp3350.pbbs.business.*;
@@ -164,36 +165,134 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
-	/**
-	 * boolean findTransaction(Transaction currentTransaction);
-	 *     boolean insertTransaction(Transaction newTransaction);
-	 *     List<Transaction> getTransactions();
-	 *     boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
-	 *     boolean deleteTransaction(Transaction currentTransaction);
-	 *     int getTransactionsSize();
-	 */
-	public void testAccessTransaction() {
+	public void testBankAccountCardLinker() {
 		DataAccessController.closeDataAccess();
 		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
 
-		AccessBudgetCategory abc = new AccessBudgetCategory();
-		AccessTransaction at = new AccessTransaction();
-		AccessCard ac = new AccessCard();
+		// create objects for testing
+		BankAccountCardLinker bcLinker = new BankAccountCardLinker();
+		Card myICBC = new Card("ICBC debit", "9009800870076006", "Hao Zheng", 6, 2024);
+		BankAccount my1stICBC = new BankAccount("1stICBC", "888888", myICBC);
+		BankAccount my2ndICBC = new BankAccount("2ndICBC", "666666", myICBC);
+		int numOfNewAccounts = 0;
 
-		Date date = new Date();
-		String desc = "double creams";
-		String time = "3:33";
-		String amt = "2.99";
-		BudgetCategory bc = new BudgetCategory("Coffee", 30);
-		Card c = new Card("test1", "1000200030004000", "Hao", 12, 2022, 6);
+		// test bank account from a new card inserted into db
+		dataAccess.insertCard(myICBC);
+		dataAccess.insertBankAccount(my1stICBC);
+		assertEquals(bcLinker.getAccountsFromDebitCard(myICBC).get(numOfNewAccounts), my1stICBC);
 
-		abc.insertBudgetCategory("Coffee", "30");
-		ac.insertCard(c);
-		Transaction t1 = new Transaction(date, Float.parseFloat(amt), desc, c, bc);
+		// test bank account from an existed card inserted into db
+		dataAccess.insertBankAccount(my2ndICBC);
+		numOfNewAccounts++;
+		assertEquals(bcLinker.getAccountsFromDebitCard(myICBC).get(numOfNewAccounts), my2ndICBC);
 
-		//assertTrue(at.retrieveTransactions(dataAccess.getTransactions().get(0)));
-		at.addTransaction(desc, date.toString(), time, amt, c, bc);
-		//assertTrue(dataAccess.findTransaction(t1));
+		DataAccessController.closeDataAccess();
+	}
+
+	public void testCardTransactionLinker() {
+		DataAccessController.closeDataAccess();
+		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
+
+		// create objects for testing
+		CardTransactionLinker ctLinker = new CardTransactionLinker();
+		BudgetCategory bc = new BudgetCategory("Entertainment", 100);
+		Card card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+		Date date = new Date(2020 - 7 - 15);
+		Calendar transMonth = Calendar.getInstance();
+		transMonth.setTime(date);
+
+		// insert budget category and card for transactions
+		dataAccess.insertBudgetCategory(bc);
+		dataAccess.insertCard(card);
+
+		// test calculating card total for single transaction
+		Transaction t1 = new Transaction(date, 25.50f, "Watched a movie", card, bc);
+		dataAccess.insertTransaction(t1);
+		assertEquals(ctLinker.calculateCardTotal(card, transMonth), t1.getAmount());
+
+		// test calculating card total for multiple transactions
+		Transaction t2 = new Transaction(date, 29.99f, "Bought a discounted game", card, bc);
+		dataAccess.insertTransaction(t2);
+		assertEquals(ctLinker.calculateCardTotal(card, transMonth), t1.getAmount() + t2.getAmount());
+
+		// test getting active months for single transaction
+		List<Calendar> listOfMonths = ctLinker.getActiveMonths(card);
+		assertEquals(listOfMonths.size(), 1);
+		transMonth.set(Calendar.DAY_OF_MONTH, 1);
+		transMonth.set(Calendar.HOUR_OF_DAY, 0);
+		transMonth.set(Calendar.HOUR, 0);
+		transMonth.set(Calendar.MINUTE, 0);
+		transMonth.set(Calendar.SECOND, 0);
+		transMonth.set(Calendar.MILLISECOND, 0);
+		assertTrue(listOfMonths.contains(transMonth));
+
+		// test getting active months for multiple transactions
+		transMonth.set(2020, 6, 6);
+		Transaction t3 = new Transaction(transMonth.getTime(), 10.00f, "Bought a lottery", card, bc);
+		dataAccess.insertTransaction(t3);
+		listOfMonths = ctLinker.getActiveMonths(card);
+		assertEquals(listOfMonths.size(), 2);
+		transMonth.set(Calendar.DAY_OF_MONTH, 1);
+		transMonth.set(Calendar.HOUR_OF_DAY, 0);
+		transMonth.set(Calendar.HOUR, 0);
+		transMonth.set(Calendar.MINUTE, 0);
+		transMonth.set(Calendar.SECOND, 0);
+		transMonth.set(Calendar.MILLISECOND, 0);
+		assertTrue(listOfMonths.contains(transMonth));
+
+		DataAccessController.closeDataAccess();
+	}
+
+	public void testBudgetCategoryTransactionLinker() {
+		DataAccessController.closeDataAccess();
+		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
+
+		// create objects for testing
+		BudgetCategoryTransactionLinker bctLinker = new BudgetCategoryTransactionLinker();
+		BudgetCategory bc = new BudgetCategory("Entertainment", 100);
+		Card card = new Card("mastercard", "1001200230034004", "Si-Chuan Hotpot", 12, 2024, 12);
+		Date date = new Date(2020 - 7 - 15);
+		Calendar transMonth = Calendar.getInstance();
+		transMonth.setTime(date);
+
+		// insert budget category and card for transactions
+		dataAccess.insertBudgetCategory(bc);
+		dataAccess.insertCard(card);
+
+		// test calculating budget total for single transaction
+		Transaction t1 = new Transaction(date, 25.50f, "Watched a movie", card, bc);
+		dataAccess.insertTransaction(t1);
+		assertEquals(bctLinker.calculateBudgetCategoryTotal(bc, transMonth), t1.getAmount());
+
+		// test calculating budget total for multiple transactions
+		Transaction t2 = new Transaction(date, 29.99f, "Bought a discounted game", card, bc);
+		dataAccess.insertTransaction(t2);
+		assertEquals(bctLinker.calculateBudgetCategoryTotal(bc, transMonth), t1.getAmount() + t2.getAmount());
+
+		// test getting active months for single transaction
+		List<Calendar> listOfMonths = bctLinker.getActiveMonths(bc);
+		assertEquals(listOfMonths.size(), 1);
+		transMonth.set(Calendar.DAY_OF_MONTH, 1);
+		transMonth.set(Calendar.HOUR_OF_DAY, 0);
+		transMonth.set(Calendar.HOUR, 0);
+		transMonth.set(Calendar.MINUTE, 0);
+		transMonth.set(Calendar.SECOND, 0);
+		transMonth.set(Calendar.MILLISECOND, 0);
+		assertTrue(listOfMonths.contains(transMonth));
+
+		// test getting active months for multiple transactions
+		transMonth.set(2020, 6, 6);
+		Transaction t3 = new Transaction(transMonth.getTime(), 10.00f, "Bought a lottery", card, bc);
+		dataAccess.insertTransaction(t3);
+		listOfMonths = bctLinker.getActiveMonths(bc);
+		assertEquals(listOfMonths.size(), 2);
+		transMonth.set(Calendar.DAY_OF_MONTH, 1);
+		transMonth.set(Calendar.HOUR_OF_DAY, 0);
+		transMonth.set(Calendar.HOUR, 0);
+		transMonth.set(Calendar.MINUTE, 0);
+		transMonth.set(Calendar.SECOND, 0);
+		transMonth.set(Calendar.MILLISECOND, 0);
+		assertTrue(listOfMonths.contains(transMonth));
 
 		DataAccessController.closeDataAccess();
 	}
