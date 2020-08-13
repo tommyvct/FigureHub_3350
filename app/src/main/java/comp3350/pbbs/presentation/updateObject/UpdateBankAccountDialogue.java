@@ -15,61 +15,60 @@ import java.util.Objects;
 import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBankAccount;
 import comp3350.pbbs.objects.BankAccount;
+import comp3350.pbbs.presentation.addObject.AddBankAccountDialogue;
 
 public class UpdateBankAccountDialogue
 {
-    public interface IDialogueCallback
+
+    public static void updateBankAccountDialogue(Context context, BankAccount oldBankAccount, AccessBankAccount accessBankAccount, AddBankAccountDialogue.IDialogueCallback callback)
     {
-        void onDismiss();
-    }
+        AddBankAccountDialogue.dialogue(context, callback, (bankAccountName, bankAccountNumber) -> accessBankAccount.updateBankAccount(oldBankAccount, new BankAccount(bankAccountName, bankAccountNumber, oldBankAccount.getLinkedCard())), oldBankAccount);
 
-    public static void dialogue(Context context, BankAccount oldBankAccount, IDialogueCallback callback)
-    {
-        AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.setTitle("Update Bank Account");
-
-        final View layout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialogue_add_bank_account, null);
-
-        dialog.setView(layout);
-        EditText bankAccountName = layout.findViewById(R.id.addBankAccountName);
-        EditText bankAccountNumber = layout.findViewById(R.id.addBankAccountNumber);
-        bankAccountName.setText(oldBankAccount.getAccountName());
-        bankAccountNumber.setText(oldBankAccount.getAccountNumber());
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setButton(Dialog.BUTTON_POSITIVE, "Update", (DialogInterface.OnClickListener) null);
-        dialog.setButton(Dialog.BUTTON_NEUTRAL, "Cancel", (dialogInterface, i) -> dialog.dismiss());
-        dialog.setOnShowListener((DialogInterface.OnShowListener) dialogInterface -> ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((View.OnClickListener) view ->
-        {
-            if (Objects.requireNonNull(bankAccountNumber).getText().toString().isEmpty())
-            {
-                bankAccountNumber.setError("Provide an account number.");
-                return;
-            }
-
-            try
-            {
-                if (new AccessBankAccount().updateBankAccount(oldBankAccount,
-                        new BankAccount(
-                                Objects.requireNonNull(bankAccountName).getText().toString().trim().isEmpty() ? "No name" : bankAccountName.getText().toString().trim(),
-                                bankAccountNumber.getText().toString().trim(),
-                                oldBankAccount.getLinkedCard()
-                        )))
-                {
-                    Toast.makeText(context, "Added!", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-                else
-                {
-                    Toast.makeText(context, "Failed to update an account.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            catch (IllegalArgumentException ignored)
-            {
-                Toast.makeText(context, "Failed to update an account.", Toast.LENGTH_SHORT).show();
-            }
-        }));
-        dialog.setOnDismissListener(dialogInterface -> callback.onDismiss());
-        dialog.show();
+//        AlertDialog dialog = new AlertDialog.Builder(context).create();
+//        dialog.setTitle("Update Bank Account");
+//
+//        final View layout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialogue_add_bank_account, null);
+//
+//        dialog.setView(layout);
+//        EditText bankAccountName = layout.findViewById(R.id.addBankAccountName);
+//        EditText bankAccountNumber = layout.findViewById(R.id.addBankAccountNumber);
+//        bankAccountName.setText(oldBankAccount.getAccountName());
+//        bankAccountNumber.setText(oldBankAccount.getAccountNumber());
+//        dialog.setCanceledOnTouchOutside(false);
+//        dialog.setButton(Dialog.BUTTON_POSITIVE, "Update", (DialogInterface.OnClickListener) null);
+//        dialog.setButton(Dialog.BUTTON_NEUTRAL, "Cancel", (dialogInterface, i) -> dialog.dismiss());
+//        dialog.setOnShowListener((DialogInterface.OnShowListener) dialogInterface -> ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener((View.OnClickListener) view ->
+//        {
+//            if (Objects.requireNonNull(bankAccountNumber).getText().toString().isEmpty())
+//            {
+//                bankAccountNumber.setError("Provide an account number.");
+//                return;
+//            }
+//
+//            try
+//            {
+//                if (new AccessBankAccount().updateBankAccount(oldBankAccount,
+//                        new BankAccount(
+//                                Objects.requireNonNull(bankAccountName).getText().toString().trim().isEmpty() ? "No name" : bankAccountName.getText().toString().trim(),
+//                                bankAccountNumber.getText().toString().trim(),
+//                                oldBankAccount.getLinkedCard()
+//                        )))
+//                {
+//                    Toast.makeText(context, "Updated!", Toast.LENGTH_SHORT).show();
+//                    dialog.dismiss();
+//                }
+//                else
+//                {
+//                    Toast.makeText(context, "Failed to update an account.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            catch (IllegalArgumentException ignored)
+//            {
+//                Toast.makeText(context, "Failed to update an account.", Toast.LENGTH_SHORT).show();
+//            }
+//        }));
+//        dialog.setOnDismissListener(dialogInterface -> callback.onDismiss());
+//        dialog.show();
     }
 
 }

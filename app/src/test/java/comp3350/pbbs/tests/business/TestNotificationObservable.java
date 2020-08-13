@@ -4,14 +4,24 @@ import junit.framework.TestCase;
 
 import comp3350.pbbs.business.NotificationObservable;
 
+/**
+ * TestNotificationObservable
+ * Group4
+ * PBBS
+ * <p>
+ * This class tests NotificationObservable class
+ */
 public class TestNotificationObservable extends TestCase {
     private NotificationObservable observable;
 
-    public void setUp(){
+    public void setUp() {
         observable = NotificationObservable.getInstance();
     }
 
-    public void testValid(){
+    /**
+     * Testing Success conditions for all methods
+     **/
+    public void testValid() {
         //verify we start with no observers
         assertEquals(0, observable.getNumObservers());
         //Test adding observers
@@ -20,7 +30,7 @@ public class TestNotificationObservable extends TestCase {
         assertEquals(1, observable.getNumObservers());
 
         StubNotificationObserver[] stubArray = new StubNotificationObserver[5];
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             stubArray[i] = new StubNotificationObserver();
             assertTrue(observable.attach(stubArray[i]));
         }
@@ -32,7 +42,7 @@ public class TestNotificationObservable extends TestCase {
         System.out.println("End Testing Valid Observable");
 
         //Test detaching observers
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             assertTrue(observable.detach(stubArray[i]));
         }
         assertEquals(1, observable.getNumObservers());
@@ -40,7 +50,10 @@ public class TestNotificationObservable extends TestCase {
         assertEquals(0, observable.getNumObservers());
     }
 
-    public void testInvalid(){
+    /**
+     * Testing failure conditions for all methods.
+     **/
+    public void testInvalid() {
         //verify we start with no observers
         assertEquals(0, observable.getNumObservers());
         //Test adding observers
@@ -72,9 +85,5 @@ public class TestNotificationObservable extends TestCase {
         System.out.println("End Testing Invalid Observable");
 
         assertEquals(0, observable.getNumObservers());
-    }
-
-    public void tearDown(){
-
     }
 }

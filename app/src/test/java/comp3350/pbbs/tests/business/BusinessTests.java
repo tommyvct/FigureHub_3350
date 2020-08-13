@@ -12,8 +12,9 @@ public class BusinessTests {
         suite.addTestSuite(TestAccessBudgetCategory.class);
         suite.addTestSuite(TestAccessCard.class);
         suite.addTestSuite(TestAccessTransaction.class);
-        suite.addTestSuite(TestAccessValidation.class);
+        suite.addTestSuite(TestValidation.class);
         suite.addTestSuite(TestAccessUser.class);
+        suite.addTestSuite(TestBankAccountCardLinker.class);
         suite.addTestSuite(TestBudgetCategoryTransactionLinker.class);
         suite.addTestSuite(TestCardTransactionLinker.class);
         suite.addTestSuite(TestNotificationObservable.class);
