@@ -4,6 +4,9 @@ import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
+import java.text.DecimalFormat;
+import java.util.Random;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.Espresso;
 
@@ -131,7 +134,7 @@ public class AcceptanceTests {
 
         //testing the update credit card
         onView(withId(R.id.main_cards)).perform(click());
-        onView(withSubstring("NewCredit")).check(matches(isDisplayed())).perform(click());
+        onData(anything()).atPosition(0).perform(click());
         onView(withText("UPDATE CARD INFORMATION")).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.cardName)).perform(clearText(), typeText("UpdatedCreditCard"));
         Espresso.closeSoftKeyboard();
@@ -145,7 +148,7 @@ public class AcceptanceTests {
 
         //testing the update debit card
         onView(withId(R.id.main_cards)).perform(click());
-        onView(withSubstring("NewDebit")).check(matches(isDisplayed())).perform(click());
+        onData(anything()).atPosition(1).perform(click());
         onView(withText("UPDATE CARD INFORMATION")).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.cardName)).perform(clearText(), typeText("UpdatedDebitCard"));
         Espresso.closeSoftKeyboard();
@@ -253,7 +256,8 @@ public class AcceptanceTests {
 
         //clean up
         onView(withId(R.id.editBudgetName)).perform(clearText(), typeText("newValidBudget"));
-        onView(withId(R.id.editBudgetLimit)).perform(clearText(), typeText("10.00"));
+        onView(withId(R.id.editBudgetLimit)).perform(clearText(), typeText("10" +
+                String.valueOf(new DecimalFormat("0.00").format(Math.random())))); //this is added to avoid duplicate budget categories
         onView(withId(R.id.addBudgetSubmit)).perform(click());
         Espresso.pressBack();
 
