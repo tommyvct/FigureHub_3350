@@ -49,8 +49,8 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		BankAccount acc2 = new BankAccount("test2", "2468013579", dataAccess.getCards().get(0));
 		BankAccount acc3 = new BankAccount("test3", "1234500000", dataAccess.getCards().get(1));
 		BankAccount acc4 = new BankAccount("test4", "6789099999", dataAccess.getCards().get(0));
+		BankAccount acc5 = new BankAccount("test5", "1234567890", dataAccess.getCards().get(0));
 
-		assertTrue(aba.findBankAccount(dataAccess.getAllBankAccounts().get(0)));
 		int numOfAcct = dataAccess.getAllBankAccounts().size();
 
 		// will not find a budget category that wasn't inserted
@@ -70,7 +70,7 @@ public class TestBusinessPersistenceSeam extends TestCase {
 
 		// cannot have duplicated bank accounts
 		assertFalse(aba.insertBankAccount(acc1));
-		assertFalse(aba.updateBankAccount(dataAccess.getAllBankAccounts().get(0), acc1));
+		assertFalse(aba.updateBankAccount(dataAccess.getAllBankAccounts().get(numOfAcct - 1), acc1));
 
 		// cannot update a bank account that is pre-stored
 		aba.updateBankAccount(dataAccess.getAllBankAccounts().get(0), acc2);
@@ -87,7 +87,10 @@ public class TestBusinessPersistenceSeam extends TestCase {
 
 		// test the number of accounts of a debit card
 		int count = dataAccess.getAccountsFromDebitCard(dataAccess.getCards().get(0)).size();
-		assertEquals(count, 2);
+		assertEquals(2, count);
+		dataAccess.insertBankAccount(acc5);
+		count = dataAccess.getAccountsFromDebitCard(dataAccess.getCards().get(0)).size();
+		assertEquals(3, count);
 
 		DataAccessController.closeDataAccess();
 	}
@@ -176,24 +179,29 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
 
-		AccessBudgetCategory abc = new AccessBudgetCategory();
 		AccessTransaction at = new AccessTransaction();
-		AccessCard ac = new AccessCard();
 
-		Date date = new Date();
+		String dateStr = "10/10/2020";
 		String desc = "double creams";
 		String time = "3:33";
 		String amt = "2.99";
 		BudgetCategory bc = new BudgetCategory("Coffee", 30);
 		Card c = new Card("test1", "1000200030004000", "Hao", 12, 2022, 6);
+		dataAccess.insertBudgetCategory(bc);
+		dataAccess.insertCard(c);
 
-		abc.insertBudgetCategory("Coffee", "30");
-		ac.insertCard(c);
-		Transaction t1 = new Transaction(date, Float.parseFloat(amt), desc, c, bc);
 
-		//assertTrue(at.retrieveTransactions(dataAccess.getTransactions().get(0)));
-		at.addTransaction(desc, date.toString(), time, amt, c, bc);
-		//assertTrue(dataAccess.findTransaction(t1));
+		assertTrue(at.addTransaction(desc, dateStr, time, amt, c, bc));
+		Transaction t1 = new Transaction(Parser.parseDatetime(dateStr, time), Float.parseFloat(amt), desc, c, bc);
+		assertTrue(dataAccess.findTransaction(t1));
+
+		assertTrue(at.updateTransaction(t1, "lots of sugar", dateStr, time, amt, c, bc));
+		Transaction t2 = new Transaction(Parser.parseDatetime(dateStr, time), Float.parseFloat(amt), "lots of sugar", c, bc);
+		assertFalse(dataAccess.findTransaction(t1));
+		assertTrue(dataAccess.findTransaction(t2));
+
+		assertTrue(at.deleteTransaction(t2));
+		assertFalse(dataAccess.findTransaction(t1));
 
 		DataAccessController.closeDataAccess();
 	}
