@@ -78,11 +78,11 @@ public class TestAccessBudgetCategory extends TestCase {
 
         //Update an existing category
         BudgetCategory newBC3 = new BudgetCategory("Furniture", 100);
-        assertTrue(accessBudgetCategory.updateBudgetCategory(bc2, "Furniture", "100"));  //returns old BudgetCategory
+        assertTrue(accessBudgetCategory.updateBudgetCategory(bc2, "Furniture", "100"));
         assertTrue(accessBudgetCategory.findBudgetCategory(newBC3));    // New BudgetCategory can be found
         assertFalse(accessBudgetCategory.findBudgetCategory(bc2)); // Old BudgetCategory cannot be found
 
-        assertTrue(accessBudgetCategory.updateBudgetCategory(newBC3, "Furniture", "0000000000123456789"));  //returns old BudgetCategory
+        assertTrue(accessBudgetCategory.updateBudgetCategory(newBC3, "Furniture", "0000000000123456789"));
         assertTrue(accessBudgetCategory.updateBudgetCategory(new BudgetCategory("Furniture", 123456789f), "Furniture", "1234567.89"));  //returns old BudgetCategory
         assertTrue(accessBudgetCategory.updateBudgetCategory(new BudgetCategory("Furniture", 1234567.89f), "Furniture", "00000000001234567.89"));  //returns old BudgetCategory
 
