@@ -20,8 +20,7 @@ public class BankAccount implements Serializable {
             throw new IllegalArgumentException("account number cannot be null");
         }
 
-        if (accountNumber.trim().isEmpty())
-        {
+        if (accountNumber.trim().isEmpty()) {
             throw new IllegalArgumentException("account number cannot be empty");
         }
 
@@ -47,14 +46,11 @@ public class BankAccount implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         BankAccount that = (BankAccount) o;
@@ -63,28 +59,12 @@ public class BankAccount implements Serializable {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(accountNumber, linkedCard);
     }
 
-    //    public boolean equals(Object o) {
-//        boolean result = false;
-//        if(o instanceof BankAccount) {
-//            result = this.accountNumber.equals(((BankAccount)o).accountNumber) && this.linkedCard.equals(((BankAccount)o).linkedCard);
-//        }
-//        return result;
-//    }
-//
-//    @Override
-//    public int hashCode()
-//    {
-//        return accountNumber.hashCode();
-//    }
-
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.accountName + " " + (accountNumber.length() <= 4 ? this.accountNumber : "•••• " + this.accountNumber.substring(this.accountNumber.length() - 4));
     }
 }
