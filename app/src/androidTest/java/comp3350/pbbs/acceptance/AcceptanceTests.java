@@ -190,7 +190,7 @@ public class AcceptanceTests {
 
         //testing the update function
         onView(withId(R.id.main_transactions)).perform(click());
-        onData(withText("NewTransaction")).check(matches(isDisplayed())).perform(click());
+        onData(anything()).atPosition(0).perform(click());
         onView(withId(R.id.addTransDescription)).perform(clearText(), typeText("UpdatedTransaction"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.dateInput)).perform(click());
@@ -206,11 +206,6 @@ public class AcceptanceTests {
         onView(withId(R.id.updateTrans)).perform(click());
         Espresso.pressBack();
 
-        //testing the delete transaction
-        onView(withId(R.id.main_transactions)).perform(click());
-        onData(anything()).atPosition(0).perform(click());
-        onView(withText("DELETE")).check(matches(isDisplayed())).perform(click());
-        Espresso.pressBack();
     }
 
     /**

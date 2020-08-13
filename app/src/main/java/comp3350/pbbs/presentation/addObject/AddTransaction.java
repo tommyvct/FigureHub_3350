@@ -181,12 +181,20 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
                 card = cardArrayList.get(cardSelector.getSelectedItemPosition() - 1);
             }
 
-            if (!valid)
-            {
+            if (!valid) {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
-            }
-            else
-            {
+            } else if (valid && accessTransaction.addTransaction
+                    (
+                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
+                            dateText.getText().toString(),
+                            timeText.getText().toString(),
+                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
+                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
+                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
+                    )) {
+                setResult(1);
+                finish();
+            } else {
                 if (card.isDebit() && accessTransaction.addDebitTransaction(
                         ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
                         dateText.getText().toString(),
@@ -195,31 +203,14 @@ public class AddTransaction extends AppCompatActivity implements OnItemSelectedL
                         card,
                         bankAccountArrayList.get(bankAccountSelector.getSelectedItemPosition()),
                         budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-                ))
-                {
+                )) {
                     setResult(1);
                     finish();
-                }
-                else
-                {
+                } else {
                     Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();
                 }
             }
-//            //if everything is valid then checks if the transaction can be inserted or not
-//            if (valid && accessTransaction.addTransaction
-//                    (
-//                            ((EditText) findViewById(R.id.addTransDescription)).getText().toString().trim(),
-//                            dateText.getText().toString(),
-//                            timeText.getText().toString(),
-//                            ((EditText) findViewById(R.id.addTransAmount)).getText().toString(),
-//                            (Card) cardArrayList.get(cardSelector.getSelectedItemPosition() - 1),
-//                            budgetArrayList.get(BudgetSelector.getSelectedItemPosition() - 1)
-//                    )) {
-//                setResult(1);
-//                finish();
-//            } else {
-//
-//            }
+
         });
 
     }
