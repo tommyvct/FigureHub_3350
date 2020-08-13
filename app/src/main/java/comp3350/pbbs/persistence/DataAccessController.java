@@ -33,8 +33,8 @@ public class DataAccessController {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static DataAccessI createDataAccess(String dbName) {
         if (dbAccessService == null) {
-            dbAccessService = new StubDatabase(dbName);// DataAccessObject(dbName);
-            dbAccessService.open("populate"); // Main.getDBPathName());
+            dbAccessService = new DataAccessObject(dbName); //new StubDatabase(dbName)
+            dbAccessService.open(Main.getDBPathName()); //("populate")
         }
         return dbAccessService;
     }

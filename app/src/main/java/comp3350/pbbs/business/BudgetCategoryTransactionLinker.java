@@ -10,11 +10,8 @@ import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.persistence.DataAccessI;
 
-/**
- *
- */
 public class BudgetCategoryTransactionLinker {
-    private DataAccessI dataAccess; // variable for the database
+    private DataAccessI dataAccess;                    // variable for the database
 
     /**
      * This method creates the link to the DB.
