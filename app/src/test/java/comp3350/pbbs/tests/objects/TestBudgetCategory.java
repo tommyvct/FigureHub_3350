@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class TestBudgetCategory extends TestCase {
     private String budgetName;
-    private Double budgetLimit;
+    private double budgetLimit;
     private BudgetCategory newBudget;
 
     /**
