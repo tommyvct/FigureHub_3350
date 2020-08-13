@@ -126,10 +126,10 @@ public class TestDataAccess extends TestCase {
         //testing updateBankAccount
         result = dataAccess.updateBankAccount(newAccount1, newAccount2);
         assertFalse(result);//can't update an account with an existing account
-        BankAccount updateAccount = new BankAccount("TD", "23456", dataAccess.getCards().get(2));
+        BankAccount updateAccount = new BankAccount("TD", newAccount1.getAccountNumber(), dataAccess.getCards().get(2));
         result = dataAccess.updateBankAccount(newAccount1, updateAccount);
         assertTrue(result);
-        assertFalse(dataAccess.findBankAccount(newAccount1));//false, because it has been updated
+        assertNotEquals(newAccount1.getAccountName(), dataAccess.getAllBankAccounts().get(1).getAccountName());//false, because it has been updated
 
         //testing getAllBankAccounts
         assertNotEquals(bankAccounts, dataAccess.getAllBankAccounts());
