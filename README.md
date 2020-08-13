@@ -118,7 +118,7 @@ Excluding default android studio project resources and files, source code files 
 
 	Bank accounts associated to a debit card can be viewed in the Card page as stated in point 5.
 	
-9. **Unit**, **Integration** and **Acceptance** tests:
+9. **Unit**, **Integration** and **Acceptance** tests are categorized and performed.
 
 	* *Unit tests*: including tests for layers of object, business, and persistence.
 	* *Integration tests*: including tests for HSQLDB integration, and seam between layers of business and persistence.
