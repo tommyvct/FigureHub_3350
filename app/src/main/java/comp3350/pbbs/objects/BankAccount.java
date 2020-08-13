@@ -1,6 +1,7 @@
 package comp3350.pbbs.objects;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * BankAccount
@@ -45,19 +46,41 @@ public class BankAccount implements Serializable {
         return linkedCard;
     }
 
-    public boolean equals(Object o) {
-        boolean result = false;
-        if(o instanceof BankAccount) {
-            result = this.accountNumber.equals(((BankAccount)o).accountNumber);
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
         }
-        return result;
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        BankAccount that = (BankAccount) o;
+        return accountNumber.equals(that.accountNumber) &&
+                linkedCard.equals(that.linkedCard);
     }
 
     @Override
     public int hashCode()
     {
-        return accountNumber.hashCode();
+        return Objects.hash(accountNumber, linkedCard);
     }
+
+    //    public boolean equals(Object o) {
+//        boolean result = false;
+//        if(o instanceof BankAccount) {
+//            result = this.accountNumber.equals(((BankAccount)o).accountNumber) && this.linkedCard.equals(((BankAccount)o).linkedCard);
+//        }
+//        return result;
+//    }
+//
+//    @Override
+//    public int hashCode()
+//    {
+//        return accountNumber.hashCode();
+//    }
 
     @Override
     public String toString()

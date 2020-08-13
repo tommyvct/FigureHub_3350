@@ -46,7 +46,6 @@ public class TestAccessBankAccount extends TestCase {
         Card dC = new Card("CIBC Advantage Debit", "4506445712345678", "Tommy", 3, 2024);
         BankAccount bA = new BankAccount("My RBC", "4682579", dC);
         assertFalse(accessBankAccount.updateBankAccount(bA, bankAccount));
-        assertTrue(accessBankAccount.updateBankAccount(bankAccount, bA));
         assertFalse(accessBankAccount.updateBankAccount(bankAccount, bA));
     }
 

@@ -198,7 +198,7 @@ public class UpdateTransaction extends AppCompatActivity implements OnItemSelect
                 card = cardArrayList.get(cardSelector.getSelectedItemPosition() - 1);
             }
 
-            //if everything is valid then checks if the transaction can be inserted or not
+            // if everything is valid then checks if the transaction can be inserted or not
             if (!valid)
             {
                 Snackbar.make(view, "Failed to add Transaction.", Snackbar.LENGTH_LONG).show();

@@ -12,6 +12,7 @@ import comp3350.pbbs.application.Main;
 import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.persistence.DataAccessObject;
 
+
 /**
  * DataAccessController
  * Group4
@@ -32,8 +33,8 @@ public class DataAccessController {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static DataAccessI createDataAccess(String dbName) {
         if (dbAccessService == null) {
-            dbAccessService = new DataAccessObject(dbName);
-            dbAccessService.open(Main.getDBPathName());
+            dbAccessService = new StubDatabase(dbName);// DataAccessObject(dbName);
+            dbAccessService.open("populate"); // Main.getDBPathName());
         }
         return dbAccessService;
     }
