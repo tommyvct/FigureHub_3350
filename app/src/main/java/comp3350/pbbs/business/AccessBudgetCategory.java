@@ -104,7 +104,7 @@ public class AccessBudgetCategory {
      * @param newBudget     the budget category to replace currentBudget
      * @return True if updated, of false if not updated
      */
-    public boolean updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
+    private boolean updateBudgetCategoryParsed(BudgetCategory currentBudget, BudgetCategory newBudget) {
         return dataAccess.updateBudgetCategory(currentBudget, newBudget);
     }
 }

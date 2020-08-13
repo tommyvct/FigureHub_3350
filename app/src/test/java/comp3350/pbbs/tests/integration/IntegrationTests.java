@@ -9,6 +9,7 @@ public class IntegrationTests {
     public static Test suite() {
         suite = new TestSuite("Integration tests");
         suite.addTestSuite(TestHSQLIntegration.class);
+        suite.addTestSuite(TestBusinessPersistenceSeam.class);
         return suite;
     }
 }
