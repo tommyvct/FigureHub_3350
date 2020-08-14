@@ -15,6 +15,15 @@ import comp3350.pbbs.presentation.addObject.AddBankAccountDialogue;
  */
 public class UpdateBankAccountDialogue {
 
+	//TODO: header comments
+
+	/**
+	 *
+	 * @param context
+	 * @param oldBankAccount
+	 * @param accessBankAccount
+	 * @param callback
+	 */
 	public static void updateBankAccountDialogue(Context context, BankAccount oldBankAccount, AccessBankAccount accessBankAccount, AddBankAccountDialogue.IDialogueCallback callback) {
 		AddBankAccountDialogue.dialogue(context, callback, (bankAccountName, bankAccountNumber) -> accessBankAccount.updateBankAccount(oldBankAccount, new BankAccount(bankAccountName, bankAccountNumber, oldBankAccount.getLinkedCard())), oldBankAccount);
 	}

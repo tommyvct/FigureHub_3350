@@ -33,6 +33,15 @@ public class AddBankAccountDialogue {
 		boolean success(String bankAccountName, String bankAccountNumber);
 	}
 
+	//TODO: header comments
+
+	/**
+	 *
+	 * @param context
+	 * @param callback
+	 * @param outcome
+	 * @param oldBankAccount
+	 */
 	public static void dialogue(Context context, IDialogueCallback callback, IOperationOutcome outcome, BankAccount oldBankAccount) {
 		AlertDialog dialog = new AlertDialog.Builder(context).create();
 
@@ -80,7 +89,6 @@ public class AddBankAccountDialogue {
 		dialog.setOnDismissListener(dialogInterface -> callback.onDismiss());
 		dialog.show();
 	}
-
 
 	public static void addBankAccountDialogue(Context context, Card card, AccessBankAccount accessBankAccount, IDialogueCallback callback) {
 		dialogue(context, callback, (bankAccountName, bankAccountNumber) -> accessBankAccount.insertBankAccount(new BankAccount(bankAccountName, bankAccountNumber, card)), null);
