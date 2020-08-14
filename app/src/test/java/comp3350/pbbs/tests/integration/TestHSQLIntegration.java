@@ -6,6 +6,13 @@ import comp3350.pbbs.tests.persistence.NuclearDataAccessObject;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 import comp3350.pbbs.tests.persistence.TestDataAccess;
 
+/**
+ * TestHSQLIntegration
+ * Group4
+ * PBBS
+ * <p>
+ * This class performs database integration test
+ */
 public class TestHSQLIntegration extends TestDataAccess {
     public TestHSQLIntegration(String arg0) {
         super(arg0);

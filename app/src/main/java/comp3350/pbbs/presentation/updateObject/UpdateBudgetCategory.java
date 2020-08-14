@@ -19,19 +19,18 @@ import comp3350.pbbs.business.AccessBudgetCategory;
 import comp3350.pbbs.objects.BudgetCategory;
 
 /**
- * updateBudgetCategory
+ * UpdateBudgetCategory
  * Group4
  * PBBS
- *
+ * <p>
  * This class updates(including deletes) an existed budgetCategory within the list.
  */
 
 public class UpdateBudgetCategory extends AppCompatActivity implements Serializable {
-
-    private AccessBudgetCategory accessBudgetCategory;    // AccessBudgetCategory variable
-    EditText BudgetNameET;                                // EditText variable for budgetName
-    EditText BudgetLimitET;                                // EditText variable for budgetLimit
-    BudgetCategory oldBudgetCategory;                      // BudgetCategory to update
+	private AccessBudgetCategory accessBudgetCategory;    // AccessBudgetCategory variable
+	EditText BudgetNameET;                                // EditText variable for budgetName
+	EditText BudgetLimitET;                               // EditText variable for budgetLimit
+	BudgetCategory oldBudgetCategory;                     // BudgetCategory to update
 
 	@SuppressLint("SetTextI18n")
 	@Override

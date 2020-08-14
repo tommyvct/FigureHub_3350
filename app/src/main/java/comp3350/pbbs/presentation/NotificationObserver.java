@@ -9,5 +9,5 @@ package comp3350.pbbs.presentation;
  * notification when a budget category may be over limit.
  */
 public interface NotificationObserver {
-    void updateBudgetNotifications();
+	void updateBudgetNotifications();
 }

@@ -22,7 +22,7 @@ import comp3350.pbbs.objects.BudgetCategory;
  * DataAccessObject
  * Group4
  * PBBS
- *
+ * <p>
  * This class defines the HSQL database for the persistence layer.
  */
 public class DataAccessObject implements DataAccessI {
@@ -237,7 +237,7 @@ public class DataAccessObject implements DataAccessI {
 		boolean result = false;
 		String values;
 
-		if(!findBankAccount(newAccount)) {
+		if (!findBankAccount(newAccount)) {
 			try {
 				int cardID = getCardID(newAccount.getLinkedCard());
 
@@ -267,7 +267,7 @@ public class DataAccessObject implements DataAccessI {
 	public boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount) {
 		boolean result = false;
 		String values, where;
-		if(!findBankAccount(newAccount)) {
+		if (!findBankAccount(newAccount)) {
 			try {
 				// Get first credit card
 				int newCardID = getCardID(newAccount.getLinkedCard());
@@ -430,7 +430,7 @@ public class DataAccessObject implements DataAccessI {
 			cmdString = "UPDATE BUDGETCATEGORY SET " + values + " " + where;
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
-			if(updateCount == 1) {
+			if (updateCount == 1) {
 				toReturn = true;
 			}
 		} catch (SQLException e) {
@@ -494,10 +494,9 @@ public class DataAccessObject implements DataAccessI {
 				int expireYear = results.getInt("EXPIREYEAR");
 				int payDate = results.getInt("PAYDATE");
 				Card card;
-				if(payDate == 0) {
+				if (payDate == 0) {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear);
-				}
-				else {
+				} else {
 					card = new Card(cardName, cardNum, name, expireMonth, expireYear, payDate);
 				}
 				if (!getAccountsFromDebitCard(card).isEmpty() || payDate == 0) {
@@ -631,7 +630,7 @@ public class DataAccessObject implements DataAccessI {
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			if(updateCount > 0) {
+			if (updateCount > 0) {
 				result = true;
 			}
 		} catch (SQLException e) {
@@ -644,7 +643,7 @@ public class DataAccessObject implements DataAccessI {
 	 * Retrieves the id in the database of the given card.
 	 *
 	 * @param card Card to search for
-	 * @return	ID of the card in the database.
+	 * @return ID of the card in the database.
 	 */
 	private int getCardID(Card card) {
 		int cardID = -1;
@@ -679,7 +678,7 @@ public class DataAccessObject implements DataAccessI {
 			stmt = con.createStatement();
 			int updateCount = stmt.executeUpdate(cmdString);
 			checkWarning(stmt, updateCount);
-			if(updateCount > 0) {
+			if (updateCount > 0) {
 				result = true;
 			}
 		} catch (SQLException e) {
@@ -924,10 +923,9 @@ public class DataAccessObject implements DataAccessI {
 			String cmdString = "SELECT NAME FROM USERNAME";
 			stmt = con.createStatement();
 			ResultSet results = stmt.executeQuery(cmdString);
-			if(results.next()) {
+			if (results.next()) {
 				username = results.getString("NAME");
-			}
-			else {
+			} else {
 				throw new NullPointerException("No username is set");
 			}
 		} catch (SQLException e) {
@@ -939,8 +937,8 @@ public class DataAccessObject implements DataAccessI {
 	/**
 	 * Sets the username in the database to the given username
 	 *
-	 * @param newUsername	The new username to set
-	 * @return	True if successful, false if not.
+	 * @param newUsername The new username to set
+	 * @return True if successful, false if not.
 	 */
 	public boolean setUsername(String newUsername) {
 		boolean result = false;
@@ -955,7 +953,7 @@ public class DataAccessObject implements DataAccessI {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		} catch (NullPointerException npe) {
@@ -965,7 +963,7 @@ public class DataAccessObject implements DataAccessI {
 				int updateCount = stmt.executeUpdate(cmdString);
 				checkWarning(stmt, updateCount);
 				result = true;
-			} catch(SQLException e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}

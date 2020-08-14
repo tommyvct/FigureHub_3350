@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_main_cards" />
     <fragment
         android:id="@+id/main_budget"
-        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainBudget"
+        android:name="comp3350.pbbs.presentation.mainActivityFragments.MainBudgets"
         android:label="fragment_main_budget"
         tools:layout="@layout/fragment_main_budget" />
 </navigation>

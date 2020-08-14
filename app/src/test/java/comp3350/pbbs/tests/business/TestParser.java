@@ -4,8 +4,14 @@ import junit.framework.TestCase;
 
 import comp3350.pbbs.business.Parser;
 
+/**
+ * TestParser
+ * Group4
+ * PBBS
+ * <p>
+ * This class tests Parser class
+ */
 public class TestParser extends TestCase {
-
     /**
      * Testing Valid input
      */
