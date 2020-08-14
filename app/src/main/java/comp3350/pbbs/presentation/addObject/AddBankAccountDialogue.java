@@ -33,14 +33,13 @@ public class AddBankAccountDialogue {
 		boolean success(String bankAccountName, String bankAccountNumber);
 	}
 
-	//TODO: header comments
-
 	/**
+	 * Creates a dialog box to update or add a bank account
 	 *
-	 * @param context
-	 * @param callback
-	 * @param outcome
-	 * @param oldBankAccount
+	 * @param context			Application context
+	 * @param callback  		Callback function
+	 * @param outcome   		The outcome of the operation
+	 * @param oldBankAccount	The old bank account, null if adding a new bank account
 	 */
 	public static void dialogue(Context context, IDialogueCallback callback, IOperationOutcome outcome, BankAccount oldBankAccount) {
 		AlertDialog dialog = new AlertDialog.Builder(context).create();
