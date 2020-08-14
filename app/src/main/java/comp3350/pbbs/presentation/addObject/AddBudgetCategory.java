@@ -13,7 +13,7 @@ import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessBudgetCategory;
 
 /**
- * addBudgetCategory
+ * AddBudgetCategory
  * Group4
  * PBBS
  * <p>

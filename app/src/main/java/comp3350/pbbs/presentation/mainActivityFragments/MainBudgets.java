@@ -18,20 +18,20 @@ import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.presentation.viewObject.ViewBudgetCategory;
 
 /**
- * MainBudget
+ * MainBudgets
  * Group4
  * PBBS
  * <p>
- * This fragment displays all budget category
+ * This fragment displays all budget categories
  */
-public class MainBudget extends Fragment {
+public class MainBudgets extends Fragment {
 	private AccessBudgetCategory accessBudgetCategory;
 	private List<BudgetCategory> budgetCategoryList;
 	private ArrayAdapter<BudgetCategory> listViewAdaptor;
 	private ListView listView;
 
 	// Required empty public constructor
-	public MainBudget() {
+	public MainBudgets() {
 	}
 
 	@Override

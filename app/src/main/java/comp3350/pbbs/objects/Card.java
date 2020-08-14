@@ -6,11 +6,12 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 /**
- * CreditCard
+ * Card
  * Group4
  * PBBS
  * <p>
- * This class defines a credit card with information it includes
+ * This class defines a card with information it includes
+ * 2 kinds of cards: credit and debit
  */
 public class Card implements Serializable {
 	private String cardName;    // name of a credit card

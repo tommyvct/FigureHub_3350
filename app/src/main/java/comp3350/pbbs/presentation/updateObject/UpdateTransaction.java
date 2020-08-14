@@ -35,7 +35,7 @@ import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.objects.Transaction;
 
 /**
- * updateTransaction
+ * UpdateTransaction
  * Group4
  * PBBS
  * <p>

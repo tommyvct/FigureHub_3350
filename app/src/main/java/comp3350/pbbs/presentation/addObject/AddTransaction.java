@@ -32,7 +32,7 @@ import comp3350.pbbs.objects.BudgetCategory;
 import comp3350.pbbs.objects.Card;
 
 /**
- * addTransaction
+ * AddTransaction
  * Group4
  * PBBS
  * <p>

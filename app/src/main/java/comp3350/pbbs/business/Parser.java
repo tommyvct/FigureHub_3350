@@ -14,7 +14,7 @@ import static comp3350.pbbs.business.AccessTransaction.DATE_FORMATS;
  * Group4
  * PBBS
  * <p>
- * This class includes all parse methods for use
+ * This class includes all parse methods.
  */
 public class Parser {
 	/**

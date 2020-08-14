@@ -11,7 +11,7 @@ import comp3350.pbbs.R;
 import comp3350.pbbs.business.AccessUser;
 
 /**
- * firstTimeGreeting
+ * FirstTimeGreeting
  * Group4
  * PBBS
  * <p>

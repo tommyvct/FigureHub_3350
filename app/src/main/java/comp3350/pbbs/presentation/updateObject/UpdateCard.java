@@ -23,14 +23,13 @@ import comp3350.pbbs.business.Validation;
 import comp3350.pbbs.objects.Card;
 
 /**
- * updateCard
+ * UpdateCard
  * Group4
  * PBBS
  * <p>
  * This class updates an existed card within the list.
  */
 public class UpdateCard extends AppCompatActivity implements OnItemSelectedListener {
-
 	AccessCard accessCard;
 	EditText cardName;        // EditText variable for cardName
 	EditText cardNumber;      // EditText variable for cardNumber
@@ -181,7 +180,6 @@ public class UpdateCard extends AppCompatActivity implements OnItemSelectedListe
 				Snackbar.make(view, "Failed to update Card", Snackbar.LENGTH_SHORT).show();
 			}
 		});
-
 
 		if (oldCard.isActive()) {
 			// mark as inactive

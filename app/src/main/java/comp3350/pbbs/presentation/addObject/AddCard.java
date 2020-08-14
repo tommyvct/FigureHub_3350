@@ -19,7 +19,7 @@ import comp3350.pbbs.objects.BankAccount;
 import comp3350.pbbs.objects.Card;
 
 /**
- * addCard
+ * AddCard
  * Group4
  * PBBS
  * <p>

@@ -18,7 +18,7 @@ import comp3350.pbbs.objects.Transaction;
 import comp3350.pbbs.presentation.updateObject.UpdateTransaction;
 
 /**
- * main_transaction
+ * MainTransactions
  * Group4
  * PBBS
  * <p>

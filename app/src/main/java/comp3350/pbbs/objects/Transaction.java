@@ -1,6 +1,5 @@
 package comp3350.pbbs.objects;
 
-
 import android.annotation.SuppressLint;
 
 import org.jetbrains.annotations.NotNull;

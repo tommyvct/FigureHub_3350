@@ -18,55 +18,55 @@ import comp3350.pbbs.objects.Card;
 import comp3350.pbbs.presentation.addObject.AddBankAccountDialogue;
 import comp3350.pbbs.presentation.updateObject.UpdateBankAccountDialogue;
 
-public class ViewBankAccount extends AppCompatActivity
-{
-    Card debitCard;
-    AccessBankAccount accessBankAccount;
-    List<BankAccount> bankAccountArrayList;
-    ArrayAdapter<BankAccount> listViewAdapter;
+/**
+ * ViewBankAccount
+ * Group4
+ * PBBS
+ * <p>
+ * Class to view bank accounts associated with any debit card
+ */
+public class ViewBankAccount extends AppCompatActivity {
+	Card debitCard;
+	AccessBankAccount accessBankAccount;
+	List<BankAccount> bankAccountArrayList;
+	ArrayAdapter<BankAccount> listViewAdapter;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_bank_account);
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_view_bank_account);
 
+		accessBankAccount = new AccessBankAccount();
+		debitCard = (Card) getIntent().getSerializableExtra("DebitCard");
+		Objects.requireNonNull(getSupportActionBar()).setTitle("Bank Accounts");
 
-        accessBankAccount = new AccessBankAccount();
-        debitCard = (Card) getIntent().getSerializableExtra("DebitCard");
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Bank Accounts");
+		ListView bankAccountListView = findViewById(R.id.view_bank_account_list);
 
+		if (debitCard == null) {
+			bankAccountArrayList = accessBankAccount.getAllBankAccounts();
+			findViewById(R.id.add_bank_account_fab).setVisibility(View.GONE);
+		} else {
+			bankAccountArrayList = accessBankAccount.getBankAccountsFromDebitCard(debitCard);
+			Objects.requireNonNull(getSupportActionBar()).setSubtitle(debitCard.toStringShort());
+			findViewById(R.id.add_bank_account_fab).setOnClickListener(view ->
+					AddBankAccountDialogue.addBankAccountDialogue(view.getContext(), debitCard, accessBankAccount, () ->
+					{
+						bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
+						listViewAdapter.clear();
+						listViewAdapter.addAll(bankAccountArrayList);
+						listViewAdapter.notifyDataSetChanged();
+					}));
+		}
 
-        ListView bankAccountListView = findViewById(R.id.view_bank_account_list);
-
-        if (debitCard == null)
-        {
-            bankAccountArrayList = accessBankAccount.getAllBankAccounts();
-            findViewById(R.id.add_bank_account_fab).setVisibility(View.GONE);
-        }
-        else
-        {
-            bankAccountArrayList = accessBankAccount.getBankAccountsFromDebitCard(debitCard);
-            Objects.requireNonNull(getSupportActionBar()).setSubtitle(debitCard.toStringShort());
-            findViewById(R.id.add_bank_account_fab).setOnClickListener(view ->
-                AddBankAccountDialogue.addBankAccountDialogue(view.getContext(), debitCard, accessBankAccount, () ->
-                {
-                   bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
-                   listViewAdapter.clear();
-                   listViewAdapter.addAll(bankAccountArrayList);
-                   listViewAdapter.notifyDataSetChanged();
-                }));
-        }
-
-        listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,bankAccountArrayList);
-        bankAccountListView.setAdapter(listViewAdapter);
-        bankAccountListView.setOnItemClickListener((adapterView, view, i, l) ->
-            UpdateBankAccountDialogue.updateBankAccountDialogue(view.getContext(), bankAccountArrayList.get(i), accessBankAccount, () ->
-            {
-               bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
-               listViewAdapter.clear();
-               listViewAdapter.addAll(bankAccountArrayList);
-               listViewAdapter.notifyDataSetChanged();
-            }));
-    }
+		listViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bankAccountArrayList);
+		bankAccountListView.setAdapter(listViewAdapter);
+		bankAccountListView.setOnItemClickListener((adapterView, view, i, l) ->
+				UpdateBankAccountDialogue.updateBankAccountDialogue(view.getContext(), bankAccountArrayList.get(i), accessBankAccount, () ->
+				{
+					bankAccountArrayList = (debitCard == null) ? accessBankAccount.getAllBankAccounts() : accessBankAccount.getBankAccountsFromDebitCard(debitCard);
+					listViewAdapter.clear();
+					listViewAdapter.addAll(bankAccountArrayList);
+					listViewAdapter.notifyDataSetChanged();
+				}));
+	}
 }
