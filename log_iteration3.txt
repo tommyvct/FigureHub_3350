@@ -1,0 +1,506 @@
+GROUP 4 DEVELOPER LOG
+ORGANIZED BY DAY
+
+Note: The following log is also documented in the Github repository,
+under Projects -> Iteration 3 : Developer logs
+
+# AUGUST 4
+## Meeting Details:
+- Discussed the retrospective activity.
+- Revisited our user stories and planned what stories you will implement in this iteration.
+- Discussed the developer tasks and their time estimates.
+
+Attended by: Aziz, Josh, Hao, Terra, Tommy
+Time taken: 1.25 hours
+
+
+# AUGUST 5
+## Individual entries:
+## Josh
+Major refactorings done.
+Time taken: 6 hours
+
+
+# AUGUST 9
+## Meeting details:
+- Discussed 5 whys for retrospective activity.
+- Decide on user stories - either Savings Goals or Notifications
+- Discussed acceptance, integration testing.
+- Aziz assigned on acceptance testing, Josh assigned on integration testing and fixing HSQLDB tests, and Terra assigned on generating Notification task.
+
+Time taken: 1 hour
+Attended by: Aziz, Josh, Terra.
+
+## Individual entries:
+## Aziz
+- Started working with acceptance tests.
+- Planned on how to use the Espresso testing framework in our project.
+Time taken: 4 hours
+
+## Josh
+- Created Integration tests for HSQLdb and DataAccessObject
+- Fixed splitting of credit cards and debit cards in data access object
+Time taken: 5 hours
+
+## Terra
+- Started Notifications user story
+- created Observable class
+Time taken: 3 hours
+
+## Tommy
+- Implemented add&update bank account functionality
+- change a transaction from credit card to a debit card and backwards
+- added view account activity which lists all accounts for certain cards
+Time taken: 5 Hours
+
+
+# AUGUST 10
+## Individual entries:
+## Aziz
+- Continued writing the acceptance tests.
+- Debugged a few errors which came out through testing.
+Time taken: 5 hours
+
+## Terra
+- Continued Notifications user story
+- Modified AccessTransaction to be Subject
+- Implemented NotificationObserver interface
+- modified Main Page to list notifications.
+Time taken: 3 hours
+
+
+# AUGUST 11
+## Individual entries:
+## Aziz
+Wrote acceptance tests for 3 big user stories and the first activity.
+Time taken: 6 hours
+
+## Josh
+- Mapped out which seams need to be tested
+- Started the CardTransactionLinker integration tests
+Time taken: 4 hours
+
+## Hao
+- Started working on `TestBankAccountCardLinker` and `TestBusinessPersistenceSeam`
+Time taken: 3 hours
+
+## Terra
+- Added testing for NotificationObserver
+- Completed the issue "Add Notifications for Budget over-limit"
+- Started working on Credit Card Notifications.
+Time taken: 5 hours
+
+
+# AUGUST 12
+## Individual entries:
+## Aziz
+- Added acceptance test with invalid entries.
+- Fixed a few errors regarding the tests.
+- Sketched the Revised architecture sketch.
+Time taken: 8 hours
+
+## Josh
+- Added seam test for AccessTransaction
+- Reviewed pull requests
+Time taken: 4 hours
+
+## Hao
+Completed `TestBankAccountCardLinker`
+Time taken: 3 hours
+
+## Terra
+- Typed up notes from Retrospective meeting
+- Wrote up the user stories in a nicer format.
+Time taken: 2 hours
+
+## Tommy
+- Refactored BankAccount dialogue to reduce duplication
+- Fixed a bug that credit card transaction cannot be added
+Time taken: 3 hours
+
+# AUGUST 13
+## Meeting details:
+- Discussed what was left to do for the project
+- Discussed the full list of developer tasks, split the responsibility
+
+Attended by: Aziz, Josh, Hao, Terra, Tommy
+Time taken: 0.5 hours
+
+## Individual entries:
+## Aziz
+- Fixed and finished every bug that came out through acceptance testing. #163
+- Compiled all the developer logs with completed developer tasks. #175
+Time taken: 7 hours
+
+## Josh
+- Reviewed pull requests
+- Wrote tasks for iteration 2
+Time taken: 3 hours
+
+## Hao
+- Completed `TestBusinessPersistenceSeam` with Josh
+- Updated `Readme.md`
+Time taken: 8 hours
+
+## Terra
+- Finished re-writing dev tasks
+Time: 2 hours.
+
+
+## Outstanding bugs and their fixes
+So far in this iteration we have fixed all the bugs.
+However, there is a special case where we added random number (.00 to .99) with budgetLimit in order to avoid duplicate
+budgetCategories in line 260 of AcceptanceTests class. So, there is a chance (1%) to generate the same number again when
+the acceptance test will run repeatedly and at that time this test will fail.
+
+Possible fix: Allowing duplicate budgets while updating budgetCategories would fix this special case.
+
+## Design decisions and rationals
+1. We designed Notifications in home page to show when the user goes over budget or almost over budget.
+
+2. We also designed Notifications for when Credit card is due which can save our users paying extra late fees.
+
+3. We designed to bank account section which is linked to debit cards. This will allow our user to see their
+account and update any necessary changes whenever they want.
+
+
+## Completed developer tasks from iteration 1
+
+Create Android Studio Project
+Label: General Task
+Description: Set up the android project.
+Time Estimate: 4 hours
+Actual Time Taken: 2 hours
+
+Decide on Architecture
+Label: Planning
+Description: Determine the architecture of the system, and sketch it out (3-layer)
+Time Estimate: 1 hour
+Actual Time Taken: 2 hours
+
+Describe the Flow of the Application
+Label: Presentation/Planning
+Description: Determine the look of the app, and how navigation will work between pages.
+Time Estimate: 1 hour
+Actual Time Taken: 1 hour
+
+Set up Version Control
+Label: General Task
+Description: Share Android project with team through GitHub (get accounts)
+Time Estimate: 2 hours
+Actual Time Taken: 1 hour
+
+Set up CI
+Label: Testing
+Description: Setting the github actions to build and run the tests
+Time Estimate: 1 hour
+Actual Time Taken: 2.5 Hours
+
+Create User Object
+Story: Managing Information
+Description: Create an class for User (first name and last name) & tests.
+Time Estimate: 3 hours
+Actual Time Taken: 4.5 hours
+**NOTE: This was later removed in iteration 2 for simplicity
+
+Create Budget Object
+Story: Maintain a budget
+Description: Create an class for Budget categories (name and limit) & tests.
+Time Estimate: 5 hours
+Actual Time Taken: 5.5 hours
+
+Create Card Object
+Story: Credit Card Information
+Description: Create an class for Credit Card - (card number, cardholder, expiration date, etc.) & tests.
+Time Estimate: 5 hours
+Actual Time Taken: 7 hours
+
+Create Transaction Object
+Story: Managing Transaction Info
+Description: Create an class for Transaction (date, card, budget) & tests.
+Time Estimate: 7 hours
+Actual Time Taken: 5 hours
+
+Create AccessUser Object
+Story: Maintain a budget
+Description: Create a class in Business Layer to interface with database for User(get, insert, find, update, delete) & tests.
+Time Estimate: 2 hours
+Actual Time Taken: 1 hours
+
+Create AccessBudget Object
+Story: Maintain a budget
+Description: Create a class in Business Layer to interface with database for Budget (get, insert, find, update, delete, parse String, verify valid input) & tests.
+Time Estimate: 5 hours
+Actual Time Taken: 5.5 hours
+
+Create AccessCard Object
+Story: Credit Card Information
+Description: Create a class in Business Layer to interface with database for Card(get, insert, find, update, delete, parse String, verify valid input) & tests.
+Time Estimate: 5 hours
+Actual Time Taken: 4 hours
+
+Create AccessTransaction Object
+Story: Managing Transaction Info
+Description: Create a class in Business Layer to interface with database for Transaction (get, insert, find, update, delete, parse String, verify valid input) & tests.
+Time Estimate: 6 hours
+Actual Time Taken: 10 hours
+
+Create & maintain StubDB
+Label: Testing
+Description: Create a stub database to populate data for now (until SQLDB)
+Time Estimate: 12 hours
+Actual Time Taken: 7 hours
+
+Bio Authentication/Create Blank start Page
+Story: Security
+Description: Create a first page that asks for password/pin before entering app.
+Time Estimate: 5 hours
+Actual Time Taken: 2 hours
+**NOTE: Bio authentication level was removed before submission, to accommodate marking
+
+Create "Profile" page
+Story: Managing Information
+Description: Create a home page that lets the user input their name.
+Time Estimate: 2 hours
+Actual Time Taken: 3 hours
+
+Implement navigation of app
+Label: Presentation
+Description: Create UI that implements the planned flow of application (nav bar, etc.)
+Time Estimate: 2 hours
+Actual Time Taken: 3 hours
+
+Display Budget Info
+Story: Maintain a budget
+Description: Create a page to display all budget categories and their information
+Time Estimate: 5 hours
+Actual Time Taken: 10 hours
+
+Add a new Budget
+Story: Maintain a budget
+Description: Create UI for adding a new budget category (input fields, buttons)
+Time Estimate: 5 hours
+Actual Time Taken: 6 hours
+
+Display Credit Card Info
+Story: Credit Card Information
+Description: Create a page to display all credit cards and their information
+Time Estimate: 5 hours
+Actual Time Taken: 5 hours
+
+Add a new Credit card
+Story: Credit Card Information
+Description: Create UI for adding a new card (input fields, buttons)
+Time Estimate: 5 hours
+Actual Time Taken: 2.5 hours
+
+Display Transaction Info
+Story: Managing Transaction Info
+Description: Create a page to display all transactions and their information
+Time Estimate: 5 hours
+Actual Time Taken: 5 hours
+
+Add a new Transaction
+Story: Credit Card Information
+Description: Create UI for adding a new transaction (input fields, drop-downs for card and budget categories, buttons)
+Time Estimate: 10 hours
+Actual Time Taken: 8 hours
+
+Clean code before submission
+Label: Refactoring
+Description: Check formatting is consistent, detailed comments and documentation, no errors, consistent naming.
+Time Estimate: 2 hours
+Actual Time Taken: 3 hours
+
+Check tests before submission
+Label: Testing
+Description: Check that all tests pass.
+Time Estimate: 3 hours
+Actual Time Taken: 7 hours
+
+Clean code before submission
+Label: Refactoring
+Description: Check formatting is consistent, detailed comments and documentation, no errors, consistent naming.
+Time Estimate: 3 hours
+Actual Time Taken: 11 hours
+
+Create and maintain README
+Label: Documentation
+Description: Create detailed instructions and explanations for users.
+Time Estimate: 2 hours
+Actual Time Taken: 5 hours
+
+## Completed developer tasks from iteration 2
+
+Visualize Spending Data by Budget
+Story: Visualize Spending Data
+Description: Display a pie chart of total budget amount by month, showing how the current total lines up with the monthly amount.
+Time Estimate: 6 hours
+Actual Time Taken: 5 hours
+
+Visualise Spending Data by Card
+Story: Visualize Spending Data
+Description: Display a line chart of all transactions associated with this card, ordered by time and amount
+Time Estimate: 5 hours
+Actual Time Taken: 5.5 hours
+
+Create HSQL Table Structure
+Label: Persistence
+Description: Create SQL statements for table structure
+Time Estimate: 2 hours
+Actual Time Taken: 1.5 hours
+
+Implement DataAccessI using HSQL
+Label: Persistence
+Description: Create SQL statements to create, update, and delete domain objects
+Time Estimate: 6 hours
+Actual Time Taken: 10 hours
+
+Integrate HSQL Connector with app
+Label: Persistence
+Description: Link the HSQL with the android application
+Time Estimate: 1 hour
+Actual Time Taken: 1 hour
+
+Include Date Range on Budget Transaction Sum
+Story: Visualize Spending Data
+Description: Calculate the monthly total of transactions under a certain budget category.
+Time Estimate: 5 hours
+Actual Time Taken: 6.5 hours
+
+More Comprehensive Testing
+Label: Testing
+Description: Look over all tests to ensure coverage.
+Time Estimate: 5 hours
+Actual Time Taken: 5.5 hours
+
+Update objects in presentation
+Label: Presentation
+Description: Allow for updating transactions, budget categories, and cards
+Time Estimate: 3 hours
+Actual Time Taken: 2.5 hours
+
+Extract validation methods into its own class
+Label: Refactor
+Description: Extract common validation methods into a separate class
+Time Estimate: 2 hours
+Actual Time Taken: 2 hours
+
+Extract parsing methods into its own class
+Label: Refactor
+Description: Extract common parsing methods into a separate class
+Time Estimate: 2 hours
+Actual Time Taken: 1.5 hours
+
+Architecture sketch
+Label: Documentation
+Description: Update the architectural sketch with the new classes & database integration
+Time Estimate: 2 hours
+Actual Time Taken: 2 hours
+
+Update readme
+Label: Documentation
+Description: Update readme for the latest changes
+Time Estimate: 1 hour
+Actual Time Taken: 1.5 hours
+
+Finalize user stories
+Label: Documentation
+Description: Compile a list of user stories that are new or have been modified this iteration
+Time Estimate: 3 hours
+Actual Time Taken: 3 hours
+
+
+## Completed developer tasks from iteration 3
+
+Retrospective Assessment
+Label: Documentation
+Description: Write one activity that went wrong and not completed in iteration 2 and also write how to improvement on that. Also,
+discuss and write about 5 whys to find the reason behind that happening.
+Time estimate: 5 hours
+Actual time taken: 5.5 hours
+
+Create observable
+Story: Receive Notifications
+Description: Create a notification observable class to tell a class in the presentation layer
+to check the limits of the budget categories whenever a transaction is added.
+Time estimate: 2 hours
+Actual time taken: 2 hours
+
+Create link from subject to observable
+Story: Receive Notifications
+Description: Create linker classes to get link from BudgetCategories, Credit Cards and BankAccount
+Time estimate: 5 hours
+Actual time taken: 5 hours
+
+Implement notification class in presentation layer
+Story: Receive Notifications
+Description: Create class that receives notification when a budget category may be over limit
+Time estimate: 2 hours
+Actual time taken: 1.5 hours
+
+Create link with UI (home page)
+Story: Receive Notifications
+Description: Add a listView in main home fragment for the notifications to show in the home page and
+link that with observer.
+Time estimate: 4 hours
+Actual time taken: 4 hours
+
+Generate notification when Credit card is due
+Story: Receive Notifications
+Description: Get the cards directly from dataAccess, iterate through them to see which ones expire today, then
+show the notifications in home page.
+Time estimate: 3 hours
+Actual time taken: 3 hours
+
+Add bank account functionality
+Story: Bank Account
+Description: Create a class that adds new bank accounts
+Time estimate: 3 hours
+Actual time taken: 3.5 hours
+
+Update bank account functionality
+Story: Bank Account
+Description: Create a class that updates the existing bank accounts
+Time estimate: 4 hours
+Actual time taken: 4 hours
+
+Acceptance testing
+Label: Testing
+Description: Implement acceptance testing on 3 user stories by using Espresso testing framework.
+Time estimate: 16 hours
+Actual time taken: 18 hours
+
+Integration testing between Persistence and External resource
+Label: Testing
+Description: Write tests that will be testing the seam in between DataAccessObject and HSQLDB.
+Time estimate: 5 hours
+Actual time taken: 5 hours
+
+Integration testing between Persistence and Business layer
+Label: Testing
+Description: Write tests that will be testing the seams in between AccessBankAccount & DataAccessObject,
+AccessBudgetCategory & DataAccessObject, AccessCard & DataAccessObject, AccessTransaction & DataAccessObject,
+BankAccountCardLinker & DataAccessObject, BudgetCategoryTransactionLinker & DataAccessObject, CardTransactionLinker & DataAccessObject.
+Time estimate: 20 hours
+Actual time taken: 22 hours
+
+Update user stories
+Label: Documentation
+Description: Write a list of updated or new user stories in .pdf or .txt format
+Time estimate: 2 hours
+Actual time taken: 1.5 hours
+
+Update architectural sketch
+Label: Documentation
+Description: Sketch revised architecture diagram that shows the seams that you are testing with your integration tests.
+Label each seam with the name of the class(es) that contain the integration tests for that seam
+Time estimate: 3 hours
+Actual time taken: 2.5 hours
+
+Update Readme
+Label: Documentation
+Description: Highlight all major changes made during this iteration, both in the structure of source code,
+and in the behaviour of system. Also mention any issues that are not resolved in this iteration.
+Time estimate: 2 hours
+Actual time taken: 2.5 hours
