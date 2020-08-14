@@ -45,6 +45,8 @@ Excluding default android studio project resources and files, source code files 
 	* Junit 3 is applied to test suites `RunUnitTests.java` and `RunIntegrationTests.java`.
 	* Junit 4 is applied to test suite `RunAcceptanceTests.java`.
 
+5. **Database** copies locate at `FigureHub_3350/app/db/` and `FigureHub_3350/app/src/main/assets/db/`.
+
 ---
 
 ### Features
