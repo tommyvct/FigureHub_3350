@@ -10,7 +10,7 @@
         android:title="@string/transactions"
         android:id="@+id/main_transactions"/>
     <item
-        android:icon="@drawable/ic_baseline_android_24"
+        android:icon="@drawable/ic_baseline_monetization_on_24"
         android:title="@string/budget"
         android:id="@+id/main_budget"/>
     <item

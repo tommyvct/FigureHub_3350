@@ -1,6 +1,6 @@
 ## Personal Budget-Balancing System (PBBS)
 
-* Iteration 2 - README.md
+* Iteration 3 - README.md
 
 ---
 
@@ -12,7 +12,7 @@
 
 	* You can view all the source code files from the link above.
 
-3. Developer logs: [PBBS Developer log (iteration 2)](https://github.com/tommyvct/FigureHub_3350/projects/3).
+3. Developer logs: [PBBS Developer log (iteration 3)](https://github.com/tommyvct/FigureHub_3350/projects/6).
 
 	* The developer logs are written by members in the development team, used to record the process of how this project proceeded and what actions members performed.
 	* You can view the developer logs from the link above. It is also sorted as a text document in the main zip file directory.
@@ -48,7 +48,7 @@ Excluding default android studio project resources and files, source code files 
 ### Features
 
 1. **New User Stories**: added and updated some stories for the purpose of providing more features.
-	* A PDF file *Iteration_2_user_stories.pdf* is attached within submittion.
+	* A PDF file *Iteration_3_user_stories.pdf* is attached within submittion.
 
 2. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
@@ -56,7 +56,11 @@ Excluding default android studio project resources and files, source code files 
 
 	**Change Name**: Home page shows a welcome slogan but also offers a feature that the user can choose to change the username.
 	
-4. In this iteration, **Card** page allows various inputs:
+	**Notification**: Home page now contains the notification feature:
+	* Notifications for when over budget or almost over budget will be shown on the Home page.
+	* Notifications for when a credit card is due will be shown on the Home page.
+	
+4. Regulations about **Card**: Card page allows various inputs:
 
 	* *Card number* is intentionally left unchecked, they could be anything that is not null or empty.
 	* There are numerous kinds of "card" numbers, an ordinary MasterCard or Visa have a 16-digit card number, while an American Express card have 15, and even some debit cards have 19 digits.
@@ -66,7 +70,8 @@ Excluding default android studio project resources and files, source code files 
 5. **Card** page contains detailed information of each card the user has.
 
 	* Cards now are splited into 2 kinds: credit and debit.
-	* Credit cards have specific field *Payment Day* while debit cards do not.
+	* Credit cards have the specific field *Payment Day* while debit cards do not.
+	* If a card is labelled as inactive, the word **"Inactive"** will be shown at which card shown on the list.
 
 	The add button brings the user to the **Add Card** page, which brings up a form that requires input.
 
@@ -80,7 +85,7 @@ Excluding default android studio project resources and files, source code files 
 
 	* Allows user to view the card balance and a line chart of spending for that card over time.
 	* Update a card: tap the button at the bottom allows user to re-enter all the info of a card, or activate/deactivate card in the **Update Card** page.
-	  * If a card is labelled as inactive, the word "Inactive" will be shown at which card shown on the list.
+	* Debit cards have the specific button *View Accounts* that the **Bank Accounts** page can be accessed by tapping this button. It lists all the bank accounts that are associated with the very debit card.
 
 6. **Budget** page is to let the user set up a limit for each consumption category. The add button brings the user to **Add Budget Category** page, which brings up a form that requires input.
 
@@ -105,15 +110,20 @@ Excluding default android studio project resources and files, source code files 
 	* Allows user to re-enter all the info of a transaction, as well selecting the budget category this transaction belongs to, and the card this transaction was made.
 	* Update or delete a transaction: 2 buttons are provided to let user update or delete a transaction.
 
-8. **Bank Accounts**: incompleted in this iteration.
+8. **Bank Accounts** is applied to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving).
 
 	* *Account Name*: a description or name of the bank account (eg. House savings).
 	* *Account Number*: user's bank account number (eg. 2001963).
 	* *Linked Card*: the debit card that a bank issued with at least 1 bank account (eg. BMO Access).
 
-	Purpose is to link a debit card with one or more bank accounts (eg. TD Access <-> TD checking & saving). Layers of objects and business and their tests are completed. May create another menu option in the app interface to list all bank accounts.
+	Bank accounts associated to a debit card can be viewed in the Card page as stated in point 5. Adding a new bank account and update an existing one can be performed on the **Bank Accounts** page. 
+	
+9. **Unit**, **Integration** and **Acceptance** tests are categorized and performed.
 
-	> More features involving *Bank Accounts* will be created in the next iteration.
+	* *Unit tests*: including tests for layers of object, business, and persistence.
+	* *Integration tests*: including tests for HSQLDB integration, and seam between layers of business and persistence.
+	* *Acceptance tests*: including tests for big user stories that cover 1) Maintain a budget, 2) Manage transactions, 3) Credit card information.
+	> In acceptance tests, applying ramdon numbers to avoid duplicated budget categories has a slightly tiny chance to generate the same number that causes repeated testing leading to fail. Can be solved by allowing duplicated budget categories.
 
 ---
 
@@ -136,7 +146,15 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 ### Known Bugs
 
-> No bugs left so far in this iteration. 
+> No bugs left in this iteration. 
+
+---
+
+### References
+
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart/tree/master/MPChartLib/src/main/java/com/github/mikephil/charting) by Philipp Jahoda.
+
+* [Test execution order](https://github.com/junit-team/junit4/wiki/Test-execution-order) from junit-team/junit4.
 
 ---
 

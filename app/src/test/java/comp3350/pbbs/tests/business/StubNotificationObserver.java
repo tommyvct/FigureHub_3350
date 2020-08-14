@@ -11,8 +11,8 @@ import comp3350.pbbs.presentation.NotificationObserver;
  */
 public class StubNotificationObserver implements NotificationObserver {
 
-    @Override
-    public void updateBudgetNotifications() {
-        System.out.println("updateNotification Successful");
-    }
+	@Override
+	public void updateBudgetNotifications() {
+		System.out.println("updateNotification Successful");
+	}
 }
