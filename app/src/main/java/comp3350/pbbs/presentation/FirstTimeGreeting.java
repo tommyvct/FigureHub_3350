@@ -14,36 +14,36 @@ import comp3350.pbbs.business.AccessUser;
  * firstTimeGreeting
  * Group4
  * PBBS
- *
+ * <p>
  * This class implements the greeting when an user enters the app
  */
 public class FirstTimeGreeting extends AppCompatActivity {
 
-    String a;
+	String a;
 
-    /**
-     * This method initiates the first time greeting activity and asks users name.
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_time_greeting);
+	/**
+	 * This method initiates the first time greeting activity and asks users name.
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_first_time_greeting);
 
-        a = (String) getIntent().getSerializableExtra("a");
-        Button b = findViewById(R.id.button);
-        EditText nameBox = findViewById(R.id.textBox);
+		a = (String) getIntent().getSerializableExtra("a");
+		Button b = findViewById(R.id.button);
+		EditText nameBox = findViewById(R.id.textBox);
 
-        b.setOnClickListener(view ->
-        {
-            if (nameBox.getText().toString().isEmpty()) {
-                nameBox.setError("This field cannot be empty.");
-            } else {
-                new AccessUser().setUsername(nameBox.getText().toString());
-                if (a == null) {
-                    startActivity(new Intent(FirstTimeGreeting.this, MainActivity.class));
-                }
-                finish();
-            }
-        });
-    }
+		b.setOnClickListener(view ->
+		{
+			if (nameBox.getText().toString().isEmpty()) {
+				nameBox.setError("This field cannot be empty.");
+			} else {
+				new AccessUser().setUsername(nameBox.getText().toString());
+				if (a == null) {
+					startActivity(new Intent(FirstTimeGreeting.this, MainActivity.class));
+				}
+				finish();
+			}
+		});
+	}
 }

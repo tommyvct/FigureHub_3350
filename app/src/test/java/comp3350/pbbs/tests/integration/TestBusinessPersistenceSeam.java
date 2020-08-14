@@ -31,20 +31,19 @@ public class TestBusinessPersistenceSeam extends TestCase {
 			((NuclearDataAccessObject) dataAccess).nuke();
 		}
 		StubDatabase.populateData(dataAccess);
+		DataAccessController.closeDataAccess();
+		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
 	}
 
 	@Override
 	public void tearDown() {
-		if(dataAccess instanceof NuclearDataAccessObject) {
+		if (dataAccess instanceof NuclearDataAccessObject) {
 			((NuclearDataAccessObject) dataAccess).nuke();
 		}
 		DataAccessController.closeDataAccess();
 	}
 
 	public void testAccessBankAccount() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		AccessBankAccount aba = new AccessBankAccount();
 		BankAccount acc1 = new BankAccount("test1", "1357924680", dataAccess.getCards().get(0));
 		BankAccount acc2 = new BankAccount("test2", "2468013579", dataAccess.getCards().get(0));
@@ -97,9 +96,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testAccessBudgetCategory() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		AccessBudgetCategory abc = new AccessBudgetCategory();
 		BudgetCategory bc1 = new BudgetCategory("Beer", 30.00);
 		BudgetCategory bc2 = new BudgetCategory("Snack", 15.00);
@@ -126,9 +122,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testAccessCard() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		AccessCard ac = new AccessCard();
 		Card c1 = new Card("test1", "1000200030004000", "Hao", 12, 2022, 6);
 		Card c2 = new Card("test2", "5000600070008000", "Hao", 6, 2024);
@@ -169,9 +162,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testAccessTransaction() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		AccessTransaction at = new AccessTransaction();
 
 		String dateStr = "10/10/2020";
@@ -200,9 +190,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testBankAccountCardLinker() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		// create objects for testing
 		BankAccountCardLinker bcLinker = new BankAccountCardLinker();
 		Card myICBC = new Card("ICBC debit", "9009800870076006", "Hao Zheng", 6, 2024);
@@ -224,9 +211,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testCardTransactionLinker() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		// create objects for testing
 		CardTransactionLinker ctLinker = new CardTransactionLinker();
 		BudgetCategory bc = new BudgetCategory("Entertainment", 100);
@@ -278,9 +262,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 	}
 
 	public void testBudgetCategoryTransactionLinker() {
-		DataAccessController.closeDataAccess();
-		dataAccess = DataAccessController.createDataAccess(new NuclearDataAccessObject(Main.getDBPathName()));
-
 		// create objects for testing
 		BudgetCategoryTransactionLinker bctLinker = new BudgetCategoryTransactionLinker();
 		BudgetCategory bc = new BudgetCategory("Entertainment", 100);

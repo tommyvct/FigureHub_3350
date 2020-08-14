@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-
 import java.util.List;
 
 import comp3350.pbbs.R;
@@ -22,66 +21,64 @@ import comp3350.pbbs.presentation.updateObject.UpdateTransaction;
  * main_transaction
  * Group4
  * PBBS
- *
+ * <p>
  * This fragment displays all transactions.
  */
 public class MainTransactions extends Fragment {
-    private AccessTransaction accessTransaction;
-    private ListView transactionListView;
-    private List<Transaction> transactionArrayList;
-    private ArrayAdapter<Transaction> listAdapter;
+	private AccessTransaction accessTransaction;
+	private ListView transactionListView;
+	private List<Transaction> transactionArrayList;
+	private ArrayAdapter<Transaction> listAdapter;
 
-    // Required empty public constructor
-    public MainTransactions() {
-    }
+	// Required empty public constructor
+	public MainTransactions() {
+	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main_transactions, container, false);
+		// List view
+		accessTransaction = new AccessTransaction();
+		transactionListView = view.findViewById(R.id.transactionList);
+		transactionArrayList = accessTransaction.retrieveTransactions();
+		listAdapter = new ArrayAdapter<>(
+				requireActivity(),
+				android.R.layout.simple_list_item_1,
+				transactionArrayList
+		);
 
-        // List view
-        accessTransaction = new AccessTransaction();
-        transactionListView = view.findViewById(R.id.transactionList);
-        transactionArrayList = accessTransaction.retrieveTransactions();
-        listAdapter = new ArrayAdapter<>(
-                requireActivity(),
-                android.R.layout.simple_list_item_1,
-                transactionArrayList
-        );
+		transactionListView.setAdapter(listAdapter);
 
-        transactionListView.setAdapter(listAdapter);
+		transactionListView.setOnItemClickListener((adapterView, view1, i, l) ->
+		{
+			Intent updateTransaction = new Intent(view1.getContext(), UpdateTransaction.class);
+			updateTransaction.putExtra("toUpdate", transactionArrayList.get(i));
+			startActivityForResult(updateTransaction, 0);
+		});
 
-        transactionListView.setOnItemClickListener((adapterView, view1, i, l) ->
-        {
-            Intent updateTransaction = new Intent(view1.getContext(), UpdateTransaction.class);
-            updateTransaction.putExtra("toUpdate", transactionArrayList.get(i));
-            startActivityForResult(updateTransaction, 0);
-        });
+		return view;
+	}
 
-        return view;
-    }
-
-    /**
-     * This method updates the list after adding.
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        transactionArrayList = accessTransaction.retrieveTransactions();
-        listAdapter = new ArrayAdapter<>(
-                requireActivity(),
-                android.R.layout.simple_list_item_1,
-                transactionArrayList
-        );
-        transactionListView.setAdapter(listAdapter);
-        listAdapter.notifyDataSetChanged();
-    }
+	/**
+	 * This method updates the list after adding.
+	 */
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		transactionArrayList = accessTransaction.retrieveTransactions();
+		listAdapter = new ArrayAdapter<>(
+				requireActivity(),
+				android.R.layout.simple_list_item_1,
+				transactionArrayList
+		);
+		transactionListView.setAdapter(listAdapter);
+		listAdapter.notifyDataSetChanged();
+	}
 }

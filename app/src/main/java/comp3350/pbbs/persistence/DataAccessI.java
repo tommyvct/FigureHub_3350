@@ -9,73 +9,73 @@ import comp3350.pbbs.objects.Card;
  * DataAccess
  * Group4
  * PBBS
- *
+ * <p>
  * This class defines the interface for the persistence layer.
  */
 public interface DataAccessI {
 
-    void open(String dbPath);
+	void open(String dbPath);
 
-    void close();
+	void close();
 
-    String getDBName();
+	String getDBName();
 
-    boolean findBudgetCategory(BudgetCategory currentBudget);
+	boolean findBudgetCategory(BudgetCategory currentBudget);
 
-    boolean insertBudgetCategory(BudgetCategory newBudget);
+	boolean insertBudgetCategory(BudgetCategory newBudget);
 
-    List<BudgetCategory> getBudgets();
+	List<BudgetCategory> getBudgets();
 
-    boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
+	boolean updateBudgetCategory(BudgetCategory currentBudget, BudgetCategory newBudget);
 
-    int getBudgetsSize();
+	int getBudgetsSize();
 
-    boolean findBankAccount(BankAccount toFind);
+	boolean findBankAccount(BankAccount toFind);
 
-    boolean insertBankAccount(BankAccount newAccount);
+	boolean insertBankAccount(BankAccount newAccount);
 
-    boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount);
+	boolean updateBankAccount(BankAccount toUpdate, BankAccount newAccount);
 
-    List<BankAccount> getAllBankAccounts();
+	List<BankAccount> getAllBankAccounts();
 
-    List<BankAccount> getAccountsFromDebitCard(Card from);
+	List<BankAccount> getAccountsFromDebitCard(Card from);
 
-    boolean findCard(Card currCard);
+	boolean findCard(Card currCard);
 
-    boolean insertCard(Card newCard);
+	boolean insertCard(Card newCard);
 
-    List<Card> getCreditCards();
+	List<Card> getCreditCards();
 
-    List<Card> getDebitCards();
+	List<Card> getDebitCards();
 
-    List<Card> getCards();
+	List<Card> getCards();
 
-    List<Card> getActiveCards();
+	List<Card> getActiveCards();
 
-    boolean updateCard(Card currCard, Card newCard);
+	boolean updateCard(Card currCard, Card newCard);
 
-    boolean markInactive(Card toMark);
+	boolean markInactive(Card toMark);
 
-    boolean markActive(Card toMark);
+	boolean markActive(Card toMark);
 
-    int getCreditCardsSize();
+	int getCreditCardsSize();
 
-    int getDebitCardsSize();
+	int getDebitCardsSize();
 
-    boolean findTransaction(Transaction currentTransaction);
+	boolean findTransaction(Transaction currentTransaction);
 
-    boolean insertTransaction(Transaction newTransaction);
+	boolean insertTransaction(Transaction newTransaction);
 
-    List<Transaction> getTransactions();
+	List<Transaction> getTransactions();
 
-    boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
+	boolean updateTransaction(Transaction currentTransaction, Transaction newTransaction);
 
-    boolean deleteTransaction(Transaction currentTransaction);
+	boolean deleteTransaction(Transaction currentTransaction);
 
-    int getTransactionsSize();
+	int getTransactionsSize();
 
-    String getUsername();
+	String getUsername();
 
-    boolean setUsername(String newUsername);
+	boolean setUsername(String newUsername);
 }
 
