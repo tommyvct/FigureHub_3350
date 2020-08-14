@@ -123,6 +123,7 @@ Excluding default android studio project resources and files, source code files 
 	* *Unit tests*: including tests for layers of object, business, and persistence.
 	* *Integration tests*: including tests for HSQLDB integration, and seam between layers of business and persistence.
 	* *Acceptance tests*: including tests for big user stories that cover 1) Maintain a budget, 2) Manage transactions, 3) Credit card information.
+	> In acceptance tests, applying ramdon numbers to avoid duplicated budget categories has a slight change to generate the same number that causes repeated testing leading to fail. Can be solved by allowing duplicated budget categories.
 
 ---
 
