@@ -109,6 +109,9 @@ Completed `TestBankAccountCardLinker`
 Time taken: 3 hours
 
 ## Terra
+- Typed up notes from Retrospective meeting
+- Wrote up the user stories in a nicer format.
+Time taken: 2 hours
 
 ## Tommy
 - Refactored BankAccount dialogue to reduce duplication
@@ -140,6 +143,8 @@ Time taken: 3 hours
 Time taken: 8 hours
 
 ## Terra
+- Finished re-writing dev tasks
+Time: 2 hours.
 
 
 ## Outstanding bugs and their fixes
