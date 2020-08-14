@@ -15,7 +15,13 @@ import comp3350.pbbs.tests.persistence.StubDatabase;
 
 import static org.junit.Assert.assertNotEquals;
 
-
+/**
+ * TestBusinessPersistenceSeam
+ * Group4
+ * PBBS
+ * <p>
+ * This class performs the seam tests between business layer and DB
+ */
 public class TestBusinessPersistenceSeam extends TestCase {
 
 	private DataAccessI dataAccess;
@@ -43,6 +49,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for AccessBankAccount
+	 */
 	public void testAccessBankAccount() {
 		AccessBankAccount aba = new AccessBankAccount();
 		BankAccount acc1 = new BankAccount("test1", "1357924680", dataAccess.getCards().get(0));
@@ -95,6 +104,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for AccessBudgetCategory
+	 */
 	public void testAccessBudgetCategory() {
 		AccessBudgetCategory abc = new AccessBudgetCategory();
 		BudgetCategory bc1 = new BudgetCategory("Beer", 30.00);
@@ -121,6 +133,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for AccessCard
+	 */
 	public void testAccessCard() {
 		AccessCard ac = new AccessCard();
 		Card c1 = new Card("test1", "1000200030004000", "Hao", 12, 2022, 6);
@@ -161,6 +176,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for AccessTransaction
+	 */
 	public void testAccessTransaction() {
 		AccessTransaction at = new AccessTransaction();
 
@@ -172,7 +190,6 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		Card c = new Card("test1", "1000200030004000", "Hao", 12, 2022, 6);
 		dataAccess.insertBudgetCategory(bc);
 		dataAccess.insertCard(c);
-
 
 		assertTrue(at.addTransaction(desc, dateStr, time, amt, c, bc));
 		Transaction t1 = new Transaction(Parser.parseDatetime(dateStr, time), Float.parseFloat(amt), desc, c, bc);
@@ -189,6 +206,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for BankAccountCardLinker
+	 */
 	public void testBankAccountCardLinker() {
 		// create objects for testing
 		BankAccountCardLinker bcLinker = new BankAccountCardLinker();
@@ -210,6 +230,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for CardTransactionLinker
+	 */
 	public void testCardTransactionLinker() {
 		// create objects for testing
 		CardTransactionLinker ctLinker = new CardTransactionLinker();
@@ -261,6 +284,9 @@ public class TestBusinessPersistenceSeam extends TestCase {
 		DataAccessController.closeDataAccess();
 	}
 
+	/**
+	 * method: performs seam test for BudgetCategoryTransactionLinker
+	 */
 	public void testBudgetCategoryTransactionLinker() {
 		// create objects for testing
 		BudgetCategoryTransactionLinker bctLinker = new BudgetCategoryTransactionLinker();

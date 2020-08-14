@@ -11,6 +11,13 @@ import comp3350.pbbs.persistence.DataAccessController;
 import comp3350.pbbs.persistence.DataAccessI;
 import comp3350.pbbs.tests.persistence.StubDatabase;
 
+/**
+ * TestBankAccountCardLinker
+ * Group4
+ * PBBS
+ * <p>
+ * This class tests BankAccountCardLinker class
+ */
 public class TestBankAccountCardLinker extends TestCase {
 	private DataAccessI testDB;
 	List<BankAccount> bankAccountList;
@@ -35,9 +42,9 @@ public class TestBankAccountCardLinker extends TestCase {
 	}
 
 	/**
-	 * test getting the accounts from the current card in the db
-	 * test getting new bank account after directly inserting it into db
-	 * test new card getting bank accounts after directly inserting it into db
+	 * test 1) getting the accounts from the current card in the db
+	 * 		2) getting new bank account after directly inserting it into db
+	 * 		3) new card getting bank accounts after directly inserting it into db
 	 */
 	public void testGetAccountsFromDebitCard() {
 		int numOfAccounts = testDB.getAllBankAccounts().size();

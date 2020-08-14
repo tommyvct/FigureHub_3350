@@ -171,28 +171,21 @@ public class AddCard extends AppCompatActivity {
 						card2Insert = new Card(cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
 								cardNumber.getText().toString(),
 								cardholderName.getText().toString().trim(), 0, 0);
-						// if everything is valid then checks if the card can be inserted or not
-						if (accessCard.insertCard(card2Insert) && accessBankAccount.insertBankAccount(new BankAccount(
-						        bankAccountName.getText().toString().trim().isEmpty() ? "No Name" : bankAccountName.getText().toString().trim(),
-                                bankAccountNumber.getText().toString(), card2Insert))
-						) {
-							setResult(1);
-							finish();
-						}
 					} else { // have one
 						card2Insert = new Card(cardName.getText().toString().trim().isEmpty() ? "No Name" : cardName.getText().toString().trim(),
 								cardNumber.getText().toString(),
 								cardholderName.getText().toString().trim(),
 								Integer.parseInt(validThruMonth.getText().toString()),
 								Integer.parseInt(validThruYear.getText().toString()));
-                        // if everything is valid then checks if the card can be inserted or not
-						if (accessCard.insertCard(card2Insert) && accessBankAccount.insertBankAccount(new BankAccount(
-								bankAccountName.getText().toString().trim().isEmpty() ? "No Name" : bankAccountName.getText().toString().trim(),
-								bankAccountNumber.getText().toString(), card2Insert))
-						) {
-							setResult(1);
-							finish();
-						}
+					}
+
+					// if everything is valid then checks if the card can be inserted or not
+					if (accessCard.insertCard(card2Insert) && accessBankAccount.insertBankAccount(new BankAccount(
+							bankAccountName.getText().toString().trim().isEmpty() ? "No Name" : bankAccountName.getText().toString().trim(),
+							bankAccountNumber.getText().toString(), card2Insert))
+					) {
+						setResult(1);
+						finish();
 					}
 				} else  { // credit card
 					if (accessCard.insertCard(new Card(
