@@ -116,7 +116,7 @@ Excluding default android studio project resources and files, source code files 
 	* *Account Number*: user's bank account number (eg. 2001963).
 	* *Linked Card*: the debit card that a bank issued with at least 1 bank account (eg. BMO Access).
 
-	Bank accounts associated to a debit card can be viewed in the Card page as stated in point 5.
+	Bank accounts associated to a debit card can be viewed in the Card page as stated in point 5. Adding a new bank account and update an existing one can be performed on the **Bank Accounts** page. 
 	
 9. **Unit**, **Integration** and **Acceptance** tests are categorized and performed.
 
