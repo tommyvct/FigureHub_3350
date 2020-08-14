@@ -149,6 +149,14 @@ The development environment makes use of **Android 11 (R) API Level 30 SDK**, ta
 
 ---
 
+### References
+
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart/tree/master/MPChartLib/src/main/java/com/github/mikephil/charting) by Philipp Jahoda.
+
+* [Test execution order](https://github.com/junit-team/junit4/wiki/Test-execution-order) from junit-team/junit4.
+
+---
+
 ### License
 
 - All rights reserved by members in the development team: Group 4 of COMP3350 summer 2020, University of Manitoba.
