@@ -41,7 +41,9 @@ Excluding default android studio project resources and files, source code files 
 | Persistence  | Setup the database, integrate all the behaviors each object could have.<br/>(*In iteration 1, this will populate a stub database instead of a real one*) |
 |   Objects    | Construct basic components and regulations for each object<br/>in order to provide fundamental information for the persistence layer. |
 
-4.  **JUnit 3** test framework is applied to the tests. A test suite, `AllTests.java` to run all the unit tests is provided, in addition to test every class within business and objects packages from the system.
+4. **Test framworks** JUnit 3 and JUnit 4 are applied to the tests.
+	* Junit 3 is applied to test suites `RunUnitTests.java` and `RunIntegrationTests.java`.
+	* Junit 4 is applied to test suite `RunAcceptanceTests.java`.
 
 ---
 
