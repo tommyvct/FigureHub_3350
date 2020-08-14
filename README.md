@@ -48,7 +48,7 @@ Excluding default android studio project resources and files, source code files 
 ### Features
 
 1. **New User Stories**: added and updated some stories for the purpose of providing more features.
-	* A PDF file *Iteration_3_user_stories.pdf* is attached within submittion.
+	* A PDF file *Iteration_3_user_stories.pdf* is attached within submission.
 
 2. In the android emulator, **PBBS** can be found under the *Applications* page. The first time the user enters the PBBS app, it shows a *welcome* interface and requires input of user's name, followed by a *continue* button once input is done.
 
@@ -58,7 +58,7 @@ Excluding default android studio project resources and files, source code files 
 	
 	**Notification**: Home page now contains the notification feature:
 	* Notifications for when over budget or almost over budget will be shown on the Home page.
-	* Notifications for when a credit card is due will be shown on the Home page.
+	* Notifications if a credit card is due it will be shown on the Home page.
 	
 4. Regulations about **Card**: Card page allows various inputs:
 
